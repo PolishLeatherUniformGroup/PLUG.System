@@ -80,6 +80,10 @@ public sealed partial class Member : AggregateRoot
 
     public void RequestFeePayment(Money feeAmount, DateTime dueDate, DateTime periodEnd)
     {
+        if (_membershipFees.Any(f => f.FeeEndDate == periodEnd))
+        {
+            return;
+        }
         var fee = new MembershipFee(feeAmount, dueDate, periodEnd);
         this._membershipFees.Add(fee);
 
@@ -105,7 +109,7 @@ public sealed partial class Member : AggregateRoot
         if (!fee.DueAmount.IsZero())
         {
             var registerPaymentDomainEvent =
-                new MemberFeePaymentRegisteredDomainEvent(FirstName, Email, paidAmount, fee.DueAmount, paidDate);
+                new MemberFeePaymentRegisteredDomainEvent(FirstName, Email, paidAmount, fee.DueAmount, paidDate,fee.FeeEndDate);
             this.RaiseDomainEvent(registerPaymentDomainEvent);
         }
         if (fee.IsBalanced)
