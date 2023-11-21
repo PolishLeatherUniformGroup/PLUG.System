@@ -1,38 +1,38 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.AppHost", "PLUG.System\PLUG.System.AppHost\PLUG.System.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.AppHost", "src\PLUG.System.AppHost\PLUG.System.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.ServiceDefaults", "PLUG.System\PLUG.System.ServiceDefaults\PLUG.System.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.ServiceDefaults", "src\PLUG.System.ServiceDefaults\PLUG.System.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{2A640CB3-97A7-4D12-BC19-68BC064D9A69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply", "PLUG.System\PLUG.System.Apply\PLUG.System.Apply.csproj", "{704E8C0B-4D9B-4473-9E44-90212D6CFC02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply", "src\PLUG.System.Apply\PLUG.System.Apply.csproj", "{704E8C0B-4D9B-4473-9E44-90212D6CFC02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Api", "PLUG.System\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj", "{B16456F1-A024-40A6-8DED-600B3F1EBBC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Api", "src\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj", "{B16456F1-A024-40A6-8DED-600B3F1EBBC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Infrastructure", "PLUG.System\PLUG.System.Apply.Infrastructure\PLUG.System.Apply.Infrastructure.csproj", "{8CA9F493-C896-42DB-A776-9696E3C3F8B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Infrastructure", "src\PLUG.System.Apply.Infrastructure\PLUG.System.Apply.Infrastructure.csproj", "{8CA9F493-C896-42DB-A776-9696E3C3F8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common", "PLUG.System\PLUG.System.Common\PLUG.System.Common.csproj", "{563163B2-E53F-459A-B939-5FABD8B0B081}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common", "src\PLUG.System.Common\PLUG.System.Common.csproj", "{563163B2-E53F-459A-B939-5FABD8B0B081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common.Infrastructure", "PLUG.System\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj", "{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common.Infrastructure", "src\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj", "{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus", "PLUG.System\PLUG.System.EventBus\PLUG.System.EventBus.csproj", "{0FBB432B-49F1-48EC-AF91-1F5A937916C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus", "src\PLUG.System.EventBus\PLUG.System.EventBus.csproj", "{0FBB432B-49F1-48EC-AF91-1F5A937916C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus.RabbitMq", "PLUG.System\PLUG.System.EventBus.RabbitMq\PLUG.System.EventBus.RabbitMq.csproj", "{68D6488C-1B57-4CAA-AAA1-ABE7B8F37AA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus.RabbitMq", "src\PLUG.System.EventBus.RabbitMq\PLUG.System.EventBus.RabbitMq.csproj", "{68D6488C-1B57-4CAA-AAA1-ABE7B8F37AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Identity.Api", "PLUG.System\PLUG.System.Identity.Api\PLUG.System.Identity.Api.csproj", "{D5001D95-12AC-420D-A7CB-F6F4FA173969}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Identity.Api", "src\PLUG.System.Identity.Api\PLUG.System.Identity.Api.csproj", "{D5001D95-12AC-420D-A7CB-F6F4FA173969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEvents", "PLUG.System\PLUG.System.IntegrationEvents\PLUG.System.IntegrationEvents.csproj", "{D9066783-C93B-4F70-8782-383EF61C1525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEvents", "src\PLUG.System.IntegrationEvents\PLUG.System.IntegrationEvents.csproj", "{D9066783-C93B-4F70-8782-383EF61C1525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEventsLog", "PLUG.System\PLUG.System.IntegrationEventsLog\PLUG.System.IntegrationEventsLog.csproj", "{BF7DC431-084C-48BF-9A07-978877812312}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEventsLog", "src\PLUG.System.IntegrationEventsLog\PLUG.System.IntegrationEventsLog.csproj", "{BF7DC431-084C-48BF-9A07-978877812312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership", "PLUG.System\PLUG.System.Membership\PLUG.System.Membership.csproj", "{8C908AE3-ED00-4CC7-83FE-BCF66D4A1CF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership", "src\PLUG.System.Membership\PLUG.System.Membership.csproj", "{8C908AE3-ED00-4CC7-83FE-BCF66D4A1CF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Api", "PLUG.System\PLUG.System.Membership.Api\PLUG.System.Membership.Api.csproj", "{5AD9AC4C-9A97-44D7-A9E4-3C3B948770CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Api", "src\PLUG.System.Membership.Api\PLUG.System.Membership.Api.csproj", "{5AD9AC4C-9A97-44D7-A9E4-3C3B948770CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Infrastructure", "PLUG.System\PLUG.System.Membership.Infrastructure\PLUG.System.Membership.Infrastructure.csproj", "{806784A7-FC20-44AF-AE8F-4A409F82A38A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Infrastructure", "src\PLUG.System.Membership.Infrastructure\PLUG.System.Membership.Infrastructure.csproj", "{806784A7-FC20-44AF-AE8F-4A409F82A38A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.SharedDomain", "PLUG.System\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj", "{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.SharedDomain", "src\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj", "{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B8E52034-E237-402D-B650-41F2089A6FB6}"
 EndProject

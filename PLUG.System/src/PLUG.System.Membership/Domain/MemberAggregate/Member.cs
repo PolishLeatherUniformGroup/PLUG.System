@@ -1,4 +1,5 @@
 using PLUG.System.Common.Domain;
+using PLUG.System.Common.Exceptions;
 using PLUG.System.Membership.DomainEvents;
 using PLUG.System.Membership.StateEvents;
 using PLUG.System.SharedDomain;
@@ -22,8 +23,8 @@ public sealed partial class Member : AggregateRoot
     private readonly IList<MembershipFee> _membershipFees = new List<MembershipFee>();
     public IEnumerable<MembershipFee> MembershipFees => this._membershipFees;
     public MembershipFee? CurrentFee => this._membershipFees.MaxBy(f => f.FeeEndDate);
-    
-    public bool IsFeeBalanced => this.CurrentFee is null || this.CurrentFee.PaidAmount >= this.CurrentFee?.DueAmount;
+
+    public bool IsFeeBalanced => this.CurrentFee is not null && this.CurrentFee.IsBalanced;
     
     public MembershipType MembershipType { get; private set; }
 
@@ -51,5 +52,61 @@ public sealed partial class Member : AggregateRoot
 
         var domainEvent = new MemberJoinedDomainEvent(this.MemberNumber, this.FirstName, this.Email);
         this.RaiseDomainEvent(domainEvent);
+    }
+
+    public void ModifyContactData(string email, string phone, string address)
+    {
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
+
+        var change = new MemberContactDataModified(email, phone, address);
+        this.RaiseChangeEvent(change);
+    }
+
+    public void MakeHonoraryMember()
+    {
+        this.MembershipType = MembershipType.Honorary;
+        var change = new MemberTypeChanged(this.MembershipType);
+        this.RaiseChangeEvent(change);
+    }
+    
+    public void MakeRegularMember()
+    {
+        this.MembershipType = MembershipType.Regular;
+        var change = new MemberTypeChanged(this.MembershipType);
+        this.RaiseChangeEvent(change);
+    }
+
+    public void RequestFeePayment(Money feeAmount, DateTime dueDate, DateTime periodEnd)
+    {
+        var fee = new MembershipFee(feeAmount, dueDate, periodEnd);
+        this._membershipFees.Add(fee);
+
+        var change = new MemberFeeRequested(fee);
+        this.RaiseChangeEvent(change);
+        //domainEvent
+    }
+
+    public void RegisterPaymentFee(Guid membershipFeeId, Money paidAmount, DateTime paidDate)
+    {
+        var fee = this._membershipFees.SingleOrDefault(f => f.Id == membershipFeeId);
+        if (fee is null)
+        {
+            throw new EntityNotFoundException();
+        }
+        fee.AddPayment(paidAmount,paidDate);
+
+        var change = new MemberFeePaid(membershipFeeId, paidAmount, paidDate);
+        this.RaiseChangeEvent(change);
+        if (fee.IsBalanced)
+        {
+            this.MembershipValidUntil = fee.FeeEndDate;
+            //domainEvent
+        }
+        else
+        {
+            //domainEvent
+        }
     }
 }

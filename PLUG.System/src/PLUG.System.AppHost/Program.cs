@@ -16,6 +16,7 @@ var identityDb = postgres.AddDatabase("IdentityDB");
  var applyApi = builder.AddProject<Projects.PLUG_System_Apply_Api>("plug-apply-api")
     .WithReference(applyDb)
     .WithReference(rabbitMq)
+    
     .WithEnvironmentForServiceBinding("Identity__Url", identityApi);
 var membershipApi = builder.AddProject<Projects.PLUG_System_Membership_Api>("plug-membership-api");
 builder.Build().Run();
