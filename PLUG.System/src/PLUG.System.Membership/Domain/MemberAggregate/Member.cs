@@ -85,7 +85,10 @@ public sealed partial class Member : AggregateRoot
 
         var change = new MemberFeeRequested(fee);
         this.RaiseChangeEvent(change);
-        //domainEvent
+
+        var domainEvent = new MemberFeePaymentRequestedDomainEvent(this.FirstName, this.Email,
+            fee.DueAmount, fee.DueDate, fee.FeeEndDate);
+        this.RaiseDomainEvent(domainEvent);
     }
 
     public void RegisterPaymentFee(Guid membershipFeeId, Money paidAmount, DateTime paidDate)
@@ -99,14 +102,19 @@ public sealed partial class Member : AggregateRoot
 
         var change = new MemberFeePaid(membershipFeeId, paidAmount, paidDate);
         this.RaiseChangeEvent(change);
+        if (!fee.DueAmount.IsZero())
+        {
+            var registerPaymentDomainEvent =
+                new MemberFeePaymentRegisteredDomainEvent(FirstName, Email, paidAmount, fee.DueAmount, paidDate);
+            this.RaiseDomainEvent(registerPaymentDomainEvent);
+        }
         if (fee.IsBalanced)
         {
             this.MembershipValidUntil = fee.FeeEndDate;
-            //domainEvent
+
+            var membershipExtended = new MembershipExtendedDomainEvent(FirstName, Email, MembershipValidUntil);
+            this.RaiseDomainEvent(membershipExtended);
         }
-        else
-        {
-            //domainEvent
-        }
+        
     }
 }

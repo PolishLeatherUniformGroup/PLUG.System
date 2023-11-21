@@ -122,6 +122,8 @@ public class Money : ValueObject
         return new Money(-left.Amount, left.Currency);
     }
 
+    public bool IsZero() => this.Amount == 0;
+
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return this.Amount;

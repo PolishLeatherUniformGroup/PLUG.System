@@ -2,6 +2,7 @@ namespace PLUG.System.Common.Application;
 
 public class CollectionResult<T> where T : class
 {
+    public int Total { get; }
     private List<T> _value;
     public List<T> Value => this._value;
 
@@ -13,8 +14,9 @@ public class CollectionResult<T> where T : class
     private readonly List<string> _errors = new();
     public IEnumerable<string> Errors => this._errors;
     
-    private CollectionResult(List<T> value)
+    private CollectionResult(List<T> value, int total)
     {
+        Total = total;
         this._value = value;
         this._hasError = false;
     }
@@ -30,9 +32,9 @@ public class CollectionResult<T> where T : class
         this._errors.AddRange(errors);
     }
 
-    public static CollectionResult<T> FromValue(IEnumerable<T> value)
+    public static CollectionResult<T> FromValue(IEnumerable<T> value, int total)
     {
-        return new CollectionResult<T>(value.ToList());
+        return new CollectionResult<T>(value.ToList(), total);
     }
     
     public static CollectionResult<T> FromException(Exception exception)

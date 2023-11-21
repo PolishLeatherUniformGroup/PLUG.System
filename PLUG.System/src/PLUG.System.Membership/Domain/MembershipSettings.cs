@@ -30,11 +30,3 @@ public class MembershipSettings : Entity
         new(settingName, settingValue.ToString(), SettingType.Boolean);
     
 }
-
-public enum SettingType
-{
-    Text = 0,
-    Number = 1,
-    Currency = 2,
-    Boolean = 3,
-}
