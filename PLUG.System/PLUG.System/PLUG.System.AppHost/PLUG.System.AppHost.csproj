@@ -9,12 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.1.23557.2"/>
+        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.1.23557.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj" />
       <ProjectReference Include="..\PLUG.System.Identity.Api\PLUG.System.Identity.Api.csproj" />
+      <ProjectReference Include="..\PLUG.System.Membership.Api\PLUG.System.Membership.Api.csproj" />
     </ItemGroup>
 
 </Project>
