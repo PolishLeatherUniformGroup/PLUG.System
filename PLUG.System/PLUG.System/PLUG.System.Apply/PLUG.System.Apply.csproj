@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
+      <ProjectReference Include="..\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.8.0" />
+    </ItemGroup>
+
+
+
+
+
+
+
+
+
+
+
+</Project>

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\PLUG.System.Apply\PLUG.System.Apply.csproj" />
+      <ProjectReference Include="..\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj" />
+      <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
+      <ProjectReference Include="..\PLUG.System.IntegrationEventsLog\PLUG.System.IntegrationEventsLog.csproj" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="Integration\" />
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+
+
+
+</Project>
