@@ -46,4 +46,29 @@ public partial class Member
     {
         this.MembershipType = change.MembershipType;
     }
+    
+    public void ApplyChange(MemberSuspended change)
+    {
+        this._suspension = change.Suspension;
+        this.Status = MembershipStatus.Suspended;
+    }
+    
+    public void ApplyChange(MemberSuspensionAppealReceived change)
+    {
+        this._suspension!.Appeal(change.ReceivedDate,change.Justification);
+    }
+    
+    public void ApplyChange(SuspensionAppealDismissed change)
+    {
+        this._suspension!.RejectAppeal(change.RejectDate,change.Justification);
+    }
+    public void ApplyChange(SuspensionAppealApproved change)
+    {
+        this._suspension!.AcceptAppeal(change.ApproveDate,change.Justification);
+    }
+    public void ApplyChange(MemberExpelled change)
+    {
+        
+        this.Status = MembershipStatus.Expelled;
+    }
 }

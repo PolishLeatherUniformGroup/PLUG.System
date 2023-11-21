@@ -21,6 +21,8 @@ public sealed partial class Member : AggregateRoot
     public bool IsValid => DateTime.UtcNow.Date < this.MembershipValidUntil.Date;
     
     private readonly IList<MembershipFee> _membershipFees = new List<MembershipFee>();
+    private MembershipSuspension? _suspension;
+    private MembershipExpel? _expel;
     public IEnumerable<MembershipFee> MembershipFees => this._membershipFees;
     public MembershipFee? CurrentFee => this._membershipFees.MaxBy(f => f.FeeEndDate);
 
@@ -30,16 +32,9 @@ public sealed partial class Member : AggregateRoot
 
     public MembershipStatus Status { get; private set; }
 
-    public DateTime? SuspendedDate { get; private set; }
-    public DateTime? SuspendedUntil { get; private set; }
-    public DateTime? ExpelDate { get; private set; }
-    public DateTime? DeleteDate { get; private set; }
-    public DateTime? AppealDeadline { get; private set; }
-    public DateTime? AppealDate { get; private set; }
-    public DateTime? AppealDecisionDate { get; private set; }
-    public DateTime? LeaveDate { get;  private set; }
-    public DateTime? ExpireDate { get; private set; }
-    
+    public MembershipSuspension? Suspension => this._suspension;
+    public MembershipExpel? Expel => this._expel;
+
 
     public Member(CardNumber cardNumber,string firstName, string lastName, string email, string phone,string address, DateTime joinDate,
         Money paidFee)
@@ -154,12 +149,58 @@ public sealed partial class Member : AggregateRoot
 
     public void SuspendMember(string justification, DateTime suspensionDate, DateTime suspendUntil, int daysToAppeal)
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        if (this._suspension is not null)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        this._suspension = new MembershipSuspension(suspensionDate, suspendUntil, justification, suspensionDate.AddDays(daysToAppeal));
+ this.Status = MembershipStatus.Suspended;
         
+        var changeEvent = new MemberSuspended(this._suspension);
+        this.RaiseChangeEvent(changeEvent);
+        
+        var domainEvent = new MemberSuspendedDomainEvent(this.FirstName, this.Email, this._suspension.SuspensionJustification, 
+            this._suspension.SuspensionDate, this._suspension.SuspendedUntil, this._suspension.AppealDeadline);
+        this.RaiseDomainEvent(domainEvent);
     }
 
     public void AppealSuspension(string justification, DateTime receivedDate)
     {
-        
+        if (this.Status != MembershipStatus.Suspended)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        if (this._suspension is null)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        this._suspension.Appeal(receivedDate,justification);
+
+        var change = new MemberSuspensionAppealReceived(justification, receivedDate);
+        this.RaiseChangeEvent(change);
+
+        if (receivedDate.Date > this._suspension.AppealDeadline.Date)
+        {
+            this._suspension.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
+      
+            var autoDecision = new SuspensionAppealDismissed(this._suspension.AppealDecisionDate.GetValueOrDefault(), this._suspension.AppealDecisionJustification!);
+            this.RaiseChangeEvent(autoDecision);
+
+            var rejectionEvent = new MemberSuspensionAppealDismissedDomainEvent(this.FirstName,this.Email, this._suspension!.AppealDecisionDate.GetValueOrDefault(), this._suspension.AppealDecisionJustification);
+            this.RaiseDomainEvent(rejectionEvent);
+            return;
+        }
+
+        var domainEvent = new MemberSuspensionAppealReceivedDomainEvent(this.FirstName,this.Email,this._suspension!.AppealDate.GetValueOrDefault());
+        this.RaiseDomainEvent(domainEvent);
     }
 
     public void AcceptAppealSuspension()
@@ -176,17 +217,62 @@ public sealed partial class Member : AggregateRoot
     /// Member can be expelled for breaching rules.
     /// </summary>
     /// <param name="justification"></param>
-    /// <param name="suspensionDate"></param>
-    /// <param name="suspendUntil"></param>
+    /// <param name="expelDate"></param>
     /// <param name="daysToAppeal"></param>
-    public void ExpelMember(string justification, DateTime suspensionDate, DateTime suspendUntil, int daysToAppeal)
+    public void ExpelMember(string justification, DateTime expelDate,  int daysToAppeal)
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        if (this._expel is not null)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        this._expel = new MembershipExpel(expelDate,  justification, expelDate.AddDays(daysToAppeal));
+        this.Status = MembershipStatus.Expelled;
         
+        var changeEvent = new MemberExpelled(this._expel);
+        this.RaiseChangeEvent(changeEvent);
+        
+        var domainEvent = new MemberExpelledDomainEvent(this.FirstName, this.Email, this._expel.ExpelJustification, 
+            this._expel.ExpelDate,  this._expel.AppealDeadline);
+        this.RaiseDomainEvent(domainEvent);
     }
     
     public void AppealExpel(string justification, DateTime receivedDate)
     {
-        
+        if (this.Status != MembershipStatus.Suspended)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        if (this._expel is null)
+        {
+            throw new AggregateInvalidStateException();
+        }
+
+        this._expel.Appeal(receivedDate,justification);
+
+        var change = new MemberExpelAppealReceived(justification, receivedDate);
+        this.RaiseChangeEvent(change);
+
+        if (receivedDate.Date > this._expel.AppealDeadline.Date)
+        {
+            this._expel.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
+      
+            var autoDecision = new ExpelAppealDismissed(this._expel.AppealDecisionDate.GetValueOrDefault(), this._expel.AppealDecisionJustification!);
+            this.RaiseChangeEvent(autoDecision);
+
+            var rejectionEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName,this.Email, this._suspension!.AppealDecisionDate.GetValueOrDefault(), this._suspension.AppealDecisionJustification);
+            this.RaiseDomainEvent(rejectionEvent);
+            return;
+        }
+
+        var domainEvent = new MemberExpelAppealReceivedDomainEvent(this.FirstName,this.Email,this._suspension!.AppealDate.GetValueOrDefault());
+        this.RaiseDomainEvent(domainEvent);
     }
 
     public void AcceptAppealExpel()
