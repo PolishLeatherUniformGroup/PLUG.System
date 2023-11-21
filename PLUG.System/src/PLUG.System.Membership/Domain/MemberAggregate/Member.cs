@@ -30,6 +30,17 @@ public sealed partial class Member : AggregateRoot
 
     public MembershipStatus Status { get; private set; }
 
+    public DateTime? SuspendedDate { get; private set; }
+    public DateTime? SuspendedUntil { get; private set; }
+    public DateTime? ExpelDate { get; private set; }
+    public DateTime? DeleteDate { get; private set; }
+    public DateTime? AppealDeadline { get; private set; }
+    public DateTime? AppealDate { get; private set; }
+    public DateTime? AppealDecisionDate { get; private set; }
+    public DateTime? LeaveDate { get;  private set; }
+    public DateTime? ExpireDate { get; private set; }
+    
+
     public Member(CardNumber cardNumber,string firstName, string lastName, string email, string phone,string address, DateTime joinDate,
         Money paidFee)
     {
@@ -56,6 +67,10 @@ public sealed partial class Member : AggregateRoot
 
     public void ModifyContactData(string email, string phone, string address)
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
         this.Email = email;
         this.Phone = phone;
         this.Address = address;
@@ -66,6 +81,10 @@ public sealed partial class Member : AggregateRoot
 
     public void MakeHonoraryMember()
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
         this.MembershipType = MembershipType.Honorary;
         var change = new MemberTypeChanged(this.MembershipType);
         this.RaiseChangeEvent(change);
@@ -73,6 +92,10 @@ public sealed partial class Member : AggregateRoot
     
     public void MakeRegularMember()
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
         this.MembershipType = MembershipType.Regular;
         var change = new MemberTypeChanged(this.MembershipType);
         this.RaiseChangeEvent(change);
@@ -80,6 +103,10 @@ public sealed partial class Member : AggregateRoot
 
     public void RequestFeePayment(Money feeAmount, DateTime dueDate, DateTime periodEnd)
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
         if (_membershipFees.Any(f => f.FeeEndDate == periodEnd))
         {
             return;
@@ -97,6 +124,10 @@ public sealed partial class Member : AggregateRoot
 
     public void RegisterPaymentFee(Guid membershipFeeId, Money paidAmount, DateTime paidDate)
     {
+        if (this.Status != MembershipStatus.Active)
+        {
+            throw new AggregateInvalidStateException();
+        }
         var fee = this._membershipFees.SingleOrDefault(f => f.Id == membershipFeeId);
         if (fee is null)
         {
@@ -119,6 +150,68 @@ public sealed partial class Member : AggregateRoot
             var membershipExtended = new MembershipExtendedDomainEvent(FirstName, Email, MembershipValidUntil);
             this.RaiseDomainEvent(membershipExtended);
         }
+    }
+
+    public void SuspendMember(string justification, DateTime suspensionDate, DateTime suspendUntil, int daysToAppeal)
+    {
+        
+    }
+
+    public void AppealSuspension(string justification, DateTime receivedDate)
+    {
+        
+    }
+
+    public void AcceptAppealSuspension()
+    {
+        
+    }
+
+    public void DismissAppealSuspension()
+    {
+        
+    }
+   
+    /// <summary>
+    /// Member can be expelled for breaching rules.
+    /// </summary>
+    /// <param name="justification"></param>
+    /// <param name="suspensionDate"></param>
+    /// <param name="suspendUntil"></param>
+    /// <param name="daysToAppeal"></param>
+    public void ExpelMember(string justification, DateTime suspensionDate, DateTime suspendUntil, int daysToAppeal)
+    {
+        
+    }
+    
+    public void AppealExpel(string justification, DateTime receivedDate)
+    {
+        
+    }
+
+    public void AcceptAppealExpel()
+    {
+        
+    }
+
+    public void DismissAppealExpel()
+    {
+        
+    }
+
+    /// <summary>
+    /// Member can leave on free will.
+    /// </summary>
+    public void LeaveOrganization()
+    {
+        
+    }
+
+    /// <summary>
+    /// Membershi expires, when fee is overdue, member dies, or lost rights to be member 
+    /// </summary>
+    public void MembershipExpired()
+    {
         
     }
 }
