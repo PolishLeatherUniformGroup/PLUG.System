@@ -88,4 +88,26 @@ public partial class Member
     {
         this._expel = change.Expel;
     }
+
+    public void ApplyChanges(MemberReactivated change)
+    {
+        this._suspension = null;
+        this._expel = null;
+        this.TerminationDate = null;
+        this.TerminationReason = null;
+        this.Status = MembershipStatus.Active;
+    }
+    
+    public void ApplyChanges(MemberLeft change)
+    {
+        this.TerminationDate = change.TerminationDate;
+        this.TerminationReason = change.TerminationReason;
+        this.Status = MembershipStatus.Leaved;
+    }
+    public void ApplyChanges(MembershipExpired change)
+    {
+        this.TerminationDate = change.TerminationDate;
+        this.TerminationReason = change.TerminationReason;
+        this.Status = MembershipStatus.Expired;
+    }
 }
