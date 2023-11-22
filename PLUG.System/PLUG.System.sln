@@ -46,8 +46,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Membership", "Membership", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{B69DB3D9-CBDF-40E6-A488-EF92DB8D7AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.WebApp", "src\PLUG.System.WebApp\PLUG.System.WebApp.csproj", "{3944CA81-C343-4CFB-A9B2-4D5654C861DE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,10 +116,6 @@ Global
 		{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3944CA81-C343-4CFB-A9B2-4D5654C861DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3944CA81-C343-4CFB-A9B2-4D5654C861DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3944CA81-C343-4CFB-A9B2-4D5654C861DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3944CA81-C343-4CFB-A9B2-4D5654C861DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8E77FE22-CB9F-48DA-9893-2FA06F927CE1} = {2A640CB3-97A7-4D12-BC19-68BC064D9A69}
