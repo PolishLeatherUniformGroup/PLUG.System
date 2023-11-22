@@ -1,27 +1,24 @@
 ﻿using PLUG.System.Common.Domain;
+using PLUG.System.Membership.Domain;
 
 namespace PLUG.System.Membership.StateEvents;
 
 public sealed class MemberSuspensionAppealReceived : StateEventBase
 {
-    public string Justification { get; private set; }
-    public DateTime ReceivedDate { get; private set; }
+    public MembershipSuspension Suspension { get; private set; }
 
-    public MemberSuspensionAppealReceived(string justification, DateTime receivedDate)
+    public MemberSuspensionAppealReceived(MembershipSuspension suspension)
     {
-        this.Justification = justification;
-        this.ReceivedDate = receivedDate;
+        this.Suspension = suspension;
     }
 
-    private MemberSuspensionAppealReceived(Guid aggregateId, long aggregateVersion, string justification,
-        DateTime receivedDate) : base(aggregateId, aggregateVersion)
+    public MemberSuspensionAppealReceived(Guid aggregateId, long aggregateVersion, MembershipSuspension suspension) : base(aggregateId, aggregateVersion)
     {
-        this.Justification = justification;
-        this.ReceivedDate = receivedDate;
+        this.Suspension = suspension;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberSuspensionAppealReceived(aggregateId, aggregateVersion, Justification, ReceivedDate);
+        return new MemberSuspensionAppealReceived(aggregateId, aggregateVersion, this.Suspension);
     }
 }

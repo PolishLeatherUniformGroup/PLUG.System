@@ -3,22 +3,22 @@ using PLUG.System.Membership.Domain;
 
 namespace PLUG.System.Membership.StateEvents;
 
-public sealed class ExpelAppealDismissed : StateEventBase
+public sealed class ExpelAppealApproved : StateEventBase
 {
     public MembershipExpel Expel { get; set; }
 
-    public ExpelAppealDismissed(MembershipExpel expel)
+    public ExpelAppealApproved(MembershipExpel expel)
     {
         this.Expel = expel;
     }
 
-    private ExpelAppealDismissed(Guid aggregateId, long aggregateVersion, MembershipExpel expel) : base(aggregateId, aggregateVersion)
+    private ExpelAppealApproved(Guid aggregateId, long aggregateVersion, MembershipExpel expel) : base(aggregateId, aggregateVersion)
     {
         this.Expel = expel;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new ExpelAppealDismissed(aggregateId, aggregateVersion, this.Expel);
+        return new ExpelAppealApproved(aggregateId, aggregateVersion, this.Expel);
     }
 }

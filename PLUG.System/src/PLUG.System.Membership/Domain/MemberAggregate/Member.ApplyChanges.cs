@@ -55,20 +55,36 @@ public partial class Member
     
     public void ApplyChange(MemberSuspensionAppealReceived change)
     {
-        this._suspension!.Appeal(change.ReceivedDate,change.Justification);
+        this._suspension = change.Suspension;
     }
     
     public void ApplyChange(SuspensionAppealDismissed change)
     {
-        this._suspension!.RejectAppeal(change.RejectDate,change.Justification);
+        this._suspension = change.Suspension;
     }
+    
     public void ApplyChange(SuspensionAppealApproved change)
     {
-        this._suspension!.AcceptAppeal(change.ApproveDate,change.Justification);
+        this._suspension = change.Suspension;
     }
+    
     public void ApplyChange(MemberExpelled change)
     {
-        
+        this._expel = change.Expel;
         this.Status = MembershipStatus.Expelled;
+    }
+    
+    public void ApplyChange(MemberExpelAppealReceived change)
+    {
+        this._expel = change.Expel;
+    }
+    
+    public void ApplyChange(ExpelAppealDismissed change)
+    {
+        this._expel = change.Expel;
+    }
+    public void ApplyChange(ExpelAppealApproved change)
+    {
+        this._expel = change.Expel;
     }
 }

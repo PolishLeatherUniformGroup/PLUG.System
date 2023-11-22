@@ -21,3 +21,4 @@ public sealed record SuspendMemberCommand : ApplicationCommandBase
         this.DaysToAppeal = daysToAppeal;
     }
 }
+
