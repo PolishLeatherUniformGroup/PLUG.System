@@ -17,10 +17,13 @@ public abstract class AggregateRoot : IAggregateRoot
     
     protected AggregateRoot(Guid aggregateId, IEnumerable<IStateEvent> changes)
     {
+        this.AggregateId = aggregateId;
+
         foreach (var change in changes)
         {
-            this.RaiseChangeEvent(change);
+            this.stateEvents.Add(change);
         }
+        this.ApplyStateChanges();
     }
     
     public Guid AggregateId
@@ -76,7 +79,7 @@ public abstract class AggregateRoot : IAggregateRoot
     
     protected void ApplyStateChange(IStateEvent change)
     {
-        if (!this.stateEvents.Any(c => Equals(c.EventId, @change.EventId)))
+        if (this.stateEvents.Any(c => Equals(c.EventId, @change.EventId)))
         {
             if (this.version != change.AggregateVersion)
             {

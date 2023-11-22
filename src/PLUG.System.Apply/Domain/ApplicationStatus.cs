@@ -17,10 +17,7 @@ public sealed class ApplicationStatus : Enumeration
     public static ApplicationStatus AppealSuccessful = new(8);
     public static ApplicationStatus AppealRejected = new(9);
 
-    public ApplicationStatus()
-    {
-    }
-    
+  
     [JsonConstructor]
     public ApplicationStatus(int value, [CallerMemberName] string displayName = "") : base(value, displayName)
     {

@@ -25,7 +25,7 @@ public sealed class RejectApplicationCommandHandler : ApplicationCommandHandlerB
                 throw new AggregateNotFoundException();
             }
 
-            aggregate.RejectApplication(request.DecisionDetail,request.DaysToAppeal);
+            aggregate.RejectApplication(request.RejectionDate,request.DecisionDetail,request.DaysToAppeal);
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }

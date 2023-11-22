@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using PLUG.System.Apply.DomainEvents;
 using PLUG.System.Apply.StateEvents;
 using PLUG.System.Common.Domain;
@@ -194,7 +195,7 @@ public sealed partial class ApplicationForm : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        if (this.RequiredFee is null)
+        if (this.RequiredFee is null || this.RequiredFee.IsZero())
         {
             return;
         }
@@ -202,7 +203,10 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.PaidFee ??= new Money(0, this.RequiredFee.Currency);
         this.PaidFee += paidFee;
         this.FeePaidDate = paidDate;
-       
+        if (this.PaidFee >= this.RequiredFee)
+        {
+            this.DecisionExpectDate = paidDate.AddDays(daysToDecision).Date;
+        }
 
         var change = new ApplicationFeePaymentRegistered(paidFee,paidDate,this.DecisionExpectDate);
         this.RaiseChangeEvent(change);
@@ -215,7 +219,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         }
         else
         {
-            this.DecisionExpectDate = paidDate.AddDays(daysToDecision);
+           
             var domainEvent = new ApplicationFeeBalancedDomainEvent(this.FirstName, this.Email, this.DecisionExpectDate.Value);
             this.RaiseDomainEvent(domainEvent);
         }
@@ -239,7 +243,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.RaiseDomainEvent(domainEvent);
     }
  
-    public void RejectApplication(string decisionDetail, int daysToAppeal)
+    public void RejectApplication(DateTime rejectDate,string decisionDetail, int daysToAppeal)
     {
         if (this.Status != ApplicationStatus.AwaitDecision)
         {
@@ -247,9 +251,9 @@ public sealed partial class ApplicationForm : AggregateRoot
         }
 
         this.RejectionDetails = decisionDetail;
-        this.RejectDate = DateTime.UtcNow;
+        this.RejectDate = rejectDate;
         this.Status = ApplicationStatus.Rejected;
-        this.AppealDeadline = this.RejectDate.Value.AddDays(daysToAppeal);
+        this.AppealDeadline = this.RejectDate.Value.AddDays(daysToAppeal).Date;
 
         var change = new ApplicationRejected(this.RejectDate.Value, decisionDetail, this.AppealDeadline.Value);
         this.RaiseChangeEvent(change);
