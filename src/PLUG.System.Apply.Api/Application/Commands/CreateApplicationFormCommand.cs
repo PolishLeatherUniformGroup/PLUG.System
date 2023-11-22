@@ -2,15 +2,27 @@ using PLUG.System.Common.Application;
 
 namespace PLUG.System.Apply.Api.Application.Commands;
 
-public sealed record CreateApplicationFormCommand(string FirstName, string LastName, string Email, string Phone,
-        List<string> Recommendations,
-        string Address)
+public sealed record CreateApplicationFormCommand
     : ApplicationCommandBase
 {
-    public string FirstName { get; private set; } = FirstName ?? throw new ArgumentNullException(nameof(FirstName));
-    public string LastName { get; private set; } = LastName ?? throw new ArgumentNullException(nameof(LastName));
-    public string Email { get; private set; } = Email ?? throw new ArgumentNullException(nameof(Email));
-    public string Phone { get; private set; } = Phone ?? throw new ArgumentNullException(nameof(Phone));
-    public List<string> Recommendations { get; private set; } = Recommendations ?? throw new ArgumentNullException(nameof(Recommendations));
-    public string Address { get; private set; } = Address ?? throw new ArgumentNullException(nameof(Address));
+    
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+    public string Email { get; init; }
+    public string Phone { get; init; }
+    public List<string> Recommendations { get; init; } 
+    public string Address { get; init; }
+
+    public CreateApplicationFormCommand(string firstName, string lastName, string email,
+        string phone,
+        List<string> recommendations,
+        string address)
+    {
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.Phone = phone;
+        this.Recommendations = recommendations;
+        this.Address = address;
+    }
 }
