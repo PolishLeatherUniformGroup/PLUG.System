@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="ReadModel\" />
-      <Folder Include="Repositories\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,6 +17,7 @@
     <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj" />
       <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
+      <ProjectReference Include="..\PLUG.System.Membership\PLUG.System.Membership.csproj" />
     </ItemGroup>
 
 </Project>
