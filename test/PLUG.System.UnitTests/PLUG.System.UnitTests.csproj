@@ -7,6 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>PLUG.System.Apply.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,6 +28,10 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj" />
       <ProjectReference Include="..\..\src\PLUG.System.Apply\PLUG.System.Apply.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domain\" />
     </ItemGroup>
 
 </Project>

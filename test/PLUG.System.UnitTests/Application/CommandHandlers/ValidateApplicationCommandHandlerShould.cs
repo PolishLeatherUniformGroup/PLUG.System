@@ -19,13 +19,11 @@ public class ValidateApplicationCommandHandlerShould
 
     private readonly IAggregateRepository<ApplicationForm> _aggregateRepository;
     
-    private readonly IFixture _fixture;
-    private ApplicationForm _aggregate;
+    private readonly IFixture _fixture = new Fixture();
 
     public ValidateApplicationCommandHandlerShould()
     {
         this._aggregateRepository = Substitute.For<IAggregateRepository<ApplicationForm>>();
-        this._fixture = new Fixture();
         this._sut = new ValidateApplicationCommandHandler(this._aggregateRepository);
         var stateEvent = this._fixture.Create<ApplicationFormCreated>();
         var aggregate = new ApplicationForm(Guid.NewGuid(), new[] { stateEvent });

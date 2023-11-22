@@ -52,7 +52,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "src\WebApp\WebApp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EFBD0CDD-9A67-47F8-85BE-56071DE12EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.UnitTests", "test\PLUG.System.Apply.UnitTests\PLUG.System.Apply.UnitTests.csproj", "{DA530FA7-A813-470C-B9ED-CF1DA918AC01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.UnitTests", "test\PLUG.System.UnitTests\PLUG.System.UnitTests.csproj", "{DA530FA7-A813-470C-B9ED-CF1DA918AC01}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.FunctionalTests", "test\PLUG.System.FunctionalTests\PLUG.System.FunctionalTests.csproj", "{0950DF20-FA89-4850-86F3-CD036473AED2}"
 EndProject
