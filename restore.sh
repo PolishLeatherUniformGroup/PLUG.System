@@ -2,4 +2,5 @@
 
 dotnet workload update
 dotnet workload install aspire
+
 dotnet restore
