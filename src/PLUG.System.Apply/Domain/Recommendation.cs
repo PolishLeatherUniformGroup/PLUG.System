@@ -5,7 +5,7 @@ namespace PLUG.System.Apply.Domain;
 
 public sealed class Recommendation : Entity
 {
-    public Recommendation(Guid memberId, string memberNumber, DateTime requestedDate)
+    internal Recommendation(Guid memberId, string memberNumber, DateTime requestedDate):base(Guid.NewGuid())
     {
         this.MemberId = memberId;
         this.MemberNumber = memberNumber ?? throw new ArgumentNullException(nameof(memberNumber));

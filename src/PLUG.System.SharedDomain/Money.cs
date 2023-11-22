@@ -103,7 +103,7 @@ public class Money : ValueObject
             return false;
         }
 
-        return !(left > right);
+        return !(left >= right);
     }
 
 

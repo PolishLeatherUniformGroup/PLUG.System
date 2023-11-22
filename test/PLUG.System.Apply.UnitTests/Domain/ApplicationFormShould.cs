@@ -1,0 +1,437 @@
+﻿using AutoFixture;
+using FluentAssertions;
+using PLUG.System.Apply.Domain;
+using PLUG.System.Apply.DomainEvents;
+using PLUG.System.Apply.StateEvents;
+using PLUG.System.SharedDomain;
+
+namespace PLUG.System.Apply.UnitTests.Domain;
+
+public class ApplicationFormShould
+{
+    private IFixture _fixture;
+
+    public ApplicationFormShould()
+    {
+        this._fixture = new Fixture();
+    }
+
+    [Fact]
+    public void EmmitEvents_WhenCreated()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(2).ToList();
+        
+        // Act
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(1);
+        aggregate.GetDomainEvents().First().Should().BeOfType<ApplicationReceivedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(1);
+        aggregate.GetStateEvents().First().Should().BeOfType<ApplicationFormCreated>();
+        aggregate.FirstName.Should().Be(firstName);
+        aggregate.LastName.Should().Be(lastName);
+        aggregate.Email.Should().Be(email);
+        aggregate.Phone.Should().Be(phone);
+        aggregate.Address.Should().Be(address);
+        aggregate.Status.Should().Be(ApplicationStatus.Received);
+        aggregate.Recommendations.Should().BeEmpty();
+        aggregate.ApplicationDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+    }
+    
+    [Fact]
+    public void SetFeeAndEmmitEvents_WhenAccepted()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(2).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        //Act
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(2);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationValidatedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(2);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationFormValidated>();
+        aggregate.Status.Should().Be(ApplicationStatus.Validated);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().Be(requiredFee);
+    }
+    
+    [Fact]
+    public void HaveInvalidStatusAndEmmitEvents_WhenCancelled()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(2).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var problem = this._fixture.Create<string>();
+        //Act
+        
+        aggregate.CancelApplicationForm(problem);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(2);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationCancelledDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(2);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationFormCancelled>();
+        aggregate.Status.Should().Be(ApplicationStatus.Invalid);
+        aggregate.IsValid.Should().BeFalse();
+        aggregate.RequiredFee.Should().BeNull();
+    }
+    
+    [Fact]
+    public void HaveRecommendationsAndEmmitEvents_WhenRecommendationRequested()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        //Act
+        
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(3);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationRecommendationRequestedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(3);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationRecommendationRequested>();
+        aggregate.Status.Should().Be(ApplicationStatus.Validated);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+        var recommendation = aggregate.Recommendations.First();
+        recommendation.Id.Should().NotBeEmpty();
+        recommendation.MemberId.Should().Be(memberId);
+        recommendation.MemberNumber.Should().Be(memberNumber);
+        recommendation.RequestedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+        recommendation.IsEndorsed.Should().BeFalse();
+        recommendation.IsRefused.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void EmmitOneEvent_WhenOneRecommendationEndorsed()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        var secondMemberId = this._fixture.Create<Guid>();
+        var secondMemberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(secondMemberId,secondMemberNumber);
+        
+        var recommendation = aggregate.Recommendations.First(x=>x.MemberId == memberId);
+        //Act
+        
+        aggregate.EndorseRecommendation(recommendation.Id,memberId);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(4);
+        aggregate.GetDomainEvents().Should().NotContainItemsAssignableTo<ApplicationRecommendedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(5);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationRecommendationEndorsed>();
+        aggregate.Status.Should().Be(ApplicationStatus.Validated);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(2);
+      
+        recommendation.Id.Should().NotBeEmpty();
+        recommendation.MemberId.Should().Be(memberId);
+        recommendation.MemberNumber.Should().Be(memberNumber);
+        recommendation.RequestedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+        recommendation.IsEndorsed.Should().BeTrue();
+        recommendation.IsRefused.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void ChangeStatusAndEmmitEvents_WhenLastRecommendationEndorsed()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        
+        var recommendation = aggregate.Recommendations.First(x=>x.MemberId == memberId);
+        //Act
+        
+        aggregate.EndorseRecommendation(recommendation.Id,memberId);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(4);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationRecommendedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(4);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationRecommendationEndorsed>();
+        aggregate.Status.Should().Be(ApplicationStatus.AwaitDecision);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+      
+        recommendation.Id.Should().NotBeEmpty();
+        recommendation.MemberId.Should().Be(memberId);
+        recommendation.MemberNumber.Should().Be(memberNumber);
+        recommendation.RequestedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+        recommendation.IsEndorsed.Should().BeTrue();
+        recommendation.IsRefused.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void ChangeStatusAndEmmitEvents_WhenFirstRecommendationRefused()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        
+        var recommendation = aggregate.Recommendations.First(x=>x.MemberId == memberId);
+        //Act
+        
+        aggregate.RefuseRecommendation(recommendation.Id,memberId);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(4);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationNotRecommendedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(4);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationRecommendationRefused>();
+        aggregate.Status.Should().Be(ApplicationStatus.NotRecomended);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+      
+        recommendation.Id.Should().NotBeEmpty();
+        recommendation.MemberId.Should().Be(memberId);
+        recommendation.MemberNumber.Should().Be(memberNumber);
+        recommendation.RequestedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+        recommendation.IsEndorsed.Should().BeFalse();
+        recommendation.IsRefused.Should().BeTrue();
+    }
+    
+    
+    [Fact]
+    public void BePaidAndEmmitEvents_WhenPaymentBalance()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        
+        var recommendation = aggregate.Recommendations.First(x=>x.MemberId == memberId);
+        aggregate.EndorseRecommendation(recommendation.Id,memberId);
+        
+        //Act
+        
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(5);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationFeeBalancedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(5);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationFeePaymentRegistered>();
+        aggregate.Status.Should().Be(ApplicationStatus.AwaitDecision);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+        aggregate.PaidFee?.Amount.Should().Be(requiredFeeAmount);
+        aggregate.IsPaid.Should().BeTrue();
+        aggregate
+            .DecisionExpectDate.Should().HaveValue()
+            .And
+            .BeBefore(DateTime.UtcNow.AddDays(15).Date);
+    }
+
+    [Fact]
+    public void BePaidAndEmmitEvents_WhenPaymentNotBalance()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId, memberNumber);
+
+        var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
+        aggregate.EndorseRecommendation(recommendation.Id, memberId);
+
+        //Act
+
+        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow, 14);
+
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(5);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationFeeNotBalancedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(5);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationFeePaymentRegistered>();
+        aggregate.Status.Should().Be(ApplicationStatus.AwaitDecision);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+        aggregate.PaidFee?.Amount.Should().Be(requiredFeeAmount/2);
+        aggregate.IsPaid.Should().BeFalse();
+        aggregate
+            .DecisionExpectDate.Should().NotHaveValue();
+    }
+
+    [Fact]
+    public void ChangeStatusAndEmmitEvents_WhenRecommendedAndApproved()
+    {
+        // Arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var recommendations = this._fixture.CreateMany<string>(1).ToList();
+        
+        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        
+        var requiredFeeAmount = this._fixture.Create<decimal>();
+        var requiredFee = new Money(requiredFeeAmount);
+        
+        aggregate.AcceptApplicationForm(requiredFee);
+
+        var memberId = this._fixture.Create<Guid>();
+        var memberNumber = this._fixture.Create<string>();
+        aggregate.RequestRecommendation(memberId,memberNumber);
+        
+        var recommendation = aggregate.Recommendations.First(x=>x.MemberId == memberId);
+        aggregate.EndorseRecommendation(recommendation.Id,memberId);
+        
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        //Act
+        
+        aggregate.ApproveApplication();
+        
+        // Assert
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GetDomainEvents().Should().HaveCount(6);
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<ApplicationApprovedDomainEvent>();
+        aggregate.GetStateEvents().Should().HaveCount(6);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<ApplicationApproved>();
+        aggregate.Status.Should().Be(ApplicationStatus.Accepted);
+        aggregate.IsValid.Should().BeTrue();
+        aggregate.RequiredFee.Should().NotBeNull();
+        aggregate.Recommendations.Should().HaveCount(1);
+  
+    }
+    
+}

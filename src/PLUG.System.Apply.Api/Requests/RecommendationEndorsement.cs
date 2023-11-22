@@ -1,3 +1,3 @@
-namespace PLUG.System.Apply.Api__OLD.Requests.Apply;
+namespace PLUG.System.Apply.Api.Requests;
 
 public record RecommendationEndorsement(Guid RecommendingMemberId);

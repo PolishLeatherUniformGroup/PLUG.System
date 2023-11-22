@@ -1,6 +1,6 @@
 using AutoMapper;
-using PLUG.System.Apply.Api__OLD.Requests.Apply;
 using PLUG.System.Apply.Api.Application.Commands;
+using PLUG.System.Apply.Api.Requests;
 using PLUG.System.SharedDomain;
 
 namespace PLUG.System.Apply.Api.Maps;

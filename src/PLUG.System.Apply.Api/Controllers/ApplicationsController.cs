@@ -2,7 +2,7 @@ using System.Net.Mime;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PLUG.System.Apply.Api__OLD.Requests.Apply;
+using PLUG.System.Apply.Api.Requests;
 using PLUG.System.Common.Application;
 
 namespace PLUG.System.Apply.Api.Controllers

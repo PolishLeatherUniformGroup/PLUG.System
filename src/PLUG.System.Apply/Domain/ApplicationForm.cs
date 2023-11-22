@@ -125,6 +125,9 @@ public sealed partial class ApplicationForm : AggregateRoot
         var change = new ApplicationRecommendationRequested(recommendation.Id, recommendingMemberId,
             recommendingMemberNumber, recommendation.RequestedDate);
         this.RaiseChangeEvent(change);
+        
+        var domainEvent = new ApplicationRecommendationRequestedDomainEvent(recommendingMemberId,FirstName,LastName);
+        this.RaiseDomainEvent(domainEvent);
     }
 
     public void EndorseRecommendation(Guid recommendationId, Guid recommendingMemberId)
@@ -186,7 +189,7 @@ public sealed partial class ApplicationForm : AggregateRoot
 
     public void RegisterFeePayment(Money paidFee, DateTime paidDate, int daysToDecision)
     {
-        if (this.Status != ApplicationStatus.AwaitDecision || this.Status != ApplicationStatus.Validated)
+        if (this.Status != ApplicationStatus.AwaitDecision && this.Status != ApplicationStatus.Validated)
         {
             throw new AggregateInvalidStateException();
         }
@@ -199,9 +202,9 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.PaidFee ??= new Money(0, this.RequiredFee.Currency);
         this.PaidFee += paidFee;
         this.FeePaidDate = paidDate;
-        this.DecisionExpectDate = paidDate.AddDays(daysToDecision);
+       
 
-        var change = new ApplicationFeePaymentRegistered(paidFee,paidDate,this.DecisionExpectDate.Value);
+        var change = new ApplicationFeePaymentRegistered(paidFee,paidDate,this.DecisionExpectDate);
         this.RaiseChangeEvent(change);
 
         if (this.PaidFee < this.RequiredFee)
@@ -212,6 +215,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         }
         else
         {
+            this.DecisionExpectDate = paidDate.AddDays(daysToDecision);
             var domainEvent = new ApplicationFeeBalancedDomainEvent(this.FirstName, this.Email, this.DecisionExpectDate.Value);
             this.RaiseDomainEvent(domainEvent);
         }
