@@ -11,20 +11,20 @@ public sealed class MemberFeePaid : StateEventBase
 
     public MemberFeePaid(Guid feeId, Money paidAmount, DateTime paidDate)
     {
-        FeeId = feeId;
-        PaidAmount = paidAmount;
-        PaidDate = paidDate;
+        this.FeeId = feeId;
+        this.PaidAmount = paidAmount;
+        this.PaidDate = paidDate;
     }
 
     private MemberFeePaid(Guid aggregateId, long aggregateVersion, Guid feeId, Money paidAmount, DateTime paidDate) : base(aggregateId, aggregateVersion)
     {
-        FeeId = feeId;
-        PaidAmount = paidAmount;
-        PaidDate = paidDate;
+        this.FeeId = feeId;
+        this.PaidAmount = paidAmount;
+        this.PaidDate = paidDate;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberFeePaid(aggregateId, aggregateVersion, FeeId, PaidAmount, PaidDate);
+        return new MemberFeePaid(aggregateId, aggregateVersion, this.FeeId, this.PaidAmount, this.PaidDate);
     }
 }

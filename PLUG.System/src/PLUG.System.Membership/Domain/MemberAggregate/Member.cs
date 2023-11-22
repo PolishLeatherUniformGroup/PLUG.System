@@ -16,6 +16,7 @@ public sealed partial class Member : AggregateRoot
     public string Phone { get; private set; }
     public string Address { get; private set; }
     public DateTime JoinDate { get; private set; }
+    public DateTime? TerminationDate { get; private set; }
     public DateTime MembershipValidUntil { get; private set; }
 
     public bool IsValid => DateTime.UtcNow.Date < this.MembershipValidUntil.Date;
@@ -40,21 +41,21 @@ public sealed partial class Member : AggregateRoot
         DateTime joinDate,
         Money paidFee)
     {
-        MemberNumber = cardNumber;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Phone = phone;
-        Address = address;
-        JoinDate = joinDate;
-        Status = MembershipStatus.Active;
-        MembershipType = MembershipType.Regular;
+        this.MemberNumber = cardNumber;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
+        this.JoinDate = joinDate;
+        this.Status = MembershipStatus.Active;
+        this.MembershipType = MembershipType.Regular;
         this.MembershipValidUntil = joinDate.ToYearEnd();
 
         var fee = new MembershipFee(paidFee, joinDate, joinDate.ToYearEnd(), paidFee, joinDate);
         this._membershipFees.Add(fee);
 
-        var change = new MemberCreated(cardNumber, FirstName, LastName, Email, Phone, Address, JoinDate, fee);
+        var change = new MemberCreated(cardNumber, this.FirstName, this.LastName, this.Email, this.Phone, this.Address, this.JoinDate, fee);
         this.RaiseChangeEvent(change);
 
         var domainEvent = new MemberJoinedDomainEvent(this.MemberNumber, this.FirstName, this.Email);
@@ -107,7 +108,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        if (_membershipFees.Any(f => f.FeeEndDate == periodEnd))
+        if (this._membershipFees.Any(f => f.FeeEndDate == periodEnd))
         {
             return;
         }
@@ -143,7 +144,7 @@ public sealed partial class Member : AggregateRoot
         if (!fee.DueAmount.IsZero())
         {
             var registerPaymentDomainEvent =
-                new MemberFeePaymentRegisteredDomainEvent(FirstName, Email, paidAmount, fee.DueAmount, paidDate,
+                new MemberFeePaymentRegisteredDomainEvent(this.FirstName, this.Email, paidAmount, fee.DueAmount, paidDate,
                     fee.FeeEndDate);
             this.RaiseDomainEvent(registerPaymentDomainEvent);
         }
@@ -152,7 +153,7 @@ public sealed partial class Member : AggregateRoot
         {
             this.MembershipValidUntil = fee.FeeEndDate;
 
-            var membershipExtended = new MembershipExtendedDomainEvent(FirstName, Email, MembershipValidUntil);
+            var membershipExtended = new MembershipExtendedDomainEvent(this.FirstName, this.Email, this.MembershipValidUntil);
             this.RaiseDomainEvent(membershipExtended);
         }
     }
@@ -312,8 +313,9 @@ public sealed partial class Member : AggregateRoot
         if (receivedDate.Date > this._expel.AppealDeadline.Date)
         {
             this._expel.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
+            this.TerminationDate = this._expel.AppealDeadline;
 
-            var autoDecision = new ExpelAppealDismissed(this._expel);
+            var autoDecision = new ExpelAppealDismissed(this._expel,this.TerminationDate.GetValueOrDefault());
             this.RaiseChangeEvent(autoDecision);
 
             var rejectionEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
@@ -362,9 +364,10 @@ public sealed partial class Member : AggregateRoot
         }
 
         this._expel.RejectAppeal(rejectDate, justification);
+        this.TerminationDate = rejectDate;
         this.Status = MembershipStatus.Deleted;
 
-        var change = new ExpelAppealDismissed(this._expel);
+        var change = new ExpelAppealDismissed(this._expel,rejectDate);
         this.RaiseChangeEvent(change);
 
         var domainEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
@@ -375,8 +378,20 @@ public sealed partial class Member : AggregateRoot
     /// <summary>
     /// Member can leave on free will.
     /// </summary>
-    public void LeaveOrganization()
+    public void LeaveOrganization(DateTime leaveDate)
     {
+        if (this.Status != MembershipStatus.Active && this.Status != MembershipStatus.Suspended && this.Status != MembershipStatus.Expelled)
+        {
+            throw new AggregateInvalidStateException();
+        }
+        this.TerminationDate = leaveDate;
+        
+        var change = new MemberLeft(this.TerminationDate.GetValueOrDefault());
+        this.RaiseChangeEvent(change);
+
+        var domainEvent =
+            new MemberLeftDomainEvent(this.FirstName, this.Email, this.TerminationDate.GetValueOrDefault());
+        this.RaiseDomainEvent(domainEvent);
     }
 
     /// <summary>

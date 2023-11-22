@@ -10,20 +10,20 @@ public sealed class MembershipExtendedDomainEvent : DomainEventBase
 
     public MembershipExtendedDomainEvent(string firstName, string email, DateTime validUntil)
     {
-        FirstName = firstName;
-        Email = email;
-        ValidUntil = validUntil;
+        this.FirstName = firstName;
+        this.Email = email;
+        this.ValidUntil = validUntil;
     }
 
     private MembershipExtendedDomainEvent(Guid aggregateId, string firstName, string email, DateTime validUntil) : base(aggregateId)
     {
-        FirstName = firstName;
-        Email = email;
-        ValidUntil = validUntil;
+        this.FirstName = firstName;
+        this.Email = email;
+        this.ValidUntil = validUntil;
     }
 
     public override IDomainEvent WithAggregate(Guid aggregateId)
     {
-        return new MembershipExtendedDomainEvent(aggregateId, FirstName, Email, ValidUntil);
+        return new MembershipExtendedDomainEvent(aggregateId, this.FirstName, this.Email, this.ValidUntil);
     }
 }

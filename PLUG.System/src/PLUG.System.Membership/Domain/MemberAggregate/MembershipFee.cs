@@ -11,22 +11,22 @@ public sealed class MembershipFee : Entity
     public Money? PaidAmount { get; private set; }
     public DateTime? PaidDate { get; private set; }
 
-    public bool IsBalanced => PaidAmount is not null && PaidAmount >= DueAmount;
+    public bool IsBalanced => this.PaidAmount is not null && this.PaidAmount >= this.DueAmount;
 
 
     internal MembershipFee(Money dueAmount, DateTime dueDate, DateTime feeEndDate, Money? paidAmount=null, DateTime? paidDate=null) : base(Guid.NewGuid())
     {
-        DueAmount = dueAmount;
-        DueDate = dueDate;
-        FeeEndDate = feeEndDate;
-        PaidAmount = paidAmount;
-        PaidDate = paidDate;
+        this.DueAmount = dueAmount;
+        this.DueDate = dueDate;
+        this.FeeEndDate = feeEndDate;
+        this.PaidAmount = paidAmount;
+        this.PaidDate = paidDate;
     }
 
     internal void AddPayment(Money paidAmount, DateTime paidDate)
     {
-        PaidAmount = paidAmount;
-        PaidDate = paidDate;
+        this.PaidAmount = paidAmount;
+        this.PaidDate = paidDate;
     }
     
 }

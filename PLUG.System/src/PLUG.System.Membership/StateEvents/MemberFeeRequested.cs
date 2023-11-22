@@ -9,16 +9,16 @@ public sealed class MemberFeeRequested : StateEventBase
 
     public MemberFeeRequested(MembershipFee requestedFee)
     {
-        RequestedFee = requestedFee;
+        this.RequestedFee = requestedFee;
     }
 
     private MemberFeeRequested(Guid aggregateId, long aggregateVersion, MembershipFee requestedFee) : base(aggregateId, aggregateVersion)
     {
-        RequestedFee = requestedFee;
+        this.RequestedFee = requestedFee;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberFeeRequested(aggregateId, aggregateVersion, RequestedFee);
+        return new MemberFeeRequested(aggregateId, aggregateVersion, this.RequestedFee);
     }
 }

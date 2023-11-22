@@ -17,26 +17,26 @@ public class MemberCreated : StateEventBase
 
     public MemberCreated(CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address, DateTime joinDate, MembershipFee paidFee)
     {
-        CardNumber = cardNumber;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Phone = phone;
-        Address = address;
-        JoinDate = joinDate;
-        PaidFee = paidFee;
+        this.CardNumber = cardNumber;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
+        this.JoinDate = joinDate;
+        this.PaidFee = paidFee;
     }
 
     private MemberCreated(Guid aggregateId, long aggregateVersion, CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address, DateTime joinDate, MembershipFee paidFee) : base(aggregateId, aggregateVersion)
     {
-        CardNumber = cardNumber;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Phone = phone;
-        Address = address;
-        JoinDate = joinDate;
-        PaidFee = paidFee;
+        this.CardNumber = cardNumber;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
+        this.JoinDate = joinDate;
+        this.PaidFee = paidFee;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)

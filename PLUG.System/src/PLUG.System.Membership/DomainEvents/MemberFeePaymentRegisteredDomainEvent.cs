@@ -14,26 +14,26 @@ public sealed class MemberFeePaymentRegisteredDomainEvent : DomainEventBase
 
     public MemberFeePaymentRegisteredDomainEvent(string firstName, string email, Money registeredFee, Money requiredFee, DateTime paidDate, DateTime period)
     {
-        FirstName = firstName;
-        Email = email;
-        RegisteredFee = registeredFee;
-        RequiredFee = requiredFee;
-        PaidDate = paidDate;
-        Period = period;
+        this.FirstName = firstName;
+        this.Email = email;
+        this.RegisteredFee = registeredFee;
+        this.RequiredFee = requiredFee;
+        this.PaidDate = paidDate;
+        this.Period = period;
     }
 
     private MemberFeePaymentRegisteredDomainEvent(Guid aggregateId, string firstName, string email, Money registeredFee, Money requiredFee, DateTime paidDate, DateTime period) : base(aggregateId)
     {
-        FirstName = firstName;
-        Email = email;
-        RegisteredFee = registeredFee;
-        RequiredFee = requiredFee;
-        PaidDate = paidDate;
-        Period = period;
+        this.FirstName = firstName;
+        this.Email = email;
+        this.RegisteredFee = registeredFee;
+        this.RequiredFee = requiredFee;
+        this.PaidDate = paidDate;
+        this.Period = period;
     }
 
     public override IDomainEvent WithAggregate(Guid aggregateId)
     {
-        return new MemberFeePaymentRegisteredDomainEvent(aggregateId, FirstName, Email, RegisteredFee,RequiredFee, PaidDate, Period);
+        return new MemberFeePaymentRegisteredDomainEvent(aggregateId, this.FirstName, this.Email, this.RegisteredFee, this.RequiredFee, this.PaidDate, this.Period);
     }
 }

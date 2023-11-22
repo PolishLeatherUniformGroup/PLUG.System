@@ -46,39 +46,29 @@ public class MembershipSuspension : ValueObject
     }
 
     internal MembershipSuspension Appeal(DateTime appealDate, string justification) =>
-        new(this.SuspensionDate, SuspendedUntil, SuspensionJustification, AppealDeadline, appealDate, justification);
+        new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline, appealDate, justification);
     
     internal MembershipSuspension RejectAppeal(DateTime appealDecisionDate, string justification) =>
-        new(this.SuspensionDate,
-            SuspendedUntil,
-            SuspensionJustification,
-            AppealDeadline,
-            AppealDate,
-            AppealJustification,
+        new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline, this.AppealDate, this.AppealJustification,
             appealDecisionDate,
             false,
             justification);
     internal MembershipSuspension AcceptAppeal(DateTime appealDecisionDate, string justification) =>
-        new(this.SuspensionDate,
-            SuspendedUntil,
-            SuspensionJustification,
-            AppealDeadline,
-            AppealDate,
-            AppealJustification,
+        new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline, this.AppealDate, this.AppealJustification,
             appealDecisionDate,
             true,
             justification);
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return SuspensionDate;
-        yield return SuspendedUntil;
-        yield return SuspensionJustification;
-        yield return AppealDeadline;
-        yield return AppealDate;
-        yield return AppealJustification;
-        yield return AppealDecisionDate;
-        yield return AppealAccepted;
-        yield return AppealDecisionJustification;
+        yield return this.SuspensionDate;
+        yield return this.SuspendedUntil;
+        yield return this.SuspensionJustification;
+        yield return this.AppealDeadline;
+        yield return this.AppealDate;
+        yield return this.AppealJustification;
+        yield return this.AppealDecisionDate;
+        yield return this.AppealAccepted;
+        yield return this.AppealDecisionJustification;
     }
 }

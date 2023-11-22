@@ -40,12 +40,6 @@ public sealed class MemberSuspendedDomainEvent : DomainEventBase
 
     public override IDomainEvent WithAggregate(Guid aggregateId)
     {
-        return new MemberSuspendedDomainEvent(aggregateId,
-            FirstName,
-            Email,
-            Justification,
-            SuspensionDate,
-            SuspendedUntil,
-            AppealDeadline);
+        return new MemberSuspendedDomainEvent(aggregateId, this.FirstName, this.Email, this.Justification, this.SuspensionDate, this.SuspendedUntil, this.AppealDeadline);
     }
 }

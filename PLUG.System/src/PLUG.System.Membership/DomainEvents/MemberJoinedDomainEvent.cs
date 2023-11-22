@@ -11,20 +11,20 @@ public sealed class MemberJoinedDomainEvent :DomainEventBase
 
     public MemberJoinedDomainEvent(CardNumber cardNumber, string firstName, string email)
     {
-        CardNumber = cardNumber;
-        FirstName = firstName;
-        Email = email;
+        this.CardNumber = cardNumber;
+        this.FirstName = firstName;
+        this.Email = email;
     }
 
     private MemberJoinedDomainEvent(Guid aggregateId, CardNumber cardNumber, string firstName, string email) : base(aggregateId)
     {
-        CardNumber = cardNumber;
-        FirstName = firstName;
-        Email = email;
+        this.CardNumber = cardNumber;
+        this.FirstName = firstName;
+        this.Email = email;
     }
 
     public override IDomainEvent WithAggregate(Guid aggregateId)
     {
-        return new MemberJoinedDomainEvent(aggregateId, this.CardNumber, FirstName, this.Email);
+        return new MemberJoinedDomainEvent(aggregateId, this.CardNumber, this.FirstName, this.Email);
     }
 }

@@ -15,9 +15,9 @@ public class MembershipSettings : Entity
     }
     private MembershipSettings(string settingName, string settingValue, SettingType type)
     {
-        SettingName = settingName;
-        SettingValue = settingValue;
-        Type = type;
+        this.SettingName = settingName;
+        this.SettingValue = settingValue;
+        this.Type = type;
     }
 
     public static MembershipSettings Text(string settingName, string settingValue) =>

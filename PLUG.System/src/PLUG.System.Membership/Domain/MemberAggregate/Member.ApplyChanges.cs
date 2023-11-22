@@ -7,24 +7,24 @@ public partial class Member
 {
     public void ApplyChange(MemberCreated change)
     {
-        MemberNumber = change.CardNumber;
-        FirstName = change.FirstName;
-        LastName = change.LastName;
-        Email = change.Email;
-        Phone = change.Phone;
-        Address = change.Address;
-        JoinDate = change.JoinDate;
-        Status = MembershipStatus.Active;
-        MembershipType = MembershipType.Regular;
+        this.MemberNumber = change.CardNumber;
+        this.FirstName = change.FirstName;
+        this.LastName = change.LastName;
+        this.Email = change.Email;
+        this.Phone = change.Phone;
+        this.Address = change.Address;
+        this.JoinDate = change.JoinDate;
+        this.Status = MembershipStatus.Active;
+        this.MembershipType = MembershipType.Regular;
         this.MembershipValidUntil = change.JoinDate.ToYearEnd();
          this._membershipFees.Add(change.PaidFee);
     }
 
     public void ApplyChange(MemberContactDataModified change)
     {
-        Email = change.Email;
-        Phone = change.Phone;
-        Address = change.Address;
+        this.Email = change.Email;
+        this.Phone = change.Phone;
+        this.Address = change.Address;
     }
 
     public void ApplyChange(MemberFeeRequested change)
@@ -82,6 +82,7 @@ public partial class Member
     public void ApplyChange(ExpelAppealDismissed change)
     {
         this._expel = change.Expel;
+        this.TerminationDate = change.EffectiveDate;
     }
     public void ApplyChange(ExpelAppealApproved change)
     {

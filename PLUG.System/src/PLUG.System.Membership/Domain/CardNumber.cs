@@ -10,7 +10,7 @@ public sealed class CardNumber : ValueObject
 
     public override string ToString()
     {
-        return $"{Prefix}-{Number:0000}";
+        return $"{this.Prefix}-{this.Number:0000}";
     }
 
     public CardNumber(int number, string prefix = DefaultPrefix)
@@ -26,7 +26,7 @@ public sealed class CardNumber : ValueObject
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Prefix;
-        yield return Number;
+        yield return this.Prefix;
+        yield return this.Number;
     }
 }

@@ -11,20 +11,20 @@ public sealed class MemberContactDataModified : StateEventBase
 
     public MemberContactDataModified(string email, string phone, string address)
     {
-        Email = email;
-        Phone = phone;
-        Address = address;
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
     }
 
     private MemberContactDataModified(Guid aggregateId, long aggregateVersion, string email, string phone, string address) : base(aggregateId, aggregateVersion)
     {
-        Email = email;
-        Phone = phone;
-        Address = address;
+        this.Email = email;
+        this.Phone = phone;
+        this.Address = address;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberContactDataModified(aggregateId, aggregateVersion, Email, Phone, Address);
+        return new MemberContactDataModified(aggregateId, aggregateVersion, this.Email, this.Phone, this.Address);
     }
 }

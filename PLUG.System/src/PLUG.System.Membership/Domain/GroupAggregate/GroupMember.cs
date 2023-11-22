@@ -12,5 +12,5 @@ public sealed class GroupMember : Entity
     public DateTime JoinDate { get; private set; }
     public DateTime? EndDate { get; set; }
 
-    public bool IsActive => !EndDate.HasValue || EndDate.Value.Date > DateTime.UtcNow.Date;
+    public bool IsActive => !this.EndDate.HasValue || this.EndDate.Value.Date > DateTime.UtcNow.Date;
 }

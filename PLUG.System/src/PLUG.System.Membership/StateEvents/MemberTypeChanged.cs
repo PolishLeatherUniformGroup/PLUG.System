@@ -9,12 +9,12 @@ public sealed class MemberTypeChanged : StateEventBase
 
     public MemberTypeChanged(MembershipType membershipType)
     {
-        MembershipType = membershipType;
+        this.MembershipType = membershipType;
     }
 
     private MemberTypeChanged(Guid aggregateId, long aggregateVersion, MembershipType membershipType) : base(aggregateId, aggregateVersion)
     {
-        MembershipType = membershipType;
+        this.MembershipType = membershipType;
     }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
