@@ -24,7 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj" />
-      <ProjectReference Include="..\PLUG.System.ServiceDefaults\PLUG.System.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
     </ItemGroup>
 
     <ItemGroup>

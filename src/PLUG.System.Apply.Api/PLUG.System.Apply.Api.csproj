@@ -23,7 +23,7 @@
       <ProjectReference Include="..\PLUG.System.EventBus.RabbitMq\PLUG.System.EventBus.RabbitMq.csproj" />
       <ProjectReference Include="..\PLUG.System.IntegrationEventsLog\PLUG.System.IntegrationEventsLog.csproj" />
       <ProjectReference Include="..\PLUG.System.IntegrationEvents\PLUG.System.IntegrationEvents.csproj" />
-      <ProjectReference Include="..\PLUG.System.ServiceDefaults\PLUG.System.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
     </ItemGroup>
 
 

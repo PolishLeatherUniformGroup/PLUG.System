@@ -11,7 +11,7 @@ using PLUG.System.Common.Domain;
 using PLUG.System.EventBus.Abstraction;
 using PLUG.System.IntegrationEvents;
 using PLUG.System.IntegrationEventsLog.Services;
-using PLUG.System.ServiceDefaults;
+using PLUG.ServiceDefaults;
 using RecommendationRead = PLUG.System.Apply.Infrastructure.ReadModel.Recommendation;
 using ApplicationFormRead = PLUG.System.Apply.Infrastructure.ReadModel.ApplicationForm;
 

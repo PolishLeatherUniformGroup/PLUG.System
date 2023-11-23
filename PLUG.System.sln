@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.AppHost", "src\PLUG.System.AppHost\PLUG.System.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.AppHost", "src\PLUG.AppHost\PLUG.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.ServiceDefaults", "src\PLUG.System.ServiceDefaults\PLUG.System.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.ServiceDefaults", "src\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{2A640CB3-97A7-4D12-BC19-68BC064D9A69}"
 EndProject
