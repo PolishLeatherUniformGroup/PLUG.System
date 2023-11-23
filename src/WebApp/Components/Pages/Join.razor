@@ -3,9 +3,10 @@
 @rendermode InteractiveServer
 @inject ApplyService Service
 
-<h1 class="display-3">Wniosek członkowski</h1>
+
 <PageTitle>Wniosek członkowski</PageTitle>
 <div class="row justify-content-center">
+    <h3 class=" col-8 display-3">Wniosek członkowski</h3>
     <form method="post" @onsubmit="Submit" @formname="apply-form" class="p-3  gx-3 col-8 align-self-center">
         <AntiforgeryToken/>
         <div class="mb-3">
