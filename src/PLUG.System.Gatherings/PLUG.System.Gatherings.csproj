@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="DomainEvents\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
+      <ProjectReference Include="..\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj" />
+    </ItemGroup>
+
+</Project>
