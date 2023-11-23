@@ -15,14 +15,14 @@ public static class Extensions
         //builder.AddAuthenticationServices();
 
         builder.Services.AddScoped<GatheringsService>();
-        builder.Services.AddHttpClient<GatheringsService>(o => o.BaseAddress = new("http://plug-gatherings-api"))
-            .AddAuthToken();
+        builder.Services.AddHttpClient<GatheringsService>(o => o.BaseAddress = new("http://plug-gatherings-api"));
+            //.AddAuthToken();
         builder.Services.AddScoped<ApplyService>();
-        builder.Services.AddHttpClient<ApplyService>(o => o.BaseAddress = new("http://plug-apply-api"))
-            .AddAuthToken();
+        builder.Services.AddHttpClient<ApplyService>(o => o.BaseAddress = new("http://plug-apply-api"));
+            //.AddAuthToken();
         builder.Services.AddScoped<MembershipService>();
-        builder.Services.AddHttpClient<MembershipService>(o => o.BaseAddress = new("http://plug-membership-api"))
-            .AddAuthToken();
+        builder.Services.AddHttpClient<MembershipService>(o => o.BaseAddress = new("http://plug-membership-api"));
+            //.AddAuthToken();
     }
     
     public static void AddAuthenticationServices(this IHostApplicationBuilder builder)

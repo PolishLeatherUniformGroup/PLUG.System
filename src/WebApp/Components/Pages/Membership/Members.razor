@@ -1,0 +1,40 @@
+﻿@page "/membership/members"
+<h1 class="display-6 bg-opacity-25 bg-primary p-3 mx-2 border-bottom border-primary text-primary">
+    <i class="bi bi-people"></i>Strefa członka
+</h1>
+<div class="d-flex">
+    <div class="w-25">
+        <div class="btn-toolbar px-2">
+            <div class="btn-group-vertical w-100 mb-1">
+                <NavLink class="btn btn-outline-secondary d-flex" href="membership/announcements">
+                    <i class="bi bi-megaphone d-inline-block mx-1"></i> <span class="d-inline-block px-2">Ogłoszenia</span>
+                </NavLink>
+                <NavLink class="btn btn-outline-secondary d-flex" href="membership/me">
+                    <i class="bi bi-person-gear d-inline-block mx-1"></i> <span class="d-inline-block px-2">Moje członkostwo</span>
+                </NavLink>
+                <NavLink class="btn btn-outline-secondary d-flex" href="membership/recommendations">
+                    <i class="bi bi-person-check d-inline-block mx-1"></i> <span class="d-inline-block px-2">Rekomendacje</span>
+                </NavLink>
+                <NavLink class="btn btn-outline-secondary d-flex" href="membership/groups">
+                    <i class="bi bi-diagram-2 d-inline-block mx-1"></i> <span class="d-inline-block px-2">Grupy</span>
+                </NavLink>
+            </div>
+            <div class="btn-group-vertical w-100 mt-1">
+                <NavLink class="btn btn-outline-secondary d-flex" href="membership/applications">
+                    <i class="bi bi-person-add d-inline-block mx-1"></i> <span class="d-inline-block px-2">Wnioski</span>
+                </NavLink>
+                <NavLink class="btn btn-primary d-flex" href="membership/members" aria-current="page">
+                    <i class="bi bi-person-lines-fill d-inline-block mx-1"></i> <span class="d-inline-block px-2">Lista członków</span>
+                </NavLink>
+            </div>
+        </div>
+    </div>
+    <div class="flex-fill">
+
+    </div>
+</div>
+
+
+@code {
+
+}

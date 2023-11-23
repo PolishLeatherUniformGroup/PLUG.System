@@ -12,4 +12,7 @@
 <ItemGroup>
   <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
 </ItemGroup>
+<ItemGroup>
+  <Folder Include="Components\Pages\Management\" />
+</ItemGroup>
 </Project>

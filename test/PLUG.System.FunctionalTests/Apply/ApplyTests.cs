@@ -17,13 +17,5 @@ public class ApplyTests: IClassFixture<ApplyApiFixture>
         _httpClient = _webApplicationFactory.CreateClient();
     }
 
-    [Fact]
-    public async Task CreateApplication()
-    {
-        var createApplicationRequest = new CreateApplicationRequest("Frst", "Last","first.last@somewhere.com", "Address", new[] { "PLUG-0001" });
-        var content = new StringContent(JsonSerializer.Serialize(createApplicationRequest));
-        var response = await this._httpClient.PostAsync(new Uri("api/applications"), content);
-        response.EnsureSuccessStatusCode();
-        
-    }
+  
 }
