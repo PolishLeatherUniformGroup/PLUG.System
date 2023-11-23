@@ -1,21 +1,54 @@
 ﻿@inherits LayoutComponentBase
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<header>
+    <div class="px-3 py-3 bg-dark .bg-gradient text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img src="logo.png " alt="Polish Leather Uniform Group" class="text-white" style="max-height:96px;" />
+                </a>
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                    <li>
+                        <NavLink class="nav-link text-white text-center" href="" Match="NavLinkMatch.All">
+                            <i class=" display-6 bi bi-house"></i><br />
+                            Home
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink class="nav-link text-white text-center" href="events">               
+                            <i class="display-6 bi bi-calendar-event"></i><br />
+                            Wydarzenia
+                        </NavLink>
+                    </li>
+                    <li>
+                        <a href="https://www.plug.org.pl" target="_blank" class="nav-link text-white text-center">
+                            <i class="display-6 bi bi-globe2"></i><br />
+                            Strona WWW
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </div>
+    <div class="px-3 py-2 border-bottom mb-3 .bg-secondary .bg-gradient shadow-sm">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+                <h4 class="">Dzień dobry!</h4>
+            </div>
 
+            <div class="text-end">
+                <button type="button" class="btn btn-light text-dark me-2">Logowanie Członków</button>
+                <button type="button" class="btn btn-primary">Dołącz!</button>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <main>
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
-
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
