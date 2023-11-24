@@ -14,9 +14,9 @@
       "type": "postgres.database.v0",
       "parent": "postgres"
     },
-    "plug-identity-api": {
+    "identity-api": {
       "type": "project.v0",
-      "path": "..\\PLUG.System.Identity.Api\\PLUG.System.Identity.Api.csproj",
+      "path": "../PLUG.System.Identity.Api/PLUG.System.Identity.Api.csproj",
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
@@ -35,15 +35,15 @@
         }
       }
     },
-    "plug-apply-api": {
+    "apply-api": {
       "type": "project.v0",
-      "path": "..\\PLUG.System.Apply.Api\\PLUG.System.Apply.Api.csproj",
+      "path": "../PLUG.System.Apply.Api/PLUG.System.Apply.Api.csproj",
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
         "ConnectionStrings__ApplyDB": "{ApplyDB.connectionString}",
         "ConnectionStrings__EventBus": "{EventBus.connectionString}",
-        "Identity__Url": "{plug-identity-api.bindings.http.url}"
+        "Identity__Url": "{identity-api.bindings.http.url}"
       },
       "bindings": {
         "http": {
@@ -58,12 +58,58 @@
         }
       }
     },
-    "plug-membership-api": {
+    "membership-api": {
       "type": "project.v0",
-      "path": "..\\PLUG.System.Membership.Api\\PLUG.System.Membership.Api.csproj",
+      "path": "../PLUG.System.Membership.Api/PLUG.System.Membership.Api.csproj",
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "gathering-api": {
+      "type": "project.v0",
+      "path": "../PLUG.System.Gatherings.Api/PLUG.System.Gatherings.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "webapp": {
+      "type": "project.v0",
+      "path": "../WebApp/WebApp.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "IdentityUrl": "{identity-api.bindings.http.url}",
+        "CallBackUrl": "{webapp.bindings.https.url}",
+        "services__apply-api__0": "{apply-api.bindings.http.url}",
+        "services__apply-api__1": "{apply-api.bindings.https.url}",
+        "services__membership-api__0": "{membership-api.bindings.http.url}",
+        "services__membership-api__1": "{membership-api.bindings.https.url}"
       },
       "bindings": {
         "http": {

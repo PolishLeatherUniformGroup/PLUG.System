@@ -1,4 +1,8 @@
-﻿namespace PLUG.WebApp.Services;
+﻿using System.Net;
+using PLUG.WebApp.Results;
+using Polly;
+
+namespace PLUG.WebApp.Services;
 
 public class ApplyService
 {
@@ -10,11 +14,14 @@ public class ApplyService
         this._httpClient = httpClient;
     }
 
-    public Task CreateApplication(ApplicationForm applicationForm)
+    public async Task<HttpResponseMessage> CreateApplication(ApplicationForm applicationForm)
     {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Post, this.remoteServiceBaseUrl);
-        requestMessage.Content = JsonContent.Create(applicationForm);
-        return this._httpClient.SendAsync(requestMessage);
+        
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, this.remoteServiceBaseUrl);
+            requestMessage.Content = JsonContent.Create(applicationForm);
+            var response = await this._httpClient.SendAsync(requestMessage);
+ 
+            return response;
     }
 }
 

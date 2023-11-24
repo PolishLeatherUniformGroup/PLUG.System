@@ -14,8 +14,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj" />
+      <ProjectReference Include="..\PLUG.System.Gatherings.Api\PLUG.System.Gatherings.Api.csproj" />
       <ProjectReference Include="..\PLUG.System.Identity.Api\PLUG.System.Identity.Api.csproj" />
       <ProjectReference Include="..\PLUG.System.Membership.Api\PLUG.System.Membership.Api.csproj" />
+      <ProjectReference Include="..\WebApp\WebApp.csproj" />
     </ItemGroup>
 
 </Project>

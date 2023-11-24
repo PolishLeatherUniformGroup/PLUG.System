@@ -1,5 +1,7 @@
 ﻿@page "/join"
 @using PLUG.WebApp.Services
+@using BlazorBootstrap
+
 @rendermode InteractiveServer
 @inject ApplyService Service
 
@@ -49,11 +51,22 @@
     public string[] Recommenders = new string[2];
 
     protected override void OnInitialized() => Model ??= new();
+    [Inject] protected ToastService ToastService { get; set; }
 
     private async Task Submit()
     {
-        Model!.Recommendations = Recommenders;
-        await Service.CreateApplication(Model);
+        HttpResponseMessage httpResponseMessage = null;
+        try
+        {
+            Model!.Recommendations = Recommenders;
+            httpResponseMessage = await Service.CreateApplication(Model);
+            httpResponseMessage.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException requestException)
+        {
+
+                ToastService.Notify(new ToastMessage(ToastType.Warning, IconName.Exclamation, "Nie udało się", string.Empty, "Nie udało się przesłać zgłoszenia!"));
+        }
     }
 
 }

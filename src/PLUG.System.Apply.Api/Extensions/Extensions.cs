@@ -12,6 +12,7 @@ using PLUG.System.EventBus.Abstraction;
 using PLUG.System.IntegrationEvents;
 using PLUG.System.IntegrationEventsLog.Services;
 using PLUG.ServiceDefaults;
+using PLUG.System.Apply.Api.Services;
 using RecommendationRead = PLUG.System.Apply.Infrastructure.ReadModel.Recommendation;
 using ApplicationFormRead = PLUG.System.Apply.Infrastructure.ReadModel.ApplicationForm;
 
@@ -44,7 +45,7 @@ internal static class Extensions
             .AddEventBusSubscriptions();
 
         builder.Services.AddHttpContextAccessor();
-        //builder.Services.AddTransient<IIdentityService, IdentityService>();
+        builder.Services.AddTransient<IIdentityService, IdentityService>();
 
         // Configure mediatR
         var services = builder.Services;
