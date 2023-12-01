@@ -7,7 +7,7 @@ using PLUG.System.Common.Domain;
 using PLUG.System.Common.Exceptions;
 using PLUG.System.SharedDomain;
 
-namespace PLUG.System.Apply.UnitTests.Apply.Domain;
+namespace PLUG.System.Apply.UnitTests.Domain;
 
 public class ApplicationFormShould
 {
