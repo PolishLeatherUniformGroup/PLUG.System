@@ -36,7 +36,7 @@ public sealed partial class Member : AggregateRoot
 
     public MembershipSuspension? Suspension => this._suspension;
     public MembershipExpel? Expel => this._expel;
-    
+
 
     public Member(CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address,
         DateTime joinDate,
@@ -56,7 +56,8 @@ public sealed partial class Member : AggregateRoot
         var fee = new MembershipFee(paidFee, joinDate, joinDate.ToYearEnd(), paidFee, joinDate);
         this._membershipFees.Add(fee);
 
-        var change = new MemberCreated(cardNumber, this.FirstName, this.LastName, this.Email, this.Phone, this.Address, this.JoinDate, fee);
+        var change = new MemberCreated(cardNumber, this.FirstName, this.LastName, this.Email, this.Phone, this.Address,
+            this.JoinDate, fee);
         this.RaiseChangeEvent(change);
 
         var domainEvent = new MemberJoinedDomainEvent(this.MemberNumber, this.FirstName, this.Email);
@@ -127,7 +128,7 @@ public sealed partial class Member : AggregateRoot
 
     public void RegisterPaymentFee(Guid membershipFeeId, Money paidAmount, DateTime paidDate)
     {
-        if (this.Status != MembershipStatus.Active && this.Status != MembershipStatus.Expired )
+        if (this.Status != MembershipStatus.Active && this.Status != MembershipStatus.Expired)
         {
             throw new AggregateInvalidStateException();
         }
@@ -145,7 +146,8 @@ public sealed partial class Member : AggregateRoot
         if (!fee.DueAmount.IsZero())
         {
             var registerPaymentDomainEvent =
-                new MemberFeePaymentRegisteredDomainEvent(this.FirstName, this.Email, paidAmount, fee.DueAmount, paidDate,
+                new MemberFeePaymentRegisteredDomainEvent(this.FirstName, this.Email, paidAmount, fee.DueAmount,
+                    paidDate,
                     fee.FeeEndDate);
             this.RaiseDomainEvent(registerPaymentDomainEvent);
         }
@@ -157,9 +159,10 @@ public sealed partial class Member : AggregateRoot
             {
                 this.Reactivate();
             }
-            var membershipExtended = new MembershipExtendedDomainEvent(this.FirstName, this.Email, this.MembershipValidUntil);
+
+            var membershipExtended =
+                new MembershipExtendedDomainEvent(this.FirstName, this.Email, this.MembershipValidUntil);
             this.RaiseDomainEvent(membershipExtended);
-            
         }
     }
 
@@ -200,20 +203,21 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._suspension.Appeal(receivedDate, justification);
+        this._suspension = this._suspension.Appeal(receivedDate, justification);
 
         var change = new MemberSuspensionAppealReceived(this._suspension);
         this.RaiseChangeEvent(change);
 
         if (receivedDate.Date > this._suspension.AppealDeadline.Date)
         {
-            this._suspension.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
+            this._suspension = this._suspension.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
 
             var autoDecision = new SuspensionAppealDismissed(this._suspension);
             this.RaiseChangeEvent(autoDecision);
 
             var rejectionEvent = new MemberSuspensionAppealDismissedDomainEvent(this.FirstName, this.Email,
-                this._suspension!.AppealDecisionDate.GetValueOrDefault(), this._suspension.AppealDecisionJustification!);
+                this._suspension!.AppealDecisionDate.GetValueOrDefault(),
+                this._suspension.AppealDecisionJustification!);
             this.RaiseDomainEvent(rejectionEvent);
             return;
         }
@@ -236,7 +240,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._suspension.AcceptAppeal(approveDate, justification);
+        this._suspension = this._suspension.AcceptAppeal(approveDate, justification);
 
         var change = new SuspensionAppealApproved(this._suspension);
         this.RaiseChangeEvent(change);
@@ -259,7 +263,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._suspension.RejectAppeal(rejectDate, justification);
+        this._suspension = this._suspension.RejectAppeal(rejectDate, justification);
 
         var change = new SuspensionAppealDismissed(this._suspension);
         this.RaiseChangeEvent(change);
@@ -300,7 +304,7 @@ public sealed partial class Member : AggregateRoot
 
     public void AppealExpel(string justification, DateTime receivedDate)
     {
-        if (this.Status != MembershipStatus.Suspended)
+        if (this.Status != MembershipStatus.Expelled)
         {
             throw new AggregateInvalidStateException();
         }
@@ -310,27 +314,28 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._expel.Appeal(receivedDate, justification);
+        this._expel = this._expel.Appeal(receivedDate, justification);
 
         var change = new MemberExpelAppealReceived(this._expel);
         this.RaiseChangeEvent(change);
 
         if (receivedDate.Date > this._expel.AppealDeadline.Date)
         {
-            this._expel.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
+            this._expel = this._expel.RejectAppeal(receivedDate, "Odwołanie wpłynęło po terminie.");
             this.TerminationDate = this._expel.AppealDeadline;
 
-            var autoDecision = new ExpelAppealDismissed(this._expel,this.TerminationDate.GetValueOrDefault());
+            var autoDecision = new ExpelAppealDismissed(this._expel, this.TerminationDate.GetValueOrDefault());
             this.RaiseChangeEvent(autoDecision);
 
             var rejectionEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
-                this._suspension!.AppealDecisionDate.GetValueOrDefault(), this._suspension.AppealDecisionJustification!);
+                this.Expel!.AppealDecisionDate.GetValueOrDefault(),
+                this.Expel.AppealDecisionJustification!);
             this.RaiseDomainEvent(rejectionEvent);
             return;
         }
 
         var domainEvent = new MemberExpelAppealReceivedDomainEvent(this.FirstName, this.Email,
-            this._suspension!.AppealDate.GetValueOrDefault());
+            this._expel!.AppealDate.GetValueOrDefault());
         this.RaiseDomainEvent(domainEvent);
     }
 
@@ -346,7 +351,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._expel.AcceptAppeal(approveDate, justification);
+        this._expel = this._expel.AcceptAppeal(approveDate, justification);
 
         var change = new ExpelAppealApproved(this._expel);
         this.RaiseChangeEvent(change);
@@ -368,11 +373,11 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._expel.RejectAppeal(rejectDate, justification);
+        this._expel = this._expel.RejectAppeal(rejectDate, justification);
         this.TerminationDate = rejectDate;
         this.Status = MembershipStatus.Deleted;
 
-        var change = new ExpelAppealDismissed(this._expel,rejectDate);
+        var change = new ExpelAppealDismissed(this._expel, rejectDate);
         this.RaiseChangeEvent(change);
 
         var domainEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
@@ -385,14 +390,16 @@ public sealed partial class Member : AggregateRoot
     /// </summary>
     public void LeaveOrganization(DateTime leaveDate)
     {
-        if (this.Status != MembershipStatus.Active && this.Status != MembershipStatus.Suspended && this.Status != MembershipStatus.Expelled)
+        if (this.Status != MembershipStatus.Active && this.Status != MembershipStatus.Suspended &&
+            this.Status != MembershipStatus.Expelled)
         {
             throw new AggregateInvalidStateException();
         }
+
         this.TerminationDate = leaveDate;
         this.TerminationReason = "Członek zrezygnował.";
         this.Status = MembershipStatus.Leaved;
-        
+
         var change = new MemberLeft(this.TerminationDate.GetValueOrDefault(), this.TerminationReason);
         this.RaiseChangeEvent(change);
 
@@ -410,21 +417,24 @@ public sealed partial class Member : AggregateRoot
         {
             throw new AggregateInvalidStateException();
         }
+
         this.TerminationDate = expirationDate;
         this.TerminationReason = reason;
         this.Status = MembershipStatus.Expired;
-        
+
         var change = new MembershipExpired(this.TerminationDate.GetValueOrDefault(), this.TerminationReason);
         this.RaiseChangeEvent(change);
-        
+
         var domainEvent =
-            new MembershipExpiredDomainEvent(this.FirstName, this.Email, this.TerminationDate.GetValueOrDefault(),this.TerminationReason);
+            new MembershipExpiredDomainEvent(this.FirstName, this.Email, this.TerminationDate.GetValueOrDefault(),
+                this.TerminationReason);
         this.RaiseDomainEvent(domainEvent);
     }
 
     public void Reactivate()
     {
-        if (this.Status != MembershipStatus.Expelled && this.Status != MembershipStatus.Suspended && this.Status != MembershipStatus.Expired)
+        if (this.Status != MembershipStatus.Expelled && this.Status != MembershipStatus.Suspended &&
+            this.Status != MembershipStatus.Expired)
         {
             throw new AggregateInvalidStateException();
         }

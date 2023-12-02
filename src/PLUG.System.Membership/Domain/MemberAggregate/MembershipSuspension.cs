@@ -46,7 +46,8 @@ public class MembershipSuspension : ValueObject
     }
 
     internal MembershipSuspension Appeal(DateTime appealDate, string justification) =>
-        new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline, appealDate, justification);
+        new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline,
+            appealDate:appealDate, appealJustification:justification);
     
     internal MembershipSuspension RejectAppeal(DateTime appealDecisionDate, string justification) =>
         new(this.SuspensionDate, this.SuspendedUntil, this.SuspensionJustification, this.AppealDeadline, this.AppealDate, this.AppealJustification,
