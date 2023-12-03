@@ -6,12 +6,12 @@ using PLUG.System.Membership.DomainEvents;
 
 namespace PLUG.System.Membership.Api.Application.DomainEventHandlers;
 
-public sealed class MemberLeftDomainEventHandler : DomainEventHandlerBase<MemberLeftDomainEvent>
+public sealed class MemberExpelAppealDismissedDomainEventHandler : DomainEventHandlerBase<MemberExpelAppealDismissedDomainEvent>
 {
     private readonly IAggregateRepository<MembersGroup> _groupAggregateRepository;
     private readonly IIntegrationEventService _integrationEventService;
 
-    public MemberLeftDomainEventHandler(
+    public MemberExpelAppealDismissedDomainEventHandler(
         IAggregateRepository<MembersGroup> groupAggregateRepository, 
         IIntegrationEventService integrationEventService)
     {
@@ -19,16 +19,16 @@ public sealed class MemberLeftDomainEventHandler : DomainEventHandlerBase<Member
         this._integrationEventService = integrationEventService;
     }
 
-    public override async Task Handle(MemberLeftDomainEvent notification, CancellationToken cancellationToken)
+    public override async Task Handle(MemberExpelAppealDismissedDomainEvent notification, CancellationToken cancellationToken)
     {
-        foreach (var group in notification.Groups)
+        foreach (var group in notification.GroupMemberships)
         {
             var groupAggregate = await this._groupAggregateRepository.GetByIdAsync(group, cancellationToken);
             if (groupAggregate is null)
             {
                 continue;
             }
-            groupAggregate.RemoveFromGroup(notification.CardNumber,notification.LeaveDate);
+            groupAggregate.RemoveFromGroup(notification.MemberNumber,notification.RejectDate);
             await this._groupAggregateRepository.UpdateAsync(groupAggregate, cancellationToken);
         }
     }

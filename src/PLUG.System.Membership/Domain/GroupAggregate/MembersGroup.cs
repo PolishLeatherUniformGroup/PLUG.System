@@ -1,5 +1,6 @@
 using PLUG.System.Common.Domain;
 using PLUG.System.Common.Exceptions;
+using PLUG.System.Membership.DomainEvents;
 using PLUG.System.Membership.StateEvents;
 
 namespace PLUG.System.Membership.Domain;
@@ -34,6 +35,9 @@ public sealed partial class MembersGroup : AggregateRoot
 
         var change = new MemberJoinedGroup(groupMember);
         this.RaiseChangeEvent(change);
+
+        var domainEvent = new MemberJoinedGroupDomainEvent(memberId);
+        this.RaiseDomainEvent(domainEvent);
     }
     
     public void RemoveFromGroup(CardNumber cardNumber, DateTime leaveDate)
@@ -47,6 +51,10 @@ public sealed partial class MembersGroup : AggregateRoot
 
         var change = new MemberLeftGroup(member.Id, leaveDate);
         this.RaiseChangeEvent(change);
+
+        var domainEvent = new MemberLeftGroupDomainEvent(member.MemberId);
+        this.RaiseDomainEvent(domainEvent);
+
     }
     
 }
