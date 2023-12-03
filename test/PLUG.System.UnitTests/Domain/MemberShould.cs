@@ -995,7 +995,7 @@ public class MemberShould
         aggregate.AggregateId.Should().NotBeEmpty();
         aggregate.Version.Should().BeGreaterThan(0);
 
-        aggregate.Status.Should().Be(MembershipStatus.Expelled);
+        aggregate.Status.Should().Be(MembershipStatus.Deleted);
         aggregate.Expel.Should().NotBeNull();
         aggregate.Expel!.ExpelDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
         aggregate.Expel!.AppealDeadline.Should().BeCloseTo(DateTime.UtcNow.AddDays(14), TimeSpan.FromSeconds(2));

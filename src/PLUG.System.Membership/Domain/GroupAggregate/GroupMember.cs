@@ -13,4 +13,20 @@ public sealed class GroupMember : Entity
     public DateTime? EndDate { get; set; }
 
     public bool IsActive => !this.EndDate.HasValue || this.EndDate.Value.Date > DateTime.UtcNow.Date;
+
+    public GroupMember(CardNumber memberNumber, Guid memberId, string firstName,
+        string lastName,
+        DateTime joinDate): base(Guid.NewGuid())
+    {
+        this.MemberNumber = memberNumber;
+        this.MemberId = memberId;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.JoinDate = joinDate;
+    }
+
+    public void LeaveGroup(DateTime leaveDate)
+    {
+        this.EndDate = leaveDate;
+    }
 }

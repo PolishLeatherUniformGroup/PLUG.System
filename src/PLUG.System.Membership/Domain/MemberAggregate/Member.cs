@@ -37,7 +37,9 @@ public sealed partial class Member : AggregateRoot
     public MembershipSuspension? Suspension => this._suspension;
     public MembershipExpel? Expel => this._expel;
 
-
+    private readonly List<Guid> _groupMemberships = new List<Guid>();
+    public IEnumerable<Guid> GroupMembership => this._groupMemberships;
+    
     public Member(CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address,
         DateTime joinDate,
         Money paidFee)
@@ -193,7 +195,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
         
-        this._suspension = this._suspension.Appeal(receivedDate, justification);
+        this._suspension = this._suspension!.Appeal(receivedDate, justification);
 
         var change = new MemberSuspensionAppealReceived(this._suspension);
         this.RaiseChangeEvent(change);
@@ -295,7 +297,7 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        this._expel = this._expel.Appeal(receivedDate, justification);
+        this._expel = this._expel!.Appeal(receivedDate, justification);
 
         var change = new MemberExpelAppealReceived(this._expel);
         this.RaiseChangeEvent(change);
@@ -308,10 +310,13 @@ public sealed partial class Member : AggregateRoot
             var autoDecision = new ExpelAppealDismissed(this._expel, this.TerminationDate.GetValueOrDefault());
             this.RaiseChangeEvent(autoDecision);
 
-            var rejectionEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
+            var rejectionEvent = new MemberExpelAppealDismissedDomainEvent(this.MemberNumber,
+                this.FirstName, this.Email,
                 this.Expel!.AppealDecisionDate.GetValueOrDefault(),
-                this.Expel.AppealDecisionJustification!);
+                this.Expel.AppealDecisionJustification!,
+                this._groupMemberships);
             this.RaiseDomainEvent(rejectionEvent);
+            this.Status = MembershipStatus.Deleted;
             return;
         }
 
@@ -361,8 +366,8 @@ public sealed partial class Member : AggregateRoot
         var change = new ExpelAppealDismissed(this._expel, rejectDate);
         this.RaiseChangeEvent(change);
 
-        var domainEvent = new MemberExpelAppealDismissedDomainEvent(this.FirstName, this.Email,
-            this._expel.AppealDecisionDate.GetValueOrDefault(), this._expel.AppealDecisionJustification!);
+        var domainEvent = new MemberExpelAppealDismissedDomainEvent(this.MemberNumber,this.FirstName, this.Email,
+            this._expel.AppealDecisionDate.GetValueOrDefault(), this._expel.AppealDecisionJustification!, this._groupMemberships);
         this.RaiseDomainEvent(domainEvent);
     }
 
@@ -385,7 +390,7 @@ public sealed partial class Member : AggregateRoot
         this.RaiseChangeEvent(change);
 
         var domainEvent =
-            new MemberLeftDomainEvent(this.FirstName, this.Email, this.TerminationDate.GetValueOrDefault());
+            new MemberLeftDomainEvent(this.MemberNumber,this.FirstName, this.Email, this.TerminationDate.GetValueOrDefault(), this._groupMemberships);
         this.RaiseDomainEvent(domainEvent);
     }
 
@@ -427,6 +432,20 @@ public sealed partial class Member : AggregateRoot
         this.Status = MembershipStatus.Active;
 
         var change = new MemberReactivated();
+        this.RaiseChangeEvent(change);
+    }
+
+    public void AddGroupMembership(Guid groupId)
+    {
+        this._groupMemberships.Add(groupId);
+        var change = new MemberAddedToGroup(groupId);
+        this.RaiseChangeEvent(change);
+
+    }
+    public void RemoveGroupMembership(Guid groupId)
+    {
+        this._groupMemberships.Remove(groupId);
+        var change = new MemberAddedToGroup(groupId);
         this.RaiseChangeEvent(change);
     }
 }
