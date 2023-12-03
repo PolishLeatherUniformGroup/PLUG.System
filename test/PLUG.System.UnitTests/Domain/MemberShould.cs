@@ -1349,4 +1349,64 @@ public class MemberShould
         // assert
         action.Should().Throw<AggregateInvalidStateException>();
     }
+    
+    [Fact]
+    public void AddToGroup()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var group = this._fixture.Create<Guid>();
+        
+        // act
+
+        aggregate.AddGroupMembership(group);
+
+        // assert
+        aggregate.Should().NotBeNull();
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GroupMembership.Should().HaveCount(1);
+
+
+        aggregate.GetStateEvents().Should().HaveCount(2);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<MemberAddedToGroup>();
+    }
+    
+    [Fact]
+    public void RemoveFromGroup()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var group = this._fixture.Create<Guid>();
+        aggregate.AddGroupMembership(group);
+        // act
+
+        aggregate.RemoveGroupMembership(group);
+
+        // assert
+        aggregate.Should().NotBeNull();
+        aggregate.AggregateId.Should().NotBeEmpty();
+        aggregate.Version.Should().BeGreaterThan(0);
+        aggregate.GroupMembership.Should().HaveCount(0);
+
+
+        aggregate.GetStateEvents().Should().HaveCount(3);
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<MemberRemovedFromGroup>();
+    }
 }

@@ -445,7 +445,7 @@ public sealed partial class Member : AggregateRoot
     public void RemoveGroupMembership(Guid groupId)
     {
         this._groupMemberships.Remove(groupId);
-        var change = new MemberAddedToGroup(groupId);
+        var change = new MemberRemovedFromGroup(groupId);
         this.RaiseChangeEvent(change);
     }
 }

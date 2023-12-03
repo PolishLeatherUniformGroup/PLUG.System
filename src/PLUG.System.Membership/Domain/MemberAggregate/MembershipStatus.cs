@@ -12,10 +12,7 @@ public sealed class MembershipStatus : Enumeration
     public static MembershipStatus Expired = new(4);
     public static MembershipStatus Leaved = new(5);
     public static MembershipStatus Deleted = new(6);
-
-    public MembershipStatus()
-    {
-    }
+    
 
     [JsonConstructor]
     public MembershipStatus(int value, [CallerMemberName]string displayName="") : base(value, displayName)
