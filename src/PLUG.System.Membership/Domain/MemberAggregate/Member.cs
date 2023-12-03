@@ -172,12 +172,7 @@ public sealed partial class Member : AggregateRoot
         {
             throw new AggregateInvalidStateException();
         }
-
-        if (this._suspension is not null)
-        {
-            throw new AggregateInvalidStateException();
-        }
-
+        
         this._suspension = new MembershipSuspension(suspensionDate, suspendUntil, justification,
             suspensionDate.AddDays(daysToAppeal));
         this.Status = MembershipStatus.Suspended;
@@ -197,12 +192,7 @@ public sealed partial class Member : AggregateRoot
         {
             throw new AggregateInvalidStateException();
         }
-
-        if (this._suspension is null)
-        {
-            throw new AggregateInvalidStateException();
-        }
-
+        
         this._suspension = this._suspension.Appeal(receivedDate, justification);
 
         var change = new MemberSuspensionAppealReceived(this._suspension);
@@ -286,10 +276,6 @@ public sealed partial class Member : AggregateRoot
             throw new AggregateInvalidStateException();
         }
 
-        if (this._expel is not null)
-        {
-            throw new AggregateInvalidStateException();
-        }
 
         this._expel = new MembershipExpel(expelDate, justification, expelDate.AddDays(daysToAppeal));
         this.Status = MembershipStatus.Expelled;
@@ -305,11 +291,6 @@ public sealed partial class Member : AggregateRoot
     public void AppealExpel(string justification, DateTime receivedDate)
     {
         if (this.Status != MembershipStatus.Expelled)
-        {
-            throw new AggregateInvalidStateException();
-        }
-
-        if (this._expel is null)
         {
             throw new AggregateInvalidStateException();
         }

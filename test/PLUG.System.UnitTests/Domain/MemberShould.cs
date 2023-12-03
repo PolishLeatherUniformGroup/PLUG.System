@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using PLUG.System.Common.Exceptions;
 using PLUG.System.Membership.Domain;
 using PLUG.System.Membership.DomainEvents;
 using PLUG.System.Membership.StateEvents;
@@ -55,6 +56,9 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberJoinedDomainEvent>();
+
+        aggregate.MembershipFees.Should().HaveCount(1);
+        aggregate.IsFeeBalanced.Should().BeTrue();
     }
 
     [Fact]
@@ -93,6 +97,31 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberJoinedDomainEvent>();
+    }
+    
+    [Fact]
+    public void ThrowWhenModifyContactDataOfInActiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var newEmail = this._fixture.Create<string>();
+        var newPhone = this._fixture.Create<string>();
+        var newAddress = this._fixture.Create<string>();
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
+        
+        // act
+        var action = ()=>aggregate.ModifyContactData(newEmail, newPhone, newAddress);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
     }
 
     [Fact]
@@ -160,6 +189,49 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberJoinedDomainEvent>();
+    }
+    
+    [Fact]
+    public void ThrowWhenMakeHonoraryOfInActiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
+        // act
+
+        var action = ()=>aggregate.MakeHonoraryMember();
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+
+    [Fact] public void ThrowWhenMakeRegularOfInActiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
+        // act
+
+        var action = ()=>aggregate.MakeRegularMember();
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
     }
 
     [Fact]
@@ -230,6 +302,34 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(2);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberFeePaymentRequestedDomainEvent>();
+        
+        aggregate.MembershipFees.Should().HaveCount(2);
+        aggregate.IsFeeBalanced.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void ThrowWhenRequestedFeePaymentForInactiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var newFee = new Money(this._fixture.Create<decimal>());
+        var due = join.AddMonths(3);
+        var endPeriod = join.ToYearEnd();
+        aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
+        // act
+
+        var action = ()=>aggregate.RequestFeePayment(newFee, due, endPeriod);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
     }
 
     [Fact]
@@ -266,6 +366,9 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(3);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberFeePaymentRegisteredDomainEvent>();
+        
+        aggregate.MembershipFees.Should().HaveCount(2);
+        aggregate.IsFeeBalanced.Should().BeFalse();
     }
 
     [Fact]
@@ -344,6 +447,66 @@ public class MemberShould
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberFeePaymentRegisteredDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MembershipExtendedDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MembershipExpiredDomainEvent>();
+        
+        aggregate.MembershipFees.Should().HaveCount(2);
+        aggregate.IsFeeBalanced.Should().BeTrue();
+
+        aggregate.IsValid.Should().BeTrue();
+    }
+    
+    [Fact]
+    public void ThrowWhenRegisterPaymentForInActiveMemberAndNotExpired()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var newFee = new Money(this._fixture.Create<decimal>());
+        var due = join.AddMonths(3);
+        var endPeriod = join.ToYearEnd().AddYears(1);
+        aggregate.RequestFeePayment(newFee, due, endPeriod);
+
+        var payment = newFee / 2;
+        aggregate.LeaveOrganization(DateTime.UtcNow);
+        
+        //act
+        var action= ()=>aggregate.RegisterPaymentFee(aggregate.CurrentFee.Id, payment, DateTime.UtcNow);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenRegisterPaymentForNonExistingRequest()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var newFee = new Money(this._fixture.Create<decimal>());
+        var due = join.AddMonths(3);
+        var endPeriod = join.ToYearEnd().AddYears(1);
+        aggregate.RequestFeePayment(newFee, due, endPeriod);
+
+        var payment = newFee / 2;
+        
+        //act
+        var action= ()=>aggregate.RegisterPaymentFee(Guid.NewGuid(), payment, DateTime.UtcNow);
+
+        // assert
+        action.Should().Throw<EntityNotFoundException>();
     }
 
     [Fact]
@@ -576,7 +739,154 @@ public class MemberShould
         aggregate.GetDomainEvents().Should().HaveCount(4);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberSuspensionAppealDismissedDomainEvent>();
     }
+    
+    [Fact]
+    public void ThrowWhenSuspendingInActiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
 
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        var suspendedUntil = DateTime.UtcNow.AddMonths(6);
+        aggregate.MembershipExpired(DateTime.UtcNow ,this._fixture.Create<string>());
+        // act
+
+        var action =()=>aggregate.SuspendMember(suspensionJustification, suspensionDate, suspendedUntil, 14);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAppealSuspensionOfNotSuspendedMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.AppealSuspension(suspensionJustification, suspensionDate);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAcceptingAppealOfNotSuspendedMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.AcceptAppealSuspension(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAcceptingNotExistingAppealOfSuspendedMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        var suspendedUntil = DateTime.UtcNow.AddMonths(6);
+        aggregate.SuspendMember(suspensionJustification, suspensionDate, suspendedUntil, 14);
+        // act
+        var action =()=>aggregate.AcceptAppealSuspension(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+     [Fact]
+    public void ThrowWhenDismissingAppealOfNotSuspendedMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.DismissAppealSuspension(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenDismissingNotExistingAppealOfSuspendedMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        var suspendedUntil = DateTime.UtcNow.AddMonths(6);
+        aggregate.SuspendMember(suspensionJustification, suspensionDate, suspendedUntil, 14);
+        // act
+        var action =()=>aggregate.DismissAppealSuspension(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
 
     [Fact]
     public void HaveExpelDetails_whenExpelled()
@@ -797,6 +1107,152 @@ public class MemberShould
     }
     
     [Fact]
+    public void ThrowWhenExpellingInActiveMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.MembershipExpired(DateTime.UtcNow ,this._fixture.Create<string>());
+        // act
+
+        var action =()=>aggregate.ExpelMember(suspensionJustification, suspensionDate, 14);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAppealExpelOfNotExpelledMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.AppealExpel(suspensionJustification, suspensionDate);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAcceptingAppealOfNotExpelledMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.AcceptAppealExpel(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenAcceptingNotExistingAppealOfExpelledMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.ExpelMember(suspensionJustification, suspensionDate, 14);
+        // act
+        var action =()=>aggregate.AcceptAppealExpel(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+     [Fact]
+    public void ThrowWhenDismissingAppealOfNotExpelledMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+
+        // act
+        var action =()=>aggregate.DismissAppealExpel(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenDismissingNotExistingAppealOfExpelledMember()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+     
+        aggregate.ExpelMember(suspensionJustification, suspensionDate, 14);
+        // act
+        var action =()=>aggregate.DismissAppealExpel(suspensionDate,suspensionJustification);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
     public void BeAbleToLeaveWhenActive()
     {
         // arrange
@@ -826,5 +1282,71 @@ public class MemberShould
 
         aggregate.GetDomainEvents().Should().HaveCount(2);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<MemberLeftDomainEvent>();
+    }
+    
+    [Fact]
+    public void ThrowWhenLeavingInActive()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        aggregate.MembershipExpired(DateTime.UtcNow,this._fixture.Create<string>());
+        // act
+
+        var action = ()=>aggregate.LeaveOrganization(DateTime.UtcNow);
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenExpireInActiveMembership()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        aggregate.LeaveOrganization(DateTime.UtcNow);
+        // act
+
+        var action = ()=>aggregate.MembershipExpired(DateTime.UtcNow,this._fixture.Create<string>());
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
+    }
+    
+    [Fact]
+    public void ThrowWhenReactivateActiveMembership()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+      
+        // act
+
+        var action = ()=>aggregate.Reactivate();
+
+        // assert
+        action.Should().Throw<AggregateInvalidStateException>();
     }
 }
