@@ -17,7 +17,8 @@ public sealed class MemberJoinedDomainEventHandler :DomainEventHandlerBase<Membe
     public override async Task Handle(MemberJoinedDomainEvent notification, CancellationToken cancellationToken)
     {
         var integrationEvent = new MemberCardNumberAssignedIntegrationEvent(
-            notification.CardNumber, notification.FirstName, notification.Email);
+            notification.CardNumber, notification.FirstName, notification.LastName,
+            notification.Email,notification.Phone);
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
 }

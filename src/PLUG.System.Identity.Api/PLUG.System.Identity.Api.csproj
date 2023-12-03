@@ -25,6 +25,7 @@
     <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj" />
       <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\PLUG.System.EmailService\PLUG.System.EmailService.csproj" />
       <ProjectReference Include="..\PLUG.System.IntegrationEvents\PLUG.System.IntegrationEvents.csproj" />
     </ItemGroup>
 

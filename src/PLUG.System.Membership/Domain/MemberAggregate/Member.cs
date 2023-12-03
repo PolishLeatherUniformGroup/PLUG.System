@@ -66,7 +66,8 @@ public sealed partial class Member : AggregateRoot
             this.JoinDate, fee);
         this.RaiseChangeEvent(change);
 
-        var domainEvent = new MemberJoinedDomainEvent(this.MemberNumber, this.FirstName, this.Email);
+        var domainEvent = new MemberJoinedDomainEvent(this.MemberNumber, this.FirstName, this.LastName,
+            this.Email,this.Phone);
         this.RaiseDomainEvent(domainEvent);
     }
 
