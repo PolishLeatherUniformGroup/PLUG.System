@@ -160,4 +160,34 @@ public class MembersGroupShould
         action.Should().Throw<EntityNotFoundException>();
         aggregate.GroupMembers.Should().HaveCount(1);
     }
+    
+    [Fact]
+    public void RestoreGroup()
+    {
+        // arrange
+        var groupName = this._fixture.Create<string>();
+        var groupType = MembersGroupType.CustomGroup;
+        var aggregate = new MembersGroup(groupName, groupType);
+
+        var memberNumber = new CardNumber(this._fixture.Create<int>());
+        var memberId = this._fixture.Create<Guid>();
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var joinDate = this._fixture.Create<DateTime>();
+        aggregate.JoinGroup(memberNumber,memberId,firstName,lastName,joinDate);
+        aggregate.RemoveFromGroup(memberNumber,DateTime.UtcNow);
+        
+        var events = new List<IStateEvent>();
+        
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+        
+        // act
+        var newAggregate = new MembersGroup(aggregate.AggregateId, events);
+        
+        // assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
+
+    }
 }

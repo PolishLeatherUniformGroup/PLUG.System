@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DomainEvents\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
       <ProjectReference Include="..\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj" />
     </ItemGroup>

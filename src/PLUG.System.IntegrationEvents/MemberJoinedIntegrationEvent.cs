@@ -4,6 +4,7 @@ namespace PLUG.System.IntegrationEvents;
 
 public record MemberJoinedIntegrationEvent : IntegrationEvent
 {
+    public string CardNumber { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public string Email { get; init; }
@@ -13,12 +14,18 @@ public record MemberJoinedIntegrationEvent : IntegrationEvent
     public decimal PaidFeeAmount { get; init; }
     public string PaidFeeCurrency { get; init; }
 
-    public MemberJoinedIntegrationEvent(string firstName, string lastName, string email,
-        string phone,string address,
+    public MemberJoinedIntegrationEvent(
+        string cardNumber,
+        string firstName, 
+        string lastName,
+        string email,
+        string phone,
+        string address,
         DateTime joinDate,
         decimal paidFeeAmount,
         string paidFeeCurrency)
     {
+        this.CardNumber = cardNumber;
         this.FirstName = firstName;
         this.LastName = lastName;
         this.Email = email;

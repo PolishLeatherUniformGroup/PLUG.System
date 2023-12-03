@@ -1,5 +1,6 @@
 ﻿using PLUG.System.Common.Domain;
 using PLUG.System.Common.Exceptions;
+using PLUG.System.Gatherings.DomainEvents;
 using PLUG.System.Gatherings.StateEvents;
 using PLUG.System.SharedDomain;
 
@@ -33,6 +34,10 @@ public class PublicGathering : AggregateRoot
 
     public IEnumerable<PublicGatheringEnrollment> Registrations => this._registrations;
 
+    public PublicGathering(Guid aggregateId, IEnumerable<IStateEvent> changes) : base(aggregateId, changes)
+    {
+    }
+
     public PublicGathering(string name, string description, string regulations, DateTime scheduledStart,
         int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline)
     {
@@ -62,10 +67,16 @@ public class PublicGathering : AggregateRoot
         this.Name = name;
         this.Description = description;
         this.Regulations = regulations;
-        // changeEvent
+        var change = new PublicGatheringDescriptionModified(name, description, regulations);
+        this.RaiseChangeEvent(change);
+        
         if (this.Status == PublicGatheringStatus.Published)
         {
-            //domainEvent
+            var domainEvent = new PublicGatheringDescriptionChangedDomainEvent(name, description, regulations,
+                this._registrations
+                    .SelectMany(r => r.Participants
+                        .Select(p => p.Email)).ToList());
+            this.RaiseDomainEvent(domainEvent);
         }
     }
 
@@ -80,7 +91,8 @@ public class PublicGathering : AggregateRoot
         this.PublishDate = publishDate;
         this.EnrollmentDeadline = enrollmentDate;
 
-        // changeEvent
+        var change = new PublicGatheringScheduleChanged(scheduledDate, publishDate, enrollmentDate);
+        this.RaiseChangeEvent(change);
     }
 
     public void ModifyPrice(Money price)
@@ -92,7 +104,8 @@ public class PublicGathering : AggregateRoot
 
         this.PricePerPerson = price;
 
-        // changeEvent
+        var change = new PublicGatheringPriceChanged(price);
+        this.RaiseChangeEvent(change);
     }
 
     public void ModifyCapacity(int? newCapacity)
@@ -111,7 +124,8 @@ public class PublicGathering : AggregateRoot
             //domainEvent
         }
         this.PlannedCapacity = newCapacity;
-        //changeEvent
+        var change = new PublicGatheringCapacityChanged(newCapacity);
+        this.RaiseChangeEvent(change);
     }
 
     public void Accept()
@@ -121,7 +135,8 @@ public class PublicGathering : AggregateRoot
             throw new AggregateInvalidStateException();
         }
         this.Status = PublicGatheringStatus.ReadyToPublish;
-        //changeEvent
+        var change = new PublicGatheringStatusChanged(this.Status);
+        this.RaiseChangeEvent(change);
     }
 
     public void Archive()
@@ -137,7 +152,19 @@ public class PublicGathering : AggregateRoot
         }
         
         this.Status = PublicGatheringStatus.Archived;
-        //changeEvent
+        var change = new PublicGatheringStatusChanged(this.Status);
+        this.RaiseChangeEvent(change);
+    }
+    
+    public void Publish()
+    {
+        if (this.Status != PublicGatheringStatus.ReadyToPublish)
+        {
+            throw new AggregateInvalidStateException();
+        }
+        this.Status = PublicGatheringStatus.Published;
+        var change = new PublicGatheringStatusChanged(this.Status);
+        this.RaiseChangeEvent(change);
     }
 
     public void Enroll(DateTime registrationDate, int bookedPlaces, string firstName, string lastName, string email,

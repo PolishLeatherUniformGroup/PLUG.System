@@ -13,6 +13,9 @@ public sealed partial class MembersGroup : AggregateRoot
     private readonly IList<GroupMember> _groupMembers = new List<GroupMember>();
     public IEnumerable<GroupMember> GroupMembers => this._groupMembers;
 
+    public MembersGroup(Guid aggregateId, IEnumerable<IStateEvent> changes) : base(aggregateId, changes)
+    {
+    }
 
     public MembersGroup(string groupName, MembersGroupType groupType)
     {
