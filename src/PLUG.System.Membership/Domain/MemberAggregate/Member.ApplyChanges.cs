@@ -17,7 +17,7 @@ public partial class Member
         this.Status = MembershipStatus.Active;
         this.MembershipType = MembershipType.Regular;
         this.MembershipValidUntil = change.JoinDate.ToYearEnd();
-         this._membershipFees.Add(change.PaidFee);
+        this._membershipFees.Add(change.PaidFee);
     }
 
     public void ApplyChange(MemberContactDataModified change)
@@ -83,13 +83,14 @@ public partial class Member
     {
         this._expel = change.Expel;
         this.TerminationDate = change.EffectiveDate;
+        this.Status = MembershipStatus.Deleted;
     }
     public void ApplyChange(ExpelAppealApproved change)
     {
         this._expel = change.Expel;
     }
 
-    public void ApplyChanges(MemberReactivated change)
+    public void ApplyChange(MemberReactivated change)
     {
         this._suspension = null;
         this._expel = null;
@@ -98,13 +99,13 @@ public partial class Member
         this.Status = MembershipStatus.Active;
     }
     
-    public void ApplyChanges(MemberLeft change)
+    public void ApplyChange(MemberLeft change)
     {
         this.TerminationDate = change.TerminationDate;
         this.TerminationReason = change.TerminationReason;
         this.Status = MembershipStatus.Leaved;
     }
-    public void ApplyChanges(MembershipExpired change)
+    public void ApplyChange(MembershipExpired change)
     {
         this.TerminationDate = change.TerminationDate;
         this.TerminationReason = change.TerminationReason;

@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using PLUG.System.Common.Domain;
 using PLUG.System.Common.Exceptions;
 using PLUG.System.Membership.Domain;
 using PLUG.System.Membership.DomainEvents;
@@ -1408,5 +1409,156 @@ public class MemberShould
 
         aggregate.GetStateEvents().Should().HaveCount(3);
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<MemberRemovedFromGroup>();
+    }
+
+    [Fact]
+    public void BeRestoredAfterSuccessfulExpelAppeal()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.MakeHonoraryMember();
+        aggregate.ExpelMember(suspensionJustification, suspensionDate, 14);
+        var appealJustification = this._fixture.Create<string>();
+        aggregate.AppealExpel(appealJustification,DateTime.UtcNow);
+        var decision = this._fixture.Create<string>();
+        aggregate.AcceptAppealExpel(DateTime.UtcNow,decision);
+        aggregate.Reactivate();
+        var requestFee = new Money(this._fixture.Create<decimal>());
+        aggregate.RequestFeePayment(requestFee, DateTime.UtcNow, DateTime.UtcNow.AddYears(1).ToYearEnd());
+        aggregate.RegisterPaymentFee(aggregate.CurrentFee!.Id, requestFee,DateTime.UtcNow);
+        aggregate.MembershipExpired(DateTime.UtcNow,this._fixture.Create<string>());
+        
+        var events = new List<IStateEvent>();
+        
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+        
+        //act
+        var newAggregate = new Member(aggregate.AggregateId, events);
+        
+        //assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
+    }
+    
+    [Fact]
+    public void BeRestoredAfterSuccessfulExpelSuspension()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.ModifyContactData(email, phone, address);
+        aggregate.SuspendMember(suspensionJustification, suspensionDate,suspensionDate.AddDays(90), 14);
+        var appealJustification = this._fixture.Create<string>();
+        aggregate.AppealSuspension(appealJustification,DateTime.UtcNow);
+        var decision = this._fixture.Create<string>();
+        aggregate.AcceptAppealSuspension(DateTime.UtcNow,decision);
+        aggregate.Reactivate();
+        var requestFee = new Money(this._fixture.Create<decimal>());
+        aggregate.RequestFeePayment(requestFee, DateTime.UtcNow, DateTime.UtcNow.AddYears(1).ToYearEnd());
+        aggregate.RegisterPaymentFee(aggregate.CurrentFee!.Id, requestFee,DateTime.UtcNow);
+        aggregate.LeaveOrganization(DateTime.UtcNow);
+        
+        var events = new List<IStateEvent>();
+        
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+        
+        //act
+        var newAggregate = new Member(aggregate.AggregateId, events);
+        
+        //assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
+    }
+    
+     [Fact]
+    public void BeRestoredAfterUnsuccessfulExpelAppeal()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.MakeHonoraryMember();
+        aggregate.ExpelMember(suspensionJustification, suspensionDate, 14);
+        var appealJustification = this._fixture.Create<string>();
+        aggregate.AppealExpel(appealJustification, DateTime.UtcNow.AddDays(-1));
+        var decision = this._fixture.Create<string>();
+        aggregate.DismissAppealExpel(DateTime.UtcNow,decision);
+        
+        var events = new List<IStateEvent>();
+        
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+        
+        //act
+        var newAggregate = new Member(aggregate.AggregateId, events);
+        
+        //assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
+    }
+    
+    [Fact]
+    public void BeRestoredAfterUnsuccessfulApealSuspension()
+    {
+        // arrange
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var phone = this._fixture.Create<string>();
+        var address = this._fixture.Create<string>();
+        var number = new CardNumber(this._fixture.Create<int>());
+        var join = this._fixture.Create<DateTime>();
+        var paidFee = new Money(this._fixture.Create<decimal>());
+        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var suspensionJustification = this._fixture.Create<string>();
+        var suspensionDate = DateTime.UtcNow;
+        aggregate.ModifyContactData(email, phone, address);
+        aggregate.SuspendMember(suspensionJustification, suspensionDate,suspensionDate.AddDays(90), 14);
+        var appealJustification = this._fixture.Create<string>();
+        aggregate.AppealSuspension(appealJustification,DateTime.UtcNow);
+        var decision = this._fixture.Create<string>();
+        aggregate.DismissAppealSuspension(DateTime.UtcNow,decision);
+
+        
+        var events = new List<IStateEvent>();
+        
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+        
+        //act
+        var newAggregate = new Member(aggregate.AggregateId, events);
+        
+        //assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
     }
 }

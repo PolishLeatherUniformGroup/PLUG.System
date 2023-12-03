@@ -1331,6 +1331,7 @@ public class ApplicationFormShould
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);
     }
+    
     [Fact]
     public void RestoreSuccessfulAppeal()
     {
