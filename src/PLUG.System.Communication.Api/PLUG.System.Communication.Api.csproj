@@ -12,15 +12,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\PLUG.System.Common\PLUG.System.Common.csproj" />
-      <ProjectReference Include="..\PLUG.System.Gatherings\PLUG.System.Gatherings.csproj" />
-      <ProjectReference Include="..\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Application\DomainEventHandlers\" />
-      <Folder Include="Application\IntegrationEventHandlers\" />
-    </ItemGroup>
-
 </Project>
