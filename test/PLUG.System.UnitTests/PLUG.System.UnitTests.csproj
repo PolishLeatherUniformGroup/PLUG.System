@@ -28,6 +28,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj" />
       <ProjectReference Include="..\..\src\PLUG.System.Apply\PLUG.System.Apply.csproj" />
+      <ProjectReference Include="..\..\src\PLUG.System.Gatherings\PLUG.System.Gatherings.csproj" />
       <ProjectReference Include="..\..\src\PLUG.System.Membership\PLUG.System.Membership.csproj" />
     </ItemGroup>
 
