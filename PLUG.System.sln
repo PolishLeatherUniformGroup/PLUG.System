@@ -6,33 +6,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.ServiceDefaults", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{2A640CB3-97A7-4D12-BC19-68BC064D9A69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply", "src\PLUG.System.Apply\PLUG.System.Apply.csproj", "{704E8C0B-4D9B-4473-9E44-90212D6CFC02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Apply", "src\ONPA.Apply\ONPA.Apply.csproj", "{704E8C0B-4D9B-4473-9E44-90212D6CFC02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Api", "src\PLUG.System.Apply.Api\PLUG.System.Apply.Api.csproj", "{B16456F1-A024-40A6-8DED-600B3F1EBBC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Apply.Api", "src\ONPA.Apply.Api\ONPA.Apply.Api.csproj", "{B16456F1-A024-40A6-8DED-600B3F1EBBC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Apply.Infrastructure", "src\PLUG.System.Apply.Infrastructure\PLUG.System.Apply.Infrastructure.csproj", "{8CA9F493-C896-42DB-A776-9696E3C3F8B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Apply.Infrastructure", "src\ONPA.Apply.Infrastructure\ONPA.Apply.Infrastructure.csproj", "{8CA9F493-C896-42DB-A776-9696E3C3F8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common", "src\PLUG.System.Common\PLUG.System.Common.csproj", "{563163B2-E53F-459A-B939-5FABD8B0B081}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Common", "src\ONPA.Common\ONPA.Common.csproj", "{563163B2-E53F-459A-B939-5FABD8B0B081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Common.Infrastructure", "src\PLUG.System.Common.Infrastructure\PLUG.System.Common.Infrastructure.csproj", "{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.EventBus", "src\ONPA.EventBus\ONPA.EventBus.csproj", "{0FBB432B-49F1-48EC-AF91-1F5A937916C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus", "src\PLUG.System.EventBus\PLUG.System.EventBus.csproj", "{0FBB432B-49F1-48EC-AF91-1F5A937916C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.EventBus.RabbitMq", "src\ONPA.EventBus.RabbitMq\ONPA.EventBus.RabbitMq.csproj", "{68D6488C-1B57-4CAA-AAA1-ABE7B8F37AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.EventBus.RabbitMq", "src\PLUG.System.EventBus.RabbitMq\PLUG.System.EventBus.RabbitMq.csproj", "{68D6488C-1B57-4CAA-AAA1-ABE7B8F37AA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Identity.Api", "src\ONPA.Identity.Api\ONPA.Identity.Api.csproj", "{D5001D95-12AC-420D-A7CB-F6F4FA173969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Identity.Api", "src\PLUG.System.Identity.Api\PLUG.System.Identity.Api.csproj", "{D5001D95-12AC-420D-A7CB-F6F4FA173969}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.IntegrationEvents", "src\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj", "{D9066783-C93B-4F70-8782-383EF61C1525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEvents", "src\PLUG.System.IntegrationEvents\PLUG.System.IntegrationEvents.csproj", "{D9066783-C93B-4F70-8782-383EF61C1525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.IntegrationEventsLog", "src\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj", "{BF7DC431-084C-48BF-9A07-978877812312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.IntegrationEventsLog", "src\PLUG.System.IntegrationEventsLog\PLUG.System.IntegrationEventsLog.csproj", "{BF7DC431-084C-48BF-9A07-978877812312}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Membership", "src\ONPA.Membership\ONPA.Membership.csproj", "{8C908AE3-ED00-4CC7-83FE-BCF66D4A1CF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership", "src\PLUG.System.Membership\PLUG.System.Membership.csproj", "{8C908AE3-ED00-4CC7-83FE-BCF66D4A1CF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Membership.Api", "src\ONPA.Membership.Api\ONPA.Membership.Api.csproj", "{5AD9AC4C-9A97-44D7-A9E4-3C3B948770CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Api", "src\PLUG.System.Membership.Api\PLUG.System.Membership.Api.csproj", "{5AD9AC4C-9A97-44D7-A9E4-3C3B948770CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Membership.Infrastructure", "src\ONPA.Membership.Infrastructure\ONPA.Membership.Infrastructure.csproj", "{806784A7-FC20-44AF-AE8F-4A409F82A38A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Membership.Infrastructure", "src\PLUG.System.Membership.Infrastructure\PLUG.System.Membership.Infrastructure.csproj", "{806784A7-FC20-44AF-AE8F-4A409F82A38A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.SharedDomain", "src\PLUG.System.SharedDomain\PLUG.System.SharedDomain.csproj", "{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.SharedDomain", "src\ONPA.SharedDomain\ONPA.SharedDomain.csproj", "{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B8E52034-E237-402D-B650-41F2089A6FB6}"
 EndProject
@@ -52,25 +50,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "src\WebApp\WebApp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EFBD0CDD-9A67-47F8-85BE-56071DE12EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.UnitTests", "test\PLUG.System.UnitTests\PLUG.System.UnitTests.csproj", "{DA530FA7-A813-470C-B9ED-CF1DA918AC01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.UnitTests", "test\ONPA.UnitTests\ONPA.UnitTests.csproj", "{DA530FA7-A813-470C-B9ED-CF1DA918AC01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.FunctionalTests", "test\PLUG.System.FunctionalTests\PLUG.System.FunctionalTests.csproj", "{0950DF20-FA89-4850-86F3-CD036473AED2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.FunctionalTests", "test\ONPA.FunctionalTests\ONPA.FunctionalTests.csproj", "{0950DF20-FA89-4850-86F3-CD036473AED2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gatherings", "Gatherings", "{65819D03-3E74-4C0D-9C27-FB524B1D7732}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Gatherings", "src\PLUG.System.Gatherings\PLUG.System.Gatherings.csproj", "{62DBC98E-7147-46FC-ADC1-C697C60E8961}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Gatherings", "src\ONPA.Gatherings\ONPA.Gatherings.csproj", "{62DBC98E-7147-46FC-ADC1-C697C60E8961}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Gatherings.Infrastructure", "src\PLUG.System.Gatherings.Infrastructure\PLUG.System.Gatherings.Infrastructure.csproj", "{7575DF1E-7D9B-475F-9F0E-07968E52EE2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Gatherings.Infrastructure", "src\ONPA.Gatherings.Infrastructure\ONPA.Gatherings.Infrastructure.csproj", "{7575DF1E-7D9B-475F-9F0E-07968E52EE2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Gatherings.Api", "src\PLUG.System.Gatherings.Api\PLUG.System.Gatherings.Api.csproj", "{A326F6DC-B0D7-420C-B010-2B7CFE759A0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Gatherings.Api", "src\ONPA.Gatherings.Api\ONPA.Gatherings.Api.csproj", "{A326F6DC-B0D7-420C-B010-2B7CFE759A0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Communication", "src\PLUG.System.Communication\PLUG.System.Communication.csproj", "{3558BD25-FCF4-45E2-8CAC-49A47E95CF92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Communication", "src\ONPA.Communication\ONPA.Communication.csproj", "{3558BD25-FCF4-45E2-8CAC-49A47E95CF92}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{C91455A2-91AB-4291-8EBB-D0241AD8E4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Communication.Infrastructure", "src\PLUG.System.Communication.Infrastructure\PLUG.System.Communication.Infrastructure.csproj", "{80250A4D-7A98-4F49-8D71-215AD3F9CCA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Communication.Infrastructure", "src\ONPA.Communication.Infrastructure\ONPA.Communication.Infrastructure.csproj", "{80250A4D-7A98-4F49-8D71-215AD3F9CCA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLUG.System.Communication.Api", "src\PLUG.System.Communication.Api\PLUG.System.Communication.Api.csproj", "{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Communication.Api", "src\ONPA.Communication.Api\ONPA.Communication.Api.csproj", "{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Common.Infrastructure", "src\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj", "{655F8012-B473-4ABD-815A-FD3A7AFE665F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,10 +102,6 @@ Global
 		{563163B2-E53F-459A-B939-5FABD8B0B081}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{563163B2-E53F-459A-B939-5FABD8B0B081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{563163B2-E53F-459A-B939-5FABD8B0B081}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D41754E-59DE-4B3F-ADC6-0AFD8112E823}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FBB432B-49F1-48EC-AF91-1F5A937916C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FBB432B-49F1-48EC-AF91-1F5A937916C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FBB432B-49F1-48EC-AF91-1F5A937916C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -178,6 +174,10 @@ Global
 		{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{655F8012-B473-4ABD-815A-FD3A7AFE665F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{655F8012-B473-4ABD-815A-FD3A7AFE665F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{655F8012-B473-4ABD-815A-FD3A7AFE665F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{655F8012-B473-4ABD-815A-FD3A7AFE665F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8E77FE22-CB9F-48DA-9893-2FA06F927CE1} = {2A640CB3-97A7-4D12-BC19-68BC064D9A69}
@@ -187,7 +187,6 @@ Global
 		{68D6488C-1B57-4CAA-AAA1-ABE7B8F37AA1} = {DDF73E9E-A487-49A0-86E9-161BC4C00BA1}
 		{0FBB432B-49F1-48EC-AF91-1F5A937916C9} = {DDF73E9E-A487-49A0-86E9-161BC4C00BA1}
 		{563163B2-E53F-459A-B939-5FABD8B0B081} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
-		{1D41754E-59DE-4B3F-ADC6-0AFD8112E823} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
 		{A8D48898-ABFB-400D-98C5-AC41B65ACAE7} = {B8E52034-E237-402D-B650-41F2089A6FB6}
 		{704E8C0B-4D9B-4473-9E44-90212D6CFC02} = {A8D48898-ABFB-400D-98C5-AC41B65ACAE7}
 		{B16456F1-A024-40A6-8DED-600B3F1EBBC1} = {A8D48898-ABFB-400D-98C5-AC41B65ACAE7}
@@ -209,5 +208,6 @@ Global
 		{3558BD25-FCF4-45E2-8CAC-49A47E95CF92} = {C91455A2-91AB-4291-8EBB-D0241AD8E4E9}
 		{80250A4D-7A98-4F49-8D71-215AD3F9CCA5} = {C91455A2-91AB-4291-8EBB-D0241AD8E4E9}
 		{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB} = {C91455A2-91AB-4291-8EBB-D0241AD8E4E9}
+		{655F8012-B473-4ABD-815A-FD3A7AFE665F} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
 	EndGlobalSection
 EndGlobal
