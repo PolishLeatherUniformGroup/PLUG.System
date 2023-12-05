@@ -31,8 +31,6 @@
 
     <ItemGroup>
       <Folder Include="Application\IntegrationEvents\Events\" />
-      <Folder Include="Application\Queries\" />
-      <Folder Include="Application\QueryHandlers\" />
     </ItemGroup>
 
 </Project>

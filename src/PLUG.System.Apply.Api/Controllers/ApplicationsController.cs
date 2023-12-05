@@ -4,6 +4,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PLUG.System.Apply.Api.Application.Commands;
+using PLUG.System.Apply.Api.Application.Queries;
+using PLUG.System.Apply.Api.Application.Queries.Results;
 using PLUG.System.Apply.Api.Requests;
 using PLUG.System.Common.Application;
 
@@ -69,6 +71,14 @@ namespace PLUG.System.Apply.Api.Controllers
         {
             return await this.SendCommandRequest<AppealApplicationRejectionCommand>(request);
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ApplicationResult>>> GetApplications(GetApplicationsRequest request)
+        {
+            var query = this._mapper.Map<GetApplicationsByStatusQuery>(request);
+            var result = await this._mediator.Send(query);
+            return this.Ok(result);
+        } 
         
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
         {

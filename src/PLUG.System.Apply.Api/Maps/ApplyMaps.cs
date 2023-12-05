@@ -1,5 +1,6 @@
 using AutoMapper;
 using PLUG.System.Apply.Api.Application.Commands;
+using PLUG.System.Apply.Api.Application.Queries;
 using PLUG.System.Apply.Api.Requests;
 using PLUG.System.SharedDomain;
 
@@ -66,5 +67,14 @@ public class ApplyMaps : Profile
                 o.MapFrom(s => s.Appeal.ReceivedDate))
             .ForCtorParam(nameof(AppealApplicationRejectionCommand.Justification), o => 
                 o.MapFrom(s => s.Appeal.Justification));
+
+        this.CreateMap<GetApplicationsRequest, GetApplicationsByStatusQuery>()
+            .ForCtorParam(nameof(GetApplicationsByStatusQuery.Status), o =>
+                o.MapFrom(s => s.Status))
+            .ForCtorParam(nameof(GetApplicationsByStatusQuery.Limit), o =>
+                o.MapFrom(s => s.Limit))
+            .ForCtorParam(nameof(GetApplicationsByStatusQuery.Page), o =>
+                o.MapFrom(s => s.Page));
+
     }
 }
