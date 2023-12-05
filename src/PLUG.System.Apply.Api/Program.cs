@@ -1,4 +1,5 @@
 
+using Asp.Versioning;
 using PLUG.System.Apply.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.AddApplicationServices();
+builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ReportApiVersions = true;
+    })
+    .AddApiExplorer(options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 var app = builder.Build();
 
@@ -17,7 +29,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "PLUG.System.Apply.Api v1");
+        options.RoutePrefix = string.Empty;
+        options.DocumentTitle = "PLUG.System.Apply.Api";
+    });
 }
 app.UseHttpsRedirection();
 app.MapControllers();

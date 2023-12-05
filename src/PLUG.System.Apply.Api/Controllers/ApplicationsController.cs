@@ -1,14 +1,17 @@
 using System.Net.Mime;
+using Asp.Versioning;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PLUG.System.Apply.Api.Application.Commands;
 using PLUG.System.Apply.Api.Requests;
 using PLUG.System.Common.Application;
 
 namespace PLUG.System.Apply.Api.Controllers
 {
     
-    [Route("api/applications")]
+    [Route("api/{version}/applications")]
+    [ApiVersion("1.0")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -20,58 +23,51 @@ namespace PLUG.System.Apply.Api.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public ApplicationsController()
+        public ApplicationsController(IMediator mediator, IMapper mapper)
         {
-            //this._mediator = mediator;
-            //this._mapper = mapper;
+            this._mediator = mediator;
+            this._mapper = mapper;
         }
         
         [HttpPost("")]
         public async Task<ActionResult<Guid>> Create([FromBody]CreateApplicationRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<CreateApplicationFormCommand>(request);
+            return await this.SendCommandRequest<CreateApplicationFormCommand>(request);
         }
 
         [HttpPut("{applicationId}/recommendations/{recommendationId}")]
         public async Task<ActionResult<Guid>> EndorseRecommendation(EndorseRecommendationRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<EndorseApplicationRecommendationCommand>(request);
+            return await this.SendCommandRequest<EndorseApplicationRecommendationCommand>(request);
         }
         [HttpDelete("{applicationId}/recommendations/{recommendationId}")]
         public async Task<ActionResult<Guid>> RefuseRecommendation(EndorseRecommendationRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<RefuseApplicationRecommendationCommand>(request);
+            return await this.SendCommandRequest<RefuseApplicationRecommendationCommand>(request);
         }
 
         [HttpPut("{applicationId}")]
         public async Task<ActionResult<Guid>> ApproveApplication(ApproveApplicationRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<ApproveApplicationCommand>(request);
+           return await this.SendCommandRequest<ApproveApplicationCommand>(request);
         }
         
         [HttpDelete("{applicationId}")]
         public async Task<ActionResult<Guid>> RejectApplication(RejectApplicationRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<RejectApplicationCommand>(request);
+            return await this.SendCommandRequest<RejectApplicationCommand>(request);
         }
 
         [HttpPut("{applicationId}/payments")]
         public async Task<ActionResult<Guid>> RegisterPayment(RegisterApplicationPaymentRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<RegisterApplicationFeePaymentCommand>(request);
+            return await this.SendCommandRequest<RegisterApplicationFeePaymentCommand>(request);
         }
         
         [HttpPost("{applicationId}/appeals")]
         public async Task<ActionResult<Guid>> AppealRejection(AppealApplicationRejectionRequest request)
         {
-            return this.Ok();
-            //return await this.SendCommandRequest<AppealApplicationRejectionCommand>(request);
+            return await this.SendCommandRequest<AppealApplicationRejectionCommand>(request);
         }
         
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
