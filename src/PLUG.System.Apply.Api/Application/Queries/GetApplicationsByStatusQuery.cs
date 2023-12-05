@@ -5,17 +5,13 @@ using PLUG.System.Common.Application;
 
 namespace PLUG.System.Apply.Api.Application.Queries;
 
-public record GetApplicationsByStatusQuery : ApplicationQueryBase<CollectionResult<ApplicationResult>>
+public record GetApplicationsByStatusQuery : ApplicationCollectionQueryBase<ApplicationResult>
 {
     public int Status { get; init; }
-    public int Page { get; init; }
-    public int Limit { get; init; }
     
-    public GetApplicationsByStatusQuery(int status, int page, int limit)
+    public GetApplicationsByStatusQuery(int status, int page, int limit) : base(page, limit)
     {
         Status = status;
-        Page = page;
-        Limit = limit;
     }
 
 }

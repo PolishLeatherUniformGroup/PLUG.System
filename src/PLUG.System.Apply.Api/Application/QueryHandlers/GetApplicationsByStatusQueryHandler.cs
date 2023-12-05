@@ -5,7 +5,7 @@ using PLUG.System.Common.Application;
 
 namespace PLUG.System.Apply.Api.Application.QueryHandlers;
 
-public sealed class GetApplicationsByStatusQueryHandler : ApplicationQueryHandlerBase<GetApplicationsByStatusQuery, CollectionResult<ApplicationResult>>
+public sealed class GetApplicationsByStatusQueryHandler : CollectionQueryHandlerBase<GetApplicationsByStatusQuery, ApplicationResult>
 {
     private readonly IReadOnlyRepository<ApplicationForm> _repository;
 

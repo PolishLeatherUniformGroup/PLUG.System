@@ -8,12 +8,12 @@ using PLUG.System.Apply.Api.Application.Queries;
 using PLUG.System.Apply.Api.Application.Queries.Results;
 using PLUG.System.Apply.Api.Requests;
 using PLUG.System.Common.Application;
+using PLUG.System.Common.Queries;
 
 namespace PLUG.System.Apply.Api.Controllers
 {
     
-    [Route("api/{version}/applications")]
-    [ApiVersion("1.0")]
+    [Route("api/applications")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,11 +73,11 @@ namespace PLUG.System.Apply.Api.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationResult>>> GetApplications(GetApplicationsRequest request)
+        public async Task<ActionResult<PageableResult<ApplicationResult>>> GetApplications([FromQuery]GetApplicationsRequest request)
         {
             var query = this._mapper.Map<GetApplicationsByStatusQuery>(request);
             var result = await this._mediator.Send(query);
-            return this.Ok(result);
+            return this.Ok(result.FromQueryResult(query));
         } 
         
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
