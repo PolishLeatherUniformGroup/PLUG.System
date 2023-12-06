@@ -1,9 +1,20 @@
 ﻿@page "/applications/{ApplicationId:guid}"
+@using ONPA.WebApp.Data
+@using ONPA.WebApp.Components.Shared;
 
 <h3>Wniosek</h3>
+<ApplicationActions TItem="ApplicationItem" Item="@Item" ShowText=true />
+@code {
 
-@code{
-
-   [Parameter]
+    [Parameter]
     public Guid? ApplicationId { get; set; }
+
+    ApplicationItem Item = new ApplicationItem
+        {
+            FirstName = "Jan",
+            LastName = "Kowalski",
+            Email = "jan.kowalski@email.com",
+            ApplicationDate = DateTime.Now.Date,
+            Status = (ApplicationStatus)Random.Shared.Next(0, 9)
+        };
 }

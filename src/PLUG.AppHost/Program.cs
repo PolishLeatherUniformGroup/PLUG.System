@@ -21,7 +21,7 @@ var identityDb = postgres.AddDatabase("IdentityDB");
 var membershipApi = builder.AddProject<Projects.ONPA_Membership_Api>("membership-api");
 var gatheringsApi = builder.AddProject<Projects.ONPA_Gatherings_Api>("gathering-api");
 
-var webapp = builder.AddProject<Projects.WebApp>("webapp")
+var webapp = builder.AddProject<Projects.ONPA_WebApp>("webapp")
     .WithReference(applyApi)
     .WithReference(membershipApi)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)

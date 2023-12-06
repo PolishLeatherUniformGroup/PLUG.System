@@ -1,9 +1,7 @@
 ﻿@page "/applications"
 @using ONPA.WebApp.Components.Shared.Dialogs
 @using ONPA.WebApp.Data
-@inject IDialogService DialogService
-@inject IMessageService MessageService
-@inject IToastService ToastService
+@using ONPA.WebApp.Components.Shared
 
 @*@inject HttpClient Http*@
 @inject NavigationManager NavManager
@@ -16,7 +14,7 @@
                         OptionText="@(i => i.Text)"
                         OptionValue="@(i => i.Value)"
                         OptionSelected="@(i => i.Selected)"
-                        Appearance="Appearance.Filled" />
+                        Appearance="Appearance.Filled"/>
         <FluentButton IconStart="@(new Icons.Regular.Size20.Filter())" slot="end">Filtruj</FluentButton>
     </FluentToolbar>
 
@@ -26,25 +24,12 @@
         <TemplateColumn Title="Status">
             <FluentBadge Fill="somevalue" Appearance="Appearance.Neutral" BackgroundColor="@context.Status.ToBackgroundColor()" Color="#ffffff">@context.Status.ToDisplayString()</FluentBadge>
         </TemplateColumn>
-        <PropertyColumn Title="Imię" Property="@(c=>c.FirstName)" />
-        <PropertyColumn Title="Nazwisko" Property="@(c=>c.LastName)" />
-        <PropertyColumn Title="Email" Property="@(c=>c.Email)" />
-        <PropertyColumn Title="Data wniosku" Property="@(c=>c.ApplicationDate.ToShortDateString())" />
+        <PropertyColumn Title="Imię" Property="@(c => c.FirstName)"/>
+        <PropertyColumn Title="Nazwisko" Property="@(c => c.LastName)"/>
+        <PropertyColumn Title="Email" Property="@(c => c.Email)"/>
+        <PropertyColumn Title="Data wniosku" Property="@(c => c.ApplicationDate.ToShortDateString())"/>
         <TemplateColumn Title="Akcje">
-            <FluentButton IconStart="@(new Icons.Regular.Size20.Eye())" Title="Zobacz" OnClick="@(()=>NavManager.NavigateTo($"/applications/{context.Id}"))" />
-            @if (context.Status == ApplicationStatus.AwaitDecision || context.Status == ApplicationStatus.RejectionAppealed)
-            {
-                <FluentButton IconStart="@(new Icons.Regular.Size20.CheckmarkCircle())" Title="Zaakceptuj" OnClick="@(()=>AcceptApplication(context))" />
-                <FluentButton IconStart="@(new Icons.Regular.Size20.DismissCircle())" Title="Odrzuć" OnClick="@(()=>RejectApplication(context))" />
-            }
-            @if (context.Status == ApplicationStatus.Rejected)
-            {
-                <FluentButton IconStart="@(new Icons.Regular.Size20.CommentArrowRight())" Title="Przyjmij odwołanie" OnClick="@(()=>RegisterAppeal(context))" />
-            }
-            @if (context.Status == ApplicationStatus.Validated || context.Status == ApplicationStatus.Received)
-            {
-                <FluentButton IconStart="@(new Icons.Regular.Size20.Money())" Title="Rejestruj wpłatę" OnClick="@(()=>RegisterPayment(context))" />
-            }
+            <ApplicationActions TItem="ApplicationItem" Item="context" />
         </TemplateColumn>
     </FluentDataGrid>
 </div>
@@ -57,20 +42,19 @@
 
 
     List<Option<string>> statusOptions = new()
-        {
-            { new Option<string> { Value = "-1", Text = "Wszystkie" , Selected = true} },
-            { new Option<string> { Value = "0", Text = "Wpłynął", } },
-            { new Option<string> { Value = "1", Text = "Zweryfikowany" } },
-{ new Option<string> { Value = "2", Text = "Niepoprawny" } },
-            { new Option<string> { Value = "3", Text = "Nie rekomendowany" } },
-{ new Option<string> { Value = "4", Text = "Oczekuje decyzji" } },
-            { new Option<string> { Value = "5", Text = "Zaakceptowany" } },
-            { new Option<string> { Value = "6", Text = "Odrzucony" } },
-            { new Option<string> { Value = "7", Text = "W odwołaniu" }},
-            { new Option<string> { Value = "8", Text = "Zaakceptowany po odwołaniu" } },
-            { new Option<string> { Value = "9", Text = "Odrzucony po odwołaniu" } },
-
-        };
+    {
+        { new Option<string> { Value = "-1", Text = "Wszystkie", Selected = true } },
+        { new Option<string> { Value = "0", Text = "Wpłynął", } },
+        { new Option<string> { Value = "1", Text = "Zweryfikowany" } },
+        { new Option<string> { Value = "2", Text = "Niepoprawny" } },
+        { new Option<string> { Value = "3", Text = "Nie rekomendowany" } },
+        { new Option<string> { Value = "4", Text = "Oczekuje decyzji" } },
+        { new Option<string> { Value = "5", Text = "Zaakceptowany" } },
+        { new Option<string> { Value = "6", Text = "Odrzucony" } },
+        { new Option<string> { Value = "7", Text = "W odwołaniu" } },
+        { new Option<string> { Value = "8", Text = "Zaakceptowany po odwołaniu" } },
+        { new Option<string> { Value = "9", Text = "Odrzucony po odwołaniu" } },
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,7 +70,7 @@
              var response = await Http.GetFromJsonAsync<FoodRecallQueryResult>(url, req.CancellationToken);*/
             var r = new Random();
             var testData = new List<ApplicationItem>
-                                    {
+            {
                 new ApplicationItem
                 {
                     FirstName = "Jan",
@@ -95,7 +79,7 @@
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.AwaitDecision
                 },
-                                new ApplicationItem
+                new ApplicationItem
                 {
                     FirstName = "Marian",
                     LastName = "Nowak",
@@ -106,184 +90,15 @@
                 new ApplicationItem
                 {
                     FirstName = "Bogumił",
-                    LastName = "Nowack",
+                    LastName = "Nowacki",
                     Email = "bogumil.nowacki@email.com",
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.RejectionAppealed
-                }};
+                }
+            };
             return GridItemsProviderResult.From<ApplicationItem>(items: testData, totalItemCount: 1);
-
         };
     }
 
-    ConfirmationDialogAction ConfirmationDialogData = default!;
-    DecisionDialogAction DecisionDialogData = default!;
-    PaymentDialogAction PaymentDialogData = default!;
-    AppealDialogAction AppealDialogData = default!;
 
-    private async Task AcceptApplication(ApplicationItem application)
-    {
-        if (application.Status == ApplicationStatus.AwaitDecision)
-        {
-            ConfirmationDialogData = new ConfirmationDialogAction()
-                {
-                    ActionDescription = $"Czy na pewno chcesz zaakceptować wniosek od {application.FirstName} {application.LastName}?. Tej operacji nie będzie można cofnąć."
-                };
-
-            var result = await OpenConfirmationDialog();
-            // call to api
-            if (result is not null && result.Confirmed)
-            {
-                var message = $"Wniosek od {application.FirstName} {application.LastName} został zaakceptowany.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
-        }
-        else
-        {
-            DecisionDialogData = new DecisionDialogAction()
-                {
-                    ActionDescription = $"Czy na pewno chcesz zakceptować odwołanie dotyczące wniosku od {application.FirstName} {application.LastName}?" +
-                            $"\r\nBędzie to skutkować przyjęciem {application.FirstName} {application.LastName} do organizacji"
-                };
-            var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
-            {
-                // call To api
-                var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {application.FirstName} {application.LastName} zostało przyjęte.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
-        }
-    }
-
-    private async Task RejectApplication(ApplicationItem application)
-    {
-        if (application.Status == ApplicationStatus.AwaitDecision)
-        {
-            DecisionDialogData = new DecisionDialogAction()
-                {
-                    ActionDescription = $"Czy na pewno chcesz odrzucić wniosek od {application.FirstName} {application.LastName}? Aby kontynuować podaj powód odrzucenia.",
-                    DecisionDate = DateTime.UtcNow.Date
-                };
-
-            var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
-            {
-                // call To api
-                var message = "Decyzja dotycząca wniosku od {application.FirstName} {application.LastName} została zapisana.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
-        }
-        else
-        {
-            DecisionDialogData = new DecisionDialogAction()
-                {
-                    ActionDescription = $"Czy na pewno chcesz odrzucić odwołanie {application.FirstName} {application.LastName} od decyzji o odrzuceniu wniosku?" +
-                        "Aby kontynuować podaj powód odrzucenia."
-                };
-
-            var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
-            {
-                // call To api
-                var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {application.FirstName} {application.LastName} zostało odrzucone.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
-        }
-    }
-
-    private async Task RegisterPayment(ApplicationItem application)
-    {
-
-        PaymentDialogData = new PaymentDialogAction()
-            {
-                ActionDescription = $"Wprowadź kwotę i datę składki  wpłaconej przez kandydata: {application.FirstName} {application.LastName}."
-            };
-        var result = await OpenPaymentDialog();
-
-        if (result is not null && result.Confirmed)
-        {
-            // call to api
-            var message = $"Wpłata składki  od {application.FirstName} {application.LastName} została zaresjestrowana.";
-            ToastService.ShowSuccess(message, ToastTimeout);
-        }
-    }
-
-    private async Task RegisterAppeal(ApplicationItem application)
-    {
-
-        PaymentDialogData = new PaymentDialogAction()
-            {
-                ActionDescription = $"Wprowadź uzasadnienie odwołania otrzymane od {application.FirstName} {application.LastName}."
-            };
-        var result = await OpenAppealDialog();
-
-        if (result is not null && result.Confirmed)
-        {
-            // call to api
-            var message = $"Odwołoanie od {application.FirstName} {application.LastName} została zaresjestrowane.";
-            ToastService.ShowSuccess(message, ToastTimeout);
-        }
-    }
-
-
-    private async Task<ConfirmationDialogAction?> OpenConfirmationDialog()
-    {
-        var dialog = await DialogService.ShowDialogAsync<ConfirmationDialog>(ConfirmationDialogData, new DialogParameters()
-            {
-                Height = "240px",
-                Title = $"Czy jesteś pewien?",
-                PreventDismissOnOverlayClick = true,
-                PreventScroll = true,
-            });
-
-        var result = await dialog.Result;
-        return result.Data as ConfirmationDialogAction;
-    }
-
-    private async Task<PaymentDialogAction?> OpenPaymentDialog()
-    {
-        var dialog = await DialogService.ShowDialogAsync<RegisterPaymentDialog>(PaymentDialogData, new DialogParameters()
-            {
-                Height = "600px",
-                Width = "600px",
-                Title = $"Rejestracja wpłaty",
-                PreventDismissOnOverlayClick = true,
-                PreventScroll = true,
-            });
-
-        var result = await dialog.Result;
-        return result.Data as PaymentDialogAction;
-    }
-
-    private async Task<AppealDialogAction?> OpenAppealDialog()
-    {
-        var dialog = await DialogService.ShowDialogAsync<RegisterAppealDialog>(AppealDialogData, new DialogParameters()
-            {
-                Height = "600px",
-                Width = "600px",
-                Title = $"Rejestracja odwołania",
-                PreventDismissOnOverlayClick = true,
-                PreventScroll = true,
-            });
-
-        var result = await dialog.Result;
-        return result.Data as AppealDialogAction;
-    }
-
-    private async Task<DecisionDialogAction?> OpenDecisionDialog()
-    {
-        var dialog = await DialogService.ShowDialogAsync<DecisionDialog>(DecisionDialogData, new DialogParameters()
-            {
-                Height = "600px",
-                Width = "600px",
-                Title = $"Czy jesteś pewien?",
-                PreventDismissOnOverlayClick = true,
-                PreventScroll = true,
-            });
-
-        var result = await dialog.Result;
-        return result.Data as DecisionDialogAction;
-
-    }
 }
-

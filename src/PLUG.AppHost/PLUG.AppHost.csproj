@@ -17,7 +17,7 @@
       <ProjectReference Include="..\ONPA.Gatherings.Api\ONPA.Gatherings.Api.csproj" />
       <ProjectReference Include="..\ONPA.Identity.Api\ONPA.Identity.Api.csproj" />
       <ProjectReference Include="..\ONPA.Membership.Api\ONPA.Membership.Api.csproj" />
-      <ProjectReference Include="..\WebApp\WebApp.csproj" />
+      <ProjectReference Include="..\ONPA.WebApp\ONPA.WebApp.csproj" />
     </ItemGroup>
 
 </Project>
