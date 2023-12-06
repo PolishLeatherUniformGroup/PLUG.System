@@ -5,12 +5,7 @@
             <h1 class="logo">Online NonProfit Assistant</h1>
 
             <div class="links">
-                <FluentPersona Name="Application User"
-                               ImageSize="40px"
-                               Status="PresenceStatus.Available"
-                               StatusSize="PresenceBadgeSize.Small">
-                    <span>Application User</span>
-                </FluentPersona>
+
                 <FluentDivider Style="height: auto;" Role="DividerRole.Separator" Orientation="Orientation.Vertical"></FluentDivider>
                 <FluentButton IconStart="@(new Icons.Regular.Size20.ArrowExit())" Appearance="Appearance.Stealth">Wyloguj się</FluentButton>
             </div>
@@ -18,11 +13,20 @@
     </FluentHeader>
     <FluentStack Orientation="Orientation.Horizontal" Width="100%" VerticalAlignment="VerticalAlignment.Top" Style="height: 100vh; margin-top:-10px">
         <div class="navigation-side">
+
             <FluentNavMenu Width="300" Collapsible="true" @bind-Expanded="@Expanded">
-                <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Href="/" Match="NavLinkMatch.All">Start</FluentNavLink>
-                <FluentNavGroup Icon="@(new Icons.Regular.Size20.PersonStarburst())">
+                          <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Href="/" Match="NavLinkMatch.All">Start</FluentNavLink>
+                <FluentNavGroup Icon="@(new Icons.Regular.Size20.PersonCircle())">
                     <TitleTemplate>Członkostwo</TitleTemplate>
                     <ChildContent>
+                        <div style="padding: 0.25em;">
+                        <FluentPersona Name="Application User"
+                                       ImageSize="30px"
+                                       Status="PresenceStatus.Available"
+                                       StatusSize="PresenceBadgeSize.ExtraSmall">
+                            <span>Application User</span>
+                        </FluentPersona>
+                        </div>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonClock())" Href="/membership/details">Szczegóły</FluentNavLink>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonMoney())" Href="/membership/fees">Składki</FluentNavLink>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonAvailable())" Href="/membership/recommendations">Rekomendacje</FluentNavLink>
@@ -58,6 +62,7 @@
             </FluentNavMenu>
         </div>
         <FluentBodyContent Style="padding-top:10px">
+            <FluentMessageBarProvider Section="MESSAGES_TOP" />
             @Body
         </FluentBodyContent>
     </FluentStack>

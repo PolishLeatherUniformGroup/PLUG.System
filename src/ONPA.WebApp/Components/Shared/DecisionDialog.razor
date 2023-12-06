@@ -17,7 +17,9 @@
 
 <FluentDialogBody>
     <p>@Content.ActionDescription</p>
-    <FluentTextArea @bind-Value="@Content.Decision" Placeholder="Podaj powód decyzji" Required="true" />
+    <FluentTextArea @bind-Value="@Content.Decision" Placeholder="Podaj powód decyzji" Required="true" 
+    Rows="10"
+    Appearance="FluentInputAppearance.Filled" style="width: 100%;"/>
 </FluentDialogBody>
 
 @code {

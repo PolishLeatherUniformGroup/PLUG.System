@@ -2,6 +2,7 @@
 @using ONPA.WebApp.Components.Shared
 @using ONPA.WebApp.Data
 @inject IDialogService DialogService
+@inject IMessageService MessageService
 
 @*@inject HttpClient Http
 @inject NavigationManager NavManager*@
@@ -107,6 +108,12 @@
             };
         var continueAction = await OpenConfirmationDialog();
         // call to api
+        if (continueAction)
+        {
+            var message = "Aplikacja została zaakceptowana";
+            var type = MessageIntent.Info;
+            await MessageService.ShowMessageBarAsync(message, type, "MESSAGES_TOP");
+        }
     }
 
     private async Task RejectApplication(ApplicationItem application)
@@ -140,7 +147,8 @@
     {
         var dialog = await DialogService.ShowDialogAsync<DecisionDialog>(DecisionDialogData, new DialogParameters()
             {
-                Height = "240px",
+                Height = "440px",
+                Width = "600px",
                 Title = $"Czy jesteś pewien?",
                 PreventDismissOnOverlayClick = true,
                 PreventScroll = true,
