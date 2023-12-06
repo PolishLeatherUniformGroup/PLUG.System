@@ -1,5 +1,159 @@
 ﻿@page "/applications"
+@using ONPA.WebApp.Components.Shared
+@using ONPA.WebApp.Data
+@inject IDialogService DialogService
+
+@*@inject HttpClient Http
+@inject NavigationManager NavManager*@
+
+<h2>Wnioski Członkowskie</h2>
+<div class="content">
+    <FluentToolbar Class="section-toolbar">
+        <FluentLabel Typo="Typography.Subject">Status</FluentLabel>
+        <FluentCombobox Items=@statusOptions Height="200px" Autocomplete="ComboboxAutocomplete.List"
+                        OptionText="@(i => i.Text)"
+                        OptionValue="@(i => i.Value)"
+                        OptionSelected="@(i => i.Selected)"
+                        Appearance="Appearance.Filled" />
+        <FluentButton IconStart="@(new Icons.Regular.Size20.Filter())" slot="end">Filtruj</FluentButton>
+    </FluentToolbar>
+
+    <FluentDataGrid ItemsProvider="@applicationsProvider" TGridItem="ApplicationItem"
+                    GridTemplateColumns="0.4fr 0.6fr 0.6fr 0.6fr 0.2fr 0.4fr"
+                    Pagination="@pagination">
+        <TemplateColumn Title="Status">
+            <FluentBadge Fill="somevalue" Appearance="Appearance.Neutral" BackgroundColor="@context.Status.ToBackgroundColor()" Color="#ffffff">@context.Status.ToDisplayString()</FluentBadge>
+        </TemplateColumn>
+        <PropertyColumn Title="Imię" Property="@(c=>c.FirstName)" />
+        <PropertyColumn Title="Nazwisko" Property="@(c=>c.LastName)" />
+        <PropertyColumn Title="Email" Property="@(c=>c.Email)" />
+        <PropertyColumn Title="Data wniosku" Property="@(c=>c.ApplicationDate.ToShortDateString())" />
+        <TemplateColumn Title="Akcje">
+            <FluentButton IconStart="@(new Icons.Regular.Size20.Eye())" Title="Zobacz" />
+            @if (context.Status == ApplicationStatus.AwaitDecision || context.Status == ApplicationStatus.RejectionAppealed)
+            {
+                <FluentButton IconStart="@(new Icons.Regular.Size20.CheckmarkCircle())" Title="Zaakceptuj" OnClick="@(()=>AcceptApplication(context))" />
+                <FluentButton IconStart="@(new Icons.Regular.Size20.DismissCircle())" Title="Odrzuć" OnClick="@(()=>RejectApplication(context))" />
+            }
+            @if (context.Status == ApplicationStatus.Rejected)
+            {
+                <FluentButton IconStart="@(new Icons.Regular.Size20.CommentArrowRight())" Title="Przyjmij odwołanie" />
+            }
+            @if (context.Status == ApplicationStatus.Validated || context.Status == ApplicationStatus.Received)
+            {
+                <FluentButton IconStart="@(new Icons.Regular.Size20.Money())" Title="Rejestruj wpłatę" />
+            }
+        </TemplateColumn>
+    </FluentDataGrid>
+</div>
 
 @code {
+    GridItemsProvider<ApplicationItem> applicationsProvider = default!;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
+    List<Option<string>> statusOptions = new()
+        {
+            { new Option<string> { Value = "-1", Text = "Wszystkie" , Selected = true} },
+            { new Option<string> { Value = "0", Text = "Wpłynął", } },
+            { new Option<string> { Value = "1", Text = "Zweryfikowany" } },
+{ new Option<string> { Value = "2", Text = "Niepoprawny" } },
+            { new Option<string> { Value = "3", Text = "Nie rekomendowany" } },
+{ new Option<string> { Value = "4", Text = "Oczekuje decyzji" } },
+            { new Option<string> { Value = "5", Text = "Zaakceptowany" } },
+            { new Option<string> { Value = "6", Text = "Odrzucony" } },
+            { new Option<string> { Value = "7", Text = "W odwołaniu" }},
+            { new Option<string> { Value = "8", Text = "Zaakceptowany po odwołaniu" } },
+            { new Option<string> { Value = "9", Text = "Odrzucony po odwołaniu" } },
+
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationsProvider = async req =>
+        {
+            /* var url = NavManager.GetUriWithQueryParameters("https://api.fda.gov/food/enforcement.json", new Dictionary<string, object?>
+                     {
+                     { "page", req.StartIndex },
+                     { "limit", pagination.ItemsPerPage },
+             });
+
+
+             var response = await Http.GetFromJsonAsync<FoodRecallQueryResult>(url, req.CancellationToken);*/
+            var r = new Random();
+            var testData = new List<ApplicationItem>
+                                {
+                new ApplicationItem
+                {
+                    FirstName = "Jan",
+                    LastName = "Kowalski",
+                    Email = "jan.kowalki@email.com",
+                    ApplicationDate = DateTime.Now.Date,
+                    Status = (ApplicationStatus) r.Next(0, 9)
+                } };
+            return GridItemsProviderResult.From<ApplicationItem>(items: testData, totalItemCount: 1);
+
+        };
+    }
+
+    ConfirmationAction ConfirmatioDialogData = default!;
+    DecisionAction DecisionDialogData = default!;
+
+    private async Task AcceptApplication(ApplicationItem application)
+    {
+
+        ConfirmatioDialogData = new ConfirmationAction()
+            {
+                ActionDescription = $"Czy na pewno chcesz zaakceptować wniosek od {application.FirstName} {application.LastName}?. Tej operacji nie będzie można cofnąć."
+            };
+        var continueAction = await OpenConfirmationDialog();
+        // call to api
+    }
+
+    private async Task RejectApplication(ApplicationItem application)
+    {
+
+        DecisionDialogData = new DecisionAction()
+            {
+                ActionDescription = $"Czy na pewno chcesz odrzucić wniosek od {application.FirstName} {application.LastName}? Aby kontynuować podaj powód odrzucenia."
+            };
+        var continueAction = await OpenDecisionDialog();
+        // call to api
+    }
+
+
+    private async Task<bool> OpenConfirmationDialog()
+    {
+        var dialog = await DialogService.ShowDialogAsync<ConfirmationDialog>(ConfirmatioDialogData, new DialogParameters()
+            {
+                Height = "240px",
+                Title = $"Czy jesteś pewien?",
+                PreventDismissOnOverlayClick = true,
+                PreventScroll = true,
+            });
+
+        var result = await dialog.Result;
+        var data = result.Data as ConfirmationAction;
+        return data?.Confirmed ?? false;
+    }
+
+    private async Task<(bool, string?)> OpenDecisionDialog()
+    {
+        var dialog = await DialogService.ShowDialogAsync<DecisionDialog>(DecisionDialogData, new DialogParameters()
+            {
+                Height = "240px",
+                Title = $"Czy jesteś pewien?",
+                PreventDismissOnOverlayClick = true,
+                PreventScroll = true,
+            });
+
+        var result = await dialog.Result;
+        var data = result.Data as DecisionAction;
+        if (data?.Confirmed ?? false)
+        {
+            return (true, data.Decision);
+        }     
+        return (false, null);
+        
+    }
 }
+

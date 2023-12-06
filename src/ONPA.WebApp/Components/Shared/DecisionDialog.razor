@@ -1,0 +1,42 @@
+﻿@using ONPA.WebApp.Data
+@implements IDialogContentComponent<DecisionAction>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Warning())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@Confirm">Ok</FluentButton>
+    <FluentButton Appearance="Appearance.Lightweight" OnClick="@Cancel">Anuluj</FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <p>@Content.ActionDescription</p>
+    <FluentTextArea @bind-Value="@Content.Decision" Placeholder="Podaj powód decyzji" Required="true" />
+</FluentDialogBody>
+
+@code {
+    [Parameter]
+    public DecisionAction Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task Confirm()
+    {
+        Content.Confirmed = true;
+        await Dialog.CloseAsync();
+    }
+
+    private async Task Cancel()
+    {
+        Content.Confirmed = false;
+        await Dialog.CloseAsync();
+    }
+
+}

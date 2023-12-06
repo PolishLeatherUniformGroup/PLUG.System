@@ -1,6 +1,14 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-</Router>
+﻿<FluentDesignSystemProvider AccentBaseColor="@accentColor" NeutralBaseColor="@neutralBase">
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+    </Router>
+</FluentDesignSystemProvider>
+
+@code
+{
+    string neutralBase = "#0e1116";
+    string accentColor = "#374a67";
+}

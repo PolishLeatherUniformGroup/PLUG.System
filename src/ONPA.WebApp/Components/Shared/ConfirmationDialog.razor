@@ -1,0 +1,41 @@
+﻿@using ONPA.WebApp.Data
+@implements IDialogContentComponent<ConfirmationAction>
+
+<FluentDialogHeader ShowDismiss="false">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Warning())" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@Confirm">Tak</FluentButton>
+    <FluentButton Appearance="Appearance.Lightweight" OnClick="@Cancel">Nie</FluentButton>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <p>@Content.ActionDescription</p>
+</FluentDialogBody>
+
+@code{
+    [Parameter]
+    public ConfirmationAction Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task Confirm()
+    {
+        Content.Confirmed = true;
+        await Dialog.CloseAsync();
+    }
+
+    private async Task Cancel()
+    {
+        Content.Confirmed = false;
+        await Dialog.CloseAsync();
+    }
+
+}

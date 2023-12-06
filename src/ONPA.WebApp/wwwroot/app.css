@@ -1,4 +1,12 @@
 ﻿@import '/_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css';
+body {
+  background: #fefefe;
+}
+
+.content {
+  padding-right: 5px;
+}
+
 #blazor-error-ui {
   background: lightyellow;
   bottom: 0;
@@ -57,6 +65,36 @@
   content: var(--blazor-load-percentage-text, "Loading");
 }
 
-.user-info {
-  padding: 0.2em;
+.app-header {
+  border-bottom: calc(var(--stroke-width) * 1px) solid var(--neutral-foreground-rest);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+}
+.app-header .logo {
+  display: flex;
+}
+.app-header .links {
+  padding: 5px;
+  padding-right: 10px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 4;
+}
+.app-header .links .fluent-persona {
+  margin-top: -5px;
+}
+
+.navigation-side {
+  background: var(--neutral-layer-3);
+  display: flex;
+  padding: 10px;
+  height: 100vh;
+  border-right: calc(var(--stroke-width) * 1px) solid var(--neutral-layer-4);
+}
+
+.section-toolbar {
+  border: calc(var(--stroke-width) * 1px) solid var(--neutral-layer-4);
+  border-radius: calc(var(--stroke-width) * 3px);
+  display: block;
+  margin-bottom: 0.5rem;
 }
