@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using ONPA.WebApp.Components.Shared
 @using ONPA.WebApp.Components.Shared.Components
 
 <FluentLayout>
@@ -7,6 +8,7 @@
             <h1 class="logo">Online NonProfit Assistant</h1>
 
             <div class="links">
+                <LanguageSelector />
                 <NotificationCenter />
                 <FluentDivider Style="height: auto;" Role="DividerRole.Separator" Orientation="Orientation.Vertical"></FluentDivider>
                 <FluentButton BackgroundColor="var(--accent-layer-4)" Color="var(--neutral-layer-1)" Appearance="Appearance.Lightweight">Wyloguj się</FluentButton>
