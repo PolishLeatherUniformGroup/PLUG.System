@@ -1,0 +1,47 @@
+﻿@using ONPA.WebApp.Data
+@implements IDialogContentComponent<AppealDialogAction>
+
+<FluentDialogHeader ShowDismiss="true">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Info())"  Color="Color.Info"/>
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Center">
+        <FluentButton Appearance="Appearance.Accent" OnClick="@Confirm">Zapisz</FluentButton>
+        <FluentButton Appearance="Appearance.Lightweight" OnClick="@Cancel">Anuluj</FluentButton>
+    </FluentStack>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <p>@Content.ActionDescription</p>
+    <FluentDatePicker Label="Data wpłynięcia odwołoanie" @bind-Value="@(Content.AppealDate)" />
+    <FluentTextArea @bind-Value="@Content.Justification" Placeholder="Wprowadź uzasadnienie" Required="true"
+                    Rows="10" Label="Uzasadnienie"
+                    Appearance="FluentInputAppearance.Filled" style="width: 100%;" />
+</FluentDialogBody>
+
+@code {
+    [Parameter]
+    public AppealDialogAction Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task Confirm()
+    {
+        Content.Confirmed = true;
+        await Dialog.CloseAsync(Content);
+    }
+
+    private async Task Cancel()
+    {
+        Content.Confirmed = false;
+        await Dialog.CloseAsync(Content);
+    }
+
+}

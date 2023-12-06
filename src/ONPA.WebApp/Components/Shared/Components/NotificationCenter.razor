@@ -1,0 +1,70 @@
+﻿@inject IMessageService MessageService
+@inject IDialogService DialogService
+
+<FluentButton BackgroundColor="var(--accent-layer-4)" OnClick="OpenNotificationCenterAsync" Title="Powiadomienia">
+    @if (MessageService.Count("NotificationCenter") > 0)
+    {
+
+        <FluentCounterBadge Count="0" ShowZero=false Appearance="Appearance.Accent" BackgroundColor="Color.Error" Color="Color.Fill" ShowOverflow="true" Max="99">
+            <ChildContent>
+                @NotificationIcon()
+            </ChildContent>
+        </FluentCounterBadge>
+
+    }
+    else
+    {
+        @NotificationIcon()
+    }
+</FluentButton>
+
+@code {
+    private IDialogReference? _dialog;
+
+    protected override void OnInitialized()
+    {
+        MessageService.OnMessageItemsUpdated += UpdateCount;
+    }
+
+    private void UpdateCount()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private RenderFragment NotificationIcon() =>
+        @<FluentIcon Value="@(new Icons.Regular.Size20.Alert())" Color="Color.Fill" Title="Notification center" />;
+
+    private async Task OpenNotificationCenterAsync()
+    {
+
+        _dialog = await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
+            {
+                Alignment = HorizontalAlignment.Right,
+                Title = $"Powiadomienia",
+                PrimaryAction = null,
+                SecondaryAction = null,
+                ShowDismiss = true
+            });
+        DialogResult result = await _dialog.Result;
+        HandlePanel(result);
+    }
+
+    private static void HandlePanel(DialogResult result)
+    {
+        if (result.Cancelled)
+        {
+            return;
+        }
+
+        if (result.Data is not null)
+        {
+            return;
+        }
+    }
+
+    public void Dispose()
+    {
+        MessageService.OnMessageItemsUpdated -= UpdateCount;
+    }
+
+}

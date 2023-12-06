@@ -1,0 +1,56 @@
+﻿@using ONPA.WebApp.Data
+@implements IDialogContentComponent<PaymentDialogAction>
+
+<FluentDialogHeader ShowDismiss="false">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentIcon Value="@(new Icons.Regular.Size24.Info())" Color="Color.Info" />
+        <FluentLabel Typo="Typography.PaneHeader">
+            @Dialog.Instance.Parameters.Title
+        </FluentLabel>
+    </FluentStack>
+</FluentDialogHeader>
+
+<FluentDialogFooter>
+    <FluentStack VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.Center">
+        <FluentButton Appearance="Appearance.Accent" OnClick="@Confirm">Zapisz</FluentButton>
+        <FluentButton Appearance="Appearance.Lightweight" OnClick="@Cancel">Anuluj</FluentButton>
+    </FluentStack>
+</FluentDialogFooter>
+
+<FluentDialogBody>
+    <p>@Content.ActionDescription</p>
+    <FluentDatePicker Label="Data płatności" @bind-Value="@(Content.PaymentDate)" />
+    <FluentNumberField Label="Kwota" @bind-Value="@(Content.PaidAmount)" />
+    <FluentSelect TOption="string" Label="Waluta" @bind-Value="@(Content.Currency)" Multiple=false>
+        <FluentOption Value="PLN" Selected>PLN</FluentOption>
+        <FluentOption Value="EUR">EUR</FluentOption>
+    </FluentSelect>
+</FluentDialogBody>
+
+
+@code {
+    [Parameter]
+    public PaymentDialogAction Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    private async Task Confirm()
+    {
+        Content.Confirmed = true;
+        await Dialog.CloseAsync(Content);
+    }
+
+    private async Task Cancel()
+    {
+        Content.Confirmed = false;
+        await Dialog.CloseAsync(Content);
+    }
+
+    List<Option<string>> currencies = new()
+    {
+        {new Option<string>{Value = "PLN", Text="PLN", Selected = true}},
+        {new Option<string>{Value = "EUR", Text ="EUR", }}
+    };
+
+}

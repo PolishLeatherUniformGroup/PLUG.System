@@ -1,13 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@using ONPA.WebApp.Components.Shared.Components
+
 <FluentLayout>
     <FluentHeader Class="app-header">
         <FluentStack>
             <h1 class="logo">Online NonProfit Assistant</h1>
 
             <div class="links">
-
+                <NotificationCenter />
                 <FluentDivider Style="height: auto;" Role="DividerRole.Separator" Orientation="Orientation.Vertical"></FluentDivider>
-                <FluentButton IconStart="@(new Icons.Regular.Size20.ArrowExit())" Appearance="Appearance.Stealth">Wyloguj się</FluentButton>
+                <FluentButton BackgroundColor="var(--accent-layer-4)" Color="var(--neutral-layer-1)" Appearance="Appearance.Lightweight">Wyloguj się</FluentButton>
             </div>
         </FluentStack>
     </FluentHeader>
@@ -15,18 +17,18 @@
         <div class="navigation-side">
 
             <FluentNavMenu Width="300" Collapsible="true" @bind-Expanded="@Expanded">
-                          <FluentNavLink Icon="@(new Icons.Regular.Size20.Home())" Href="/" Match="NavLinkMatch.All">Start</FluentNavLink>
-                <FluentNavGroup Icon="@(new Icons.Regular.Size20.PersonCircle())">
+                <FluentNavGroup Icon="@(new Icons.Regular.Size20.Home())" Expanded="@UserExpanded" ExpandedChanged="()=>UserExpanded=true" HideExpander="true">
                     <TitleTemplate>Członkostwo</TitleTemplate>
                     <ChildContent>
                         <div style="padding: 0.25em;">
-                        <FluentPersona Name="Application User"
-                                       ImageSize="30px"
-                                       Status="PresenceStatus.Available"
-                                       StatusSize="PresenceBadgeSize.ExtraSmall">
-                            <span>Application User</span>
-                        </FluentPersona>
+                            <FluentPersona Name="Application User"
+                                           ImageSize="30px"
+                                           Status="PresenceStatus.Available"
+                                           StatusSize="PresenceBadgeSize.ExtraSmall">
+                                <span>Application User</span>
+                            </FluentPersona>
                         </div>
+                        <FluentNavLink Href="/" Match="NavLinkMatch.All">Start</FluentNavLink>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonClock())" Href="/membership/details">Szczegóły</FluentNavLink>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonMoney())" Href="/membership/fees">Składki</FluentNavLink>
                         <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonAvailable())" Href="/membership/recommendations">Rekomendacje</FluentNavLink>
@@ -62,12 +64,13 @@
             </FluentNavMenu>
         </div>
         <FluentBodyContent Style="padding-top:10px">
-            <FluentMessageBarProvider Section="MESSAGES_TOP" />
+            <FluentToastProvider MaxToastCount="10"  Position="ToastPosition.BottomRight"/>
             @Body
         </FluentBodyContent>
     </FluentStack>
 </FluentLayout>
 <FluentDialogProvider />
+<NotificationCenterPanel />
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
@@ -76,4 +79,5 @@
 
 @code {
     bool Expanded = false;
+    bool UserExpanded = true;
 }

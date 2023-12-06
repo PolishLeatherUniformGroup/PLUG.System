@@ -67,7 +67,7 @@ body {
 
 .app-header {
   border-bottom: calc(var(--stroke-width) * 1px) solid var(--neutral-foreground-rest);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23) !important;
+  /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)!important;*/
 }
 .app-header .logo {
   display: flex;

@@ -1,0 +1,9 @@
+﻿@page "/applications/{ApplicationId:guid}"
+
+<h3>Wniosek</h3>
+
+@code{
+
+   [Parameter]
+    public Guid? ApplicationId { get; set; }
+}
