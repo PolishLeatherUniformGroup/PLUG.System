@@ -19,7 +19,7 @@
       <ProjectReference Include="..\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj" />
         <ProjectReference Include="..\ONPA.Membership.Infrastructure\ONPA.Membership.Infrastructure.csproj" />
         <ProjectReference Include="..\ONPA.Membership\ONPA.Membership.csproj" />
-        <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
+        <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
         <ProjectReference Include="..\ONPA.SharedDomain\ONPA.SharedDomain.csproj" />
     </ItemGroup>
     <ItemGroup>

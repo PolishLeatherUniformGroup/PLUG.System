@@ -12,7 +12,7 @@ using ONPA.Common.Domain;
 using ONPA.EventBus.Abstraction;
 using ONPA.IntegrationEvents;
 using ONPA.IntegrationEventsLog.Services;
-using PLUG.ServiceDefaults;
+using ONPA.ServiceDefaults;
 using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
 

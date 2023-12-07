@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34321.82
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLUG.AppHost", "src\PLUG.AppHost\PLUG.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.AppHost", "src\ONPA.AppHost\ONPA.AppHost.csproj", "{8E77FE22-CB9F-48DA-9893-2FA06F927CE1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLUG.ServiceDefaults", "src\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.ServiceDefaults", "src\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj", "{B0394288-B540-4795-A552-1E34C1C7435F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{2A640CB3-97A7-4D12-BC19-68BC064D9A69}"
 EndProject

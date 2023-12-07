@@ -24,7 +24,7 @@
       <ProjectReference Include="..\ONPA.EventBus.RabbitMq\ONPA.EventBus.RabbitMq.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj" />
-      <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
     </ItemGroup>
 
 </Project>

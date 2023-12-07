@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace PLUG.ServiceDefaults;
+namespace ONPA.ServiceDefaults;
 
 public static class AuthenticationExtensions
 {

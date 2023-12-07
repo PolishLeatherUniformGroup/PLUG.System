@@ -11,5 +11,6 @@
       </FluentDataGrid>
 </div>
 @code {
-
+    GridItemsProvider<ApplicationItem> applicationsProvider = default!;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 }

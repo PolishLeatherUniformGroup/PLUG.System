@@ -9,11 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.1.23557.2" />
+        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.2.23606.5" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Apply.Api\ONPA.Apply.Api.csproj" />
+      <ProjectReference Include="..\ONPA.Communication.Api\ONPA.Communication.Api.csproj" />
       <ProjectReference Include="..\ONPA.Gatherings.Api\ONPA.Gatherings.Api.csproj" />
       <ProjectReference Include="..\ONPA.Identity.Api\ONPA.Identity.Api.csproj" />
       <ProjectReference Include="..\ONPA.Membership.Api\ONPA.Membership.Api.csproj" />

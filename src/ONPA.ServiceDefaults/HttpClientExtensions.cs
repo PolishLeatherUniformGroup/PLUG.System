@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace PLUG.ServiceDefaults;
+namespace ONPA.ServiceDefaults;
 
 public static class HttpClientExtensions
 {
