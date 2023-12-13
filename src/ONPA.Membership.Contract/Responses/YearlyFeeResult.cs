@@ -1,4 +1,4 @@
-namespace ONPA.Membership.Api.Application.Queries.Results;
+namespace ONPA.Membership.Contract.Responses;
 
 public record YearlyFeeResult
 {

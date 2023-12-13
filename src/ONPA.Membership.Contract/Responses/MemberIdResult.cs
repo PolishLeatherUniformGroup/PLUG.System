@@ -1,4 +1,4 @@
-namespace ONPA.Membership.Api.Application.Queries.Results;
+namespace ONPA.Membership.Contract.Responses;
 
 public record MemberIdResult
 {
@@ -6,6 +6,6 @@ public record MemberIdResult
 
     public MemberIdResult(Guid id)
     {
-        Id = id;
+        this.Id = id;
     }
 }
