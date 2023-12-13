@@ -53,7 +53,7 @@ public class ApplyService
         try
         {
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, request.ToQueryString()));
-            var httpResponse = await this.httpClient.GetAsync(apiUri);
+            using var httpResponse = await this.httpClient.GetAsync(apiUri);
             httpResponse.EnsureSuccessStatusCode();
             var result = await httpResponse.Content.ReadFromJsonAsync<ApplicationDetails>();
             return result;
@@ -74,8 +74,8 @@ public class ApplyService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplication)
                 .Replace("{applicationId}",applicationId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Decision), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PutAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Decision), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PutAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)
@@ -110,8 +110,8 @@ public class ApplyService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationPayments)
                 .Replace("{applicationId}",applicationId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)
@@ -128,8 +128,8 @@ public class ApplyService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
                 .Replace("{applicationId}",applicationId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Appeal), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Appeal), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)
@@ -146,8 +146,8 @@ public class ApplyService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
                 .Replace("{applicationId}",applicationId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Approval), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Approval), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)
@@ -164,8 +164,8 @@ public class ApplyService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
                 .Replace("{applicationId}",applicationId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Rejection), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Rejection), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)

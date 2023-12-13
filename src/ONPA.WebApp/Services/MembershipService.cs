@@ -25,7 +25,7 @@ public class MembershipService
         try
         {
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, request.ToQueryString()));
-            var httpResponse = await this.httpClient.GetAsync(apiUri);
+            using var httpResponse = await this.httpClient.GetAsync(apiUri);
             httpResponse.EnsureSuccessStatusCode();
             var result = await httpResponse.Content.ReadFromJsonAsync<PageableResult<MemberResult>>();
             var applicationItems = result.Result.Select(x => new MemberItem()
@@ -55,8 +55,8 @@ public class MembershipService
             
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleMemberFees)
                 .Replace("{applicationId}",memberId.ToString()));
-            var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
-            var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
+            using var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
+            using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)
