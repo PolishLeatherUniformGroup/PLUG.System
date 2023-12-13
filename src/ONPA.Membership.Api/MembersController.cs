@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ONPA.Common.Application;
 using ONPA.Common.Queries;
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
@@ -28,6 +29,11 @@ public class MembersController : ControllerBase
         this._mapper = mapper;
     }
     
+    // Create a new member POST
+    // Update member contact information PUT
+    // Update member type PATCH
+    
+    // Request membership fee payment POST 
     [HttpGet]
     public async Task<ActionResult<PageableResult<MemberResult>>> GetMembers([FromQuery]GetMembersRequest request)
     {
@@ -55,17 +61,13 @@ public class MembersController : ControllerBase
     [HttpPut("{memberId}/fees/{feeId}")]
     public async Task<ActionResult<Guid>> RegisterMembershipFee([FromBody]RegisterMembershipFeePaymentRequest request)
     {
-        var command = this._mapper.Map<RegisterMemberFeePaymentCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<RegisterMemberFeePaymentCommand>(request);
     }
     
     [HttpPost("{memberId}/suspensions")]
     public async Task<ActionResult<Guid>> SuspendMember([FromBody] MemberSuspensionRequest request)
     {
-        var command = this._mapper.Map<SuspendMemberCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<SuspendMemberCommand>(request);
     }
     
     [HttpGet("{memberId}/suspensions")]
@@ -79,33 +81,25 @@ public class MembersController : ControllerBase
     [HttpPost("{memberId}/suspensions/appeal")]
     public async Task<ActionResult<Guid>> AppealSuspension([FromBody] MemberSuspensionAppealRequest request)
     {
-        var command = this._mapper.Map<AppealMemberSuspensionCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<AppealMemberSuspensionCommand>(request);
     }
     
     [HttpPut("{memberId}/suspensions/appeal")]
     public async Task<ActionResult<Guid>> AcceptAppealSuspension([FromBody] AcceptMemberSuspensionAppealRequest request)
     {
-        var command = this._mapper.Map<AcceptSuspensionAppealCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<AcceptSuspensionAppealCommand>(request);
     }
     
     [HttpPatch("{memberId}/suspensions/appeal")]
     public async Task<ActionResult<Guid>> DismissSuspension([FromBody] RejectMemberSuspensionAppealRequest request)
     {
-        var command = this._mapper.Map<DismissSuspensionAppealCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<DismissSuspensionAppealCommand>(request);
     }
     
     [HttpPost("{memberId}/expels")]
     public async Task<ActionResult<Guid>> ExpelsMember([FromBody] MemberExpelRequest request)
     {
-        var command = this._mapper.Map<ExpelMemberCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<ExpelMemberCommand>(request);
     }
     
     [HttpGet("{memberId}/expels")]
@@ -119,24 +113,41 @@ public class MembersController : ControllerBase
     [HttpPost("{memberId}/expels/appeal")]
     public async Task<ActionResult<Guid>> AppealExpel([FromBody] MemberExpelAppealRequest request)
     {
-        var command = this._mapper.Map<AppealMemberExpelCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<AppealMemberExpelCommand>(request);
     }
     
     [HttpPut("{memberId}/expels/appeal")]
     public async Task<ActionResult<Guid>> AcceptAppealExpel([FromBody] AcceptMemberExpelAppealRequest request)
     {
-        var command = this._mapper.Map<AcceptExpelAppealCommand>(request);
-        var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        return await this.SendCommandRequest<AcceptExpelAppealCommand>(request);
     }
     
     [HttpPatch("{memberId}/expels/appeal")]
     public async Task<ActionResult<Guid>> DismissAppealExpel([FromBody] RejectMemberExpelAppealRequest request)
     {
-        var command = this._mapper.Map<DismissSuspensionAppealCommand>(request);
+        return await this.SendCommandRequest<DismissSuspensionAppealCommand>(request);
+    }
+    
+    public async Task<ActionResult<Guid>> RequestFeePayment([FromBody] RequestMembershipFeePaymentRequest request)
+    {
+        return await this.SendCommandRequest<RequestMemberFeePaymentCommand>(request);
+   
+    }
+    
+    private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
+    {
+        var command = this._mapper.Map<TCommand>(request);
         var result = await this._mediator.Send(command);
-        return this.Ok(result);
+        if (result.IsSuccess)
+        {
+            return this.Ok(result.AggreagteId);
+        }
+
+        if(!result.IsValid)
+        {
+            return this.BadRequest(result.Errors);
+        }
+
+        return this.UnprocessableEntity(result.Errors);
     }
 }

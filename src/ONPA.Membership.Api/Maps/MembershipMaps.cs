@@ -124,5 +124,6 @@ this.CreateMap<MemberExpelRequest, ExpelMemberCommand>()
                 o.MapFrom(s => s.Limit))
             .ForCtorParam(nameof(GetMemberExpelsQuery.Page), o =>
                 o.MapFrom(s => s.Page));
+      
     }
 }
