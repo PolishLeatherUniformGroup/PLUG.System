@@ -1,10 +1,10 @@
 using System.Net.Mime;
-using Asp.Versioning;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Apply.Api.Application.Commands;
 using ONPA.Apply.Api.Application.Queries;
+using ONPA.Apply.Contract;
 using ONPA.Apply.Contract.Requests;
 using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
@@ -48,28 +48,39 @@ namespace ONPA.Apply.Api.Controllers
             return await this.SendCommandRequest<RefuseApplicationRecommendationCommand>(request);
         }
 
-        [HttpPut("{applicationId}")]
+        [HttpPut(Routes.SingleApplication)]
         public async Task<ActionResult<Guid>> ApproveApplication(ApproveApplicationRequest request)
         {
            return await this.SendCommandRequest<ApproveApplicationCommand>(request);
         }
         
-        [HttpDelete("{applicationId}")]
+        [HttpPatch(Routes.SingleApplication)]
         public async Task<ActionResult<Guid>> RejectApplication(RejectApplicationRequest request)
         {
             return await this.SendCommandRequest<RejectApplicationCommand>(request);
         }
 
-        [HttpPut("{applicationId}/payments")]
+        [HttpPost(Routes.SingleApplicationPayments)]
         public async Task<ActionResult<Guid>> RegisterPayment(RegisterApplicationPaymentRequest request)
         {
             return await this.SendCommandRequest<RegisterApplicationFeePaymentCommand>(request);
         }
         
-        [HttpPost("{applicationId}/appeals")]
+        [HttpPost(Routes.SingleApplicationAppeals)]
         public async Task<ActionResult<Guid>> AppealRejection(AppealApplicationRejectionRequest request)
         {
             return await this.SendCommandRequest<AppealApplicationRejectionCommand>(request);
+        }
+        
+        [HttpPut(Routes.SingleApplicationAppeals)]
+        public async Task<ActionResult<Guid>> ApproveAppealRejection(ApproveAppealApplicationRejectionRequest request)
+        {
+            return await this.SendCommandRequest<ApproveApplicationRejectionAppealCommand>(request);
+        }
+        [HttpPatch(Routes.SingleApplicationAppeals)]
+        public async Task<ActionResult<Guid>> RejectAppealRejection(RejectAppealApplicationRejectionRequest request)
+        {
+            return await this.SendCommandRequest<DismissApplicationRejectionAppealCommand>(request);
         }
         
         [HttpGet]
@@ -78,6 +89,14 @@ namespace ONPA.Apply.Api.Controllers
             var query = this._mapper.Map<GetApplicationsByStatusQuery>(request);
             var result = await this._mediator.Send(query);
             return this.Ok(result.FromQueryResult(query));
+        } 
+        
+        [HttpGet(Routes.SingleApplication)]
+        public async Task<ActionResult<ApplicationDetails>> GetApplication([FromRoute]GetApplicationRequest request)
+        {
+            var query = this._mapper.Map<GetApplicationQuery>(request);
+            var result = await this._mediator.Send(query);
+            return this.Ok(result);
         } 
         
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
