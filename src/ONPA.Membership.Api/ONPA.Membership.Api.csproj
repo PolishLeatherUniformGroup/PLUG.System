@@ -24,9 +24,4 @@
         <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
         <ProjectReference Include="..\ONPA.SharedDomain\ONPA.SharedDomain.csproj" />
     </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Application\Queries\Results\" />
-    </ItemGroup>
 </Project>

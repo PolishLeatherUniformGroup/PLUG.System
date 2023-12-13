@@ -11,3 +11,30 @@ public record GetMembersByStatusQuery : ApplicationCollectionQueryBase<MemberRes
         this.Status = status;
     }
 }
+
+public record GetMemberByIdQuery(Guid MemberId) : ApplicationQueryBase<MemberResult>;
+
+public record GetMemberFeesQuery : ApplicationCollectionQueryBase<MemberFee>
+{
+    public Guid MemberId { get; init; }
+    public GetMemberFeesQuery(Guid memberId, int page, int limit) : base(page, limit)
+    {
+        this.MemberId = memberId;
+    }
+}
+public record GetMemberSuspensionsQuery : ApplicationCollectionQueryBase<MemberSuspensionResult>
+{
+    public Guid MemberId { get; init; }
+    public GetMemberSuspensionsQuery(Guid memberId, int page, int limit) : base(page, limit)
+    {
+        this.MemberId = memberId;
+    }
+}
+public record GetMemberExpelsQuery : ApplicationCollectionQueryBase<MemberSuspensionResult>
+{
+    public Guid MemberId { get; init; }
+    public GetMemberExpelsQuery(Guid memberId, int page, int limit) : base(page, limit)
+    {
+        this.MemberId = memberId;
+    }
+}
