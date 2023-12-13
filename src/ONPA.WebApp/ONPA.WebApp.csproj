@@ -28,6 +28,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ONPA.Apply.Contract\ONPA.Apply.Contract.csproj" />
 	  <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
+	  <ProjectReference Include="..\ONPA.Membership.Contract\ONPA.Membership.Contract.csproj" />
 	  <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
 	</ItemGroup>
 </Project>

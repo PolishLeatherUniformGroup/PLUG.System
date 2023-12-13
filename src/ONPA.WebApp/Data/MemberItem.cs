@@ -8,4 +8,5 @@ public class MemberItem
     public string LastName { get; set; }
     public string Email { get; set; }
     public DateTime JoinDate { get; set; }
+    public MemberStatus Status { get; set; }
 }

@@ -25,6 +25,10 @@
         <FluentOption Value="PLN" Selected>PLN</FluentOption>
         <FluentOption Value="EUR">EUR</FluentOption>
     </FluentSelect>
+    @if (Content.ShowPeriod)
+    {
+        <FluentDatePicker Label="Okres płatności" @bind-Value="@(Content.Period)"/>
+    }
 </FluentDialogBody>
 
 

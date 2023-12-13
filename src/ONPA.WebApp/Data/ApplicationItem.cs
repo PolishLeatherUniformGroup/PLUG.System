@@ -25,6 +25,14 @@ namespace ONPA.WebApp.Data
         AppealSuccessful = 8,
         AppealRejected = 9
     }
+    
+    public enum MemberStatus
+    {
+        Active = 0,
+        Inactive = 1,
+        Suspended = 2,
+        Expired = 3
+    }
 
     public static class ApplicationStatusExtensions
     {
