@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Flurl" Version="3.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
 		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
 		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.1.0" />
@@ -25,6 +26,8 @@
 		<Folder Include="Components\Pages\Settings\" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\ONPA.Apply.Contract\ONPA.Apply.Contract.csproj" />
+	  <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
 	  <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
 	</ItemGroup>
 </Project>

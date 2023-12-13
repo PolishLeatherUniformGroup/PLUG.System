@@ -1,7 +1,7 @@
 using AutoMapper;
 using ONPA.Apply.Api.Application.Commands;
 using ONPA.Apply.Api.Application.Queries;
-using ONPA.Apply.Api.Requests;
+using ONPA.Apply.Contract.Requests;
 using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Maps;

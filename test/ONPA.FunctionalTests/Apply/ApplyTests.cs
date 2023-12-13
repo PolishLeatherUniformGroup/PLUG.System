@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using ONPA.Apply.Api;
-using ONPA.Apply.Api.Requests;
 
 namespace ONPA.FunctionalTests.Apply;
 

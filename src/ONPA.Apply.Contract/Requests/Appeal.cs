@@ -1,3 +1,3 @@
-namespace ONPA.Apply.Api.Requests;
+﻿namespace ONPA.Apply.Contract.Requests;
 
 public record Appeal(DateTime ReceivedDate, string Justification);

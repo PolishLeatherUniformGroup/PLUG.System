@@ -5,8 +5,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Apply.Api.Application.Commands;
 using ONPA.Apply.Api.Application.Queries;
-using ONPA.Apply.Api.Application.Queries.Results;
-using ONPA.Apply.Api.Requests;
+using ONPA.Apply.Contract.Requests;
+using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
 using ONPA.Common.Queries;
 

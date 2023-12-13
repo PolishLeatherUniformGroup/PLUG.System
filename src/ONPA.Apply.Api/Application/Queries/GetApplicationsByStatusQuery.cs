@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using ONPA.Apply.Api.Application.Queries.Results;
+using ONPA.Apply.Contract.Responses;
 using PLUG.System.Apply.Domain;
 using ONPA.Common.Application;
 

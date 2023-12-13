@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ONPA.Apply.Contract\ONPA.Apply.Contract.csproj" />
       <ProjectReference Include="..\ONPA.Apply.Infrastructure\ONPA.Apply.Infrastructure.csproj" />
       <ProjectReference Include="..\ONPA.Apply\ONPA.Apply.csproj" />
       <ProjectReference Include="..\ONPA.EventBus.RabbitMq\ONPA.EventBus.RabbitMq.csproj" />

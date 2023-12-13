@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.Common.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.WebApp", "src\ONPA.WebApp\ONPA.WebApp.csproj", "{084EE804-F167-4DF9-9E2B-1C57AF431303}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Apply.Contract", "src\ONPA.Apply.Contract\ONPA.Apply.Contract.csproj", "{F637D6EA-F604-4D7F-904E-DFD6A8A89541}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +183,10 @@ Global
 		{084EE804-F167-4DF9-9E2B-1C57AF431303}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084EE804-F167-4DF9-9E2B-1C57AF431303}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084EE804-F167-4DF9-9E2B-1C57AF431303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F637D6EA-F604-4D7F-904E-DFD6A8A89541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F637D6EA-F604-4D7F-904E-DFD6A8A89541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F637D6EA-F604-4D7F-904E-DFD6A8A89541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F637D6EA-F604-4D7F-904E-DFD6A8A89541}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -215,6 +221,7 @@ Global
 		{D3A806E8-7B72-4C91-9AFE-EC1668A3ECBB} = {C91455A2-91AB-4291-8EBB-D0241AD8E4E9}
 		{655F8012-B473-4ABD-815A-FD3A7AFE665F} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
 		{084EE804-F167-4DF9-9E2B-1C57AF431303} = {E223D0ED-72AB-4376-A19B-8E171D5A8DE8}
+		{F637D6EA-F604-4D7F-904E-DFD6A8A89541} = {A8D48898-ABFB-400D-98C5-AC41B65ACAE7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8128E482-1029-4806-9243-216248ABEA19}
