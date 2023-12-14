@@ -23,4 +23,4 @@ public sealed record AddMembershipFeeRequest([FromRoute]Guid OrganizationId,[Fro
 {
 }
 
-public sealed record MembershipFee(int Year, int Amount, DateTime DueDate);
+public sealed record MembershipFee(int Year, int Amount);
