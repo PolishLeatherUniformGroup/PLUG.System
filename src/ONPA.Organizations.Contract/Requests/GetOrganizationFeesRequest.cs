@@ -10,3 +10,13 @@ public record GetOrganizationFeesRequest([FromRoute]Guid OrganizationId,[FromQue
         return queryString;
     }
 }
+
+public record GetOrganizationFeeForYearRequest([FromRoute] Guid OrganizationId, [FromRoute] int Year)
+{
+    public string ToQueryString()
+    {
+        var queryString = $"{OrganizationId}/fees/{Year}";
+        return queryString;
+    }
+
+}

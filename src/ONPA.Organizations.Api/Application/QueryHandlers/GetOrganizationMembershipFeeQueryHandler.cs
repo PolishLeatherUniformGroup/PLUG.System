@@ -6,7 +6,7 @@ using ONPA.Organizations.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Api.Application.QueryHandlers;
 
-public sealed class GetOrganizationMembershipFeeQueryHandler : ApplicationQueryHandlerBase<GetOrganizationMembershipFeeQuery, OrganizationFeeResponse?>
+public sealed class GetOrganizationMembershipFeeQueryHandler : ApplicationQueryHandlerBase<GetOrganizationFeeForYearQuery, OrganizationFeeResponse?>
 {
     private readonly IReadOnlyRepository<OrganizationFee> _repository;
     private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ public sealed class GetOrganizationMembershipFeeQueryHandler : ApplicationQueryH
         this._mapper = mapper;
     }
 
-    public override async Task<OrganizationFeeResponse?> Handle(GetOrganizationMembershipFeeQuery request, CancellationToken cancellationToken)
+    public override async Task<OrganizationFeeResponse?> Handle(GetOrganizationFeeForYearQuery request, CancellationToken cancellationToken)
     {
         var organizationFee= (await this._repository.ManyByFilter(request.AsFilter() ,0,1, cancellationToken)).FirstOrDefault();
         if (organizationFee is null)

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ONPA.Organizations.Api.Application.Commands;
+using ONPA.Organizations.Api.Application.Queries;
 using ONPA.Organizations.Contract.Requests;
 using ONPA.Organizations.Contract.Responses;
 using ONPA.Organizations.Infrastructure.ReadModel;
@@ -67,5 +68,24 @@ public class OrganizationsMaps : Profile
             .ForCtorParam(nameof(OrganizationResponse.AccountNumber), opt => opt.MapFrom(src => src.AccountNumber))
             .ForCtorParam(nameof(OrganizationResponse.Regon), opt => opt.MapFrom(src => src.Regon))
             .ForCtorParam(nameof(OrganizationResponse.ContactEmail), opt => opt.MapFrom(src => src.ContactEmail));
+        
+        this.CreateMap<GetOrganizationRequest, GetOrganizationQuery>()
+            .ForCtorParam(nameof(GetOrganizationQuery.OrganizationId), opt => opt.MapFrom(src => src.OrganizationId));
+        
+        this.CreateMap<GetOrganizationSettingsRequest, GetOrganizationSettingsQuery>()
+            .ForCtorParam(nameof(GetOrganizationSettingsQuery.OrganizationId), opt => opt.MapFrom(src => src.OrganizationId));
+        
+        this.CreateMap<GetOrganizationsRequest, GetOrganizationsQuery>()
+            .ForCtorParam(nameof(GetOrganizationsQuery.Page), opt => opt.MapFrom(src => src.Page))
+            .ForCtorParam(nameof(GetOrganizationsQuery.Limit), opt => opt.MapFrom(src => src.Limit));
+        
+        this.CreateMap<GetOrganizationFeesRequest, GetOrganizationFeesQuery>()
+            .ForCtorParam(nameof(GetOrganizationFeesQuery.OrganizationId), opt => opt.MapFrom(src => src.OrganizationId))
+            .ForCtorParam(nameof(GetOrganizationFeesQuery.Page), opt => opt.MapFrom(src => src.Page))
+            .ForCtorParam(nameof(GetOrganizationFeesQuery.Limit), opt => opt.MapFrom(src => src.Limit));
+
+        this.CreateMap<GetOrganizationFeeForYearRequest, GetOrganizationFeeForYearQuery>()
+            .ForCtorParam(nameof(GetOrganizationFeeForYearQuery.OrganizationId), opt => opt.MapFrom(src => src.OrganizationId))
+            .ForCtorParam(nameof(GetOrganizationFeeForYearQuery.Year), opt => opt.MapFrom(src => src.Year));
     }
 }

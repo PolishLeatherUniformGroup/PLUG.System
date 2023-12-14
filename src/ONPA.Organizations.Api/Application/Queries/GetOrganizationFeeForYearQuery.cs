@@ -5,7 +5,7 @@ using ONPA.Organizations.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Api.Application.Queries;
 
-public sealed record GetOrganizationMembershipFeeQuery(Guid OrganizationId, int Year) : ApplicationQueryBase<OrganizationFeeResponse?>
+public sealed record GetOrganizationFeeForYearQuery(Guid OrganizationId, int Year) : ApplicationQueryBase<OrganizationFeeResponse?>
 {
     public Expression<Func<OrganizationFee, bool>> AsFilter()
     {

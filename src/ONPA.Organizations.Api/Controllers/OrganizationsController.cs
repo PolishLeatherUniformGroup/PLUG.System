@@ -95,9 +95,9 @@ namespace ONPA.Organizations.Api.Controllers
         }
         
         [HttpGet(Routes.SingleOrganizationFeeForYear)]
-        public async Task<ActionResult<OrganizationFeeResponse?>> GetOrganizationFeeForYear([FromRoute] GetOrganizationMembershipFeeQuery request)
+        public async Task<ActionResult<OrganizationFeeResponse?>> GetOrganizationFeeForYear([FromRoute] GetOrganizationFeeForYearRequest request)
         {
-            var query = this._mapper.Map<GetOrganizationMembershipFeeQuery>(request);
+            var query = this._mapper.Map<GetOrganizationFeeForYearQuery>(request);
             var result = await this._mediator.Send(query);
             if(result == null)
             {
