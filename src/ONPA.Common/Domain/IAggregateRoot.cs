@@ -3,6 +3,7 @@ namespace ONPA.Common.Domain;
 public interface IAggregateRoot
 {
     Guid AggregateId { get; }
+    Guid TenantId { get; }
     long Version { get; }
     
     IEnumerable<IStateEvent> GetStateEvents();

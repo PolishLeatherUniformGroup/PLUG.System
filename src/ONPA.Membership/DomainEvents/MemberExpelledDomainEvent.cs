@@ -21,10 +21,10 @@ public sealed class MemberExpelledDomainEvent : DomainEventBase
         this.AppealDeadline = appealDeadline;
     }
 
-    private MemberExpelledDomainEvent(Guid aggregateId, string firstName, string email,
+    private MemberExpelledDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email,
         string justification,
         DateTime expelDate,
-        DateTime appealDeadline) : base(aggregateId)
+        DateTime appealDeadline) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -33,9 +33,9 @@ public sealed class MemberExpelledDomainEvent : DomainEventBase
         this.AppealDeadline = appealDeadline;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberExpelledDomainEvent(aggregateId,
+        return new MemberExpelledDomainEvent(aggregateId,tenantId,
             this.FirstName,
             this.Email,
             this.Justification,

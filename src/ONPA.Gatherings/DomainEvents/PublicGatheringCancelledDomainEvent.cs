@@ -14,14 +14,14 @@ public sealed class PublicGatheringCancelledDomainEvent : DomainEventBase
         this.Participants = participants;
     }
 
-    private PublicGatheringCancelledDomainEvent(Guid aggregateId, string name, List<Participant> participants) : base(aggregateId)
+    private PublicGatheringCancelledDomainEvent(Guid aggregateId, Guid tenantId, string name, List<Participant> participants) : base(aggregateId,tenantId)
     {
         this.Name = name;
         this.Participants = participants;
     }
         
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new PublicGatheringCancelledDomainEvent(aggregateId, this.Name, this.Participants);
+        return new PublicGatheringCancelledDomainEvent(aggregateId,tenantId, this.Name, this.Participants);
     }
 }

@@ -6,7 +6,7 @@ public record GetApplicationRequest([FromRoute] Guid ApplicationId)
 {
     public string ToQueryString()
     {
-        var queryString = $"/{ApplicationId}";
+        var queryString = $"/{this.ApplicationId}";
         return queryString;
     }
 }

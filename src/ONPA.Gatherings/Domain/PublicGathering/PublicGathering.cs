@@ -38,12 +38,12 @@ namespace ONPA.Gatherings.Domain
 
         public IEnumerable<PublicGatheringEnrollment> Registrations => this._registrations;
 
-        public PublicGathering(Guid aggregateId, IEnumerable<IStateEvent> changes) : base(aggregateId, changes)
+        public PublicGathering(Guid aggregateId,Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId,tenantId, changes)
         {
         }
 
-        public PublicGathering(string name, string description, string regulations, DateTime scheduledStart,
-            int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline)
+        public PublicGathering(Guid tenantId, string name, string description, string regulations, DateTime scheduledStart,
+            int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline):base(tenantId)
         {
             this.Name = name;
             this.Description = description;

@@ -13,19 +13,19 @@ public class IntegrationEventLogEntry
     private IntegrationEventLogEntry() { }
     public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
     {
-        EventId = @event.Id;
-        CreationTime = @event.CreationDate;
-        EventTypeName = @event.GetType().FullName;
-        Content = JsonSerializer.Serialize(@event, @event.GetType(), s_indentedOptions);
-        State = EventStateEnum.NotPublished;
-        TimesSent = 0;
-        TransactionId = transactionId;
+        this.EventId = @event.Id;
+        this.CreationTime = @event.CreationDate;
+        this.EventTypeName = @event.GetType().FullName;
+        this.Content = JsonSerializer.Serialize(@event, @event.GetType(), s_indentedOptions);
+        this.State = EventStateEnum.NotPublished;
+        this.TimesSent = 0;
+        this.TransactionId = transactionId;
     }
     public Guid EventId { get; private set; }
     [Required]
     public string EventTypeName { get; private set; }
     [NotMapped]
-    public string EventTypeShortName => EventTypeName.Split('.')?.Last();
+    public string EventTypeShortName => this.EventTypeName.Split('.')?.Last();
     [NotMapped]
     public IntegrationEvent IntegrationEvent { get; private set; }
     public EventStateEnum State { get; set; }
@@ -37,7 +37,7 @@ public class IntegrationEventLogEntry
 
     public IntegrationEventLogEntry DeserializeJsonContent(Type type)
     {
-        IntegrationEvent = JsonSerializer.Deserialize(Content, type, s_caseInsensitiveOptions) as IntegrationEvent;
+        this.IntegrationEvent = JsonSerializer.Deserialize(this.Content, type, s_caseInsensitiveOptions) as IntegrationEvent;
         return this;
     }
 }

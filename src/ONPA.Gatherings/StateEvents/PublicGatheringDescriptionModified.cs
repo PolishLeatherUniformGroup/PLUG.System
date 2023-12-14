@@ -26,6 +26,6 @@ public sealed class PublicGatheringDescriptionModified : StateEventBase
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new PublicGatheringDescriptionModified(aggregateId, aggregateVersion, Name, Description,Regulations);
+        return new PublicGatheringDescriptionModified(aggregateId, aggregateVersion, this.Name, this.Description, this.Regulations);
     }
 }

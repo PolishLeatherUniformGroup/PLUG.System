@@ -8,6 +8,7 @@ public partial class ApplicationForm
 {
     public void ApplyChange(ApplicationFormCreated change)
     {
+        this.TenantId = change.TenantId;
         this.FirstName = change.FirstName;
         this.LastName = change.LastName;
         this.Email = change.Email;

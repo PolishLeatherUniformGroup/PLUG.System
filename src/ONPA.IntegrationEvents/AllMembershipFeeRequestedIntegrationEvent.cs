@@ -9,11 +9,15 @@ public sealed record AllMembershipFeeRequestedIntegrationEvent :IntegrationEvent
     public DateTime DueDate { get; init; }
     public DateTime Period { get; init; }
 
-    public AllMembershipFeeRequestedIntegrationEvent(decimal amount, string currency, DateTime dueDate, DateTime period)
+    public AllMembershipFeeRequestedIntegrationEvent(Guid tenantId,
+        decimal amount,
+        string currency,
+        DateTime dueDate,
+        DateTime period) : base(tenantId)
     {
-        Amount = amount;
-        Currency = currency;
-        DueDate = dueDate;
-        Period = period;
+        this.Amount = amount;
+        this.Currency = currency;
+        this.DueDate = dueDate;
+        this.Period = period;
     }
 }

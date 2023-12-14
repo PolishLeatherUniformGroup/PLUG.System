@@ -13,7 +13,7 @@ public class AllMembershipFeeRequestedIntegrationEventHandler : IIntegrationEven
 
     public AllMembershipFeeRequestedIntegrationEventHandler(IMediator mediator)
     {
-        _mediator = mediator;
+        this._mediator = mediator;
     }
 
     public async Task Handle(AllMembershipFeeRequestedIntegrationEvent @event)
@@ -28,7 +28,7 @@ public class AllMembershipFeeRequestedIntegrationEventHandler : IIntegrationEven
             var result = await this._mediator.Send(query);
             foreach (var memberIdResult in result.Value)
             {
-                var command = new RequestMemberFeePaymentCommand(memberIdResult.Id,
+                var command = new RequestMemberFeePaymentCommand(@event.TenantId, memberIdResult.Id,
                     feeAmount, @event.DueDate, @event.Period);
                 _ =await this._mediator.Send(command);
             }

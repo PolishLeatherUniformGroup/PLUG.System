@@ -11,13 +11,13 @@ public sealed class MemberJoinedGroupDomainEvent : DomainEventBase
         this.MemberId = memberId;
     }
 
-    private MemberJoinedGroupDomainEvent(Guid aggregateId, Guid memberId) : base(aggregateId)
+    private MemberJoinedGroupDomainEvent(Guid aggregateId,Guid tenantId, Guid memberId) : base(aggregateId,tenantId)
     {
         this.MemberId = memberId;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberJoinedGroupDomainEvent(aggregateId, MemberId);
+        return new MemberJoinedGroupDomainEvent(aggregateId,tenantId, this.MemberId);
     }
 }

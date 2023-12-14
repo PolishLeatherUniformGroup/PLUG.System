@@ -2,12 +2,7 @@
 
 namespace ONPA.Gatherings.Api.Application.Commands;
 
-public sealed record ArchivePublicGatheringCommand : ApplicationCommandBase
+public sealed record ArchivePublicGatheringCommand(Guid TenantId,Guid PublicGatheringId) : ApplicationCommandBase(TenantId)
 {
-    public Guid PublicGatheringId { get; init; }
-
-    public ArchivePublicGatheringCommand(Guid publicGatheringId)
-    {
-        this.PublicGatheringId = publicGatheringId;
-    }
+    
 }

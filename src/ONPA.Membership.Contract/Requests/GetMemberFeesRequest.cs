@@ -6,7 +6,7 @@ public record GetMemberFeesRequest([FromRoute] Guid MemberId, [FromQuery] int Pa
 {
     public string ToQueryString()
     {
-        var queryString = $"{MemberId}/fees?Page={Page}&Limit={Limit}";
+        var queryString = $"{this.MemberId}/fees?Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

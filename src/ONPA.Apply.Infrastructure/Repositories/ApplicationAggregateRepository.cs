@@ -41,7 +41,7 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
             Address = aggregate.Address,
             ApplicationDate = aggregate.ApplicationDate,
             Status = aggregate.Status.Value,
-            LastUpdateDate = CalculateLastUpdate(aggregate),
+            LastUpdateDate = this.CalculateLastUpdate(aggregate),
             RequiredFeeAmount = aggregate.RequiredFee?.Amount,
             FeeCurrency = aggregate.RequiredFee?.Currency
         };
@@ -59,7 +59,7 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
         var applicationForm = await this._context.ApplicationForms.FindAsync(aggregate.AggregateId);
         if (applicationForm is not null)
         {
-            applicationForm.LastUpdateDate = CalculateLastUpdate(aggregate);
+            applicationForm.LastUpdateDate = this.CalculateLastUpdate(aggregate);
             applicationForm.Status = aggregate.Status.Value;
             applicationForm.RequiredFeeAmount = aggregate.RequiredFee?.Amount;
             applicationForm.FeeCurrency = aggregate.RequiredFee?.Currency;

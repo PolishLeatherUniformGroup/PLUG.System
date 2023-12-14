@@ -6,7 +6,7 @@ public record GetMemberExpelsRequest([FromRoute] Guid MemberId, [FromQuery] int 
 {
     public string ToQueryString()
     {
-        var queryString = $"{MemberId}/expels?Page={Page}&Limit={Limit}";
+        var queryString = $"{this.MemberId}/expels?Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

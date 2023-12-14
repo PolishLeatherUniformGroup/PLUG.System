@@ -15,8 +15,8 @@ public sealed class MemberSuspensionAppealReceivedDomainEvent : DomainEventBase
         this.AppealDate = appealDate;
     }
 
-    private MemberSuspensionAppealReceivedDomainEvent(Guid aggregateId, string firstName, string email,
-        DateTime appealDate) : base(aggregateId)
+    private MemberSuspensionAppealReceivedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email,
+        DateTime appealDate) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -24,8 +24,8 @@ public sealed class MemberSuspensionAppealReceivedDomainEvent : DomainEventBase
 
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberSuspensionAppealReceivedDomainEvent(aggregateId, this.FirstName,this.Email,this.AppealDate);
+        return new MemberSuspensionAppealReceivedDomainEvent(aggregateId,tenantId, this.FirstName,this.Email,this.AppealDate);
     }
 }

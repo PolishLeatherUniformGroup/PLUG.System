@@ -11,7 +11,7 @@ public record GetApplicationsByStatusQuery : ApplicationCollectionQueryBase<Appl
     
     public GetApplicationsByStatusQuery(int status, int page, int limit) : base(page, limit)
     {
-        Status = status;
+        this.Status = status;
     }
 
 }

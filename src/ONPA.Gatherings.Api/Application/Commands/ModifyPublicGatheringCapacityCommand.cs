@@ -2,14 +2,4 @@
 
 namespace ONPA.Gatherings.Api.Application.Commands;
 
-public sealed record ModifyPublicGatheringCapacityCommand : ApplicationCommandBase
-{
-    public Guid PublicGatheringId { get; init; }
-    public int? PlannedCapacity { get; init; }
-   
-    public ModifyPublicGatheringCapacityCommand(Guid publicGatheringId, int? plannedCapacity)
-    {
-        this.PublicGatheringId = publicGatheringId;
-        this.PlannedCapacity = plannedCapacity;
-    }
-}
+public sealed record ModifyPublicGatheringCapacityCommand(Guid TenantId, Guid PublicGatheringId, int? PlannedCapacity) : ApplicationCommandBase(TenantId);

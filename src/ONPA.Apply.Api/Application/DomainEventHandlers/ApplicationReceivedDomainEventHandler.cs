@@ -17,7 +17,7 @@ public sealed class ApplicationReceivedDomainEventHandler : DomainEventHandlerBa
     public override async Task Handle(ApplicationReceivedDomainEvent notification, CancellationToken cancellationToken)
     {
         var integrationEvent =
-            new ApplicationReceivedIntegrationEvent(notification.FirstName, notification.Email,
+            new ApplicationReceivedIntegrationEvent(notification.TenantId,notification.FirstName, notification.Email,
                 notification.AggregateId, notification.Recommendations.ToArray());
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }

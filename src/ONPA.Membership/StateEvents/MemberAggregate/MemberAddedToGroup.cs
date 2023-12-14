@@ -18,6 +18,6 @@ public  sealed class MemberAddedToGroup : StateEventBase
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberAddedToGroup(aggregateId, aggregateVersion, GroupId);
+        return new MemberAddedToGroup(aggregateId, aggregateVersion, this.GroupId);
     }
 }

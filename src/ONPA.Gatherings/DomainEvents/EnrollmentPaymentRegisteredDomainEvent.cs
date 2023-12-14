@@ -18,7 +18,7 @@ public sealed class EnrollmentPaymentRegisteredDomainEvent : DomainEventBase
         this.EnrollmentEmail = enrollmentEmail;
     }
 
-    private EnrollmentPaymentRegisteredDomainEvent(Guid aggregateId, DateTime paidDate, Money paidAmount, string enrollmentFirstName, string enrollmentEmail) : base(aggregateId)
+    private EnrollmentPaymentRegisteredDomainEvent(Guid aggregateId, Guid tenantId, DateTime paidDate, Money paidAmount, string enrollmentFirstName, string enrollmentEmail) : base(aggregateId,tenantId)
     {
         this.PaidDate = paidDate;
         this.PaidAmount = paidAmount;
@@ -26,8 +26,8 @@ public sealed class EnrollmentPaymentRegisteredDomainEvent : DomainEventBase
         this.EnrollmentEmail = enrollmentEmail;
     }
         
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new EnrollmentPaymentRegisteredDomainEvent(aggregateId, this.PaidDate, this.PaidAmount, this.EnrollmentFirstName, this.EnrollmentEmail);
+        return new EnrollmentPaymentRegisteredDomainEvent(aggregateId,tenantId, this.PaidDate, this.PaidAmount, this.EnrollmentFirstName, this.EnrollmentEmail);
     }
 }

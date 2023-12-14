@@ -12,6 +12,7 @@ namespace ONPA.UnitTests.Domain;
 public class ApplicationFormShould
 {
     private IFixture _fixture;
+    private readonly Guid tenantId = Guid.NewGuid();
 
     public ApplicationFormShould()
     {
@@ -30,7 +31,7 @@ public class ApplicationFormShould
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
         // Act
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         // Assert
         aggregate.AggregateId.Should().NotBeEmpty();
@@ -60,7 +61,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -91,7 +92,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -113,7 +114,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
         var problem = this._fixture.Create<string>();
         //Act
 
@@ -142,7 +143,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -166,7 +167,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -210,7 +211,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(2).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -234,7 +235,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -284,7 +285,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -309,7 +310,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -332,7 +333,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -379,7 +380,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -426,7 +427,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -451,7 +452,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -474,7 +475,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -522,7 +523,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -544,7 +545,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = 0;
         var requiredFee = new Money(requiredFeeAmount);
@@ -569,7 +570,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -615,7 +616,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -646,7 +647,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -675,7 +676,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -718,7 +719,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -770,7 +771,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -801,7 +802,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -855,7 +856,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -910,7 +911,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -944,7 +945,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1003,7 +1004,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1038,7 +1039,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1099,7 +1100,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1135,7 +1136,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1167,7 +1168,7 @@ public class ApplicationFormShould
 
         //Act
 
-        var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+        var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1185,7 +1186,7 @@ public class ApplicationFormShould
             var address = this._fixture.Create<string>();
             var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-            var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+            var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
             var requiredFeeAmount = this._fixture.Create<decimal>();
             var requiredFee = new Money(requiredFeeAmount);
@@ -1208,7 +1209,7 @@ public class ApplicationFormShould
 
             //Act
 
-            var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+            var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
             // Assert
             newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1225,7 +1226,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1246,7 +1247,7 @@ public class ApplicationFormShould
 
         //Act
 
-        var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+        var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1263,7 +1264,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var problem = this._fixture.Create<string>();
         aggregate.CancelApplicationForm(problem);
@@ -1275,7 +1276,7 @@ public class ApplicationFormShould
 
         //Act
 
-        var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+        var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1292,7 +1293,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1326,7 +1327,7 @@ public class ApplicationFormShould
 
         //Act
 
-        var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+        var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1343,7 +1344,7 @@ public class ApplicationFormShould
         var address = this._fixture.Create<string>();
         var recommendations = this._fixture.CreateMany<string>(1).ToList();
 
-        var aggregate = new ApplicationForm(firstName, lastName, email, phone, recommendations, address);
+        var aggregate = new ApplicationForm(tenantId,firstName, lastName, email, phone, recommendations, address);
 
         var requiredFeeAmount = this._fixture.Create<decimal>();
         var requiredFee = new Money(requiredFeeAmount);
@@ -1377,7 +1378,7 @@ public class ApplicationFormShould
 
         //Act
 
-        var newAggregate = new ApplicationForm(aggregate.AggregateId, events);
+        var newAggregate = new ApplicationForm(aggregate.AggregateId,tenantId, events);
 
         // Assert
         newAggregate.Should().BeEquivalentTo(aggregate);

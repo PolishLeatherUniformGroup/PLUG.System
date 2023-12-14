@@ -13,12 +13,12 @@ public class MembershipExtendedDomainEventHandler
 
     public MembershipExtendedDomainEventHandler(IIntegrationEventService integrationEventService)
     {
-        _integrationEventService = integrationEventService;
+        this._integrationEventService = integrationEventService;
     }
 
     public override async Task Handle(MembershipExtendedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new MembershipExtendedIntegrationEvent(notification.FirstName,notification.Email,
+        var integrationEvent = new MembershipExtendedIntegrationEvent(notification.TenantId,notification.FirstName,notification.Email,
             notification.ValidUntil);
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);
     }

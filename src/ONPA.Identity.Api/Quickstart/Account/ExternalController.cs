@@ -48,7 +48,7 @@ public class ExternalController : Controller
         if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
 
         // validate returnUrl - either it is a valid OIDC URL or back to a local page
-        if (Url.IsLocalUrl(returnUrl) == false && this._interaction.IsValidReturnUrl(returnUrl) == false)
+        if (this.Url.IsLocalUrl(returnUrl) == false && this._interaction.IsValidReturnUrl(returnUrl) == false)
         {
             // user might have clicked on a malicious link - should be logged
             throw new Exception("invalid return URL");
@@ -57,7 +57,7 @@ public class ExternalController : Controller
         // start challenge and roundtrip the return URL and scheme 
         var props = new AuthenticationProperties
         {
-            RedirectUri = Url.Action(nameof(this.Callback)),
+            RedirectUri = this.Url.Action(nameof(this.Callback)),
             Items =
                 {
                     { "returnUrl", returnUrl },
@@ -65,7 +65,7 @@ public class ExternalController : Controller
                 }
         };
 
-        return Challenge(props, scheme);
+        return this.Challenge(props, scheme);
 
     }
 
@@ -76,7 +76,7 @@ public class ExternalController : Controller
     public async Task<IActionResult> Callback()
     {
         // read external identity from the temporary cookie
-        var result = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+        var result = await this.HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
         if (result?.Succeeded != true)
         {
             throw new Exception("External authentication error");
@@ -122,7 +122,7 @@ public class ExternalController : Controller
         await AuthenticationManagerExtensions.SignInAsync(this.HttpContext, isuser, localSignInProps);
 
         // delete temporary cookie used during external authentication
-        await HttpContext.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
+        await this.HttpContext.SignOutAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
 
         // retrieve return URL
         var returnUrl = result.Properties.Items["returnUrl"] ?? "~/";
@@ -141,7 +141,7 @@ public class ExternalController : Controller
             }
         }
 
-        return Redirect(returnUrl);
+        return this.Redirect(returnUrl);
     }
 
     private async Task<(ApplicationUser user, string provider, string providerUserId, IEnumerable<Claim> claims)>

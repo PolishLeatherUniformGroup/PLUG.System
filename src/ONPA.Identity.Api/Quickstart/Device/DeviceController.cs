@@ -40,14 +40,14 @@ public class DeviceController : Controller
     public async Task<IActionResult> Index()
     {
         string userCodeParamName = this._options.Value.UserInteraction.DeviceVerificationUserCodeParameter;
-        string userCode = Request.Query[userCodeParamName];
-        if (string.IsNullOrWhiteSpace(userCode)) return View("UserCodeCapture");
+        string userCode = this.Request.Query[userCodeParamName];
+        if (string.IsNullOrWhiteSpace(userCode)) return this.View("UserCodeCapture");
 
         var vm = await this.BuildViewModelAsync(userCode);
-        if (vm == null) return View("Error");
+        if (vm == null) return this.View("Error");
 
         vm.ConfirmUserCode = true;
-        return View("UserCodeConfirmation", vm);
+        return this.View("UserCodeConfirmation", vm);
     }
 
     [HttpPost]
@@ -55,9 +55,9 @@ public class DeviceController : Controller
     public async Task<IActionResult> UserCodeCapture(string userCode)
     {
         var vm = await this.BuildViewModelAsync(userCode);
-        if (vm == null) return View("Error");
+        if (vm == null) return this.View("Error");
 
-        return View("UserCodeConfirmation", vm);
+        return this.View("UserCodeConfirmation", vm);
     }
 
     [HttpPost]
@@ -67,9 +67,9 @@ public class DeviceController : Controller
         if (model == null) throw new ArgumentNullException(nameof(model));
 
         var result = await this.ProcessConsent(model);
-        if (result.HasValidationError) return View("Error");
+        if (result.HasValidationError) return this.View("Error");
 
-        return View("Success");
+        return this.View("Success");
     }
 
     private async Task<ProcessConsentResult> ProcessConsent(DeviceAuthorizationInputModel model)
@@ -87,7 +87,7 @@ public class DeviceController : Controller
             grantedConsent = new ConsentResponse { Error = AuthorizationError.AccessDenied };
 
             // emit event
-            await this._events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
+            await this._events.RaiseAsync(new ConsentDeniedEvent(this.User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
         }
         // user clicked 'yes' - validate the data
         else if (model.Button == "yes")
@@ -109,7 +109,7 @@ public class DeviceController : Controller
                 };
 
                 // emit event
-                await this._events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
+                await this._events.RaiseAsync(new ConsentGrantedEvent(this.User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
             }
             else
             {

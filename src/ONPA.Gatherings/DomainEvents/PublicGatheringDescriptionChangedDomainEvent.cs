@@ -18,9 +18,9 @@ public sealed class PublicGatheringDescriptionChangedDomainEvent :DomainEventBas
         this.Enrolled = enrolled;
     }
 
-    private PublicGatheringDescriptionChangedDomainEvent(Guid aggregateId, string name, string description,
+    private PublicGatheringDescriptionChangedDomainEvent(Guid aggregateId, Guid tenantId, string name, string description,
         string regulations,
-        List<string> enrolled) : base(aggregateId)
+        List<string> enrolled) : base(aggregateId,tenantId)
     {
         this.Name = name;
         this.Description = description;
@@ -28,8 +28,8 @@ public sealed class PublicGatheringDescriptionChangedDomainEvent :DomainEventBas
         this.Enrolled = enrolled;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new PublicGatheringDescriptionChangedDomainEvent(aggregateId, Name, Description, Regulations, Enrolled);
+        return new PublicGatheringDescriptionChangedDomainEvent(aggregateId,tenantId, this.Name, this.Description, this.Regulations, this.Enrolled);
     }
 }

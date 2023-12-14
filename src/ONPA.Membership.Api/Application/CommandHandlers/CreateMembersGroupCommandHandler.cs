@@ -19,7 +19,7 @@ public sealed class CreateMembersGroupCommandHandler: ApplicationCommandHandlerB
     {
         try
         {
-            var aggregate = new MembersGroup(request.GroupName, request.GroupType);
+            var aggregate = new MembersGroup(request.TenantId ,request.GroupName, request.GroupType);
             aggregate= await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);
             return CommandResult.Success(aggregate.AggregateId);
         }

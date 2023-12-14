@@ -16,7 +16,7 @@ public class CollectionResult<T> where T : class
     
     private CollectionResult(List<T> value, int total)
     {
-        Total = total;
+        this.Total = total;
         this._value = value;
         this._hasError = false;
     }

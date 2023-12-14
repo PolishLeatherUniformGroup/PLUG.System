@@ -13,10 +13,10 @@ public sealed record CreateApplicationFormCommand
     public List<string> Recommendations { get; init; } 
     public string Address { get; init; }
 
-    public CreateApplicationFormCommand(string firstName, string lastName, string email,
+    public CreateApplicationFormCommand(Guid tenantId,string firstName, string lastName, string email,
         string phone,
         List<string> recommendations,
-        string address)
+        string address):base(tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;

@@ -22,10 +22,10 @@ public sealed class MemberJoinedDomainEvent :DomainEventBase
         this.Phone = phone;
     }
 
-    private MemberJoinedDomainEvent(Guid aggregateId, CardNumber cardNumber, string firstName,
+    private MemberJoinedDomainEvent(Guid aggregateId,Guid tenantId, CardNumber cardNumber, string firstName,
         string lastName,
         string email,
-        string phone) : base(aggregateId)
+        string phone) : base(aggregateId,tenantId)
     {
         this.CardNumber = cardNumber;
         this.FirstName = firstName;
@@ -34,8 +34,8 @@ public sealed class MemberJoinedDomainEvent :DomainEventBase
         this.Phone = phone;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberJoinedDomainEvent(aggregateId, this.CardNumber, this.FirstName, this.LastName,this.Email, this.Phone);
+        return new MemberJoinedDomainEvent(aggregateId,tenantId, this.CardNumber, this.FirstName, this.LastName,this.Email, this.Phone);
     }
 }

@@ -11,13 +11,13 @@ public sealed class MemberLeftGroupDomainEvent : DomainEventBase
         this.MemberId = memberId;
     }
 
-    private MemberLeftGroupDomainEvent(Guid aggregateId, Guid memberId) : base(aggregateId)
+    private MemberLeftGroupDomainEvent(Guid aggregateId,Guid tenantId, Guid memberId) : base(aggregateId,tenantId)
     {
         this.MemberId = memberId;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberLeftGroupDomainEvent(aggregateId, this.MemberId);
+        return new MemberLeftGroupDomainEvent(aggregateId,tenantId, this.MemberId);
     }
 }

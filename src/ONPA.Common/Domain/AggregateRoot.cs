@@ -10,14 +10,16 @@ public abstract class AggregateRoot : IAggregateRoot
     protected readonly ICollection<IStateEvent> stateEvents = new LinkedList<IStateEvent>();
     protected long version = NewAggregateVersion;
 
-    protected AggregateRoot()
+    protected AggregateRoot(Guid tenantId)
     {
         this.AggregateId = Guid.NewGuid();
+        this.TenantId = tenantId == Guid.Empty ? this.AggregateId : tenantId;
     }
     
-    protected AggregateRoot(Guid aggregateId, IEnumerable<IStateEvent> changes)
+    protected AggregateRoot(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes)
     {
         this.AggregateId = aggregateId;
+        this.TenantId = tenantId;
 
         foreach (var change in changes)
         {
@@ -27,6 +29,12 @@ public abstract class AggregateRoot : IAggregateRoot
     }
     
     public Guid AggregateId
+    {
+        get;
+        protected set;
+    }
+    
+    public Guid TenantId
     {
         get;
         protected set;
@@ -73,7 +81,7 @@ public abstract class AggregateRoot : IAggregateRoot
     }
     protected void RaiseDomainEvent<TEvent>(TEvent @event) where TEvent : DomainEventBase
     {
-        var eventWithAggregate = @event.WithAggregate(this.AggregateId);
+        var eventWithAggregate = @event.WithAggregate(this.AggregateId,this.TenantId);
         this.domainEvents.Add(eventWithAggregate);
     }
     

@@ -21,8 +21,8 @@ public sealed class MemberLeftDomainEvent : DomainEventBase
         this.Groups = groups;
     }
 
-    private MemberLeftDomainEvent(Guid aggregateId, CardNumber cardNumber, string firstName, string email, DateTime leaveDate,
-        List<Guid> groups) : base(aggregateId)
+    private MemberLeftDomainEvent(Guid aggregateId,Guid tenantId, CardNumber cardNumber, string firstName, string email, DateTime leaveDate,
+        List<Guid> groups) : base(aggregateId,tenantId)
     {
         this.CardNumber = cardNumber;
         this.FirstName = firstName;
@@ -31,8 +31,8 @@ public sealed class MemberLeftDomainEvent : DomainEventBase
         this.Groups = groups;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberLeftDomainEvent(aggregateId, this.CardNumber, this.FirstName, this.Email, this.LeaveDate, this.Groups);
+        return new MemberLeftDomainEvent(aggregateId,tenantId, this.CardNumber, this.FirstName, this.Email, this.LeaveDate, this.Groups);
     }
 }

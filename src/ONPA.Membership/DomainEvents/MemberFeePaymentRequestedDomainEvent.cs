@@ -20,7 +20,7 @@ public sealed class MemberFeePaymentRequestedDomainEvent :DomainEventBase
         this.Period = period;
     }
 
-    private MemberFeePaymentRequestedDomainEvent(Guid aggregateId, string firstName, string email, Money requestedFee, DateTime dueDate, DateTime period) : base(aggregateId)
+    private MemberFeePaymentRequestedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email, Money requestedFee, DateTime dueDate, DateTime period) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -29,8 +29,8 @@ public sealed class MemberFeePaymentRequestedDomainEvent :DomainEventBase
         this.Period = period;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberFeePaymentRequestedDomainEvent(aggregateId, this.FirstName, this.Email, this.RequestedFee, this.DueDate, this.Period);
+        return new MemberFeePaymentRequestedDomainEvent(aggregateId,tenantId, this.FirstName, this.Email, this.RequestedFee, this.DueDate, this.Period);
     }
 }

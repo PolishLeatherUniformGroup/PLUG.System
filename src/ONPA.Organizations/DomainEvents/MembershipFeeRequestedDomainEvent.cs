@@ -14,14 +14,14 @@ public sealed class MembershipFeeRequestedDomainEvent :DomainEventBase
         this.PaymentDeadline = paymentDeadline;
     }
     
-    private MembershipFeeRequestedDomainEvent(Guid aggregateId, MembershipFee fee,DateTime paymentDeadline) : base(aggregateId)
+    private MembershipFeeRequestedDomainEvent(Guid aggregateId,Guid tenantId, MembershipFee fee,DateTime paymentDeadline) : base(aggregateId,tenantId)
     {
         this.Fee = fee;
         this.PaymentDeadline = paymentDeadline;
     } 
     
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MembershipFeeRequestedDomainEvent(aggregateId, this.Fee, this.PaymentDeadline);
+        return new MembershipFeeRequestedDomainEvent(aggregateId,tenantId, this.Fee, this.PaymentDeadline);
     }
 }

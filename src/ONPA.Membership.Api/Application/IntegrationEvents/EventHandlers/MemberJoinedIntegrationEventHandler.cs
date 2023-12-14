@@ -12,12 +12,12 @@ public class MemberJoinedIntegrationEventHandler : IIntegrationEventHandler<Memb
 
     public MemberJoinedIntegrationEventHandler(IMediator mediator)
     {
-        _mediator = mediator;
+        this._mediator = mediator;
     }
 
     public async Task Handle(MemberJoinedIntegrationEvent @event)
     {
-        var command = new CreateMemberCommand(
+        var command = new CreateMemberCommand(@event.TenantId,
             @event.FirstName, @event.LastName, @event.Email, @event.Phone, @event.Address,
             @event.JoinDate, new Money(@event.PaidFeeAmount, @event.PaidFeeCurrency));
         

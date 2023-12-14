@@ -9,7 +9,7 @@ public record ValidateApplicationCommand : ApplicationCommandBase
     public IEnumerable<(string MemberNumber, Guid? MemberId)> Recommenders { get; init; }
     public Money YearlyFee { get; init; }
 
-    public ValidateApplicationCommand(Guid applicationId, IEnumerable<(string MemberNumber, Guid? MemberId)> recommenders, Money yearlyFee)
+    public ValidateApplicationCommand(Guid tenantId, Guid applicationId, IEnumerable<(string MemberNumber, Guid? MemberId)> recommenders, Money yearlyFee):base(tenantId)
     {
         this.ApplicationId = applicationId;
         this.Recommenders = recommenders;

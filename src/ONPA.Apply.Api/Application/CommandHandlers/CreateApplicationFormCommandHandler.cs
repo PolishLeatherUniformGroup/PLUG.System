@@ -20,7 +20,7 @@ public sealed class CreateApplicationFormCommandHandler : ApplicationCommandHand
     {
         try
         {
-            var aggregate = new ApplicationForm(request.FirstName, request.LastName, request.Email, request.Phone,
+            var aggregate = new ApplicationForm(request.TenantId, request.FirstName, request.LastName, request.Email, request.Phone,
                 request.Recommendations,
                 request.Address);
             await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);

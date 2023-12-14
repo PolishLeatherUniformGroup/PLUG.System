@@ -11,12 +11,12 @@ public sealed class MemberJoinedDomainEventHandler :DomainEventHandlerBase<Membe
 
     public MemberJoinedDomainEventHandler(IIntegrationEventService integrationEventService)
     {
-        _integrationEventService = integrationEventService;
+        this._integrationEventService = integrationEventService;
     }
 
     public override async Task Handle(MemberJoinedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new MemberCardNumberAssignedIntegrationEvent(
+        var integrationEvent = new MemberCardNumberAssignedIntegrationEvent(notification.TenantId,
             notification.CardNumber, notification.FirstName, notification.LastName,
             notification.Email,notification.Phone);
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);

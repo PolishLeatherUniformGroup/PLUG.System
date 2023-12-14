@@ -3,24 +3,4 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.Api.Application.Commands;
 
-public sealed record CreateMemberCommand : ApplicationCommandBase
-{
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public string Email { get; init; }
-    public string Phone { get; init; }
-    public string Address { get; init; }
-    public DateTime JoinDate { get; init; }
-    public Money PaidFee { get; init; }
-
-    public CreateMemberCommand(string firstName, string lastName, string email, string phone, string address, DateTime joinDate, Money paidFee)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Phone = phone;
-        Address = address;
-        JoinDate = joinDate;
-        PaidFee = paidFee;
-    }
-}
+public sealed record CreateMemberCommand(Guid TenantId, string FirstName, string LastName, string Email, string Phone, string Address, DateTime JoinDate, Money PaidFee) : ApplicationCommandBase(TenantId);

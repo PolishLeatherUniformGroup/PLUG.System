@@ -13,13 +13,15 @@ public abstract class DomainEventBase :
         this.Timestamp = DateTime.UtcNow;
     }
 
-    protected DomainEventBase(Guid aggregateId) : this()
+    protected DomainEventBase(Guid aggregateId, Guid tenantId) : this()
     {
         this.AggregateId = aggregateId;
+        this.TenantId = tenantId;
     }
     public Guid EventId { get; }
     public DateTime Timestamp { get; }
     public Guid AggregateId { get; }
+    public Guid TenantId { get; }
 
     public virtual bool Equals(DomainEventBase? other)
     {
@@ -32,5 +34,5 @@ public abstract class DomainEventBase :
         return HashCode.Combine(this.EventId, this.Timestamp, this.AggregateId);
     }
 
-    public abstract IDomainEvent WithAggregate(Guid aggregateId);
+    public abstract IDomainEvent WithAggregate(Guid aggregateId, Guid tenantId);
 }

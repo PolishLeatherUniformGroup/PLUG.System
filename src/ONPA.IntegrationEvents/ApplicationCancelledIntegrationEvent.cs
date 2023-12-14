@@ -8,7 +8,7 @@ public record ApplicationCancelledIntegrationEvent : IntegrationEvent
      public string Email { get; init; }
      public string Reason { get; set; }
  
-     public ApplicationCancelledIntegrationEvent(string firstName, string email, string reason)
+     public ApplicationCancelledIntegrationEvent(Guid tenantId,string firstName, string email, string reason): base(tenantId)
      {
          this.FirstName = firstName;
          this.Email = email;

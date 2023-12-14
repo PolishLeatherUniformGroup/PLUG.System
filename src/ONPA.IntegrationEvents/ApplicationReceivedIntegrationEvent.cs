@@ -9,7 +9,7 @@ public record ApplicationReceivedIntegrationEvent :IntegrationEvent
     public Guid ApplicationId { get; init; }
     public string[] Recommenders { get; init; }
 
-    public ApplicationReceivedIntegrationEvent(string firstName, string email, Guid applicationId, string[] recommenders)
+    public ApplicationReceivedIntegrationEvent(Guid tenantId,string firstName, string email, Guid applicationId, string[] recommenders): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

@@ -6,7 +6,7 @@ public record GetMembersRequest([FromQuery] int Status, [FromQuery] int Page = 0
 {
     public string ToQueryString()
     {
-        var queryString = $"?Status={Status}&Page={Page}&Limit={Limit}";
+        var queryString = $"?Status={this.Status}&Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

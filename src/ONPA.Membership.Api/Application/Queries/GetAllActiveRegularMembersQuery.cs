@@ -10,7 +10,7 @@ public record GetAllActiveRegularMembersQuery : ApplicationQueryBase<CollectionR
 
     public GetAllActiveRegularMembersQuery(int page, int pageSize)
     {
-        Page = page;
-        PageSize = pageSize;
+        this.Page = page;
+        this.PageSize = pageSize;
     }
 }

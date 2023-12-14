@@ -30,11 +30,11 @@ namespace ONPA.Identity.Api.Quickstart.Home
             if (this._environment.IsDevelopment())
             {
                 // only show in development
-                return View();
+                return this.View();
             }
 
             this._logger.LogInformation("Homepage is disabled in production. Returning 404.");
-            return NotFound();
+            return this.NotFound();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace ONPA.Identity.Api.Quickstart.Home
                 }
             }
 
-            return View("Error", vm);
+            return this.View("Error", vm);
         }
     }
 }

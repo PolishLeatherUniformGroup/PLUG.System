@@ -11,7 +11,7 @@ public record MemberRequestedFeePaymentIntegrationEvent : IntegrationEvent
     public DateTime DueDate { get; init; }
     public DateTime Period { get; init; }
 
-    public MemberRequestedFeePaymentIntegrationEvent(string firstName, string email, decimal requestedFeeAmount, string requestedFeeCurrency, DateTime dueDate, DateTime period)
+    public MemberRequestedFeePaymentIntegrationEvent(Guid tenantId,string firstName, string email, decimal requestedFeeAmount, string requestedFeeCurrency, DateTime dueDate, DateTime period): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

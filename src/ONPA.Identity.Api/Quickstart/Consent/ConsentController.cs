@@ -44,10 +44,10 @@ public class ConsentController : Controller
         var vm = await this.BuildViewModelAsync(returnUrl);
         if (vm != null)
         {
-            return View("Index", vm);
+            return this.View("Index", vm);
         }
 
-        return View("Error");
+        return this.View("Error");
     }
 
     /// <summary>
@@ -69,20 +69,20 @@ public class ConsentController : Controller
                 return this.LoadingPage("Redirect", result.RedirectUri);
             }
 
-            return Redirect(result.RedirectUri);
+            return this.Redirect(result.RedirectUri);
         }
 
         if (result.HasValidationError)
         {
-            ModelState.AddModelError(string.Empty, result.ValidationError);
+            this.ModelState.AddModelError(string.Empty, result.ValidationError);
         }
 
         if (result.ShowView)
         {
-            return View("Index", result.ViewModel);
+            return this.View("Index", result.ViewModel);
         }
 
-        return View("Error");
+        return this.View("Error");
     }
 
     /*****************************************/
@@ -104,7 +104,7 @@ public class ConsentController : Controller
             grantedConsent = new ConsentResponse { Error = AuthorizationError.AccessDenied };
 
             // emit event
-            await this._events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
+            await this._events.RaiseAsync(new ConsentDeniedEvent(this.User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues));
         }
         // user clicked 'yes' - validate the data
         else if (model?.Button == "yes")
@@ -126,7 +126,7 @@ public class ConsentController : Controller
                 };
 
                 // emit event
-                await this._events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
+                await this._events.RaiseAsync(new ConsentGrantedEvent(this.User.GetSubjectId(), request.Client.ClientId, request.ValidatedResources.RawScopeValues, grantedConsent.ScopesValuesConsented, grantedConsent.RememberConsent));
             }
             else
             {

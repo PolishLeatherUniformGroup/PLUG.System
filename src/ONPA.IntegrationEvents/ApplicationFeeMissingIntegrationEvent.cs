@@ -10,7 +10,7 @@ public record ApplicationFeeMissingIntegrationEvent : IntegrationEvent
     public decimal RegisteredFeeAmount { get; init; }
     public string FeeCurrency { get; init; }
 
-    public ApplicationFeeMissingIntegrationEvent(string firstName, string email, decimal requiredFeeAmount, decimal registeredFeeAmount, string feeCurrency)
+    public ApplicationFeeMissingIntegrationEvent(Guid tenantId,string firstName, string email, decimal requiredFeeAmount, decimal registeredFeeAmount, string feeCurrency): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

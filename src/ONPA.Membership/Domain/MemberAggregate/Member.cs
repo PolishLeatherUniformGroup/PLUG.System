@@ -40,13 +40,13 @@ public sealed partial class Member : AggregateRoot
     private readonly List<Guid> _groupMemberships = new List<Guid>();
     public IEnumerable<Guid> GroupMembership => this._groupMemberships;
 
-    public Member(Guid aggregateId, IEnumerable<IStateEvent> changes) : base(aggregateId, changes)
+    public Member(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId, tenantId, changes)
     {
     }
 
-    public Member(CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address,
+    public Member(Guid tenantId, CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address,
         DateTime joinDate,
-        Money paidFee)
+        Money paidFee):base(tenantId)
     {
         this.MemberNumber = cardNumber;
         this.FirstName = firstName;

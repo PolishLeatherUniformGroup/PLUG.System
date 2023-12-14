@@ -12,7 +12,7 @@ public sealed class MakeMemberHonoraryCommandHandler : ApplicationCommandHandler
 
     public MakeMemberHonoraryCommandHandler(IAggregateRepository<Member> aggregateRepository)
     {
-        _aggregateRepository = aggregateRepository;
+        this._aggregateRepository = aggregateRepository;
     }
     
     public override async Task<CommandResult> Handle(MakeMemberHonoraryCommand request, CancellationToken cancellationToken)

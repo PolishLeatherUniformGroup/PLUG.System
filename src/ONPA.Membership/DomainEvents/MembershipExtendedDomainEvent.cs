@@ -15,15 +15,15 @@ public sealed class MembershipExtendedDomainEvent : DomainEventBase
         this.ValidUntil = validUntil;
     }
 
-    private MembershipExtendedDomainEvent(Guid aggregateId, string firstName, string email, DateTime validUntil) : base(aggregateId)
+    private MembershipExtendedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email, DateTime validUntil) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
         this.ValidUntil = validUntil;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MembershipExtendedDomainEvent(aggregateId, this.FirstName, this.Email, this.ValidUntil);
+        return new MembershipExtendedDomainEvent(aggregateId,tenantId, this.FirstName, this.Email, this.ValidUntil);
     }
 }

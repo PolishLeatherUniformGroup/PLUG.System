@@ -19,7 +19,7 @@ public sealed class CreatePublicGatheringCommandHandler : ApplicationCommandHand
     {
         try
         {
-            var aggregate = new PublicGathering(request.Name, request.Description, request.Regulations, request.ScheduledStart,
+            var aggregate = new PublicGathering(request.TenantId,request.Name, request.Description, request.Regulations, request.ScheduledStart,
                 request.PlannedCapacity, request.PricePerPerson,request.PublishDate,request.EnrollmentDeadline);
             await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;

@@ -19,6 +19,6 @@ public partial class MemberJoinedGroup : StateEventBase
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new MemberJoinedGroup(aggregateId, aggregateVersion, Member);
+        return new MemberJoinedGroup(aggregateId, aggregateVersion, this.Member);
     }
 }

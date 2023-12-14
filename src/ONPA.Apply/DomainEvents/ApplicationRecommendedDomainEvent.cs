@@ -12,14 +12,14 @@ public sealed class ApplicationRecommendedDomainEvent : DomainEventBase
         this.LastName = lastName;
     }
 
-    private ApplicationRecommendedDomainEvent(Guid aggregateId, string firstName, string lastName) : base(aggregateId)
+    private ApplicationRecommendedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string lastName) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationRecommendedDomainEvent(aggregateId,this.FirstName,this.LastName);
+        return new ApplicationRecommendedDomainEvent(aggregateId,tenantId, this.FirstName,this.LastName);
     }
 }

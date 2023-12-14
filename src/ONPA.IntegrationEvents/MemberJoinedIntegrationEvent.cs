@@ -13,7 +13,7 @@ public record MemberJoinedIntegrationEvent : IntegrationEvent
     public decimal PaidFeeAmount { get; init; }
     public string PaidFeeCurrency { get; init; }
 
-    public MemberJoinedIntegrationEvent(
+    public MemberJoinedIntegrationEvent(Guid tenantId,
         string firstName, 
         string lastName,
         string email,
@@ -21,7 +21,7 @@ public record MemberJoinedIntegrationEvent : IntegrationEvent
         string address,
         DateTime joinDate,
         decimal paidFeeAmount,
-        string paidFeeCurrency)
+        string paidFeeCurrency): base(tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;

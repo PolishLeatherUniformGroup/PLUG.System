@@ -21,7 +21,7 @@ public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBas
         this.ScheduledStart = scheduledStart;
     }
         
-    private EnrollmentAddedToPublicGatheringDomainEvent(Guid aggregateId, Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart) : base(aggregateId)
+    private EnrollmentAddedToPublicGatheringDomainEvent(Guid aggregateId, Guid tenantId, Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart) : base(aggregateId,tenantId)
     {
         this.EnrollmentRequiredPayment = enrollmentRequiredPayment;
         this.EnrollmentFirstName = enrollmentFirstName;
@@ -30,8 +30,8 @@ public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBas
         this.ScheduledStart = scheduledStart;
     }
         
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new EnrollmentAddedToPublicGatheringDomainEvent(aggregateId, this.EnrollmentRequiredPayment, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants, this.ScheduledStart);
+        return new EnrollmentAddedToPublicGatheringDomainEvent(aggregateId,tenantId, this.EnrollmentRequiredPayment, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants, this.ScheduledStart);
     }
 }

@@ -6,7 +6,7 @@ public record GetMemberSuspensionsRequest([FromRoute] Guid MemberId, [FromQuery]
 {
     public string ToQueryString()
     {
-        var queryString = $"{MemberId}/suspensions?Page={Page}&Limit={Limit}";
+        var queryString = $"{this.MemberId}/suspensions?Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

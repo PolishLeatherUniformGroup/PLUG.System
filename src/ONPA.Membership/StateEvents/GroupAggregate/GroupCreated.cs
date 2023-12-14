@@ -23,6 +23,6 @@ public class GroupCreated : StateEventBase
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new GroupCreated(aggregateId, aggregateVersion, GroupName, GroupType);
+        return new GroupCreated(aggregateId, aggregateVersion, this.GroupName, this.GroupType);
     }
 }

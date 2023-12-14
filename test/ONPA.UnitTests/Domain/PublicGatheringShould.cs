@@ -10,6 +10,7 @@ namespace ONPA.UnitTests.Domain;
 public class PublicGatheringShould
 {
     private readonly IFixture _fixture;
+    private readonly Guid tenantId = Guid.NewGuid();
 
     public PublicGatheringShould()
     {
@@ -30,7 +31,7 @@ public class PublicGatheringShould
         var enrollmentDeadline = this._fixture.Create<DateTime>();
 
         // Act
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
 
         // Assert
@@ -66,7 +67,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newName = this._fixture.Create<string>();
         var newDescription = this._fixture.Create<string>();
@@ -98,7 +99,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newCapacity = this._fixture.Create<int>();
 
@@ -127,7 +128,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newPrice = new Money(this._fixture.Create<decimal>());
 
@@ -156,7 +157,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newScheduledStart = this._fixture.Create<DateTime>();
         var newPublishDate = this._fixture.Create<DateTime>();
@@ -189,7 +190,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
 
         // Act
@@ -217,7 +218,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         
         // Act
@@ -245,7 +246,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         
@@ -276,7 +277,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -339,7 +340,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -409,7 +410,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -485,7 +486,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -562,7 +563,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = DateTime.Now;
         var enrollmentDeadline = DateTime.Now.AddDays(-1);
-        var aggregate = new PublicGathering(name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
