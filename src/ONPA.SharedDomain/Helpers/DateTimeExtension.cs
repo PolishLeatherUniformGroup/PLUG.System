@@ -6,4 +6,9 @@ public static class DateTimeExtension
     {
         return new DateTime(dateTime.Year, 12, 31);
     }
+    
+    public static DateTime MonthEnd(this DateTime dateTime, int month, int year)
+    {
+        return new DateTime(year, month, DateTime.DaysInMonth(dateTime.Year, dateTime.Month));
+    }
 }

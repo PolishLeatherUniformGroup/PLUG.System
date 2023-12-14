@@ -12,24 +12,7 @@
     {
         <FluentButton IconStart="@(new Icons.Regular.Size20.Eye())" Title="Zobacz" OnClick="@(() => NavManager.NavigateTo($"/members/{GetItemId()}"))" />
     }
-    @if (GetStatus() == MemberStatus.Active || GetStatus() == MemberStatus.Expired)
-    {
-        if (!ShowText)
-        {
-            <FluentButton Title="Rejestruj wpłatę" OnClick="@(() => RegisterPayment(Item))">
-                @PayIcon(Color.Accent)
-            </FluentButton>
-        }
-        else
-        {
-            <FluentButton Title="Rejestruj wpłatę" OnClick="@(() => RegisterPayment(Item))" Appearance="Appearance.Outline">
-                <div style="display: flex;">
-                    @PayIcon(Color.Accent)
-                    <span style="display:inline-flex; padding-bottom: 1px;"> Rejestruj wpłatę</span>
-                </div>
-            </FluentButton>
-        }
-    }
+   
 </FluentStack>
 @code {
     const int ToastTimeout = 10 * 1000;
@@ -82,45 +65,6 @@
     private string? GetCardNumber()
     {
         return GetProperty<string>("LastName");
-    }
-    
-    private async Task RegisterPayment(TItem application)
-    {
-        PaymentDialogData = new PaymentDialogAction()
-        {
-            ShowPeriod = true,
-            ActionDescription = $"Wprowadź kwotę i okres składki od: {GetItemFirstName()} {GetItemLastName()}."
-        };
-        var result = await OpenPaymentDialog();
-
-        var applicationId = GetItemId();
-        if (result is not null && result.Confirmed && applicationId is not null && result.PaidAmount is not null && result.Period is not null)
-        {
-            var response = await MembershipService.RegisterFeePayment(applicationId.Value, result.PaidAmount.Value, result.Currency, result.Period.Value);
-            if(response){
-                var message = $"Wpłata składki  od {GetItemFirstName()} {GetItemLastName()} została zaresjestrowana.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
-            else
-            {
-                var message = $"Wystąpił błąd podczas rejestracji wpłaty składki od {GetItemFirstName()} {GetItemLastName()}.";
-                ToastService.ShowError(message, ToastTimeout);
-            }
-        }
-    }
-    
-    private async Task<PaymentDialogAction?> OpenPaymentDialog()
-    {
-        var dialog = await DialogService.ShowDialogAsync<RegisterPaymentDialog>(PaymentDialogData, new DialogParameters()
-        {
-            Height = "600px",
-            Width = "600px",
-            Title = $"Rejestracja wpłaty",
-            PreventDismissOnOverlayClick = true,
-            PreventScroll = true,
-        });
-
-        var result = await dialog.Result;
-        return result.Data as PaymentDialogAction;
-    }
+    }   
+   
 }

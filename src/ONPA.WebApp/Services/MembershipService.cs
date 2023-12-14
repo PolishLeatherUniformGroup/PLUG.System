@@ -47,9 +47,9 @@ public class MembershipService
         }
     }
     
-    public async Task<bool> RegisterFeePayment(Guid memberId, decimal paidAmount, string currency, DateTime period)
+    public async Task<bool> RegisterFeePayment(Guid memberId, Guid feeId, decimal paidAmount, string currency, DateTime period)
     {
-        var request = new RegisterMembershipFeePaymentRequest(memberId, new Payment(paidAmount, currency, period));
+        var request = new RegisterMembershipFeePaymentRequest(memberId,  feeId, new Payment(paidAmount, currency, period));
         try
         {
             
