@@ -37,7 +37,7 @@ public sealed partial class Member : AggregateRoot
     public MembershipSuspension? Suspension => this._suspension;
     public MembershipExpel? Expel => this._expel;
 
-    private readonly List<Guid> _groupMemberships = new List<Guid>();
+    private readonly List<Guid> _groupMemberships = new();
     public IEnumerable<Guid> GroupMembership => this._groupMemberships;
 
     public Member(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId, tenantId, changes)

@@ -41,7 +41,7 @@
 
 @code {
     GridItemsProvider<ApplicationItem> applicationsProvider = default!;
-    PaginationState Pagination { get; set; }= new PaginationState { ItemsPerPage = 10 };
+    PaginationState Pagination { get; set; }= new() { ItemsPerPage = 10 };
     string statusFilterValue = "-1";
 
     const int ToastTimeout = 15 * 1000;
@@ -70,7 +70,7 @@
             var r = new Random();
             var testData = new List<ApplicationItem>
             {
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Jan",
                     LastName = "Kowalski",
@@ -78,7 +78,7 @@
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.AwaitDecision
                 },
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Marian",
                     LastName = "Nowak",
@@ -86,7 +86,7 @@
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.Received
                 },
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Bogumił",
                     LastName = "Nowacki",

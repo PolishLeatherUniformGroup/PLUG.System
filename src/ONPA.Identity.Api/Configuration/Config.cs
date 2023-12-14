@@ -10,9 +10,9 @@ namespace ONPA.Identity.Api.Configuration
         {
             return new List<ApiResource>
             {
-                new ApiResource("orders", "Orders Service"),
-                new ApiResource("basket", "Basket Service"),
-                new ApiResource("webhooks", "Webhooks registration Service"),
+                new("orders", "Orders Service"),
+                new("basket", "Basket Service"),
+                new("webhooks", "Webhooks registration Service"),
             };
         }
 
@@ -22,9 +22,9 @@ namespace ONPA.Identity.Api.Configuration
         {
             return new List<ApiScope>
             {
-                new ApiScope("orders", "Orders Service"),
-                new ApiScope("basket", "Basket Service"),
-                new ApiScope("webhooks", "Webhooks registration Service"),
+                new("orders", "Orders Service"),
+                new("basket", "Basket Service"),
+                new("webhooks", "Webhooks registration Service"),
             };
         }
 
@@ -44,7 +44,7 @@ namespace ONPA.Identity.Api.Configuration
         {
             return new List<Client>
             {
-                new Client
+                new()
                 {
                     ClientId = "xamarin",
                     ClientName = "eShop Xamarin OpenId Client",
@@ -73,13 +73,13 @@ namespace ONPA.Identity.Api.Configuration
                     AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true
                 },
-                new Client
+                new()
                 {
                     ClientId = "webapp",
                     ClientName = "WebApp Client",
                     ClientSecrets = new List<Secret>
                     {
-                        new Secret("secret".Sha256())
+                        new("secret".Sha256())
                     },
                     ClientUri = $"{configuration["WebAppClient"]}",                             // public uri of the client
                     AllowedGrantTypes = GrantTypes.Code,
@@ -109,13 +109,13 @@ namespace ONPA.Identity.Api.Configuration
                     AccessTokenLifetime = 60*60*2, // 2 hours
                     IdentityTokenLifetime= 60*60*2 // 2 hours
                 },
-                new Client
+                new()
                 {
                     ClientId = "webhooksclient",
                     ClientName = "Webhooks Client",
                     ClientSecrets = new List<Secret>
                     {
-                        new Secret("secret".Sha256())
+                        new("secret".Sha256())
                     },
                     ClientUri = $"{configuration["WebhooksWebClient"]}",                             // public uri of the client
                     AllowedGrantTypes = GrantTypes.Code,
@@ -141,7 +141,7 @@ namespace ONPA.Identity.Api.Configuration
                     AccessTokenLifetime = 60*60*2, // 2 hours
                     IdentityTokenLifetime= 60*60*2 // 2 hours
                 },
-                new Client
+                new()
                 {
                     ClientId = "basketswaggerui",
                     ClientName = "Basket Swagger UI",
@@ -156,7 +156,7 @@ namespace ONPA.Identity.Api.Configuration
                         "basket"
                     }
                 },
-                new Client
+                new()
                 {
                     ClientId = "orderingswaggerui",
                     ClientName = "Ordering Swagger UI",
@@ -171,7 +171,7 @@ namespace ONPA.Identity.Api.Configuration
                         "orders"
                     }
                 },
-                new Client
+                new()
                 {
                     ClientId = "webhooksswaggerui",
                     ClientName = "WebHooks Service Swagger UI",

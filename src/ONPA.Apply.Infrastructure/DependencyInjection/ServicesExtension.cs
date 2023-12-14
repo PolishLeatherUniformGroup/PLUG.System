@@ -19,6 +19,7 @@ public static class ServicesExtension
         services.AddTransient<IReadOnlyRepository<Recommendation>, RecommendationReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.ApplicationForm>, ApplicationFormReadOnlyRepository>();
         services.AddDbContext<ApplyContext>();
+       
         return services;
     }
     

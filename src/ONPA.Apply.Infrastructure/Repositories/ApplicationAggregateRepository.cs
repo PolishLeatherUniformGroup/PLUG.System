@@ -22,13 +22,13 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
     public IUnitOfWork UnitOfWork => this._context;
 
     public async Task<ApplicationForm?> GetByIdAsync(Guid id,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         return await this._context.ReadAggregate<ApplicationForm>(id, cancellationToken);
     }
 
     public async Task<ApplicationForm> CreateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         var applicationForm = new ReadModel.ApplicationForm()
@@ -52,7 +52,7 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
     }
 
     public async Task<ApplicationForm> UpdateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         this.UpdateRecommendations(aggregate);

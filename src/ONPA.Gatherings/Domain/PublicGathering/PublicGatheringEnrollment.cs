@@ -23,7 +23,7 @@ public class PublicGatheringEnrollment : Entity
 
     public bool IsRefunded => this.RefundedAmount == this.RefundableAmount && this.RefundDate.HasValue;
 
-    private List<Participant> _participants = new List<Participant>();
+    private List<Participant> _participants = new();
     public IEnumerable<Participant> Participants => this._participants;
 
     internal PublicGatheringEnrollment(DateTime registrationDate, int placesBooked, string firstName, string lastName,

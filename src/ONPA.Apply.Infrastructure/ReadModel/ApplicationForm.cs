@@ -15,20 +15,3 @@ public class ApplicationForm
     public decimal? PaidFeeAmount { get; set; }
     public string? FeeCurrency { get; set; }
 }
-
-public class ApplicationAction
-{
-    public Guid ApplicationId { get; set; }
-    public ApplicationActionType ActionId { get; set; }
-    public DateTime DecisionDate { get; set; }
-    public string DecisionJustification { get; set; }
-}
-
-public enum ApplicationActionType
-{
-    Approval = 1,
-    Rejection =2,
-    Appeal =3,
-    AppealApproval =4,
-    AppealRejection =5,
-}

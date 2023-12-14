@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj" />
+      <ProjectReference Include="..\ONPA.Organizations\ONPA.Organizations.csproj" />
     </ItemGroup>
 
     <ItemGroup>

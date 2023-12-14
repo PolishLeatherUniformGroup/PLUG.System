@@ -22,7 +22,7 @@ public class RecommendationReadOnlyRepository: IReadOnlyRepository<Recommendatio
         return await this._context.Recommendations.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<Recommendation>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<IEnumerable<Recommendation>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
         return await this._context.Recommendations.Skip(page * pageSize).Take(pageSize).ToListAsync(cancellationToken);
     }
@@ -30,7 +30,7 @@ public class RecommendationReadOnlyRepository: IReadOnlyRepository<Recommendatio
     public async Task<IEnumerable<Recommendation>> ManyByFilter(Expression<Func<Recommendation, bool>> filter,
         int page = 0,
         int pageSize = 20,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         return await this._context.Recommendations
             .Where(filter)

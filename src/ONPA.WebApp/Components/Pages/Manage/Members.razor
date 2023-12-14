@@ -19,7 +19,7 @@
 
 @code {
     GridItemsProvider<MemberItem> membersProvider = default!;
-    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    PaginationState pagination = new() { ItemsPerPage = 10 };
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,7 +29,7 @@
             var r = new Random();
             var testData = new List<MemberItem>
             {
-                new MemberItem
+                new()
                 {
                     FirstName = "Jan",
                     LastName = "Kowalski",
@@ -38,7 +38,7 @@
                     CardNumber = "TEST-0001",
                     Status = MemberStatus.Active
                 },
-                new MemberItem
+                new()
                 {
                     FirstName = "Marian",
                     LastName = "Nowak",
@@ -47,7 +47,7 @@
                     CardNumber = "TEST-0002",
                     Status = MemberStatus.Suspended
                 },
-                new MemberItem
+                new()
                 {
                     FirstName = "Bogumił",
                     LastName = "Nowacki",
@@ -56,7 +56,7 @@
                     CardNumber = "TEST-0003",
                     Status = MemberStatus.Inactive
                 },
-                new MemberItem
+                new()
                 {
                     FirstName = "Grzegorz",
                     LastName = "Brzęczyszczykiewicz",

@@ -3,8 +3,12 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Common.Application;
+using ONPA.Common.Queries;
 using ONPA.Organizations.Api.Application.Commands;
+using ONPA.Organizations.Api.Application.Queries;
+using ONPA.Organizations.Contract;
 using ONPA.Organizations.Contract.Requests;
+using ONPA.Organizations.Contract.Responses;
 
 namespace ONPA.Organizations.Api.Controllers
 {
@@ -31,22 +35,75 @@ namespace ONPA.Organizations.Api.Controllers
         {
             return await this.SendCommandRequest<CreateOrganizationCommand>(request);
         }
-
-        [HttpPut("{organizationId}/data")]
+        
+        [HttpGet]
+        public async Task<ActionResult<PageableResult<OrganizationResponse>>> GetOrganizations([FromQuery] GetOrganizationsRequest request)
+        {
+            var query = this._mapper.Map<GetOrganizationsQuery>(request);
+            var result = await this._mediator.Send(query);
+            return this.Ok(result.FromQueryResult(query));
+        }
+        
+        [HttpPut(Routes.SingleOrganization)]
         public async Task<ActionResult<Guid>> UpdateOrganizationData([FromBody] UpdateOrganizationDataRequest request)
         {
             return await this.SendCommandRequest<ChangeOrganizationDataCommand>(request);
         }
-        [HttpPut("{organizationId}/settings")]
+        
+        [HttpGet(Routes.SingleOrganization)]
+        public async Task<ActionResult<OrganizationResponse?>> GetOrganization([FromRoute]GetOrganizationRequest request)
+        {
+            var query = this._mapper.Map<GetOrganizationQuery>(request);
+            var result = await this._mediator.Send(query);
+            if(result == null)
+            {
+                return this.NotFound();
+            }
+            return this.Ok(result);
+        }
+        
+        [HttpPut(Routes.SingleOrganizationSettings)]
         public async Task<ActionResult<Guid>> UpdateSettingsData([FromBody] UpdateOrganizationSettingsRequest request)
         {
             return await this.SendCommandRequest<UpdateOrganizationSettingsCommand>(request);
         }
         
-        [HttpPost("{organizationId}/fees")]
+        [HttpGet(Routes.SingleOrganizationSettings)]
+        public async Task<ActionResult<OrganizationSettingsResponse?>> GetOrganizationSettings([FromRoute] GetOrganizationSettingsRequest request)
+        {
+            var query = this._mapper.Map<GetOrganizationSettingsQuery>(request);
+            var result = await this._mediator.Send(query);
+            if(result == null)
+            {
+                return this.NotFound();
+            }
+            return this.Ok(result);
+        }
+        
+        [HttpPost(Routes.SingleOrganizationFees)]
         public async Task<ActionResult<Guid>> AddMembershipFee([FromBody] AddMembershipFeeRequest request)
         {
             return await this.SendCommandRequest<RequestMembershipFeeCommand>(request);
+        }
+        
+        [HttpGet(Routes.SingleOrganizationFees)]
+        public async Task<ActionResult<PageableResult<OrganizationFeeResponse>>> GetOrganizationFees([FromRoute] GetOrganizationFeesRequest request)
+        {
+            var query = this._mapper.Map<GetOrganizationFeesQuery>(request);
+            var result = await this._mediator.Send(query);
+            return this.Ok(result.FromQueryResult(query));
+        }
+        
+        [HttpGet(Routes.SingleOrganizationFeeForYear)]
+        public async Task<ActionResult<OrganizationFeeResponse?>> GetOrganizationFeeForYear([FromRoute] GetOrganizationMembershipFeeQuery request)
+        {
+            var query = this._mapper.Map<GetOrganizationMembershipFeeQuery>(request);
+            var result = await this._mediator.Send(query);
+            if(result == null)
+            {
+                return this.NotFound();
+            }
+            return this.Ok(result);
         }
 
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request)
