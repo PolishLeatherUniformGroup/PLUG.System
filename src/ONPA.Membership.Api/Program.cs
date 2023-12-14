@@ -1,3 +1,8 @@
+using System.Reflection;
+using ONPA.Common.Behaviors;
+using ONPA.Membership.Api.Application.Behaviors;
+using ONPA.Organizations.Infrastructure.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMediatR(configuration=>
+{
+    configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    configuration.AddOpenBehavior(typeof(CommandLoggingBehavior<,>));
+    configuration.AddOpenBehavior(typeof(CommandValidationBehavior<,>));
+    configuration.AddOpenBehavior(typeof(TransactionalBehavior<,>));
+});
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

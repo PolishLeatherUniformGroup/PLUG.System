@@ -20,7 +20,7 @@ public sealed class OrganizationSettingsReadOnlyRepository : IReadOnlyRepository
         return await this._context.OrganizationSettings.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<OrganizationSettings>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<IEnumerable<OrganizationSettings>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
         return await this._context.OrganizationSettings.Skip(page * pageSize).Take(pageSize).ToListAsync(cancellationToken);
     }
@@ -28,7 +28,7 @@ public sealed class OrganizationSettingsReadOnlyRepository : IReadOnlyRepository
     public async Task<IEnumerable<OrganizationSettings>> ManyByFilter(Expression<Func<OrganizationSettings, bool>> filter,
         int page = 0,
         int pageSize = 20,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         return await this._context.OrganizationSettings
             .Where(filter)
