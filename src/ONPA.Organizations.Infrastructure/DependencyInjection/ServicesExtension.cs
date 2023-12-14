@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ONPA.Common.Application;
 using ONPA.Common.Domain;
+using ONPA.IntegrationEventsLog.Services;
 using ONPA.Organizations.Domain;
 using ONPA.Organizations.Infrastructure.Database;
 using ONPA.Organizations.Infrastructure.Repositories;
@@ -18,6 +19,7 @@ public static class ServicesExtension
         services.AddTransient<IReadOnlyRepository<ReadModel.OrganizationFee>, OrganizationFeeReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.OrganizationSettings>, OrganizationSettingsReadOnlyRepository>();
         services.AddDbContext<OrganizationsContext>();
+        services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<OrganizationsContext>>();
         return services;
     }
 }

@@ -1,6 +1,7 @@
 using System.Reflection;
 using ONPA.Common.Behaviors;
 using ONPA.Membership.Api.Application.Behaviors;
+using ONPA.Membership.Api.Application.IntegrationEvents;
 using ONPA.Organizations.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddMediatR(configuration=>
     configuration.AddOpenBehavior(typeof(TransactionalBehavior<,>));
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
+builder.AddRabbitMqEventBus("EventBus");
 
 var app = builder.Build();
 

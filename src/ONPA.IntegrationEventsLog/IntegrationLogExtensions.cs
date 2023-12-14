@@ -1,8 +1,10 @@
  using Microsoft.EntityFrameworkCore;
  using Microsoft.EntityFrameworkCore.Metadata.Builders;
  using Microsoft.EntityFrameworkCore.Storage;
+ using Microsoft.Extensions.DependencyInjection;
+ using ONPA.IntegrationEventsLog.Services;
 
-namespace ONPA.IntegrationEventsLog;
+ namespace ONPA.IntegrationEventsLog;
 
 public static class IntegrationLogExtensions
 {
@@ -15,4 +17,5 @@ public static class IntegrationLogExtensions
             builder.HasKey(e => e.EventId);
         });
     }
+    
 }
