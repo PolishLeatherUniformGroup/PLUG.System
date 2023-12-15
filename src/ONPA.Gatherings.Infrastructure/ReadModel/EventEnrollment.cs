@@ -21,5 +21,5 @@ public class EventEnrollment
     public decimal? RefundedAmount { get; set; }
     public DateTime? RefundDate { get; set; }
     
-    public Collection<EventParticipant> Participants { get; set; } = new();
+    public List<EventParticipant> Participants { get; set; } = new();
 }
