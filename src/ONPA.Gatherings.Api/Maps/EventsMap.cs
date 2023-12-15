@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ONPA.Gatherings.Api.Application.Commands;
+using ONPA.Gatherings.Api.Application.Queries;
 using ONPA.Gatherings.Contract.Requests;
 using PLUG.System.SharedDomain;
 
@@ -84,5 +85,23 @@ public class EventsMap : Profile
             .ForCtorParam(nameof(RefundCancelledEnrollmentCommand.RefundDate), opt => opt.MapFrom(src => src.Refund.RefundDate))
             .ForCtorParam(nameof(RefundCancelledEnrollmentCommand.RefundedAmount), opt => opt.MapFrom(src =>
                 new Money(src.Refund.RefundAmount, src.Refund.Currency)));
+        
+        this.CreateMap<GetEventRequest, GetEventQuery>()
+            .ForCtorParam(nameof(GetEventQuery.EventId), opt => opt.MapFrom(src => src.EventId));
+        
+        this.CreateMap<GetEventsByStatusRequest, GetEventsByStatusQuery>()
+            .ForCtorParam(nameof(GetEventsByStatusQuery.Page), opt => opt.MapFrom(src => src.Page))
+            .ForCtorParam(nameof(GetEventsByStatusQuery.Limit), opt => opt.MapFrom(src => src.Limit))
+            .ForCtorParam(nameof(GetEventsByStatusQuery.Status), opt => opt.MapFrom(src => src.Status));
+
+        this.CreateMap<GetEventEnrollmentsRequest, GetEventEnrollmentsQuery>()
+            .ForCtorParam(nameof(GetEventEnrollmentsQuery.EventId), opt => opt.MapFrom(src => src.EventId))
+            .ForCtorParam(nameof(GetEventEnrollmentsQuery.Page), opt => opt.MapFrom(src => src.Page))
+            .ForCtorParam(nameof(GetEventEnrollmentsQuery.Limit), opt => opt.MapFrom(src => src.Limit));
+        
+        this.CreateMap<GetEventParticipantsRequest, GetEventParticipantsQuery>()
+            .ForCtorParam(nameof(GetEventParticipantsQuery.EventId), opt => opt.MapFrom(src => src.EventId))
+            .ForCtorParam(nameof(GetEventParticipantsQuery.Page), opt => opt.MapFrom(src => src.Page))
+            .ForCtorParam(nameof(GetEventParticipantsQuery.Limit), opt => opt.MapFrom(src => src.Limit));
     }
 } 
