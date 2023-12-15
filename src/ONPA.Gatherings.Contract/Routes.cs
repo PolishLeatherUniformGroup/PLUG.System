@@ -13,4 +13,5 @@ public static class Routes
     public const string SingleEventEnrollments = "{eventId}/enrollments";
     public const string SingleEventEnrollmentPayments = "{eventId}/enrollments/{enrollmentId}/payments";
     public const string SingleEventEnrollmentPaymentRefund = "{eventId}/enrollments/{enrollmentId}/payments/refund";
+    public const string SingleEventParticipants = "{eventId}/participants";
 }

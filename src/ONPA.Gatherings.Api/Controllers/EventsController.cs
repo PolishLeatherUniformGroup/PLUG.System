@@ -3,9 +3,12 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Common.Application;
+using ONPA.Common.Queries;
 using ONPA.Gatherings.Api.Application.Commands;
+using ONPA.Gatherings.Api.Application.Queries;
 using ONPA.Gatherings.Contract;
 using ONPA.Gatherings.Contract.Requests;
+using ONPA.Gatherings.Contract.Responses;
 
 namespace ONPA.Gatherings.Api.Controllers;
 
@@ -33,11 +36,28 @@ public class EventsController : ControllerBase
         return await this.SendCommandRequest<CreateEventCommand>(request);
     }
     
+    [HttpGet]
+    public async Task<ActionResult<PageableResult<EventResponse>>> GetEvents([FromQuery] GetEventsByStatusRequest request)
+    {
+        var query = this._mapper.Map<GetEventsByStatusQuery>(request);
+        var response = await this._mediator.Send(query);
+        return this.Ok(response.FromQueryResult(query));
+    }
+    
     [HttpPut(Routes.SingleEvent)]
     public async Task<ActionResult<Guid>> UpdateEvent([FromBody] UpdateEventDescriptionRequest request)
     {
         return await this.SendCommandRequest<ModifyEventDescriptionCommand>(request);
     }
+    
+    [HttpGet(Routes.SingleEvent)]
+    public async Task<ActionResult<EventResponse>> GetEvent([FromRoute] GetEventRequest request)
+    {
+        var query = this._mapper.Map<GetEventQuery>(request);
+        var response = await this._mediator.Send(query);
+        return this.Ok(response);
+    }
+
     
     [HttpPut(Routes.SingleEventPrice)]
     public async Task<ActionResult<Guid>> UpdateEventPrice([FromBody] UpdateEventPriceRequest request)
@@ -79,12 +99,27 @@ public class EventsController : ControllerBase
     {
         return await this.SendCommandRequest<ArchiveEventCommand>(request);
     }
-
     
     [HttpPost(Routes.SingleEventEnrollments)]
     public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] CreateEventEnrollmentRequest request)
     {
         return await this.SendCommandRequest<EnrollToEventCommand>(request);
+    }
+    
+    [HttpGet(Routes.SingleEventEnrollments)]
+    public async Task<ActionResult<PageableResult<EnrollmentResponse>>> GetEventEnrollments([FromRoute] GetEventEnrollmentsRequest request)
+    {
+        var query = this._mapper.Map<GetEventEnrollmentsQuery>(request);
+        var response = await this._mediator.Send(query);
+        return this.Ok(response.FromQueryResult(query));
+    }
+    
+    [HttpGet(Routes.SingleEventParticipants)]
+    public async Task<ActionResult<PageableResult<ParticipantResponse>>> GetEventParticipants([FromRoute] GetEventParticipantsRequest request)
+    {
+        var query = this._mapper.Map<GetEventParticipantsQuery>(request);
+        var response = await this._mediator.Send(query);
+        return this.Ok(response.FromQueryResult(query));
     }
     
     [HttpPut(Routes.SingleEventEnrollmentPayments)]
