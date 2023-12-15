@@ -11,7 +11,7 @@ on:
       - "**/*.gitignore"
       - "**/*.gitattributes"
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "development" ]
     paths-ignore:
       - "**/*.md"
       - "**/*.gitignore"
