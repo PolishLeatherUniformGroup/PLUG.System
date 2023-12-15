@@ -1,5 +1,4 @@
-﻿using ONPA.Identity.Api.Models;
-using ONPA.EventBus.Abstraction;
+﻿using ONPA.EventBus.Abstraction;
 using ONPA.IntegrationEvents;
 
 namespace ONPA.Identity.Api.Application.IntegrationEventHandlers;

@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-
-namespace ONPA.EventBus.RabbitMq;
+﻿namespace ONPA.EventBus.RabbitMq;
 
 public class EventBusOptions
 {

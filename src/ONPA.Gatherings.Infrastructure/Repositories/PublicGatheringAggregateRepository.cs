@@ -18,13 +18,13 @@ public class PublicGatheringAggregateRepository:IAggregateRepository<PublicGathe
         return await this._context.ReadAggregate<PublicGathering>(id, cancellationToken);
     }
 
-    public async Task<PublicGathering> CreateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<PublicGathering> CreateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         return aggregate;
     }
 
-    public async Task<PublicGathering> UpdateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<PublicGathering> UpdateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         return aggregate;

@@ -1,5 +1,4 @@
 using MediatR;
-using ONPA.IntegrationEvents;
 using ONPA.Membership.Api.Application.IntegrationEvents;
 using ONPA.Membership.Api.Application.Queries;
 

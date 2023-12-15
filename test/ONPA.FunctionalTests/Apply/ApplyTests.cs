@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using ONPA.Apply.Api;
 
 namespace ONPA.FunctionalTests.Apply;

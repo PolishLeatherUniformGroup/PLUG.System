@@ -1,15 +1,3 @@
-using System.Security.Claims;
-using Duende.IdentityServer;
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Stores;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using ONPA.Identity.Api.Models;
-
 namespace ONPA.Identity.Api.Quickstart.Account;
 
 [SecurityHeaders]

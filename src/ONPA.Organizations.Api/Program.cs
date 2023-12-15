@@ -1,8 +1,6 @@
 using System.Reflection;
-using MediatR;
 using ONPA.Common.Behaviors;
 using ONPA.Organizations.Api.Application.Behaviors;
-using ONPA.Organizations.Api.Application.Commands;
 using ONPA.Organizations.Api.Application.IntegrationEvents;
 using ONPA.Organizations.Infrastructure.DependencyInjection;
 

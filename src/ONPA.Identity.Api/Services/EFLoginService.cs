@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using ONPA.Identity.Api.Models;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public class EFLoginService : ILoginService<ApplicationUser>
     {

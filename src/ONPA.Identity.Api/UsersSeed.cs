@@ -1,10 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using ONPA.Identity.Api.Data;
-using ONPA.Identity.Api.Models;
-using ONPA.Common.Infrastructure;
-
-namespace ONPA.Identity.Api;
+﻿namespace ONPA.Identity.Api;
 
 public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> userManager) : IDbSeeder<ApplicationDbContext>
 {

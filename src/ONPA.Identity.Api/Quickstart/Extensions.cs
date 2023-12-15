@@ -1,5 +1,3 @@
-using Duende.IdentityServer.Models;
-using Microsoft.AspNetCore.Mvc;
 using ONPA.Identity.Api.Quickstart.Account;
 
 namespace ONPA.Identity.Api.Quickstart;

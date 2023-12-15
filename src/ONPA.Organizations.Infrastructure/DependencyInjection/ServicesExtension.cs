@@ -6,7 +6,6 @@ using ONPA.IntegrationEventsLog.Services;
 using ONPA.Organizations.Domain;
 using ONPA.Organizations.Infrastructure.Database;
 using ONPA.Organizations.Infrastructure.Repositories;
-using ReadModel = ONPA.Organizations.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Infrastructure.DependencyInjection;
 

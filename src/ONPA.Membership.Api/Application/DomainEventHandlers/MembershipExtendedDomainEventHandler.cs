@@ -2,7 +2,6 @@ using ONPA.Common.Application;
 using ONPA.IntegrationEvents;
 using ONPA.Membership.Api.Application.IntegrationEvents;
 using ONPA.Membership.DomainEvents;
-using ONPA.Membership.Infrastructure.Database;
 
 namespace ONPA.Membership.Api.Application.DomainEventHandlers;
 

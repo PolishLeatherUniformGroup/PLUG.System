@@ -1,10 +1,8 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Infrastructure.Database;
-using PLUG.System.Apply.Domain;
 using ONPA.Common.Application;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.Repositories;
 

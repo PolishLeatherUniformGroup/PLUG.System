@@ -1,7 +1,4 @@
-﻿using Duende.IdentityServer;
-using Duende.IdentityServer.Models;
-
-namespace ONPA.Identity.Api.Configuration
+﻿namespace ONPA.Identity.Api.Configuration
 {
     public class Config
     {

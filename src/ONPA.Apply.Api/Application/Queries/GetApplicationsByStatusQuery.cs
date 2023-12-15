@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using ONPA.Apply.Contract.Responses;
-using PLUG.System.Apply.Domain;
+﻿using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
 
 namespace ONPA.Apply.Api.Application.Queries;

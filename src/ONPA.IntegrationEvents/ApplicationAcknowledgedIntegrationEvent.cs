@@ -1,4 +1,3 @@
-using System.Security.AccessControl;
 using ONPA.EventBus.Events;
 
 namespace ONPA.IntegrationEvents;

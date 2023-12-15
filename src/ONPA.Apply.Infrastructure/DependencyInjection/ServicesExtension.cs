@@ -6,8 +6,6 @@ using PLUG.System.Apply.Domain;
 using ONPA.Common.Application;
 using ONPA.Common.Domain;
 using ONPA.IntegrationEventsLog.Services;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.DependencyInjection;

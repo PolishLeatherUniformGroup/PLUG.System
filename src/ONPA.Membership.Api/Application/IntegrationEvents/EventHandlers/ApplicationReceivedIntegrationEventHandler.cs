@@ -1,4 +1,3 @@
-using MediatR;
 using ONPA.EventBus.Abstraction;
 using ONPA.IntegrationEvents;
 using ONPA.Membership.Api.Application.Services;

@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public class RedirectService : IRedirectService
     {

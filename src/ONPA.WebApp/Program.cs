@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.WebApp.Components;
 

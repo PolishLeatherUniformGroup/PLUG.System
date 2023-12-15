@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Infrastructure.Database;
 using PLUG.System.Apply.Domain;
 using ONPA.Common.Domain;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.Repositories;

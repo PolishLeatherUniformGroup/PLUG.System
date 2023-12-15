@@ -1,11 +1,4 @@
-﻿using System.Security.Claims;
-using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Identity;
-using ONPA.Identity.Api.Models;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public class ProfileService : IProfileService
     {

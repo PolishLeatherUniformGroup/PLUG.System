@@ -1,6 +1,5 @@
 
 using System.Reflection;
-using Asp.Versioning;
 using ONPA.Apply.Api.Application.Behavior;
 using ONPA.Apply.Api.Application.IntegrationEvents;
 using ONPA.Apply.Api.Extensions;

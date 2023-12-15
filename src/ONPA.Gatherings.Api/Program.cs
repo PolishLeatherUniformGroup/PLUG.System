@@ -1,3 +1,9 @@
+using System.Reflection;
+using ONPA.Common.Behaviors;
+using ONPA.Gatherings.Api.Application.Behaviors;
+using ONPA.Gatherings.Api.Application.IntegrationEvents;
+using ONPA.Gatherings.Infrastructure.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMediatR(configuration=>
+{
+    configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    configuration.AddOpenBehavior(typeof(CommandLoggingBehavior<,>));
+    configuration.AddOpenBehavior(typeof(CommandValidationBehavior<,>));
+    configuration.AddOpenBehavior(typeof(TransactionalBehavior<,>));
+});
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
+builder.AddRabbitMqEventBus("EventBus");
 
 var app = builder.Build();
 

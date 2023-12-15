@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj" />
       <ProjectReference Include="..\ONPA.Gatherings\ONPA.Gatherings.csproj" />
+      <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using ONPA.Membership.StateEvents;
-using ONPA.Common.Domain;
 
 namespace ONPA.Membership.Domain;
 

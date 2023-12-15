@@ -1,6 +1,4 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
-
-namespace ONPA.WebApp.Data
+﻿namespace ONPA.WebApp.Data
 {
     public class ApplicationItem
     {

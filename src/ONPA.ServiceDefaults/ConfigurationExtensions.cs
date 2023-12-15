@@ -1,6 +1,3 @@
-using System;
-using Microsoft.Extensions.Configuration;
-
 namespace Microsoft.Extensions.Configuration;
 
 public static class ConfigurationExtensions

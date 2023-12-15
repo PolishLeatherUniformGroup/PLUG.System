@@ -1,19 +1,6 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using Duende.IdentityServer;
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Stores;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using ONPA.Identity.Api.Models;
-
 namespace ONPA.Identity.Api.Quickstart.Account
 {
     [SecurityHeaders]

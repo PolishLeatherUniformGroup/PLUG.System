@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using PLUG.System.Apply.DomainEvents;
 using PLUG.System.Apply.StateEvents;
 using ONPA.Common.Domain;
