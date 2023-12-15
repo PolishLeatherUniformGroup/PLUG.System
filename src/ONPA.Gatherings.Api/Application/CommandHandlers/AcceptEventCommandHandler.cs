@@ -6,25 +6,25 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class ArchivePublicGatheringCommandHandler : ApplicationCommandHandlerBase<ArchiveEventCommand>
+public sealed class AcceptEventCommandHandler : ApplicationCommandHandlerBase<AcceptEventCommand>
 {
     private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public ArchivePublicGatheringCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public AcceptEventCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
 
-    public override async Task<CommandResult> Handle(ArchiveEventCommand request, CancellationToken cancellationToken)
+    public override async Task<CommandResult> Handle(AcceptEventCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.PublicGatheringId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 throw new AggregateNotFoundException();
             }
-            aggregate.Archive();
+            aggregate.Accept();
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }

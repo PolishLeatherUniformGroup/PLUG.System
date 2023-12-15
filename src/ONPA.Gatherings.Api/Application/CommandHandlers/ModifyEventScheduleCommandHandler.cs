@@ -6,25 +6,25 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class ModifyPublicGatheringDescriptionCommandHandler : ApplicationCommandHandlerBase<ModifyEventDescriptionCommand>
+public sealed class ModifyEventScheduleCommandHandler : ApplicationCommandHandlerBase<ModifyEventScheduleCommand>
 {
     private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public ModifyPublicGatheringDescriptionCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public ModifyEventScheduleCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
 
-    public override async Task<CommandResult> Handle(ModifyEventDescriptionCommand request, CancellationToken cancellationToken)
+    public override async Task<CommandResult> Handle(ModifyEventScheduleCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.PublicGatheringId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 throw new AggregateNotFoundException();
             }
-            aggregate.ModifyDescriptions(request.Name, request.Description, request.Regulations);
+            aggregate.ModifySchedule(request.ScheduledStart, request.PublishDate, request.EnrollmentDeadline);
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }

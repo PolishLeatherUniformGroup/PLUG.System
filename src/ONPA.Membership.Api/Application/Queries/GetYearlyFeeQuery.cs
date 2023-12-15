@@ -5,7 +5,7 @@ namespace ONPA.Membership.Api.Application.Queries;
 
 public record GetYearlyFeeQuery : ApplicationQueryBase<SingleResult<YearlyFeeResult>>
 {
-    public GetYearlyFeeQuery(int year)
+    public GetYearlyFeeQuery(Guid tenantId, int year): base(tenantId)
     {
         this.Year = year;
     }

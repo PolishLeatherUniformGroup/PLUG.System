@@ -6,11 +6,11 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class CancelPublicGatheringCommandHandler : ApplicationCommandHandlerBase<CancelEventCommand>
+public sealed class CancelEventCommandHandler : ApplicationCommandHandlerBase<CancelEventCommand>
 {
     private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public CancelPublicGatheringCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public CancelEventCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class CancelPublicGatheringCommandHandler : ApplicationCommandHand
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.PublicGatheringId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 throw new AggregateNotFoundException();

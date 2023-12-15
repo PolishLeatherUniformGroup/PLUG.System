@@ -13,10 +13,9 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IAggregateRepository<Event>, PublicGatheringAggregateRepository>();
-        services.AddTransient<IReadOnlyRepository<ReadModel.Event>, PublicGatheringReadOnlyRepository>();
-        services.AddTransient<IReadOnlyRepository<ReadModel.EventEnrollment>, GatheringEnrollmentReadOnlyRepository>();
-        services.AddTransient<IReadOnlyRepository<ReadModel.EventParticipant>, GatheringParticipantReadOnlyRepository>();
+        services.AddTransient<IAggregateRepository<Event>, EventAggregateRepository>();
+        services.AddTransient<IReadOnlyRepository<ReadModel.Event>, EventReadOnlyRepository>();
+        services.AddTransient<IReadOnlyRepository<ReadModel.EventEnrollment>, EventEnrollmentReadOnlyRepository>();
         services.AddDbContext<GatheringsContext>();
         services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<GatheringsContext>>();
        
