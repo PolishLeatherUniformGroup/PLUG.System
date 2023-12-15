@@ -1,9 +1,11 @@
-﻿namespace ONPA.Gatherings.Infrastructure.ReadModel;
+﻿using System.Collections.ObjectModel;
+
+namespace ONPA.Gatherings.Infrastructure.ReadModel;
 
 public class EventEnrollment
 {
     public Guid Id { get; set; }
-    public Guid PublicGatheringId { get; set; }
+    public Guid EventId { get; set; }
     public DateTime RegistrationDate { get; set; }
     public int PlacesBooked { get; set; }
     public string FirstName { get; set; }
@@ -18,4 +20,6 @@ public class EventEnrollment
     public decimal? RefundableAmount { get; set; }
     public decimal? RefundedAmount { get; set; }
     public DateTime? RefundDate { get; set; }
+    
+    public List<EventParticipant> Participants { get; set; } = new();
 }

@@ -2,7 +2,7 @@
 
 namespace ONPA.Gatherings.Api.Application.Commands;
 
-public sealed record AcceptEventCommand(Guid TenantId,Guid PublicGatheringId) : ApplicationCommandBase(TenantId)
+public sealed record AcceptEventCommand(Guid TenantId,Guid EventId) : ApplicationCommandBase(TenantId)
 {
  
 }
