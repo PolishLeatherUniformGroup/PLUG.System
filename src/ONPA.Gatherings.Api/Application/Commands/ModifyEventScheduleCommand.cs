@@ -2,4 +2,4 @@
 
 namespace ONPA.Gatherings.Api.Application.Commands;
 
-public sealed record ModifyEventScheduleCommand(Guid TenantId, Guid PublicGatheringId, DateTime ScheduledStart, DateTime PublishDate, DateTime EnrollmentDeadline) : ApplicationCommandBase(TenantId);
+public sealed record ModifyEventScheduleCommand(Guid TenantId, Guid EventId, DateTime ScheduledStart, DateTime PublishDate, DateTime EnrollmentDeadline) : ApplicationCommandBase(TenantId);

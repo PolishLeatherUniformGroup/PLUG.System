@@ -3,7 +3,6 @@ using ONPA.Common.Application;
 using ONPA.Gatherings.Contract.Responses;
 using ONPA.Gatherings.Infrastructure.ReadModel;
 
-
 namespace ONPA.Gatherings.Api.Application.Queries;
 
 public sealed record GetEventsByStatusQuery : ApplicationCollectionQueryBase<EventResponse>

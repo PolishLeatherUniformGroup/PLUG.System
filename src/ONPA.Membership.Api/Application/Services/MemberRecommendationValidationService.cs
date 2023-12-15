@@ -21,7 +21,7 @@ public class MemberRecommendationValidationService : IMemberRecommendationValida
             validatedMembers = new();
         foreach (var memberNumber in memberNumbers)
         {
-            var query = new ValidateMemberNumbersQuery(memberNumber);
+            var query = new ValidateMemberNumbersQuery(tenantId, memberNumber);
             var result = await this._mediator.Send(query);
             if (result.Value is not null)
             {

@@ -7,7 +7,7 @@ public record ValidateMemberNumbersQuery : ApplicationQueryBase<SingleResult<Mem
 {
     public string MemberNumber { get; init; }
 
-    public ValidateMemberNumbersQuery(string memberNumber)
+    public ValidateMemberNumbersQuery(Guid tenantId,string memberNumber): base(tenantId)
         =>this.MemberNumber = memberNumber;
     
 }
