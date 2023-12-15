@@ -24,7 +24,7 @@ public class AllMembershipFeeRequestedIntegrationEventHandler : IIntegrationEven
         bool hasMore = false;
         do
         {
-            var query = new GetAllActiveRegularMembersQuery(page, pageSize);
+            var query = new GetAllActiveRegularMembersQuery(@event.TenantId,page, pageSize);
             var result = await this._mediator.Send(query);
             foreach (var memberIdResult in result.Value)
             {

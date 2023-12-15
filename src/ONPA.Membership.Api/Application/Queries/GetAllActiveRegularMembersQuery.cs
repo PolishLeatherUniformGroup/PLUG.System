@@ -3,14 +3,12 @@ using ONPA.Membership.Contract.Responses;
 
 namespace ONPA.Membership.Api.Application.Queries;
 
-public record GetAllActiveRegularMembersQuery : ApplicationQueryBase<CollectionResult<MemberIdResult>>
+public record GetAllActiveRegularMembersQuery : ApplicationCollectionQueryBase<MemberIdResult>
 {
-    public int Page { get; init; } = 0;
-    public int PageSize { get; init; } = 20;
 
-    public GetAllActiveRegularMembersQuery(int page, int pageSize)
+
+    public GetAllActiveRegularMembersQuery(Guid tenantId,int page, int pageSize) : base(tenantId, page, pageSize)
     {
-        this.Page = page;
-        this.PageSize = pageSize;
+       
     }
 }
