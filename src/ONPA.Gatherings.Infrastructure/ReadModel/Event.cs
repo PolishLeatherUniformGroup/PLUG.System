@@ -1,6 +1,6 @@
 ﻿namespace ONPA.Gatherings.Infrastructure.ReadModel;
 
-public class PublicGathering
+public class Event
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -17,5 +17,7 @@ public class PublicGathering
     public DateTime PublishDate { get; set; }
     public DateTime EnrollmentDeadline { get; set; }
 
-    public GatheringStatus Status { get; set; }
+    public EventStatus Status { get; set; }
+
+   
 }

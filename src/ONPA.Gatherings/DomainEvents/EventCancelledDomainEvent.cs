@@ -3,18 +3,18 @@ using ONPA.Common.Domain;
 
 namespace ONPA.Gatherings.DomainEvents;
 
-public sealed class PublicGatheringCancelledDomainEvent : DomainEventBase
+public sealed class EventCancelledDomainEvent : DomainEventBase
 {
     public string Name { get; private set; }
     public List<Participant> Participants { get; private set; }
 
-    public PublicGatheringCancelledDomainEvent(string name, List<Participant> participants)
+    public EventCancelledDomainEvent(string name, List<Participant> participants)
     {
         this.Name = name;
         this.Participants = participants;
     }
 
-    private PublicGatheringCancelledDomainEvent(Guid aggregateId, Guid tenantId, string name, List<Participant> participants) : base(aggregateId,tenantId)
+    private EventCancelledDomainEvent(Guid aggregateId, Guid tenantId, string name, List<Participant> participants) : base(aggregateId,tenantId)
     {
         this.Name = name;
         this.Participants = participants;
@@ -22,6 +22,6 @@ public sealed class PublicGatheringCancelledDomainEvent : DomainEventBase
         
     public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new PublicGatheringCancelledDomainEvent(aggregateId,tenantId, this.Name, this.Participants);
+        return new EventCancelledDomainEvent(aggregateId,tenantId, this.Name, this.Participants);
     }
 }

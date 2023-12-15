@@ -4,13 +4,9 @@ using ONPA.Common.Domain;
 using ONPA.Common.Exceptions;
 using PLUG.System.SharedDomain;
 
-namespace ONPA.Gatherings.StateEvents
-{
-}
-
 namespace ONPA.Gatherings.Domain
 {
-    public class PublicGathering : AggregateRoot
+    public class Event : AggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -25,24 +21,24 @@ namespace ONPA.Gatherings.Domain
         public DateTime PublishDate { get; private set; }
         public DateTime EnrollmentDeadline { get; private set; }
 
-        public PublicGatheringStatus Status { get; private set; }
+        public EventStatus Status { get; private set; }
 
         public bool IsCostFree => this.PricePerPerson.IsZero();
 
-        public bool IsAvailable => this.Status == PublicGatheringStatus.Published && (!this.PlannedCapacity.HasValue ||
+        public bool IsAvailable => this.Status == EventStatus.Published && (!this.PlannedCapacity.HasValue ||
             this.PlannedCapacity.Value > this.AvailablePlaces.GetValueOrDefault(0) ||
             DateTime.UtcNow > this.EnrollmentDeadline);
 
-        private readonly ICollection<PublicGatheringEnrollment>
-            _registrations = new LinkedList<PublicGatheringEnrollment>();
+        private readonly ICollection<EventEnrollment>
+            _registrations = new LinkedList<EventEnrollment>();
 
-        public IEnumerable<PublicGatheringEnrollment> Registrations => this._registrations;
+        public IEnumerable<EventEnrollment> Registrations => this._registrations;
 
-        public PublicGathering(Guid aggregateId,Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId,tenantId, changes)
+        public Event(Guid aggregateId,Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId,tenantId, changes)
         {
         }
 
-        public PublicGathering(Guid tenantId, string name, string description, string regulations, DateTime scheduledStart,
+        public Event(Guid tenantId, string name, string description, string regulations, DateTime scheduledStart,
             int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline):base(tenantId)
         {
             this.Name = name;
@@ -53,17 +49,17 @@ namespace ONPA.Gatherings.Domain
             this.PricePerPerson = pricePerPerson;
             this.PublishDate = publishDate;
             this.EnrollmentDeadline = enrollmentDeadline;
-            this.Status = PublicGatheringStatus.Draft;
+            this.Status = EventStatus.Draft;
 
             // var stateEvents
-            var change = new PublicGatheringCreated(name, description, regulations, scheduledStart, plannedCapacity,
+            var change = new EventCreated(name, description, regulations, scheduledStart, plannedCapacity,
                 pricePerPerson, publishDate, enrollmentDeadline);
             this.RaiseChangeEvent(change);
         }
 
         public void ModifyDescriptions(string name, string description, string regulations)
         {
-            if (this.Status == PublicGatheringStatus.Archived)
+            if (this.Status == EventStatus.Archived)
             {
                 throw new AggregateInvalidStateException();
             }
@@ -71,12 +67,12 @@ namespace ONPA.Gatherings.Domain
             this.Name = name;
             this.Description = description;
             this.Regulations = regulations;
-            var change = new PublicGatheringDescriptionModified(name, description, regulations);
+            var change = new EventDescriptionModified(name, description, regulations);
             this.RaiseChangeEvent(change);
 
-            if (this.Status == PublicGatheringStatus.Published)
+            if (this.Status == EventStatus.Published)
             {
-                var domainEvent = new PublicGatheringDescriptionChangedDomainEvent(name, description, regulations,
+                var domainEvent = new EventDescriptionChangedDomainEvent(name, description, regulations,
                     this._registrations
                         .SelectMany(r => r.Participants
                             .Select(p => p.Email)).ToList());
@@ -86,7 +82,7 @@ namespace ONPA.Gatherings.Domain
 
         public void ModifySchedule(DateTime scheduledDate, DateTime publishDate, DateTime enrollmentDate)
         {
-            if (this.Status != PublicGatheringStatus.Draft && this.Status != PublicGatheringStatus.ReadyToPublish)
+            if (this.Status != EventStatus.Draft && this.Status != EventStatus.ReadyToPublish)
             {
                 throw new AggregateInvalidStateException();
             }
@@ -95,31 +91,31 @@ namespace ONPA.Gatherings.Domain
             this.PublishDate = publishDate;
             this.EnrollmentDeadline = enrollmentDate;
 
-            var change = new PublicGatheringScheduleChanged(scheduledDate, publishDate, enrollmentDate);
+            var change = new EventScheduleChanged(scheduledDate, publishDate, enrollmentDate);
             this.RaiseChangeEvent(change);
         }
 
         public void ModifyPrice(Money price)
         {
-            if (this.Status != PublicGatheringStatus.Draft && this.Status != PublicGatheringStatus.ReadyToPublish)
+            if (this.Status != EventStatus.Draft && this.Status != EventStatus.ReadyToPublish)
             {
                 throw new AggregateInvalidStateException();
             }
 
             this.PricePerPerson = price;
 
-            var change = new PublicGatheringPriceChanged(price);
+            var change = new EventPriceChanged(price);
             this.RaiseChangeEvent(change);
         }
 
         public void ModifyCapacity(int? newCapacity)
         {
-            if (this.Status == PublicGatheringStatus.Archived)
+            if (this.Status == EventStatus.Archived)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            if (this.Status == PublicGatheringStatus.Published)
+            if (this.Status == EventStatus.Published)
             {
                 if (this.PlannedCapacity.HasValue && (!newCapacity.HasValue || this.PlannedCapacity > newCapacity))
                 {
@@ -129,63 +125,63 @@ namespace ONPA.Gatherings.Domain
             }
 
             this.PlannedCapacity = newCapacity;
-            var change = new PublicGatheringCapacityChanged(newCapacity);
+            var change = new EventCapacityChanged(newCapacity);
             this.RaiseChangeEvent(change);
         }
 
         public void Accept()
         {
-            if (this.Status != PublicGatheringStatus.Draft)
+            if (this.Status != EventStatus.Draft)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            this.Status = PublicGatheringStatus.ReadyToPublish;
-            var change = new PublicGatheringStatusChanged(this.Status);
+            this.Status = EventStatus.ReadyToPublish;
+            var change = new EventStatusChanged(this.Status);
             this.RaiseChangeEvent(change);
         }
 
         public void Archive()
         {
-            if (this.Status == PublicGatheringStatus.Archived)
+            if (this.Status == EventStatus.Archived)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            if (DateTime.UtcNow < this.ScheduledStart && this.Status == PublicGatheringStatus.Published)
+            if (DateTime.UtcNow < this.ScheduledStart && this.Status == EventStatus.Published)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            this.Status = PublicGatheringStatus.Archived;
-            var change = new PublicGatheringStatusChanged(this.Status);
+            this.Status = EventStatus.Archived;
+            var change = new EventStatusChanged(this.Status);
             this.RaiseChangeEvent(change);
         }
 
         public void Publish()
         {
-            if (this.Status != PublicGatheringStatus.ReadyToPublish)
+            if (this.Status != EventStatus.ReadyToPublish)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            this.Status = PublicGatheringStatus.Published;
-            var change = new PublicGatheringStatusChanged(this.Status);
+            this.Status = EventStatus.Published;
+            var change = new EventStatusChanged(this.Status);
             this.RaiseChangeEvent(change);
         }
 
         public void Cancel(DateTime cancellationDate)
         {
-            if (this.Status != PublicGatheringStatus.Published)
+            if (this.Status != EventStatus.Published)
             {
                 throw new AggregateInvalidStateException();
             }
 
-            this.Status = PublicGatheringStatus.Cancelled;
-            var change = new PublicGatheringStatusChanged(this.Status);
+            this.Status = EventStatus.Cancelled;
+            var change = new EventStatusChanged(this.Status);
             this.RaiseChangeEvent(change);
 
-            var domainEvent = new PublicGatheringCancelledDomainEvent(this.Name,
+            var domainEvent = new EventCancelledDomainEvent(this.Name,
                 this.Registrations.SelectMany(x => x.Participants).ToList());
             this.RaiseDomainEvent(domainEvent);
             foreach (var enrollment in this._registrations)
@@ -204,14 +200,14 @@ namespace ONPA.Gatherings.Domain
                 throw new AggregateInvalidStateException();
             }
 
-            var enrollment = new PublicGatheringEnrollment(registrationDate, bookedPlaces, firstName, lastName, email,
+            var enrollment = new EventEnrollment(registrationDate, bookedPlaces, firstName, lastName, email,
                 this.PricePerPerson, companions);
             this._registrations.Add(enrollment);
 
-            var change = new EnrollmentAddedToPublicGathering(enrollment);
+            var change = new EnrollmentAddedToEvent(enrollment);
             this.RaiseChangeEvent(change);
 
-            var domainEvent = new EnrollmentAddedToPublicGatheringDomainEvent(enrollment.RequiredPayment,
+            var domainEvent = new EnrollmentAddedToEventDomainEvent(enrollment.RequiredPayment,
                 enrollment.FirstName, enrollment.Email,
                 enrollment.Participants.Where(x => x.Email != enrollment.Email).ToList(), this.ScheduledStart);
             this.RaiseDomainEvent(domainEvent);

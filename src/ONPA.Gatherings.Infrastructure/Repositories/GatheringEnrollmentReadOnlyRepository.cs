@@ -6,17 +6,17 @@ using ONPA.Gatherings.Infrastructure.ReadModel;
 
 namespace ONPA.Gatherings.Infrastructure.Repositories;
 
-public sealed class GatheringEnrollmentReadOnlyRepository : IReadOnlyRepository<GatheringEnrollment>
+public sealed class GatheringEnrollmentReadOnlyRepository : IReadOnlyRepository<EventEnrollment>
 {
     private readonly GatheringsContext _dbContext;
-    public async Task<GatheringEnrollment?> ReadSingleById(Guid id, CancellationToken cancellationToken)
+    public async Task<EventEnrollment?> ReadSingleById(Guid id, CancellationToken cancellationToken)
     {
         return await this._dbContext.GatheringEnrollments
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<IEnumerable<GatheringEnrollment>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
+    public async Task<IEnumerable<EventEnrollment>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
         return await this._dbContext.GatheringEnrollments
             .AsNoTracking()
@@ -25,7 +25,7 @@ public sealed class GatheringEnrollmentReadOnlyRepository : IReadOnlyRepository<
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<GatheringEnrollment>> ManyByFilter(Expression<Func<GatheringEnrollment, bool>> filter,
+    public async Task<IEnumerable<EventEnrollment>> ManyByFilter(Expression<Func<EventEnrollment, bool>> filter,
         int page = 0,
         int pageSize = 20,
         CancellationToken cancellationToken = new())

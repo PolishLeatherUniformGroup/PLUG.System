@@ -6,17 +6,17 @@ using ONPA.Gatherings.Infrastructure.ReadModel;
 
 namespace ONPA.Gatherings.Infrastructure.Repositories;
 
-public sealed class PublicGatheringReadOnlyRepository : IReadOnlyRepository<PublicGathering>
+public sealed class PublicGatheringReadOnlyRepository : IReadOnlyRepository<Event>
 {
     private readonly GatheringsContext _dbContext;
-    public async Task<PublicGathering?> ReadSingleById(Guid id, CancellationToken cancellationToken)
+    public async Task<Event?> ReadSingleById(Guid id, CancellationToken cancellationToken)
     {
         return await this._dbContext.PublicGatherings
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<IEnumerable<PublicGathering>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
+    public async Task<IEnumerable<Event>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
         return await this._dbContext.PublicGatherings
             .AsNoTracking()
@@ -25,7 +25,7 @@ public sealed class PublicGatheringReadOnlyRepository : IReadOnlyRepository<Publ
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<PublicGathering>> ManyByFilter(Expression<Func<PublicGathering, bool>> filter,
+    public async Task<IEnumerable<Event>> ManyByFilter(Expression<Func<Event, bool>> filter,
         int page = 0,
         int pageSize = 20,
         CancellationToken cancellationToken = new())

@@ -1,6 +1,6 @@
 ﻿namespace ONPA.Gatherings.Infrastructure.ReadModel;
 
-public enum GatheringStatus
+public enum EventStatus
 {
     Draft,
     Published,

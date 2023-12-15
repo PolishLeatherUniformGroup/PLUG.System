@@ -15,7 +15,7 @@ public class GatheringsContext : StreamContext
     {
     }
     
-    public DbSet<PublicGathering> PublicGatherings { get; set; }
-    public DbSet<GatheringEnrollment> GatheringEnrollments { get; set; }
-    public DbSet<GatheringParticipant> GatheringParticipants { get; set; }
+    public DbSet<Event> PublicGatherings { get; set; }
+    public DbSet<EventEnrollment> GatheringEnrollments { get; set; }
+    public DbSet<EventParticipant> GatheringParticipants { get; set; }
 }

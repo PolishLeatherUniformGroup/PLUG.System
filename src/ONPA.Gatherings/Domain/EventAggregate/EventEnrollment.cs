@@ -4,7 +4,7 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.Domain;
 
-public class PublicGatheringEnrollment : Entity
+public class EventEnrollment : Entity
 {
     public DateTime RegistrationDate { get; private set; }
     public int PlacesBooked { get; private set; }
@@ -26,7 +26,7 @@ public class PublicGatheringEnrollment : Entity
     private List<Participant> _participants = new();
     public IEnumerable<Participant> Participants => this._participants;
 
-    internal PublicGatheringEnrollment(DateTime registrationDate, int placesBooked, string firstName, string lastName,
+    internal EventEnrollment(DateTime registrationDate, int placesBooked, string firstName, string lastName,
         string email, Money price, IEnumerable<Participant> participants)
     {
         this.RegistrationDate = registrationDate;

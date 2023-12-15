@@ -1,6 +1,6 @@
 ﻿namespace ONPA.Gatherings.Infrastructure.ReadModel;
 
-public class GatheringParticipant
+public class EventParticipant
 {
     public Guid Id { get; set; }
     public Guid GatheringId { get; set; }

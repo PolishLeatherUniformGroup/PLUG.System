@@ -3,7 +3,7 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.StateEvents;
 
-public sealed class PublicGatheringCreated : StateEventBase
+public sealed class EventCreated : StateEventBase
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
@@ -14,7 +14,7 @@ public sealed class PublicGatheringCreated : StateEventBase
     public DateTime PublishDate { get; private set; }
     public DateTime EnrollmentDeadline { get; private set; }
 
-    public PublicGatheringCreated(string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline)
+    public EventCreated(string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline)
     {
         this.Name = name;
         this.Description = description;
@@ -26,7 +26,7 @@ public sealed class PublicGatheringCreated : StateEventBase
         this.EnrollmentDeadline = enrollmentDeadline;
     }
 
-    private PublicGatheringCreated(Guid aggregateId, long aggregateVersion, string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline) : base(aggregateId, aggregateVersion)
+    private EventCreated(Guid aggregateId, long aggregateVersion, string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline) : base(aggregateId, aggregateVersion)
     {
         this.Name = name;
         this.Description = description;
@@ -40,7 +40,7 @@ public sealed class PublicGatheringCreated : StateEventBase
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new PublicGatheringCreated(aggregateId,
+        return new EventCreated(aggregateId,
             aggregateVersion,
             this.Name,
             this.Description,

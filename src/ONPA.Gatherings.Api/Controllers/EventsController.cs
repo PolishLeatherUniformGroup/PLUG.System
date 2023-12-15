@@ -30,67 +30,67 @@ public class EventsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateEvent([FromBody] CreateEventRequest request)
     {
-        return await this.SendCommandRequest<CreatePublicGatheringCommand>(request);
+        return await this.SendCommandRequest<CreateEventCommand>(request);
     }
     
     [HttpPut(Routes.SingleEvent)]
     public async Task<ActionResult<Guid>> UpdateEvent([FromBody] UpdateEventDescriptionRequest request)
     {
-        return await this.SendCommandRequest<ModifyPublicGatheringDescriptionCommand>(request);
+        return await this.SendCommandRequest<ModifyEventDescriptionCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventPrice)]
     public async Task<ActionResult<Guid>> UpdateEventPrice([FromBody] UpdateEventPriceRequest request)
     {
-        return await this.SendCommandRequest<ModifyPublicGatheringPriceCommand>(request);
+        return await this.SendCommandRequest<ModifyEventPriceCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventCapacity)]
     public async Task<ActionResult<Guid>> UpdateEventCapacity([FromBody] UpdateEventCapacityRequest request)
     {
-        return await this.SendCommandRequest<ModifyPublicGatheringCapacityCommand>(request);
+        return await this.SendCommandRequest<ModifyEventCapacityCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventSchedule)]
     public async Task<ActionResult<Guid>> UpdateEventSchedule([FromBody] UpdateEventScheduleRequest request)
     {
-        return await this.SendCommandRequest<ModifyPublicGatheringScheduleCommand>(request);
+        return await this.SendCommandRequest<ModifyEventScheduleCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventCancellation)]
     public async Task<ActionResult<Guid>> CancelEvent([FromBody] CancelEventRequest request)
     {
-        return await this.SendCommandRequest<CancelPublicGatheringCommand>(request);
+        return await this.SendCommandRequest<CancelEventCommand>(request);
     }
     [HttpPut(Routes.SingleEventPublication)]
     public async Task<ActionResult<Guid>> PublishEvent([FromBody] PublishEventRequest request)
     {
-        return await this.SendCommandRequest<PublishPublicGatheringCommand>(request);
+        return await this.SendCommandRequest<PublishEventCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventAcceptance)]
     public async Task<ActionResult<Guid>> AcceptEvent([FromBody] AcceptEventRequest request)
     {
-        return await this.SendCommandRequest<AcceptPublicGatheringCommand>(request);
+        return await this.SendCommandRequest<AcceptEventCommand>(request);
     }
     
     [HttpDelete(Routes.SingleEvent)]
     public async Task<ActionResult<Guid>> ArchiveEvent([FromBody] ArchiveEventRequest request)
     {
-        return await this.SendCommandRequest<ArchivePublicGatheringCommand>(request);
+        return await this.SendCommandRequest<ArchiveEventCommand>(request);
     }
 
     
     [HttpPost(Routes.SingleEventEnrollments)]
     public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] CreateEventEnrollmentRequest request)
     {
-        return await this.SendCommandRequest<EnrollToPublicGatheringCommand>(request);
+        return await this.SendCommandRequest<EnrollToEventCommand>(request);
     }
     
     [HttpPut(Routes.SingleEventEnrollmentPayments)]
     public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] RegisterEnrollmentPayment request)
     {
-        return await this.SendCommandRequest<EnrollToPublicGatheringCommand>(request);
+        return await this.SendCommandRequest<EnrollToEventCommand>(request);
     }
     [HttpPut(Routes.SingleEventEnrollmentPaymentRefund)]
     public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] RefundEnrollmentPayment request)

@@ -4,7 +4,7 @@ using ONPA.Gatherings.Infrastructure.Database;
 
 namespace ONPA.Gatherings.Infrastructure.Repositories;
 
-public class PublicGatheringAggregateRepository:IAggregateRepository<PublicGathering>
+public class PublicGatheringAggregateRepository:IAggregateRepository<Event>
 {
     private readonly GatheringsContext _context;
 
@@ -13,18 +13,18 @@ public class PublicGatheringAggregateRepository:IAggregateRepository<PublicGathe
         this._context = context;
     }
 
-    public async Task<PublicGathering?> GetByIdAsync(Guid id, CancellationToken cancellationToken = new ())
+    public async Task<Event?> GetByIdAsync(Guid id, CancellationToken cancellationToken = new ())
     {
-        return await this._context.ReadAggregate<PublicGathering>(id, cancellationToken);
+        return await this._context.ReadAggregate<Event>(id, cancellationToken);
     }
 
-    public async Task<PublicGathering> CreateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new())
+    public async Task<Event> CreateAsync(Event aggregate, CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         return aggregate;
     }
 
-    public async Task<PublicGathering> UpdateAsync(PublicGathering aggregate, CancellationToken cancellationToken = new())
+    public async Task<Event> UpdateAsync(Event aggregate, CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         return aggregate;

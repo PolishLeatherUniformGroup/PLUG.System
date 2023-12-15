@@ -6,7 +6,7 @@ namespace ONPA.Membership.Api.Application.Queries;
 public record GetMemberSuspensionsQuery : ApplicationCollectionQueryBase<MemberSuspensionResult>
 {
     public Guid MemberId { get; init; }
-    public GetMemberSuspensionsQuery(Guid memberId, int page, int limit) : base(page, limit)
+    public GetMemberSuspensionsQuery(Guid tenantId,Guid memberId, int page, int limit) : base(tenantId,page, limit)
     {
         this.MemberId = memberId;
     }

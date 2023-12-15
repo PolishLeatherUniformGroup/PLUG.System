@@ -4,7 +4,7 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.DomainEvents;
 
-public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBase
+public sealed class EnrollmentAddedToEventDomainEvent : DomainEventBase
 {
     public Money EnrollmentRequiredPayment { get; private set; }
     public string EnrollmentFirstName { get; private set; }
@@ -12,7 +12,7 @@ public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBas
     public List<Participant> Participants { get; private set; }
     public DateTime ScheduledStart { get; private set; }
 
-    public EnrollmentAddedToPublicGatheringDomainEvent(Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart)
+    public EnrollmentAddedToEventDomainEvent(Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart)
     {
         this.EnrollmentRequiredPayment = enrollmentRequiredPayment;
         this.EnrollmentFirstName = enrollmentFirstName;
@@ -21,7 +21,7 @@ public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBas
         this.ScheduledStart = scheduledStart;
     }
         
-    private EnrollmentAddedToPublicGatheringDomainEvent(Guid aggregateId, Guid tenantId, Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart) : base(aggregateId,tenantId)
+    private EnrollmentAddedToEventDomainEvent(Guid aggregateId, Guid tenantId, Money enrollmentRequiredPayment, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants, DateTime scheduledStart) : base(aggregateId,tenantId)
     {
         this.EnrollmentRequiredPayment = enrollmentRequiredPayment;
         this.EnrollmentFirstName = enrollmentFirstName;
@@ -32,6 +32,6 @@ public sealed class EnrollmentAddedToPublicGatheringDomainEvent : DomainEventBas
         
     public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new EnrollmentAddedToPublicGatheringDomainEvent(aggregateId,tenantId, this.EnrollmentRequiredPayment, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants, this.ScheduledStart);
+        return new EnrollmentAddedToEventDomainEvent(aggregateId,tenantId, this.EnrollmentRequiredPayment, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants, this.ScheduledStart);
     }
 }

@@ -31,7 +31,7 @@ public class PublicGatheringShould
         var enrollmentDeadline = this._fixture.Create<DateTime>();
 
         // Act
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
 
         // Assert
@@ -45,14 +45,14 @@ public class PublicGatheringShould
         aggregate.PricePerPerson.Should().Be(pricePerPerson);
         aggregate.PublishDate.Should().Be(publishDate);
         aggregate.EnrollmentDeadline.Should().Be(enrollmentDeadline);
-        aggregate.Status.Should().Be(PublicGatheringStatus.Draft);
+        aggregate.Status.Should().Be(EventStatus.Draft);
         aggregate.IsCostFree.Should().BeFalse();
         aggregate.IsAvailable.Should().BeFalse();
         aggregate.Registrations.Should().BeEmpty();
         aggregate.Version.Should().BeGreaterThan(0);
 
         aggregate.GetStateEvents().Should().HaveCount(1);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newName = this._fixture.Create<string>();
         var newDescription = this._fixture.Create<string>();
@@ -83,8 +83,8 @@ public class PublicGatheringShould
         aggregate.Regulations.Should().Be(regulations);
 
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringDescriptionModified>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventDescriptionModified>();
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newCapacity = this._fixture.Create<int>();
 
@@ -112,8 +112,8 @@ public class PublicGatheringShould
         aggregate.PlannedCapacity.Should().Be(newCapacity);
 
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCapacityChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCapacityChanged>();
     }
 
     [Fact]
@@ -128,7 +128,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newPrice = new Money(this._fixture.Create<decimal>());
 
@@ -141,8 +141,8 @@ public class PublicGatheringShould
         aggregate.PricePerPerson.Should().Be(newPrice);
 
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringPriceChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventPriceChanged>();
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         var newScheduledStart = this._fixture.Create<DateTime>();
         var newPublishDate = this._fixture.Create<DateTime>();
@@ -174,8 +174,8 @@ public class PublicGatheringShould
         aggregate.EnrollmentDeadline.Should().Be(newEnrollmentDeadline);
 
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringScheduleChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventScheduleChanged>();
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
 
         // Act
@@ -199,11 +199,11 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Archived);
+        aggregate.Status.Should().Be(EventStatus.Archived);
 
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
     }
 
     [Fact]
@@ -218,7 +218,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         
         // Act
@@ -227,11 +227,11 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.ReadyToPublish);
+        aggregate.Status.Should().Be(EventStatus.ReadyToPublish);
         
         aggregate.GetStateEvents().Should().HaveCount(2);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
     }
 
     [Fact]
@@ -246,7 +246,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         
@@ -256,11 +256,11 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Published);
+        aggregate.Status.Should().Be(EventStatus.Published);
         
         aggregate.GetStateEvents().Should().HaveCount(3);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
     }
     
     
@@ -277,7 +277,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -297,7 +297,7 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Published);
+        aggregate.Status.Should().Be(EventStatus.Published);
         aggregate.Registrations.Should().HaveCount(1);
         aggregate.Registrations.First().Should().NotBeNull();
         aggregate.Registrations.First().RegistrationDate.Should().Be(registrationDate);
@@ -320,12 +320,12 @@ public class PublicGatheringShould
         aggregate.Registrations.First().Participants.First().Email.Should().Be(email);
         
         aggregate.GetStateEvents().Should().HaveCount(4);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGathering>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEvent>();
         
         aggregate.GetDomainEvents().Should().HaveCount(1);
-        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGatheringDomainEvent>();
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
     }
 
     [Fact]
@@ -340,7 +340,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -365,7 +365,7 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Published);
+        aggregate.Status.Should().Be(EventStatus.Published);
         aggregate.Registrations.Should().HaveCount(1);
         aggregate.Registrations.First().Should().NotBeNull();
         aggregate.Registrations.First().RegistrationDate.Should().Be(registrationDate);
@@ -388,13 +388,13 @@ public class PublicGatheringShould
         aggregate.Registrations.First().Participants.First().Email.Should().Be(email);
         
         aggregate.GetStateEvents().Should().HaveCount(5);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGathering>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEvent>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegistered>();
         
         aggregate.GetDomainEvents().Should().HaveCount(2);
-        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGatheringDomainEvent>();
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegisteredDomainEvent>();
     }
 
@@ -410,7 +410,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -439,7 +439,7 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Published);
+        aggregate.Status.Should().Be(EventStatus.Published);
         aggregate.Registrations.Should().HaveCount(1);
         aggregate.Registrations.First().Should().NotBeNull();
         aggregate.Registrations.First().RegistrationDate.Should().Be(registrationDate);
@@ -462,14 +462,14 @@ public class PublicGatheringShould
         aggregate.Registrations.First().Participants.First().Email.Should().Be(email);
         
         aggregate.GetStateEvents().Should().HaveCount(6);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGathering>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEvent>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegistered>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentCancelled>();
         
         aggregate.GetDomainEvents().Should().HaveCount(3);
-        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGatheringDomainEvent>();
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegisteredDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
     }
@@ -486,7 +486,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = this._fixture.Create<DateTime>();
         var enrollmentDeadline = this._fixture.Create<DateTime>();
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -519,7 +519,7 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Published);
+        aggregate.Status.Should().Be(EventStatus.Published);
         aggregate.Registrations.Should().HaveCount(1);
         aggregate.Registrations.First().Should().NotBeNull();
         aggregate.Registrations.First().RegistrationDate.Should().Be(registrationDate);
@@ -537,15 +537,15 @@ public class PublicGatheringShould
         aggregate.Registrations.First().IsRefunded.Should().BeTrue();
         
         aggregate.GetStateEvents().Should().HaveCount(7);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGathering>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEvent>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegistered>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentCancelled>();
         aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EnrollmentRefunded>();
         
         aggregate.GetDomainEvents().Should().HaveCount(4);
-        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToPublicGatheringDomainEvent>();
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegisteredDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentRefundedDomainEvent>();
@@ -563,7 +563,7 @@ public class PublicGatheringShould
         var pricePerPerson = new Money(this._fixture.Create<decimal>());
         var publishDate = DateTime.Now;
         var enrollmentDeadline = DateTime.Now.AddDays(-1);
-        var aggregate = new PublicGathering(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
+        var aggregate = new Event(tenantId,name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
         aggregate.Publish();
@@ -574,13 +574,13 @@ public class PublicGatheringShould
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
-        aggregate.Status.Should().Be(PublicGatheringStatus.Cancelled);
+        aggregate.Status.Should().Be(EventStatus.Cancelled);
         
         aggregate.GetStateEvents().Should().HaveCount(4);
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringCreated>();
-        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<PublicGatheringStatusChanged>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventCreated>();
+        aggregate.GetStateEvents().Should().ContainItemsAssignableTo<EventStatusChanged>();
         
         aggregate.GetDomainEvents().Should().HaveCount(1);
-        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<PublicGatheringCancelledDomainEvent>();
+        aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EventCancelledDomainEvent>();
     }
 }
