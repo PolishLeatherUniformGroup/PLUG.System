@@ -6,10 +6,11 @@ using ONPA.Common.Application;
 using ONPA.Common.Queries;
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
+using ONPA.Membership.Contract;
 using ONPA.Membership.Contract.Requests;
 using ONPA.Membership.Contract.Responses;
 
-namespace ONPA.Membership.Api;
+namespace ONPA.Membership.Api.Controllers;
 
 [Route("api/members")]
 [Consumes(MediaTypeNames.Application.Json)]
@@ -29,11 +30,12 @@ public class MembersController : ControllerBase
         this._mapper = mapper;
     }
     
-    // Create a new member POST
-    // Update member contact information PUT
-    // Update member type PATCH
-    
-    // Request membership fee payment POST 
+    [HttpPost]
+    public async Task<ActionResult<Guid>> CreateMember([FromBody]CreateMemberRequest request)
+    {
+        return await this.SendCommandRequest<CreateMemberCommand>(request);
+    }
+   
     [HttpGet]
     public async Task<ActionResult<PageableResult<MemberResult>>> GetMembers([FromQuery]GetMembersRequest request)
     {
@@ -42,7 +44,7 @@ public class MembersController : ControllerBase
         return this.Ok(result.FromQueryResult(query));
     } 
     
-    [HttpGet("{memberId}")]
+    [HttpGet(Routes.SingleMember)]
     public async Task<ActionResult<MemberResult>> GetMember([FromRoute]GetMemberRequest request)
     {
         var query = this._mapper.Map<GetMemberByIdQuery>(request);
@@ -50,7 +52,27 @@ public class MembersController : ControllerBase
         return this.Ok(result);
     }
     
-    [HttpGet("{memberId}/fees")]
+    [HttpPut(Routes.SingleMember)]
+    public async Task<ActionResult<Guid>> UpdateMember([FromBody]UpdateMemberDataRequest request)
+    {
+        return await this.SendCommandRequest<ModifyMemberContactDataCommand>(request);
+    }
+    [HttpPut(Routes.SingleMemberType)]
+    public async Task<ActionResult<Guid>> ChangeMemberType([FromBody]ChangeMemberTypeRequest request)
+    {
+        if(request.MemberType.Type == 1){
+            return await this.SendCommandRequest<MakeMemberRegularCommand>(request);
+        }
+
+        if(request.MemberType.Type == 2){
+            return await this.SendCommandRequest<MakeMemberHonoraryCommand>(request);
+        }
+
+        return this.BadRequest();
+    }
+
+    
+    [HttpGet(Routes.SingleMemberFees)]
     public async Task<ActionResult<PageableResult<MemberFee>>> GetMemberFees([FromRoute]GetMemberFeesRequest request)
     {
         var query = this._mapper.Map<GetMemberFeesQuery>(request);
@@ -58,19 +80,19 @@ public class MembersController : ControllerBase
         return this.Ok(result.FromQueryResult(query));
     }
     
-    [HttpPut("{memberId}/fees/{feeId}")]
+    [HttpPut(Routes.SingleMemberFee)]
     public async Task<ActionResult<Guid>> RegisterMembershipFee([FromBody]RegisterMembershipFeePaymentRequest request)
     {
         return await this.SendCommandRequest<RegisterMemberFeePaymentCommand>(request);
     }
     
-    [HttpPost("{memberId}/suspensions")]
+    [HttpPost(Routes.SingleMemberSuspensions)]
     public async Task<ActionResult<Guid>> SuspendMember([FromBody] MemberSuspensionRequest request)
     {
         return await this.SendCommandRequest<SuspendMemberCommand>(request);
     }
     
-    [HttpGet("{memberId}/suspensions")]
+    [HttpGet(Routes.SingleMemberSuspensions)]
     public async Task<ActionResult<Guid>> SuspensionHistory([FromBody] GetMemberSuspensionsRequest request)
     {
         var query = this._mapper.Map<GetMemberSuspensionsQuery>(request);
@@ -78,31 +100,31 @@ public class MembersController : ControllerBase
         return this.Ok(result.FromQueryResult(query));
     }
     
-    [HttpPost("{memberId}/suspensions/appeal")]
+    [HttpPost(Routes.SingleMemberSuspensionsAppeal)]
     public async Task<ActionResult<Guid>> AppealSuspension([FromBody] MemberSuspensionAppealRequest request)
     {
         return await this.SendCommandRequest<AppealMemberSuspensionCommand>(request);
     }
     
-    [HttpPut("{memberId}/suspensions/appeal")]
+    [HttpPut(Routes.SingleMemberSuspensionsAppeal)]
     public async Task<ActionResult<Guid>> AcceptAppealSuspension([FromBody] AcceptMemberSuspensionAppealRequest request)
     {
         return await this.SendCommandRequest<AcceptSuspensionAppealCommand>(request);
     }
     
-    [HttpPatch("{memberId}/suspensions/appeal")]
+    [HttpPatch(Routes.SingleMemberSuspensionsAppeal)]
     public async Task<ActionResult<Guid>> DismissSuspension([FromBody] RejectMemberSuspensionAppealRequest request)
     {
         return await this.SendCommandRequest<DismissSuspensionAppealCommand>(request);
     }
     
-    [HttpPost("{memberId}/expels")]
+    [HttpPost(Routes.SingleMemberExpels)]
     public async Task<ActionResult<Guid>> ExpelsMember([FromBody] MemberExpelRequest request)
     {
         return await this.SendCommandRequest<ExpelMemberCommand>(request);
     }
     
-    [HttpGet("{memberId}/expels")]
+    [HttpGet(Routes.SingleMemberExpels)]
     public async Task<ActionResult<Guid>> ExpelHistory([FromBody] GetMemberExpelsRequest request)
     {
         var query = this._mapper.Map<GetMemberSuspensionsQuery>(request);
@@ -110,28 +132,28 @@ public class MembersController : ControllerBase
         return this.Ok(result.FromQueryResult(query));
     }
     
-    [HttpPost("{memberId}/expels/appeal")]
+    [HttpPost(Routes.SingleMemberExpelsAppeal)]
     public async Task<ActionResult<Guid>> AppealExpel([FromBody] MemberExpelAppealRequest request)
     {
         return await this.SendCommandRequest<AppealMemberExpelCommand>(request);
     }
     
-    [HttpPut("{memberId}/expels/appeal")]
+    [HttpPut(Routes.SingleMemberExpelsAppeal)]
     public async Task<ActionResult<Guid>> AcceptAppealExpel([FromBody] AcceptMemberExpelAppealRequest request)
     {
         return await this.SendCommandRequest<AcceptExpelAppealCommand>(request);
     }
     
-    [HttpPatch("{memberId}/expels/appeal")]
+    [HttpPut(Routes.SingleMemberExpiration)]
+    public async Task<ActionResult<Guid>> ExpireMembership([FromBody] MemberExpirationRequest request)
+    {
+        return await this.SendCommandRequest<ExpireMembershipCommand>(request);
+    }
+    
+    [HttpPatch(Routes.SingleMemberExpelsAppeal)]
     public async Task<ActionResult<Guid>> DismissAppealExpel([FromBody] RejectMemberExpelAppealRequest request)
     {
         return await this.SendCommandRequest<DismissSuspensionAppealCommand>(request);
-    }
-    
-    public async Task<ActionResult<Guid>> RequestFeePayment([FromBody] RequestMembershipFeePaymentRequest request)
-    {
-        return await this.SendCommandRequest<RequestMemberFeePaymentCommand>(request);
-   
     }
     
     private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase

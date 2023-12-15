@@ -2,6 +2,7 @@
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
 using ONPA.Membership.Contract.Requests;
+using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.Api.Maps;
 
@@ -124,6 +125,50 @@ this.CreateMap<MemberExpelRequest, ExpelMemberCommand>()
                 o.MapFrom(s => s.Limit))
             .ForCtorParam(nameof(GetMemberExpelsQuery.Page), o =>
                 o.MapFrom(s => s.Page));
+        
+        this.CreateMap<CreateMemberRequest,CreateMemberCommand>()
+            .ForCtorParam(nameof(CreateMemberCommand.TenantId), o =>
+                o.MapFrom(s => s.TenantId))
+            .ForCtorParam(nameof(CreateMemberCommand.FirstName), o =>
+                o.MapFrom(s => s.FirstName))
+            .ForCtorParam(nameof(CreateMemberCommand.LastName), o =>
+                o.MapFrom(s => s.LastName))
+            .ForCtorParam(nameof(CreateMemberCommand.Email), o =>
+                o.MapFrom(s => s.Email))
+            .ForCtorParam(nameof(CreateMemberCommand.Phone), o =>
+                o.MapFrom(s => s.Phone))
+            .ForCtorParam(nameof(CreateMemberCommand.Address), o =>
+                o.MapFrom(s => s.Address))
+            .ForCtorParam(nameof(CreateMemberCommand.JoinDate), o =>
+                o.MapFrom(s => s.JoinDate))
+            .ForCtorParam(nameof(CreateMemberCommand.PaidFee), o =>
+                o.MapFrom(s => new Money(s.PaidFeeAmount, s.PaidFeeCurrency)));
+        
+        this.CreateMap<UpdateMemberDataRequest, ModifyMemberContactDataCommand>()
+            .ForCtorParam(nameof(ModifyMemberContactDataCommand.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(ModifyMemberContactDataCommand.Email), o =>
+                o.MapFrom(s => s.ContactData.Email))
+            .ForCtorParam(nameof(ModifyMemberContactDataCommand.Phone), o =>
+                o.MapFrom(s => s.ContactData.Phone))
+            .ForCtorParam(nameof(ModifyMemberContactDataCommand.Address), o =>
+                o.MapFrom(s => s.ContactData.Address));
+        
+        this.CreateMap<ChangeMemberTypeRequest, MakeMemberRegularCommand>()
+            .ForCtorParam(nameof(MakeMemberRegularCommand.MemberId), o =>
+                o.MapFrom(s => s.MemberId));
+        
+        this.CreateMap<ChangeMemberTypeRequest, MakeMemberHonoraryCommand>()
+            .ForCtorParam(nameof(MakeMemberHonoraryCommand.MemberId), o =>
+                o.MapFrom(s => s.MemberId));
+        
+        this.CreateMap<MemberExpirationRequest, ExpireMembershipCommand>()
+            .ForCtorParam(nameof(ExpireMembershipCommand.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(ExpireMembershipCommand.ExpirationDate),o=>
+                o.MapFrom(s=>s.Expiration.ExpirationDate))
+            .ForCtorParam(nameof(ExpireMembershipCommand.Reason),o=>
+                o.MapFrom(s=>s.Expiration.Reason));
       
     }
 }
