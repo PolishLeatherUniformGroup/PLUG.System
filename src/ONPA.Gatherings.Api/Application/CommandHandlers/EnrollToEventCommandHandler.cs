@@ -6,25 +6,26 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class ModifyPublicGatheringScheduleCommandHandler : ApplicationCommandHandlerBase<ModifyEventScheduleCommand>
+public sealed class EnrollToEventCommandHandler : ApplicationCommandHandlerBase<EnrollToEventCommand>
 {
     private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public ModifyPublicGatheringScheduleCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public EnrollToEventCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
 
-    public override async Task<CommandResult> Handle(ModifyEventScheduleCommand request, CancellationToken cancellationToken)
+    public override async Task<CommandResult> Handle(EnrollToEventCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.PublicGatheringId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
             if (aggregate == null)
             {
-                throw new AggregateNotFoundException();
+                return new AggregateNotFoundException();
             }
-            aggregate.ModifySchedule(request.ScheduledStart, request.PublishDate, request.EnrollmentDeadline);
+
+            aggregate.Enroll(request.EnrollDate,request.Participants.Count,request.FirstName,request.LastName,request.Email,request.Participants);
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
