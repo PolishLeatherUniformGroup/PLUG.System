@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Infrastructure.ReadModel;
 using ONPA.Common.Infrastructure;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
 
 namespace ONPA.Apply.Infrastructure.Database;
 

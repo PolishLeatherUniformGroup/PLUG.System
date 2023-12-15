@@ -1,5 +1,5 @@
 using ONPA.Common.Application;
-using ONPA.Membership.Api.Application.Queries.Results;
+using ONPA.Membership.Contract.Responses;
 
 namespace ONPA.Membership.Api.Application.Queries;
 
@@ -10,7 +10,7 @@ public record GetAllActiveRegularMembersQuery : ApplicationQueryBase<CollectionR
 
     public GetAllActiveRegularMembersQuery(int page, int pageSize)
     {
-        Page = page;
-        PageSize = pageSize;
+        this.Page = page;
+        this.PageSize = pageSize;
     }
 }

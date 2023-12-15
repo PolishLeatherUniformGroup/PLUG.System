@@ -16,7 +16,7 @@ public sealed class ApplicationFeeNotBalancedDomainEventHandler : DomainEventHan
 
     public override async Task Handle(ApplicationFeeNotBalancedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ApplicationFeeMissingIntegrationEvent(notification.FirstName, notification.Email,
+        var integrationEvent = new ApplicationFeeMissingIntegrationEvent(notification.TenantId,notification.FirstName, notification.Email,
             notification.RequiredPayment.Amount, notification.RegisteredPayment.Amount,
             notification.RequiredPayment.Currency);
         

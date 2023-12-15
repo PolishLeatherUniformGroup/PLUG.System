@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace ONPA.Identity.Api.Models.ManageViewModels
+﻿namespace ONPA.Identity.Api.Models.ManageViewModels
 {
     public record ConfigureTwoFactorViewModel
     {

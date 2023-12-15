@@ -1,9 +1,8 @@
 ﻿@page "/applications"
-@using ONPA.WebApp.Components.Shared.Dialogs
-@using ONPA.WebApp.Data
 @using ONPA.WebApp.Components.Shared
+@using ONPA.WebApp.Services
 
-@*@inject HttpClient Http*@
+@inject ApplyService ApplyService
 @inject NavigationManager NavManager
 
 <h2>Wnioski Członkowskie</h2>
@@ -14,13 +13,17 @@
                         OptionText="@(i => i.Text)"
                         OptionValue="@(i => i.Value)"
                         OptionSelected="@(i => i.Selected)"
+                        bind-Value="@statusFilterValue"
                         Appearance="Appearance.Filled"/>
-        <FluentButton IconStart="@(new Icons.Regular.Size20.Filter())" slot="end">Filtruj</FluentButton>
+        <FluentButton IconStart="@(new Icons.Regular.Size20.Filter())" slot="end" @onclick="async() =>{ 
+            var status = int.Parse(statusFilterValue);
+            FilterByStatus(status, 0, Pagination.ItemsPerPage);
+        }">Filtruj</FluentButton>
     </FluentToolbar>
 
     <FluentDataGrid ItemsProvider="@applicationsProvider" TGridItem="ApplicationItem"
                     GridTemplateColumns="0.4fr 0.6fr 0.6fr 0.6fr 0.2fr 0.4fr"
-                    Pagination="@pagination">
+                    Pagination="@Pagination">
         <TemplateColumn Title="Status">
             <FluentBadge Fill="somevalue" Appearance="Appearance.Neutral" BackgroundColor="@context.Status.ToBackgroundColor()" Color="#ffffff">@context.Status.ToDisplayString()</FluentBadge>
         </TemplateColumn>
@@ -36,7 +39,8 @@
 
 @code {
     GridItemsProvider<ApplicationItem> applicationsProvider = default!;
-    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+    PaginationState Pagination { get; set; }= new() { ItemsPerPage = 10 };
+    string statusFilterValue = "-1";
 
     const int ToastTimeout = 15 * 1000;
 
@@ -60,18 +64,11 @@
     {
         applicationsProvider = async req =>
         {
-            /* var url = NavManager.GetUriWithQueryParameters("https://api.fda.gov/food/enforcement.json", new Dictionary<string, object?>
-                     {
-                     { "page", req.StartIndex },
-                     { "limit", pagination.ItemsPerPage },
-             });
-
-
-             var response = await Http.GetFromJsonAsync<FoodRecallQueryResult>(url, req.CancellationToken);*/
+            var response = await ApplyService.GetApplications(-1);
             var r = new Random();
             var testData = new List<ApplicationItem>
             {
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Jan",
                     LastName = "Kowalski",
@@ -79,7 +76,7 @@
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.AwaitDecision
                 },
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Marian",
                     LastName = "Nowak",
@@ -87,7 +84,7 @@
                     ApplicationDate = DateTime.Now.Date,
                     Status = ApplicationStatus.Received
                 },
-                new ApplicationItem
+                new()
                 {
                     FirstName = "Bogumił",
                     LastName = "Nowacki",
@@ -97,6 +94,15 @@
                 }
             };
             return GridItemsProviderResult.From<ApplicationItem>(items: testData, totalItemCount: 1);
+        };
+    }
+
+    public void FilterByStatus(int status, int page, int limit)
+    {
+        applicationsProvider = async async=>
+        {
+            var response = await  ApplyService.GetApplications(status, page, limit);
+            return response;
         };
     }
 

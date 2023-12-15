@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using PLUG.System.Apply.DomainEvents;
 using PLUG.System.Apply.StateEvents;
 using ONPA.Common.Domain;
@@ -41,12 +40,12 @@ public sealed partial class ApplicationForm : AggregateRoot
     public string? AppealJustification { get; private set; }
     public string? AppealRejectionDetails { get; private set; }
 
-    public ApplicationForm(Guid aggregateId, IEnumerable<IStateEvent> changes) : base(aggregateId, changes)
+    public ApplicationForm(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId,tenantId, changes)
     {
     }
 
-    public ApplicationForm(string firstName, string lastName, string email, string phone, List<string> recommendations,
-        string address)
+    public ApplicationForm(Guid tenantId, string firstName, string lastName, string email, string phone, List<string> recommendations,
+        string address):base(tenantId)
     {
         this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
         this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
@@ -57,7 +56,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.ApplicationDate = DateTime.UtcNow;
 
         var change =
-            new ApplicationFormCreated(firstName, lastName, email, phone,recommendations, address, this.ApplicationDate);
+            new ApplicationFormCreated(tenantId,firstName, lastName, email, phone,recommendations, address, this.ApplicationDate);
         this.Status = ApplicationStatus.Received;
         this.RaiseChangeEvent(change);
 
@@ -127,7 +126,7 @@ public sealed partial class ApplicationForm : AggregateRoot
             recommendingMemberNumber, recommendation.RequestedDate);
         this.RaiseChangeEvent(change);
         
-        var domainEvent = new ApplicationRecommendationRequestedDomainEvent(recommendingMemberId,FirstName,LastName);
+        var domainEvent = new ApplicationRecommendationRequestedDomainEvent(recommendingMemberId, this.FirstName, this.LastName);
         this.RaiseDomainEvent(domainEvent);
     }
 

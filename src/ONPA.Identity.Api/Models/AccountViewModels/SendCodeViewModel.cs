@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace ONPA.Identity.Api.Models.AccountViewModels
+﻿namespace ONPA.Identity.Api.Models.AccountViewModels
 {
     public record SendCodeViewModel
     {

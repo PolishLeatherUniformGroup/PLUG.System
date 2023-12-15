@@ -1,19 +1,6 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using Duende.IdentityServer;
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Stores;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using ONPA.Identity.Api.Models;
-
 namespace ONPA.Identity.Api.Quickstart.Account
 {
     [SecurityHeaders]
@@ -55,15 +42,15 @@ namespace ONPA.Identity.Api.Quickstart.Account
             // build a model so we know what to show on the login page
             var vm = await this.BuildLoginViewModelAsync(returnUrl);
 
-            ViewData["ReturnUrl"] = returnUrl;
+            this.ViewData["ReturnUrl"] = returnUrl;
 
             if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
-                return RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
+                return this.RedirectToAction("Challenge", "External", new { scheme = vm.ExternalLoginScheme, returnUrl });
             }
 
-            return View(vm);
+            return this.View(vm);
         }
 
         /// <summary>
@@ -94,16 +81,16 @@ namespace ONPA.Identity.Api.Quickstart.Account
                         return this.LoadingPage("Redirect", model.ReturnUrl);
                     }
 
-                    return Redirect(model.ReturnUrl);
+                    return this.Redirect(model.ReturnUrl);
                 }
                 else
                 {
                     // since we don't have a valid context, then we just go back to the home page
-                    return Redirect("~/");
+                    return this.Redirect("~/");
                 }
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var result = await this._signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
                 if (result.Succeeded)
@@ -121,17 +108,17 @@ namespace ONPA.Identity.Api.Quickstart.Account
                         }
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                        return Redirect(model.ReturnUrl);
+                        return this.Redirect(model.ReturnUrl);
                     }
 
                     // request for a local page
-                    if (Url.IsLocalUrl(model.ReturnUrl))
+                    if (this.Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        return Redirect(model.ReturnUrl);
+                        return this.Redirect(model.ReturnUrl);
                     }
                     else if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
-                        return Redirect("~/");
+                        return this.Redirect("~/");
                     }
                     else
                     {
@@ -141,15 +128,15 @@ namespace ONPA.Identity.Api.Quickstart.Account
                 }
 
                 await this._events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
-                ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+                this.ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
             // something went wrong, show form with error
             var vm = await this.BuildLoginViewModelAsync(model);
 
-            ViewData["ReturnUrl"] = model.ReturnUrl;
+            this.ViewData["ReturnUrl"] = model.ReturnUrl;
 
-            return View(vm);
+            return this.View(vm);
         }
 
 
@@ -169,7 +156,7 @@ namespace ONPA.Identity.Api.Quickstart.Account
                 return await this.Logout(vm);
             }
 
-            return View(vm);
+            return this.View(vm);
         }
 
         /// <summary>
@@ -182,13 +169,13 @@ namespace ONPA.Identity.Api.Quickstart.Account
             // build a model so the logged out page knows what to display
             var vm = await this.BuildLoggedOutViewModelAsync(model.LogoutId);
 
-            if (User?.Identity.IsAuthenticated == true)
+            if (this.User?.Identity.IsAuthenticated == true)
             {
                 // delete local authentication cookie
                 await this._signInManager.SignOutAsync();
 
                 // raise the logout event
-                await this._events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
+                await this._events.RaiseAsync(new UserLogoutSuccessEvent(this.User.GetSubjectId(), this.User.GetDisplayName()));
             }
 
             // check if we need to trigger sign-out at an upstream identity provider
@@ -197,19 +184,19 @@ namespace ONPA.Identity.Api.Quickstart.Account
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
+                string url = this.Url.Action("Logout", new { logoutId = vm.LogoutId });
 
                 // this triggers a redirect to the external provider for sign-out
-                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
+                return this.SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            return View("LoggedOut", vm);
+            return this.View("LoggedOut", vm);
         }
 
         [HttpGet]
         public IActionResult AccessDenied()
         {
-            return View();
+            return this.View();
         }
 
 
@@ -286,7 +273,7 @@ namespace ONPA.Identity.Api.Quickstart.Account
         {
             var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
 
-            if (User?.Identity.IsAuthenticated != true)
+            if (this.User?.Identity.IsAuthenticated != true)
             {
                 // if the user is not authenticated, then just show logged out page
                 vm.ShowLogoutPrompt = false;
@@ -320,12 +307,12 @@ namespace ONPA.Identity.Api.Quickstart.Account
                 LogoutId = logoutId
             };
 
-            if (User?.Identity.IsAuthenticated == true)
+            if (this.User?.Identity.IsAuthenticated == true)
             {
-                var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
+                var idp = this.User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
                 if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
                 {
-                    var handler = await this._handlerProvider.GetHandlerAsync(HttpContext, idp);
+                    var handler = await this._handlerProvider.GetHandlerAsync(this.HttpContext, idp);
                     if (handler is IAuthenticationSignOutHandler)
                     {
                         if (vm.LogoutId == null)

@@ -10,9 +10,9 @@ public sealed record MemberCardNumberAssignedIntegrationEvent : IntegrationEvent
     public string Email { get; init; }
     public string Phone { get; init; }
 
-    public MemberCardNumberAssignedIntegrationEvent(string cardNumber, string firstName, string lastName,
+    public MemberCardNumberAssignedIntegrationEvent(Guid tenantId,string cardNumber, string firstName, string lastName,
         string email,
-        string phone)
+        string phone): base(tenantId)
     {
         this.CardNumber = cardNumber;
         this.FirstName = firstName;

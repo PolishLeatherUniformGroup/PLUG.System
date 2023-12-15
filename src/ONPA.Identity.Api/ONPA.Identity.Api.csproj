@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.1.23557.2" />
+      <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3.23613.3" />
       <PackageReference Include="Duende.IdentityServer" Version="6.3.6" />
       <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.6" />
       <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.6" />
@@ -24,7 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj" />
-      <ProjectReference Include="..\PLUG.ServiceDefaults\PLUG.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj" />
     </ItemGroup>
 </Project>

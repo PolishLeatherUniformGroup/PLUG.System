@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1-alpha.1.23158.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Controllers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
+      <ProjectReference Include="..\ONPA.EventBus\ONPA.EventBus.csproj" />
+      <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />
+      <ProjectReference Include="..\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj" />
+      <ProjectReference Include="..\ONPA.Organizations.Contract\ONPA.Organizations.Contract.csproj" />
+      <ProjectReference Include="..\ONPA.Organizations.Infrastructure\ONPA.Organizations.Infrastructure.csproj" />
+      <ProjectReference Include="..\ONPA.Organizations\ONPA.Organizations.csproj" />
+    </ItemGroup>
+
+</Project>

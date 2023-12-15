@@ -1,14 +1,4 @@
-﻿using Duende.IdentityServer.Services;
-using Microsoft.AspNetCore.Identity;
-using ONPA.Common.Infrastructure;
-using ONPA.Identity.Api;
-using ONPA.Identity.Api.Configuration;
-using ONPA.Identity.Api.Data;
-using ONPA.Identity.Api.Models;
-using ONPA.Identity.Api.Services;
-using Microsoft.AspNetCore.Hosting;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 

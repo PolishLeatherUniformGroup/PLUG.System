@@ -21,10 +21,10 @@ public sealed class ApplicationRejectedDomainEvent : DomainEventBase
         this.AppealDeadline = appealDeadline;
     }
 
-    public ApplicationRejectedDomainEvent(Guid aggregateId, string firstName, string email,
+    private ApplicationRejectedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email,
         DateTime rejectDate,
         string decisionDetail,
-        DateTime appealDeadline) : base(aggregateId)
+        DateTime appealDeadline) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -33,9 +33,9 @@ public sealed class ApplicationRejectedDomainEvent : DomainEventBase
         this.AppealDeadline = appealDeadline;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationRejectedDomainEvent(aggregateId,this.FirstName,this.Email, this.RejectDate, this.DecisionDetail,
+        return new ApplicationRejectedDomainEvent(aggregateId,tenantId, this.FirstName,this.Email, this.RejectDate, this.DecisionDetail,
             this.AppealDeadline);
     }
 }

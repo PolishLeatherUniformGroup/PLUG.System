@@ -13,9 +13,11 @@ public sealed  class ApplicationFormCreated : StateEventBase
 
     public DateTime ApplicationDate { get; private set; }
 
-    public ApplicationFormCreated(string firstName, string lastName, string email, string phone,List<string> recommendations,
+    public ApplicationFormCreated(Guid tenantId, string firstName, string lastName, string email, string phone,
+        List<string> recommendations,
         string address, DateTime applicationDate)
     {
+        this.TenantId = tenantId;
         this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
         this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
         this.Email = email ?? throw new ArgumentNullException(nameof(email));
@@ -25,9 +27,10 @@ public sealed  class ApplicationFormCreated : StateEventBase
         this.ApplicationDate = applicationDate;
     }
 
-    private ApplicationFormCreated(Guid aggregateId, long aggregateVersion, string firstName, string lastName,
+    private ApplicationFormCreated(Guid aggregateId, long aggregateVersion, Guid tenantId,string firstName, string lastName,
         string email, string phone, List<string> recommendations, string address, DateTime applicationDate) : base(aggregateId, aggregateVersion)
     {
+        this.TenantId = tenantId;
         this.FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
         this.LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
         this.Email = email ?? throw new ArgumentNullException(nameof(email));
@@ -36,9 +39,11 @@ public sealed  class ApplicationFormCreated : StateEventBase
         this.Address = address ?? throw new ArgumentNullException(nameof(address));
         this.ApplicationDate = applicationDate;
     }
+
+    public Guid TenantId { get; private set; }
 
     public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationFormCreated(aggregateId, aggregateVersion, this.FirstName, this.LastName, this.Email, this.Phone, this.Recommendations, this.Address,this.ApplicationDate);
+        return new ApplicationFormCreated(aggregateId, aggregateVersion,this.TenantId, this.FirstName, this.LastName, this.Email, this.Phone, this.Recommendations, this.Address,this.ApplicationDate);
     }
 }

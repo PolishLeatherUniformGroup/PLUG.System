@@ -13,6 +13,7 @@ namespace ONPA.UnitTests.Domain;
 public class MemberShould
 {
     private readonly IFixture _fixture;
+    private readonly Guid tenantId = Guid.NewGuid();
 
     public MemberShould()
     {
@@ -32,7 +33,7 @@ public class MemberShould
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
         // act 
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         // assert
         aggregate.Should().NotBeNull();
@@ -77,7 +78,7 @@ public class MemberShould
         var newEmail = this._fixture.Create<string>();
         var newPhone = this._fixture.Create<string>();
         var newAddress = this._fixture.Create<string>();
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         // act
 
@@ -115,7 +116,7 @@ public class MemberShould
         var newEmail = this._fixture.Create<string>();
         var newPhone = this._fixture.Create<string>();
         var newAddress = this._fixture.Create<string>();
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
         
         // act
@@ -137,7 +138,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         // act
 
@@ -170,7 +171,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.MakeHonoraryMember();
 
         // act
@@ -204,7 +205,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
         // act
 
@@ -225,7 +226,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.MembershipExpired(DateTime.UtcNow, this._fixture.Create<string>());
         // act
 
@@ -247,7 +248,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd();
@@ -282,7 +283,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -320,7 +321,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd();
@@ -345,7 +346,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -384,7 +385,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -421,7 +422,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -467,7 +468,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -495,7 +496,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var newFee = new Money(this._fixture.Create<decimal>());
         var due = join.AddMonths(3);
         var endPeriod = join.ToYearEnd().AddYears(1);
@@ -522,7 +523,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -562,7 +563,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -606,7 +607,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -653,7 +654,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -703,7 +704,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -753,7 +754,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -779,7 +780,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -803,7 +804,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -827,7 +828,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -852,7 +853,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -876,7 +877,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -901,7 +902,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -939,7 +940,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -981,7 +982,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1025,7 +1026,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1072,7 +1073,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1119,7 +1120,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1144,7 +1145,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1168,7 +1169,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1192,7 +1193,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1216,7 +1217,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1240,7 +1241,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
@@ -1265,7 +1266,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
 
         // act
 
@@ -1297,7 +1298,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.MembershipExpired(DateTime.UtcNow,this._fixture.Create<string>());
         // act
 
@@ -1319,7 +1320,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         aggregate.LeaveOrganization(DateTime.UtcNow);
         // act
 
@@ -1341,7 +1342,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
       
         // act
 
@@ -1363,7 +1364,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var group = this._fixture.Create<Guid>();
         
         // act
@@ -1393,7 +1394,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var group = this._fixture.Create<Guid>();
         aggregate.AddGroupMembership(group);
         // act
@@ -1423,7 +1424,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
         aggregate.MakeHonoraryMember();
@@ -1445,7 +1446,7 @@ public class MemberShould
         aggregate.ClearDomainEvents();
         
         //act
-        var newAggregate = new Member(aggregate.AggregateId, events);
+        var newAggregate = new Member(aggregate.AggregateId,tenantId, events);
         
         //assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1463,7 +1464,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
         aggregate.ModifyContactData(email, phone, address);
@@ -1485,7 +1486,7 @@ public class MemberShould
         aggregate.ClearDomainEvents();
         
         //act
-        var newAggregate = new Member(aggregate.AggregateId, events);
+        var newAggregate = new Member(aggregate.AggregateId,tenantId, events);
         
         //assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1503,7 +1504,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
         aggregate.MakeHonoraryMember();
@@ -1520,7 +1521,7 @@ public class MemberShould
         aggregate.ClearDomainEvents();
         
         //act
-        var newAggregate = new Member(aggregate.AggregateId, events);
+        var newAggregate = new Member(aggregate.AggregateId, tenantId,events);
         
         //assert
         newAggregate.Should().BeEquivalentTo(aggregate);
@@ -1538,7 +1539,7 @@ public class MemberShould
         var number = new CardNumber(this._fixture.Create<int>());
         var join = this._fixture.Create<DateTime>();
         var paidFee = new Money(this._fixture.Create<decimal>());
-        var aggregate = new Member(number, firstName, lastName, email, phone, address, join, paidFee);
+        var aggregate = new Member(tenantId,number, firstName, lastName, email, phone, address, join, paidFee);
         var suspensionJustification = this._fixture.Create<string>();
         var suspensionDate = DateTime.UtcNow;
         aggregate.ModifyContactData(email, phone, address);
@@ -1556,7 +1557,7 @@ public class MemberShould
         aggregate.ClearDomainEvents();
         
         //act
-        var newAggregate = new Member(aggregate.AggregateId, events);
+        var newAggregate = new Member(aggregate.AggregateId,tenantId, events);
         
         //assert
         newAggregate.Should().BeEquivalentTo(aggregate);

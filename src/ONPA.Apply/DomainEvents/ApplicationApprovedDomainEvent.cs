@@ -31,27 +31,27 @@ public sealed class ApplicationApprovedDomainEvent : DomainEventBase
         this.PaidFee = paidFee;
     }
 
-    private ApplicationApprovedDomainEvent(Guid aggregateId, string firstName, string lastName,
+    private ApplicationApprovedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string lastName,
         string email,
         string phone,
         string address,
         DateTime applyDate,
         DateTime approveDate,
-        Money paidFee) : base(aggregateId)
+        Money paidFee) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;
         this.Email = email;
-        this.Phone = Phone;
+        this.Phone = phone;
         this.Address = address;
         this.ApplyDate = applyDate;
         this.ApproveDate = approveDate;
         this.PaidFee = paidFee;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationApprovedDomainEvent(aggregateId,this.FirstName,this.LastName,this.Email,
+        return new ApplicationApprovedDomainEvent(aggregateId,tenantId,this.FirstName,this.LastName,this.Email,
             this.Phone, this.Address,this.ApplyDate,this.ApproveDate,this.PaidFee);
     }
 }

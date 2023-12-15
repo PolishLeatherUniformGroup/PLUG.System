@@ -16,15 +16,15 @@ public sealed class ApplicationValidatedDomainEvent : DomainEventBase
         this.Email = email;
     }
 
-    private ApplicationValidatedDomainEvent(Guid aggregateId, Money requiredFee, string firstName, string email) : base(aggregateId)
+    private ApplicationValidatedDomainEvent(Guid aggregateId,Guid tenantId, Money requiredFee, string firstName, string email) : base(aggregateId,tenantId)
     {
         this.RequiredFee = requiredFee ?? throw new ArgumentNullException(nameof(requiredFee));
         this.FirstName = firstName;
         this.Email = email;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationValidatedDomainEvent(aggregateId, this.RequiredFee, this.FirstName,this.Email);
+        return new ApplicationValidatedDomainEvent(aggregateId,tenantId, this.RequiredFee, this.FirstName,this.Email);
     }
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using ONPA.Identity.Api.Models;
-
-namespace ONPA.Identity.Api.Data;
+﻿namespace ONPA.Identity.Api.Data;
 
 /// <remarks>
 /// Add migrations using the following command inside the 'Identity.API' project directory:

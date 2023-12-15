@@ -15,8 +15,8 @@ public sealed class ApplicationRecommendationRequestedDomainEvent : DomainEventB
         this.LastName = lastName;
     }
 
-    private ApplicationRecommendationRequestedDomainEvent(Guid aggregateId, Guid recommendingMemberId, string firstName,
-        string lastName) : base(aggregateId)
+    private ApplicationRecommendationRequestedDomainEvent(Guid aggregateId,Guid tenantId, Guid recommendingMemberId, string firstName,
+        string lastName) : base(aggregateId,tenantId)
     {
         this.RecommendingMemberId = recommendingMemberId;
         this.FirstName = firstName;
@@ -24,9 +24,9 @@ public sealed class ApplicationRecommendationRequestedDomainEvent : DomainEventB
     }
 
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationRecommendationRequestedDomainEvent(aggregateId,
+        return new ApplicationRecommendationRequestedDomainEvent(aggregateId,tenantId,
             this.RecommendingMemberId, this.FirstName,this.LastName);
     }
 }

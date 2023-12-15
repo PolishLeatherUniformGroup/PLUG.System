@@ -7,16 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="ReadModel\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj" />
       <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
+      <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />
       <ProjectReference Include="..\ONPA.Membership\ONPA.Membership.csproj" />
     </ItemGroup>
 

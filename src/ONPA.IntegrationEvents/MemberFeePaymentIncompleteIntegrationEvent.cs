@@ -12,7 +12,7 @@ public record MemberFeePaymentIncompleteIntegrationEvent : IntegrationEvent
     public DateTime PaidDate { get; init; }
     public DateTime Period { get; init; }
 
-    public MemberFeePaymentIncompleteIntegrationEvent(string firstName, string email, decimal requestedFeeAmount, string requestedFeeCurrency, decimal registeredFeeAmount, DateTime paidDate, DateTime period)
+    public MemberFeePaymentIncompleteIntegrationEvent(Guid tenantId,string firstName, string email, decimal requestedFeeAmount, string requestedFeeCurrency, decimal registeredFeeAmount, DateTime paidDate, DateTime period): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

@@ -18,7 +18,7 @@ public sealed class ApplicationFeeNotBalancedDomainEvent : DomainEventBase
         this.RegisteredPayment = registeredPayment;
     }
 
-    public ApplicationFeeNotBalancedDomainEvent(Guid aggregateId, string firstName, string email, Money requiredPayment, Money registeredPayment) : base(aggregateId)
+    private ApplicationFeeNotBalancedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email, Money requiredPayment, Money registeredPayment) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -26,8 +26,8 @@ public sealed class ApplicationFeeNotBalancedDomainEvent : DomainEventBase
         this.RegisteredPayment = registeredPayment;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationFeeNotBalancedDomainEvent(aggregateId, this.FirstName,this.Email,this.RequiredPayment, this.RegisteredPayment);
+        return new ApplicationFeeNotBalancedDomainEvent(aggregateId,tenantId, this.FirstName,this.Email,this.RequiredPayment, this.RegisteredPayment);
     }
 }

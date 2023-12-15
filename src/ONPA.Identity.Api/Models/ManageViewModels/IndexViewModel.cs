@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace ONPA.Identity.Api.Models.ManageViewModels
+﻿namespace ONPA.Identity.Api.Models.ManageViewModels
 {
     public record IndexViewModel
     {

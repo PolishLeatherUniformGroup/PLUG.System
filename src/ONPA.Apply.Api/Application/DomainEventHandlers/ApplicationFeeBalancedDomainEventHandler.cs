@@ -16,7 +16,7 @@ public sealed class ApplicationFeeBalancedDomainEventHandler : DomainEventHandle
 
     public override async Task Handle(ApplicationFeeBalancedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ApplicationDecisionsExpectedIntegrationEvent(notification.FirstName, notification.Email,
+        var integrationEvent = new ApplicationDecisionsExpectedIntegrationEvent(notification.TenantId,notification.FirstName, notification.Email,
             notification.ExpectedDecisionDate);
         
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);

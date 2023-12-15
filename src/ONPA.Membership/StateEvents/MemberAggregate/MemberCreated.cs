@@ -1,6 +1,5 @@
 using ONPA.Membership.Domain;
 using ONPA.Common.Domain;
-using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.StateEvents;
 

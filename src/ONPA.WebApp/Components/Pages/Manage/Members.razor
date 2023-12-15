@@ -1,15 +1,72 @@
 ﻿@page "/members"
-@using ONPA.WebApp.Data
+@using ONPA.WebApp.Services
+@inject MembershipService MembershipService
+
 <h2>Członkowie</h2>
 <div class="content">
-      <FluentDataGrid TGridItem="MemberItem">
-            <PropertyColumn Property="c =>c.CardNumber " Title="Numer Karty" />
-            <PropertyColumn Property="c =>c.FirstName " Title="Imię" />
-            <PropertyColumn Property="c =>c.LastName " Title="Nazwisko" />
-            <PropertyColumn Property="c =>c.Email " Title="Email" />
-            <PropertyColumn Property="c =>c.JoinDate.Date " Title="Data dołączenia" />
-      </FluentDataGrid>
+    <FluentDataGrid TGridItem="MemberItem">
+        <PropertyColumn Property="c => c.CardNumber" Title="Numer Karty"/>
+        <PropertyColumn Property="c => c.FirstName" Title="Imię"/>
+        <PropertyColumn Property="c => c.LastName" Title="Nazwisko"/>
+        <PropertyColumn Property="c => c.Email" Title="Email"/>
+        <PropertyColumn Property="c => c.JoinDate.Date" Title="Data dołączenia"/>
+        <TemplateColumn Title="Akcje">
+            <MemberActions TItem="MemberItem" Item="context"/>
+        </TemplateColumn>
+    </FluentDataGrid>
 </div>
+
 @code {
+    GridItemsProvider<MemberItem> membersProvider = default!;
+    PaginationState pagination = new() { ItemsPerPage = 10 };
+
+    protected override async Task OnInitializedAsync()
+    {
+        membersProvider = async req =>
+        {
+            var response = await MembershipService.GetMembers(-1);
+            var r = new Random();
+            var testData = new List<MemberItem>
+            {
+                new()
+                {
+                    FirstName = "Jan",
+                    LastName = "Kowalski",
+                    Email = "jan.kowalski@email.com",
+                    JoinDate = DateTime.Now.Date,
+                    CardNumber = "TEST-0001",
+                    Status = MemberStatus.Active
+                },
+                new()
+                {
+                    FirstName = "Marian",
+                    LastName = "Nowak",
+                    Email = "marian.nowak@email.com",
+                    JoinDate = DateTime.Now.Date,
+                    CardNumber = "TEST-0002",
+                    Status = MemberStatus.Suspended
+                },
+                new()
+                {
+                    FirstName = "Bogumił",
+                    LastName = "Nowacki",
+                    Email = "bogumil.nowacki@email.com",
+                    JoinDate = DateTime.Now.Date,
+                    CardNumber = "TEST-0003",
+                    Status = MemberStatus.Inactive
+                },
+                new()
+                {
+                    FirstName = "Grzegorz",
+                    LastName = "Brzęczyszczykiewicz",
+                    Email = "grz.brzec@email.com",
+                    JoinDate = DateTime.Now.Date,
+                    CardNumber = "TEST-0004",
+                    Status = MemberStatus.Expired
+                }
+            };
+            return GridItemsProviderResult.From<MemberItem>(items: testData, totalItemCount: 1);
+        };
+    }
 
 }

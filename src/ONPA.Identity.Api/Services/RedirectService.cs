@@ -1,12 +1,10 @@
-﻿using System.Text.RegularExpressions;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public class RedirectService : IRedirectService
     {
         public string ExtractRedirectUriFromReturnUrl(string url)
         {
-            var decodedUrl = global::System.Net.WebUtility.HtmlDecode(url);
+            var decodedUrl = System.Net.WebUtility.HtmlDecode(url);
             var results = Regex.Split(decodedUrl, "redirect_uri=");
             if (results.Length < 2)
                 return "";

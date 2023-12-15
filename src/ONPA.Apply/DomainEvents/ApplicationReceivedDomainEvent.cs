@@ -18,7 +18,7 @@ public sealed class ApplicationReceivedDomainEvent : DomainEventBase
         this.Recommendations = recommendations ?? throw new ArgumentNullException(nameof(recommendations));
     }
 
-    private ApplicationReceivedDomainEvent(Guid aggregateId, string firstName, string lastName, string email, List<string> recommendations) : base(aggregateId)
+    private ApplicationReceivedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string lastName, string email, List<string> recommendations) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;
@@ -26,8 +26,8 @@ public sealed class ApplicationReceivedDomainEvent : DomainEventBase
         this.Recommendations = recommendations;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationReceivedDomainEvent(aggregateId, this.FirstName, this.LastName, this.Email, this.Recommendations);
+        return new ApplicationReceivedDomainEvent(aggregateId,tenantId, this.FirstName, this.LastName, this.Email, this.Recommendations);
     }
 }

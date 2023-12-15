@@ -2,10 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace ONPA.Identity.Api.Quickstart.Diagnostics;
 
 [SecurityHeaders]
@@ -14,13 +10,13 @@ public class DiagnosticsController : Controller
 {
     public async Task<IActionResult> Index()
     {
-        var localAddresses = new string[] { "127.0.0.1", "::1", HttpContext.Connection.LocalIpAddress.ToString() };
-        if (!localAddresses.Contains(HttpContext.Connection.RemoteIpAddress.ToString()))
+        var localAddresses = new string[] { "127.0.0.1", "::1", this.HttpContext.Connection.LocalIpAddress.ToString() };
+        if (!localAddresses.Contains(this.HttpContext.Connection.RemoteIpAddress.ToString()))
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        var model = new DiagnosticsViewModel(await HttpContext.AuthenticateAsync());
-        return View(model);
+        var model = new DiagnosticsViewModel(await this.HttpContext.AuthenticateAsync());
+        return this.View(model);
     }
 }

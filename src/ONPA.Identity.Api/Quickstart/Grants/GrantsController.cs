@@ -1,13 +1,6 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Stores;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace ONPA.Identity.Api.Quickstart.Grants;
 
 /// <summary>
@@ -39,7 +32,7 @@ public class GrantsController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        return View("Index", await this.BuildViewModelAsync());
+        return this.View("Index", await this.BuildViewModelAsync());
     }
 
     /// <summary>
@@ -50,9 +43,9 @@ public class GrantsController : Controller
     public async Task<IActionResult> Revoke(string clientId)
     {
         await this._interaction.RevokeUserConsentAsync(clientId);
-        await this._events.RaiseAsync(new GrantsRevokedEvent(User.GetSubjectId(), clientId));
+        await this._events.RaiseAsync(new GrantsRevokedEvent(this.User.GetSubjectId(), clientId));
 
-        return RedirectToAction("Index");
+        return this.RedirectToAction("Index");
     }
 
     private async Task<GrantsViewModel> BuildViewModelAsync()

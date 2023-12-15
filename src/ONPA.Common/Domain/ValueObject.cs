@@ -6,7 +6,7 @@ public abstract class ValueObject : IEquatable<ValueObject>
     {
         if (other != null)
         {
-            return GetEqualityComponents()
+            return this.GetEqualityComponents()
                 .SequenceEqual(other.GetEqualityComponents());
         }
 

@@ -9,8 +9,8 @@ public record ApplicationRejectedIntegrationEvent : IntegrationEvent
     public string Reason { get; init; }
     public DateTime AppealDeadline { get; init; }
 
-    public ApplicationRejectedIntegrationEvent(string firstName, string email, string reason,
-        DateTime appealDeadline)
+    public ApplicationRejectedIntegrationEvent(Guid tenantId,string firstName, string email, string reason,
+        DateTime appealDeadline): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

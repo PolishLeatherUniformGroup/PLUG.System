@@ -1,7 +1,7 @@
 using AutoMapper;
 using ONPA.Apply.Api.Application.Commands;
 using ONPA.Apply.Api.Application.Queries;
-using ONPA.Apply.Api.Requests;
+using ONPA.Apply.Contract.Requests;
 using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Maps;
@@ -75,6 +75,26 @@ public class ApplyMaps : Profile
                 o.MapFrom(s => s.Limit))
             .ForCtorParam(nameof(GetApplicationsByStatusQuery.Page), o =>
                 o.MapFrom(s => s.Page));
+
+        this.CreateMap<GetApplicationRequest, GetApplicationQuery>()
+            .ForCtorParam(nameof(GetApplicationQuery.ApplicationId), o =>
+                o.MapFrom(s => s.ApplicationId));
+        
+        this.CreateMap<ApproveAppealApplicationRejectionRequest, ApproveApplicationRejectionAppealCommand>()
+            .ForCtorParam(nameof(ApproveApplicationRejectionAppealCommand.ApplicationId), o => 
+                o.MapFrom(s => s.ApplicationId))
+            .ForCtorParam(nameof(ApproveApplicationRejectionAppealCommand.AcceptDate), o => 
+                o.MapFrom(s => s.Approval.ApproveDate))
+            .ForCtorParam(nameof(ApproveApplicationRejectionAppealCommand.Justification), o => 
+                o.MapFrom(s => s.Approval.Justification));
+        
+        this.CreateMap<RejectAppealApplicationRejectionRequest, DismissApplicationRejectionAppealCommand>()
+            .ForCtorParam(nameof(DismissApplicationRejectionAppealCommand.ApplicationId), o => 
+                o.MapFrom(s => s.ApplicationId))
+            .ForCtorParam(nameof(DismissApplicationRejectionAppealCommand.RejectDate), o => 
+                o.MapFrom(s => s.Rejection.RejectionDate))
+            .ForCtorParam(nameof(DismissApplicationRejectionAppealCommand.DecisionDetail), o => 
+                o.MapFrom(s => s.Rejection.Justification));
 
     }
 }

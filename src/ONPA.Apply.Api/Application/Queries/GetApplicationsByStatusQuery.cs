@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using ONPA.Apply.Api.Application.Queries.Results;
-using PLUG.System.Apply.Domain;
+﻿using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
 
 namespace ONPA.Apply.Api.Application.Queries;
@@ -9,9 +7,9 @@ public record GetApplicationsByStatusQuery : ApplicationCollectionQueryBase<Appl
 {
     public int Status { get; init; }
     
-    public GetApplicationsByStatusQuery(int status, int page, int limit) : base(page, limit)
+    public GetApplicationsByStatusQuery(Guid tenantId,int status, int page, int limit) : base(tenantId,page, limit)
     {
-        Status = status;
+        this.Status = status;
     }
 
 }

@@ -1,9 +1,27 @@
+using System.Reflection;
+using ONPA.Common.Behaviors;
+using ONPA.Gatherings.Api.Application.Behaviors;
+using ONPA.Gatherings.Api.Application.IntegrationEvents;
+using ONPA.Gatherings.Infrastructure.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMediatR(configuration=>
+{
+    configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    configuration.AddOpenBehavior(typeof(CommandLoggingBehavior<,>));
+    configuration.AddOpenBehavior(typeof(CommandValidationBehavior<,>));
+    configuration.AddOpenBehavior(typeof(TransactionalBehavior<,>));
+});
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
+builder.AddRabbitMqEventBus("EventBus");
 
 var app = builder.Build();
 
@@ -16,24 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapControllers();
 
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
 
 app.Run();

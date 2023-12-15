@@ -2,10 +2,12 @@
 @using ONPA.WebApp.Components.Shared.Dialogs
 @using ONPA.WebApp.Data
 @using System.Reflection
+@using ONPA.WebApp.Services
 @inject IDialogService DialogService
 @inject IMessageService MessageService
 @inject IToastService ToastService
 @inject NavigationManager NavManager
+@inject ApplyService ApplyService
 @typeparam TItem
 
 <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="5" HorizontalAlignment="HorizontalAlignment.Start">
@@ -167,12 +169,20 @@
                 };
 
             var result = await OpenConfirmationDialog();
-            // call to api
-            if (result is not null && result.Confirmed)
+            var applicationId = GetItemId();
+            if(result is not null && result.Confirmed && applicationId is not null)
             {
-                var message = $"Wniosek od {GetItemFirstName()} {GetItemLastName()} został zaakceptowany.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
+                var response = await ApplyService.ApproveApplication(applicationId.Value);
+                if(response){
+                    var message = $"Wniosek od {GetItemFirstName()} {GetItemLastName()} został zaakceptowany.";
+                    ToastService.ShowSuccess(message, ToastTimeout);
+                }
+                else
+                {
+                    var message = $"Wystąpił błąd podczas akceptacji wniosku od {GetItemFirstName()} {GetItemLastName()}.";
+                    ToastService.ShowError(message, ToastTimeout);
+                }
+            }            
         }
         else
         {
@@ -182,11 +192,19 @@
                                                                         $"\r\nBędzie to skutkować przyjęciem {GetItemFirstName()} {GetItemLastName()} do organizacji"
                 };
             var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
+            var applicationId = GetItemId();
+            if (result is not null && result.Confirmed && applicationId is not null && result.DecisionDate is not null && result.Decision is not null)
             {
-                // call To api
-                var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()} zostało przyjęte.";
-                ToastService.ShowSuccess(message, ToastTimeout);
+                var response = await ApplyService.AcceptApplicationRejectionAppeal(applicationId.Value,result.DecisionDate.Value, result.Decision);
+                if(response){
+                    var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()} zostało zaakceptowane.";
+                    ToastService.ShowSuccess(message, ToastTimeout);
+                }
+                else
+                {
+                    var message = $"Wystąpił błąd podczas akceptacji odwołania od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()}.";
+                    ToastService.ShowError(message, ToastTimeout);
+                }
             }
         }
     }
@@ -202,12 +220,20 @@
                 };
 
             var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
+            var applicationId = GetItemId();
+            if(result is not null && result.Confirmed && applicationId is not null)
             {
-                // call To api
-                var message = "Decyzja dotycząca wniosku od {GetItemFirstName()} {GetItemLastName()} została zapisana.";
-                ToastService.ShowSuccess(message, ToastTimeout);
-            }
+                var response = await ApplyService.RejectApplication(applicationId.Value, result.Decision);
+                if(response){
+                    var message = $"Wniosek od {GetItemFirstName()} {GetItemLastName()} został odrzucowny.";
+                    ToastService.ShowSuccess(message, ToastTimeout);
+                }
+                else
+                {
+                    var message = $"Wystąpił błąd podczas odrzucania wniosku od {GetItemFirstName()} {GetItemLastName()}.";
+                    ToastService.ShowError(message, ToastTimeout);
+                }
+            }            
         }
         else
         {
@@ -218,11 +244,19 @@
                 };
 
             var result = await OpenDecisionDialog();
-            if (result is not null && result.Confirmed)
+            var applicationId = GetItemId();
+            if (result is not null && result.Confirmed && applicationId is not null && result.DecisionDate is not null && result.Decision is not null)
             {
-                // call To api
-                var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()} zostało odrzucone.";
-                ToastService.ShowSuccess(message, ToastTimeout);
+                var response = await ApplyService.DismissApplicationRejectionAppeal(applicationId.Value, result.DecisionDate.Value,result.Decision);
+                if(response){
+                    var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()} zostało odrzucone.";
+                    ToastService.ShowSuccess(message, ToastTimeout);
+                }
+                else
+                {
+                    var message = $"Wystąpił błąd podczas odrzucania  odwołania od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()}.";
+                    ToastService.ShowError(message, ToastTimeout);
+                }
             }
         }
     }
@@ -235,11 +269,19 @@
             };
         var result = await OpenPaymentDialog();
 
-        if (result is not null && result.Confirmed)
+        var applicationId = GetItemId();
+        if (result is not null && result.Confirmed && applicationId is not null && result.PaidAmount is not null)
         {
-            // call to api
-            var message = $"Wpłata składki  od {GetItemFirstName()} {GetItemLastName()} została zaresjestrowana.";
-            ToastService.ShowSuccess(message, ToastTimeout);
+            var response = await ApplyService.RegisterApplicationFeePayment(applicationId.Value, result.PaidAmount.Value, result.Currency);
+            if(response){
+                var message = $"Wpłata składki  od {GetItemFirstName()} {GetItemLastName()} została zaresjestrowana.";
+                ToastService.ShowSuccess(message, ToastTimeout);
+            }
+            else
+            {
+                var message = $"Wystąpił błąd podczas rejestracji wpłaty składki od {GetItemFirstName()} {GetItemLastName()}.";
+                ToastService.ShowError(message, ToastTimeout);
+            }
         }
     }
 
@@ -250,12 +292,19 @@
                 ActionDescription = $"Wprowadź uzasadnienie odwołania otrzymane od {GetItemFirstName()} {GetItemLastName()}."
             };
         var result = await OpenAppealDialog();
-
-        if (result is not null && result.Confirmed)
+        var applicationId = GetItemId();
+        if (result is not null && result.Confirmed && applicationId is not null && result.Justification is not null && result.AppealDate is not null)
         {
-            // call to api
-            var message = $"Odwołoanie od {GetItemFirstName()} {GetItemLastName()} została zaresjestrowane.";
-            ToastService.ShowSuccess(message, ToastTimeout);
+            var response = await ApplyService.RegisterApplicationRejectionAppeal(applicationId.Value, result.AppealDate.Value, result.Justification);
+            if(response){
+                var message = $"Odwołanie od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()} zostało zaresjestrowane.";
+                ToastService.ShowSuccess(message, ToastTimeout);
+            }
+            else
+            {
+                var message = $"Wystąpił błąd podczas rejestracji odwołania od decyzji o odrzuceniu wniosku od {GetItemFirstName()} {GetItemLastName()}.";
+                ToastService.ShowError(message, ToastTimeout);
+            }
         }
     }
 

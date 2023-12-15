@@ -8,19 +8,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1-alpha.1.23158.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
+      <ProjectReference Include="..\ONPA.EventBus.RabbitMq\ONPA.EventBus.RabbitMq.csproj" />
+      <ProjectReference Include="..\ONPA.Gatherings.Contract\ONPA.Gatherings.Contract.csproj" />
+      <ProjectReference Include="..\ONPA.Gatherings.Infrastructure\ONPA.Gatherings.Infrastructure.csproj" />
       <ProjectReference Include="..\ONPA.Gatherings\ONPA.Gatherings.csproj" />
+      <ProjectReference Include="..\ONPA.IntegrationEvents\ONPA.IntegrationEvents.csproj" />
       <ProjectReference Include="..\ONPA.SharedDomain\ONPA.SharedDomain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Application\DomainEventHandlers\" />
-      <Folder Include="Application\IntegrationEventHandlers\" />
+      <Folder Include="Controllers\" />
     </ItemGroup>
 
 </Project>

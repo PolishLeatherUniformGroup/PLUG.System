@@ -12,7 +12,7 @@ public class MemberFeePaymentRegisteredDomainEventHandler
 
     public MemberFeePaymentRegisteredDomainEventHandler(IIntegrationEventService integrationEventService)
     {
-        _integrationEventService = integrationEventService;
+        this._integrationEventService = integrationEventService;
     }
 
     public override async Task Handle(MemberFeePaymentRegisteredDomainEvent notification, CancellationToken cancellationToken)
@@ -21,7 +21,7 @@ public class MemberFeePaymentRegisteredDomainEventHandler
         {
             return;
         }
-        var integrationEvent = new MemberFeePaymentIncompleteIntegrationEvent(
+        var integrationEvent = new MemberFeePaymentIncompleteIntegrationEvent(notification.TenantId,
             notification.FirstName, notification.Email, notification.RegisteredFee.Amount,
             notification.RegisteredFee.Currency,notification.RequiredFee.Amount,
             notification.PaidDate,notification.Period);

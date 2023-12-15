@@ -15,27 +15,27 @@ public class ApplyApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
     {
         var options = new DistributedApplicationOptions { AssemblyName = typeof(ApplyApiFixture).Assembly.FullName, DisableDashboard = true };
         var appBuilder = DistributedApplication.CreateBuilder(options);
-        Postgres = appBuilder.AddPostgresContainer("ApplyDB");
-        Rabbit = appBuilder.AddRabbitMQContainer("EventBus");
-        _app = appBuilder.Build();
+        this.Postgres = appBuilder.AddPostgresContainer("ApplyDB");
+        this.Rabbit = appBuilder.AddRabbitMQContainer("EventBus");
+        this._app = appBuilder.Build();
     }
     public new async Task DisposeAsync()
     {
         await base.DisposeAsync();
-        await _app.StopAsync();
-        if (_app is IAsyncDisposable asyncDisposable)
+        await this._app.StopAsync();
+        if (this._app is IAsyncDisposable asyncDisposable)
         {
             await asyncDisposable.DisposeAsync().ConfigureAwait(false);
         }
         else
         {
-            _app.Dispose();
+            this._app.Dispose();
         }
     }
 
     public async Task InitializeAsync()
     {
-        await _app.StartAsync();
+        await this._app.StartAsync();
     }
     
     protected override IHost CreateHost(IHostBuilder builder)
@@ -44,7 +44,7 @@ public class ApplyApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
         {
             config.AddInMemoryCollection(new Dictionary<string, string>
             {
-                { $"ConnectionStrings:{Postgres.Resource.Name}", Postgres.Resource.GetConnectionString() },
+                { $"ConnectionStrings:{this.Postgres.Resource.Name}", this.Postgres.Resource.GetConnectionString() },
                 { "EventBus:SubscriptionClientName", "Apply" },
             });
         });

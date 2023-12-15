@@ -16,7 +16,7 @@ public sealed class ApplicationRejectionAppealDismissedDomainEventHandler : Doma
 
     public override async Task Handle(ApplicationRejectionAppealDismissedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ApplicationRejectionAppealDismissedIntegrationEvent(notification.FirstName, notification.Email,
+        var integrationEvent = new ApplicationRejectionAppealDismissedIntegrationEvent(notification.TenantId,notification.FirstName, notification.Email,
             notification.RejectDate,notification.DecisionDetails);
         
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);

@@ -8,10 +8,10 @@ public record MembershipExtendedIntegrationEvent : IntegrationEvent
     public string Email { get; init; }
     public DateTime ValidUntil { get; init; }
 
-    public MembershipExtendedIntegrationEvent(string firstName, string email, DateTime validUntil)
+    public MembershipExtendedIntegrationEvent(Guid tenantId,string firstName, string email, DateTime validUntil): base(tenantId)
     {
-        FirstName = firstName;
-        Email = email;
-        ValidUntil = validUntil;
+        this.FirstName = firstName;
+        this.Email = email;
+        this.ValidUntil = validUntil;
     }
 }

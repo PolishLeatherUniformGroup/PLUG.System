@@ -1,0 +1,69 @@
+﻿@using ONPA.WebApp.Services
+@inject IDialogService DialogService
+@inject IMessageService MessageService
+@inject IToastService ToastService
+@inject NavigationManager NavManager
+@inject MembershipService MembershipService
+@typeparam TItem
+
+<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="5" HorizontalAlignment="HorizontalAlignment.Start">
+    @if (!ShowText)
+    {
+        <FluentButton IconStart="@(new Icons.Regular.Size20.Eye())" Title="Zobacz" OnClick="@(() => NavManager.NavigateTo($"/members/{GetItemId()}"))" />
+    }
+   
+</FluentStack>
+@code {
+    const int ToastTimeout = 10 * 1000;
+    
+    [Parameter]
+    public TItem Item { get; set; }
+
+    [Parameter]
+    public bool ShowText { get; set; } = false;
+    
+    PaymentDialogAction PaymentDialogData = default!;
+    
+    private RenderFragment PayIcon(Color color) => @<FluentIcon Value="@(new Icons.Regular.Size20.Money())" Color="color" />;
+    
+    
+    private T? GetProperty<T>(string propertyName)
+    {
+        var statusProperty = Item.GetType().GetProperty(propertyName);
+        if (statusProperty == null)
+        {
+            return default(T?);
+        }
+        if (statusProperty.PropertyType == typeof(T))
+        {
+            return (T?)statusProperty.GetValue(Item);
+        }
+        return default(T?);
+    }
+    
+    private MemberStatus? GetStatus()
+    {
+        return GetProperty<MemberStatus>("Status");
+    }
+
+    private Guid? GetItemId()
+    {
+        return GetProperty<Guid>("Id");
+    }
+
+    private string? GetItemFirstName()
+    {
+        return GetProperty<string>("FirstName");
+    }
+
+    private string? GetItemLastName()
+    {
+        return GetProperty<string>("LastName");
+    }
+    
+    private string? GetCardNumber()
+    {
+        return GetProperty<string>("LastName");
+    }   
+   
+}

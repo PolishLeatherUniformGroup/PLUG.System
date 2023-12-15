@@ -10,7 +10,7 @@ public sealed record RejectApplicationCommand: ApplicationCommandBase
     public int DaysToAppeal { get; init; }
 
     public RejectApplicationCommand(Guid applicationId, DateTime rejectionDate, string decisionDetail,
-        int daysToAppeal)
+        int daysToAppeal, Guid tenantId):base(tenantId)
     {
         this.ApplicationId = applicationId;
         this.RejectionDate = rejectionDate;

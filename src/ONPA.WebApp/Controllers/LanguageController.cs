@@ -10,13 +10,13 @@ namespace ONPA.WebApp.Controllers
         {
             if (culture != null)
             {
-                HttpContext.Response.Cookies.Append(
+                this.HttpContext.Response.Cookies.Append(
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(
                         new RequestCulture(culture, culture)));
             }
 
-            return LocalRedirect(redirectUri);
+            return this.LocalRedirect(redirectUri);
         }
     }
 }

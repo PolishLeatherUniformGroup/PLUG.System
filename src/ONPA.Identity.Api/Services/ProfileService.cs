@@ -1,11 +1,4 @@
-﻿using System.Security.Claims;
-using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Identity;
-using ONPA.Identity.Api.Models;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public class ProfileService : IProfileService
     {
@@ -63,9 +56,9 @@ namespace ONPA.Identity.Api.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtClaimTypes.Subject, user.Id),
-                new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+                new(JwtClaimTypes.Subject, user.Id),
+                new(JwtClaimTypes.PreferredUserName, user.UserName),
+                new(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
 
             if (!string.IsNullOrWhiteSpace(user.Name))

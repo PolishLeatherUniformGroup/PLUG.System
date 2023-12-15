@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Infrastructure.Database;
 using PLUG.System.Apply.Domain;
 using ONPA.Common.Domain;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.Repositories;
@@ -22,13 +20,13 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
     public IUnitOfWork UnitOfWork => this._context;
 
     public async Task<ApplicationForm?> GetByIdAsync(Guid id,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         return await this._context.ReadAggregate<ApplicationForm>(id, cancellationToken);
     }
 
     public async Task<ApplicationForm> CreateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         var applicationForm = new ReadModel.ApplicationForm()
@@ -41,7 +39,7 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
             Address = aggregate.Address,
             ApplicationDate = aggregate.ApplicationDate,
             Status = aggregate.Status.Value,
-            LastUpdateDate = CalculateLastUpdate(aggregate),
+            LastUpdateDate = this.CalculateLastUpdate(aggregate),
             RequiredFeeAmount = aggregate.RequiredFee?.Amount,
             FeeCurrency = aggregate.RequiredFee?.Currency
         };
@@ -52,14 +50,14 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
     }
 
     public async Task<ApplicationForm> UpdateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         await this._context.StoreAggregate(aggregate, cancellationToken);
         this.UpdateRecommendations(aggregate);
         var applicationForm = await this._context.ApplicationForms.FindAsync(aggregate.AggregateId);
         if (applicationForm is not null)
         {
-            applicationForm.LastUpdateDate = CalculateLastUpdate(aggregate);
+            applicationForm.LastUpdateDate = this.CalculateLastUpdate(aggregate);
             applicationForm.Status = aggregate.Status.Value;
             applicationForm.RequiredFeeAmount = aggregate.RequiredFee?.Amount;
             applicationForm.FeeCurrency = aggregate.RequiredFee?.Currency;

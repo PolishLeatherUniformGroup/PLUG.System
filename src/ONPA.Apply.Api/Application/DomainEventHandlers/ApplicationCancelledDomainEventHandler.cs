@@ -16,7 +16,7 @@ public sealed class ApplicationCancelledDomainEventHandler : DomainEventHandlerB
 
     public override async Task Handle(ApplicationCancelledDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ApplicationCancelledIntegrationEvent(notification.FirstName, notification.Email,
+        var integrationEvent = new ApplicationCancelledIntegrationEvent(notification.TenantId,notification.FirstName, notification.Email,
             notification.Reason);
         
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);

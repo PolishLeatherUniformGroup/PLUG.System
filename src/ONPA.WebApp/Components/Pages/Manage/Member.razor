@@ -1,0 +1,6 @@
+﻿@page "/members/{memberId:guid}"
+<h3>Member</h3>
+<MemberActions TItem="MemberItem" Item="@Item" ShowText=true/>
+@code {
+    public MemberItem Item { get; set; }
+}

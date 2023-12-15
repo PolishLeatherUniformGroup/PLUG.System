@@ -1,4 +1,3 @@
-using MediatR;
 using ONPA.EventBus.Abstraction;
 using ONPA.IntegrationEvents;
 using ONPA.Membership.Api.Application.Services;
@@ -16,7 +15,7 @@ public class ApplicationReceivedIntegrationEventHandler: IIntegrationEventHandle
 
     public async Task Handle(ApplicationReceivedIntegrationEvent @event)
     {
-        await this._memberRecommendationValidationService.ValidateRecommendingMembers(@event.ApplicationId,
+        await this._memberRecommendationValidationService.ValidateRecommendingMembers(@event.TenantId,@event.ApplicationId,
             @event.Recommenders);
     }
 }

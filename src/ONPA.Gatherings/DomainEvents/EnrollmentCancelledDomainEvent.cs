@@ -21,7 +21,7 @@ public sealed class EnrollmentCancelledDomainEvent : DomainEventBase
         this.Participants = participants;
     }
 
-    private EnrollmentCancelledDomainEvent(Guid aggregateId, DateTime cancellationDate, Money refundableAmount, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants) : base(aggregateId)
+    private EnrollmentCancelledDomainEvent(Guid aggregateId, Guid tenantId, DateTime cancellationDate, Money refundableAmount, string enrollmentFirstName, string enrollmentEmail, List<Participant> participants) : base(aggregateId,tenantId)
     {
         this.CancellationDate = cancellationDate;
         this.RefundableAmount = refundableAmount;
@@ -30,8 +30,8 @@ public sealed class EnrollmentCancelledDomainEvent : DomainEventBase
         this.Participants = participants;
     }
         
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new EnrollmentCancelledDomainEvent(aggregateId, this.CancellationDate, this.RefundableAmount, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants);
+        return new EnrollmentCancelledDomainEvent(aggregateId,tenantId, this.CancellationDate, this.RefundableAmount, this.EnrollmentFirstName, this.EnrollmentEmail, this.Participants);
     }
 }

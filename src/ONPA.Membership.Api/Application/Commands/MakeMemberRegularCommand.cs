@@ -2,12 +2,4 @@
 
 namespace ONPA.Membership.Api.Application.Commands;
 
-public sealed record MakeMemberRegularCommand : ApplicationCommandBase
-{
-    public Guid MemberId { get; init; }
-
-    public MakeMemberRegularCommand(Guid memberId)
-    {
-        this.MemberId = memberId;
-    }
-}
+public sealed record MakeMemberRegularCommand(Guid TenantId, Guid MemberId) : ApplicationCommandBase(TenantId);

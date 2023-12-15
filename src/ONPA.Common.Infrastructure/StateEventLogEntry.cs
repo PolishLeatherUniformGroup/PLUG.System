@@ -13,12 +13,12 @@ public sealed class StateEventLogEntry
     private StateEventLogEntry() { }
     public StateEventLogEntry(IStateEvent @event)
     {
-        EventId = @event.EventId;
-        AggregateId = @event.AggregateId;
-        CreationTime = @event.Timestamp;
-        EventTypeName = @event.GetType().FullName!;
-        Content = JsonSerializer.Serialize(@event, @event.GetType(), s_indentedOptions);
-        StateEvent = @event;
+        this.EventId = @event.EventId;
+        this.AggregateId = @event.AggregateId;
+        this.CreationTime = @event.Timestamp;
+        this.EventTypeName = @event.GetType().FullName!;
+        this.Content = JsonSerializer.Serialize(@event, @event.GetType(), s_indentedOptions);
+        this.StateEvent = @event;
     }
     [Required]
     public Guid EventId { get; private set; }
@@ -30,7 +30,7 @@ public sealed class StateEventLogEntry
     [Required]
     public string EventTypeName { get; private set; }
     [NotMapped]
-    public string EventTypeShortName => EventTypeName.Split('.')?.Last()!;
+    public string EventTypeShortName => this.EventTypeName.Split('.')?.Last()!;
     [NotMapped]
     public IStateEvent StateEvent { get; private set; }
     [Required]
@@ -44,7 +44,8 @@ public sealed class StateEventLogEntry
         {
             throw new ArgumentNullException(nameof(type));
         }
-        StateEvent = (JsonSerializer.Deserialize(this.Content, type, s_caseInsensitiveOptions) as IStateEvent)!;
+
+        this.StateEvent = (JsonSerializer.Deserialize(this.Content, type, s_caseInsensitiveOptions) as IStateEvent)!;
         return this;
     }
 

@@ -8,9 +8,9 @@ namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
 public sealed class RefundCancelledEnrollmentCommandHandler : ApplicationCommandHandlerBase<RefundCancelledEnrollmentCommand>
 {
-    private readonly IAggregateRepository<PublicGathering> _aggregateRepository;
+    private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public RefundCancelledEnrollmentCommandHandler(IAggregateRepository<PublicGathering> aggregateRepository)
+    public RefundCancelledEnrollmentCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }

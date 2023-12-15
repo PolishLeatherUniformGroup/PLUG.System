@@ -17,7 +17,7 @@ public sealed class MembershipExpiredDomainEvent : DomainEventBase
         this.Reason = reason;
     }
 
-    private MembershipExpiredDomainEvent(Guid aggregateId, string firstName, string email, DateTime expirationDate, string reason) : base(aggregateId)
+    private MembershipExpiredDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email, DateTime expirationDate, string reason) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
@@ -25,8 +25,8 @@ public sealed class MembershipExpiredDomainEvent : DomainEventBase
         this.Reason = reason;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MembershipExpiredDomainEvent(aggregateId, this.FirstName, this.Email, this.ExpirationDate,this.Reason);
+        return new MembershipExpiredDomainEvent(aggregateId,tenantId, this.FirstName, this.Email, this.ExpirationDate,this.Reason);
     }
 }

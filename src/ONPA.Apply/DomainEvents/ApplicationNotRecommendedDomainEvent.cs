@@ -12,14 +12,14 @@ public sealed class ApplicationNotRecommendedDomainEvent : DomainEventBase
         this.Email = email;
     }
 
-    private ApplicationNotRecommendedDomainEvent(Guid aggregateId, string firstName, string email) : base(aggregateId)
+    private ApplicationNotRecommendedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationNotRecommendedDomainEvent(aggregateId,this.FirstName,this.Email);
+        return new ApplicationNotRecommendedDomainEvent(aggregateId,tenantId, this.FirstName,this.Email);
     }
 }

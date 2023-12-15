@@ -6,16 +6,16 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class EnrollToPublicGatheringCommandHandler : ApplicationCommandHandlerBase<EnrollToPublicGatheringCommand>
+public sealed class EnrollToPublicGatheringCommandHandler : ApplicationCommandHandlerBase<EnrollToEventCommand>
 {
-    private readonly IAggregateRepository<PublicGathering> _aggregateRepository;
+    private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public EnrollToPublicGatheringCommandHandler(IAggregateRepository<PublicGathering> aggregateRepository)
+    public EnrollToPublicGatheringCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
 
-    public override async Task<CommandResult> Handle(EnrollToPublicGatheringCommand request, CancellationToken cancellationToken)
+    public override async Task<CommandResult> Handle(EnrollToEventCommand request, CancellationToken cancellationToken)
     {
         try
         {

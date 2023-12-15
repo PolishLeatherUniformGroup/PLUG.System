@@ -9,7 +9,7 @@ public record ApplicationRecommendersValidatedIntegrationEvent : IntegrationEven
     public decimal? YearFeeAmount { get; init; }
     public string? FeeCurrency { get; init; }
 
-    public ApplicationRecommendersValidatedIntegrationEvent(Guid applicationId, List<(string MemberNumber, Guid? MemberId)> recommenders, decimal? yearFeeAmount, string? feeCurrency)
+    public ApplicationRecommendersValidatedIntegrationEvent(Guid tenantId, Guid applicationId, List<(string MemberNumber, Guid? MemberId)> recommenders, decimal? yearFeeAmount, string? feeCurrency):base(tenantId)
     {
         this.ApplicationId = applicationId;
         this.Recommenders = recommenders;

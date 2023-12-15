@@ -1,10 +1,6 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using Duende.IdentityServer.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace ONPA.Identity.Api.Quickstart.Home
 {
     [SecurityHeaders]
@@ -30,11 +26,11 @@ namespace ONPA.Identity.Api.Quickstart.Home
             if (this._environment.IsDevelopment())
             {
                 // only show in development
-                return View();
+                return this.View();
             }
 
             this._logger.LogInformation("Homepage is disabled in production. Returning 404.");
-            return NotFound();
+            return this.NotFound();
         }
 
         /// <summary>
@@ -57,7 +53,7 @@ namespace ONPA.Identity.Api.Quickstart.Home
                 }
             }
 
-            return View("Error", vm);
+            return this.View("Error", vm);
         }
     }
 }

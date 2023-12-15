@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-
-namespace ONPA.Identity.Api.Services
+﻿namespace ONPA.Identity.Api.Services
 {
     public interface ILoginService<T>
     {

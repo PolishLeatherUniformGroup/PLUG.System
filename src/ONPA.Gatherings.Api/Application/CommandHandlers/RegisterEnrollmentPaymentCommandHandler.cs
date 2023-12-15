@@ -8,9 +8,9 @@ namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
 public sealed class RegisterEnrollmentPaymentCommandHandler : ApplicationCommandHandlerBase<RegisterEnrollmentPaymentCommand>
 {
-    private readonly IAggregateRepository<PublicGathering> _aggregateRepository;
+    private readonly IAggregateRepository<Event> _aggregateRepository;
 
-    public RegisterEnrollmentPaymentCommandHandler(IAggregateRepository<PublicGathering> aggregateRepository)
+    public RegisterEnrollmentPaymentCommandHandler(IAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }

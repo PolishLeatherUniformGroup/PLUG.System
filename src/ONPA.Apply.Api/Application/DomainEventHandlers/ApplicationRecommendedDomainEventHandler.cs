@@ -16,7 +16,7 @@ public sealed class ApplicationRecommendedDomainEventHandler : DomainEventHandle
 
     public override async Task Handle(ApplicationRecommendedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var integrationEvent = new ApplicationAwaitsDecisionIntegrationEvent(notification.AggregateId,
+        var integrationEvent = new ApplicationAwaitsDecisionIntegrationEvent(notification.TenantId,notification.AggregateId,
             notification.FirstName, notification.LastName);
         
         await this._integrationEventService.AddAndSaveEventAsync(integrationEvent);

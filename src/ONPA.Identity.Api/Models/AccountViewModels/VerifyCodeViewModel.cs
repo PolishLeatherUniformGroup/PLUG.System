@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ONPA.Identity.Api.Models.AccountViewModels
+﻿namespace ONPA.Identity.Api.Models.AccountViewModels
 {
     public record VerifyCodeViewModel
     {

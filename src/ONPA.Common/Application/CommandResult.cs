@@ -4,8 +4,8 @@ public class CommandResult
 {
     public Guid AggreagteId { get; private set; }
     public bool IsFailure { get; }
-    public bool IsSuccess => !IsFailure;
-    private readonly List<string> _errors = new List<string>();
+    public bool IsSuccess => !this.IsFailure;
+    private readonly List<string> _errors = new();
     public IEnumerable<string> Errors => this._errors;
     
     private bool _isValid;

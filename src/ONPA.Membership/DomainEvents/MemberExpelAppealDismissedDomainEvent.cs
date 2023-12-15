@@ -25,13 +25,13 @@ public sealed class MemberExpelAppealDismissedDomainEvent : DomainEventBase
         this.DecisionDetails = decisionDetails;
     }
 
-    private MemberExpelAppealDismissedDomainEvent(Guid aggregateId,
+    private MemberExpelAppealDismissedDomainEvent(Guid aggregateId,Guid tenantId,
         CardNumber memberNumber,
         string firstName,
         string email,
         DateTime rejectDate,
         string decisionDetails,
-        List<Guid> groupMemberships) : base(aggregateId)
+        List<Guid> groupMemberships) : base(aggregateId,tenantId)
     {
         this.MemberNumber = memberNumber;
         this.FirstName = firstName;
@@ -42,8 +42,8 @@ public sealed class MemberExpelAppealDismissedDomainEvent : DomainEventBase
     }
 
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new MemberExpelAppealDismissedDomainEvent(aggregateId, this.MemberNumber,this.FirstName, this.Email, this.RejectDate, this.DecisionDetails,this.GroupMemberships);
+        return new MemberExpelAppealDismissedDomainEvent(aggregateId,tenantId, this.MemberNumber,this.FirstName, this.Email, this.RejectDate, this.DecisionDetails,this.GroupMemberships);
     }
 }

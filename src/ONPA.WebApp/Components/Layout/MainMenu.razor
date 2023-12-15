@@ -1,0 +1,82 @@
+﻿@inject IStringLocalizer<MainMenu> Localizer
+<FluentNavMenu Width="300" Collapsible="true" @bind-Expanded="@Expanded">
+    <FluentNavGroup Icon="@(new Icons.Regular.Size20.Home())" Expanded="@UserExpanded" ExpandedChanged="() => UserExpanded = true" HideExpander="true">
+        <TitleTemplate>@Localizer["section_membership"]</TitleTemplate>
+        <ChildContent>
+            <div style="padding: 0.25em;">
+                <FluentPersona Name="Application User"
+                               ImageSize="30px"
+                               Status="PresenceStatus.Available"
+                               StatusSize="PresenceBadgeSize.ExtraSmall">
+                    <span>Application User</span>
+                </FluentPersona>
+            </div>
+            <FluentNavLink Href="/" Match="NavLinkMatch.All">Start</FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonClock())" Href="/membership/details" Tooltip="@Localizer["membership_details"]">
+                @Localizer["membership_details"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonMoney())" Href="/membership/fees" Tooltip="@Localizer["membership_fees"]">
+                @Localizer["membership_fees"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonAvailable())" Href="/membership/recommendations" Tooltip="@Localizer["membership_recommendations"]">
+                @Localizer["membership_recommendations"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonNote())" Href="/membership/card" Tooltip="@Localizer["membership_card"]">
+                @Localizer["membership_card"]
+            </FluentNavLink>
+        </ChildContent>
+    </FluentNavGroup>
+    <FluentNavLink Icon="@(new Icons.Regular.Size20.Vote())" Href="/voting" Tooltip="@Localizer["section_voting"]">
+        @Localizer["section_voting"]
+    </FluentNavLink>
+    <FluentNavGroup Icon="@(new Icons.Regular.Size20.Calendar())">
+        <TitleTemplate>@Localizer["section_events"]</TitleTemplate>
+        <ChildContent>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.CalendarAgenda())" Href="/events/list" Tooltip="@Localizer["events_list"]">
+                @Localizer["events_list"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.CalendarAdd())" Href="/events/add" Tooltip="@Localizer["events_add"]">
+                @Localizer["events_add"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.CalendarPerson())" Href="/events/mine" Tooltip="@Localizer["events_mine"]">
+                @Localizer["events_mine"]
+            </FluentNavLink>
+        </ChildContent>
+    </FluentNavGroup>
+    <FluentNavGroup Icon="@(new Icons.Regular.Size20.FolderPeople())">
+        <TitleTemplate>@Localizer["section_manage"]</TitleTemplate>
+        <ChildContent>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PeopleList())" Href="/members" Tooltip="@Localizer["manage_members"]">
+                @Localizer["manage_members"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PeopleCommunityAdd())" Href="/applications" Tooltip="@Localizer["manage_applications"]">
+                @Localizer["manage_applications"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PeopleTeam())" Href="/groups" Tooltip="@Localizer["manage_groups"]">
+                @Localizer["manage_groups"]
+            </FluentNavLink>
+        </ChildContent>
+    </FluentNavGroup>
+    <FluentNavGroup Icon="@(new Icons.Regular.Size20.Settings())">
+        <TitleTemplate>@Localizer["section_settings"]</TitleTemplate>
+        <ChildContent>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.PeopleSettings())" Tooltip="@Localizer["settings_organization"]">
+                @Localizer["settings_organization"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.MailSettings())" Tooltip="@Localizer["settings_message"]">
+                @Localizer["settings_message"]
+            </FluentNavLink>
+            <FluentNavLink Icon="@(new Icons.Regular.Size20.CalendarSettings())" Tooltip="@Localizer["settings_events"]">
+                @Localizer["settings_events"]
+            </FluentNavLink>
+        </ChildContent>
+    </FluentNavGroup>
+    <FluentNavLink Icon="@(new Icons.Regular.Size20.QuestionCircle())" Tooltip="@Localizer["section_help"]">
+        @Localizer["section_help"]
+    </FluentNavLink>
+</FluentNavMenu>
+
+@code {
+    bool Expanded = false;
+    bool UserExpanded = true;
+}

@@ -1,20 +1,33 @@
 ﻿@page "/applications/{ApplicationId:guid}"
-@using ONPA.WebApp.Data
 @using ONPA.WebApp.Components.Shared;
+@using ONPA.WebApp.Services
+@using ONPA.Apply.Contract.Responses
+@inject ApplyService ApplyService
 
 <h3>Wniosek</h3>
-<ApplicationActions TItem="ApplicationItem" Item="@Item" ShowText=true />
+@if (!loaded)
+{
+    <FluentProgressRing style="width: 192px; height: 192px;" ></FluentProgressRing>
+}
+else
+{
+    <ApplicationActions TItem="ApplicationDetails" Item="@Item" ShowText=true/>
+    // Display application details
+}
+
 @code {
 
     [Parameter]
     public Guid? ApplicationId { get; set; }
 
-    ApplicationItem Item = new ApplicationItem
+    protected override async Task OnInitializedAsync()
+    {
+        if (ApplicationId.HasValue)
         {
-            FirstName = "Jan",
-            LastName = "Kowalski",
-            Email = "jan.kowalski@email.com",
-            ApplicationDate = DateTime.Now.Date,
-            Status = (ApplicationStatus)Random.Shared.Next(0, 9)
-        };
+            Item = await ApplyService.GetApplication(ApplicationId.Value);
+            loaded = true;
+        }
+    }
+    bool loaded = false;
+    ApplicationDetails Item { get; set; }=default!;
 }

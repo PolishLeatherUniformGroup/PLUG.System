@@ -12,7 +12,7 @@ public sealed class RequestMemberFeePaymentCommandHandler : ApplicationCommandHa
 
     public RequestMemberFeePaymentCommandHandler(IAggregateRepository<Member> aggregateRepository)
     {
-        _aggregateRepository = aggregateRepository;
+        this._aggregateRepository = aggregateRepository;
     }
     
     public override async Task<CommandResult> Handle(RequestMemberFeePaymentCommand request, CancellationToken cancellationToken)

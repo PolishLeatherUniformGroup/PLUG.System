@@ -5,8 +5,7 @@ using ONPA.Apply.Infrastructure.Repositories;
 using PLUG.System.Apply.Domain;
 using ONPA.Common.Application;
 using ONPA.Common.Domain;
-using RecommendationRead = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
-using ApplicationFormRead = ONPA.Apply.Infrastructure.ReadModel.ApplicationForm;
+using ONPA.IntegrationEventsLog.Services;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.DependencyInjection;
@@ -19,6 +18,8 @@ public static class ServicesExtension
         services.AddTransient<IReadOnlyRepository<Recommendation>, RecommendationReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.ApplicationForm>, ApplicationFormReadOnlyRepository>();
         services.AddDbContext<ApplyContext>();
+        services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<ApplyContext>>();
+       
         return services;
     }
     

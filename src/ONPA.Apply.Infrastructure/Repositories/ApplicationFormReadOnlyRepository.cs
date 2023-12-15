@@ -20,7 +20,7 @@ public class ApplicationFormReadOnlyRepository: IReadOnlyRepository<ApplicationF
         return await this._context.ApplicationForms.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
     }
 
-    public async Task<IEnumerable<ApplicationForm>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new CancellationToken())
+    public async Task<IEnumerable<ApplicationForm>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
         return await this._context.ApplicationForms.Skip(page * pageSize).Take(pageSize).ToListAsync(cancellationToken);
     }
@@ -28,7 +28,7 @@ public class ApplicationFormReadOnlyRepository: IReadOnlyRepository<ApplicationF
     public async Task<IEnumerable<ApplicationForm>> ManyByFilter(Expression<Func<ApplicationForm, bool>> filter,
         int page = 0,
         int pageSize = 20,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         return await this._context.ApplicationForms
             .Where(filter)

@@ -9,7 +9,7 @@ public record ApplicationRejectionAppealApprovedIntegrationEvent : IntegrationEv
     
     public DateTime ApproveDate { get; init; }
 
-    public ApplicationRejectionAppealApprovedIntegrationEvent(string firstName, string email, DateTime approveDate)
+    public ApplicationRejectionAppealApprovedIntegrationEvent(Guid tenantId,string firstName, string email, DateTime approveDate): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

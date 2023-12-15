@@ -12,7 +12,7 @@ public sealed class ModifyMemberContactDataCommandHandler : ApplicationCommandHa
 
     public ModifyMemberContactDataCommandHandler(IAggregateRepository<Member> aggregateRepository)
     {
-        _aggregateRepository = aggregateRepository;
+        this._aggregateRepository = aggregateRepository;
     }
     
     public override async Task<CommandResult> Handle(ModifyMemberContactDataCommand request, CancellationToken cancellationToken)

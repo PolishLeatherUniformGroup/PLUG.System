@@ -1,8 +1,5 @@
-﻿using System.Net.Http.Json;
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using ONPA.Apply.Api;
-using ONPA.Apply.Api.Requests;
 
 namespace ONPA.FunctionalTests.Apply;
 
@@ -13,8 +10,8 @@ public class ApplyTests: IClassFixture<ApplyApiFixture>
     
     public ApplyTests(ApplyApiFixture fixture)
     {
-        _webApplicationFactory = fixture;
-        _httpClient = _webApplicationFactory.CreateClient();
+        this._webApplicationFactory = fixture;
+        this._httpClient = this._webApplicationFactory.CreateClient();
     }
 
   

@@ -12,7 +12,7 @@ public class CreateMemberCommandHandler : ApplicationCommandHandlerBase<CreateMe
 
     public CreateMemberCommandHandler(IAggregateRepository<Member> aggregateRepository)
     {
-        _aggregateRepository = aggregateRepository;
+        this._aggregateRepository = aggregateRepository;
     }
 
     public override async Task<CommandResult> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
@@ -20,7 +20,7 @@ public class CreateMemberCommandHandler : ApplicationCommandHandlerBase<CreateMe
         try
         {
             var cardNumber = new CardNumber(1);
-            var aggregate = new Member(
+            var aggregate = new Member(request.TenantId,
                 cardNumber, request.FirstName, request.LastName, request.Email, request.Phone,
                 request.Address, request.JoinDate, request.PaidFee);
             aggregate= await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);

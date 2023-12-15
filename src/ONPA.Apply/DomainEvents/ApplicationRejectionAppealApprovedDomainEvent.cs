@@ -31,13 +31,13 @@ public sealed class ApplicationRejectionAppealApprovedDomainEvent : DomainEventB
         this.PaidFee = paidFee;
     }
 
-    private ApplicationRejectionAppealApprovedDomainEvent(Guid aggregateId, string firstName, string lastName,
+    private ApplicationRejectionAppealApprovedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string lastName,
         string email,
         string phone,
         string address,
         DateTime applyDate,
         DateTime approveDate,
-        Money paidFee) : base(aggregateId)
+        Money paidFee) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.LastName = lastName;
@@ -49,9 +49,9 @@ public sealed class ApplicationRejectionAppealApprovedDomainEvent : DomainEventB
         this.PaidFee = paidFee;
     }
 
-    public override IDomainEvent WithAggregate(Guid aggregateId)
+    public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationRejectionAppealApprovedDomainEvent(aggregateId,this.FirstName,this.LastName,this.Email,
+        return new ApplicationRejectionAppealApprovedDomainEvent(aggregateId,tenantId, this.FirstName,this.LastName,this.Email,
             this.Phone,this.Address,this.ApplyDate,this.ApproveDate,this.PaidFee);
     }
 }

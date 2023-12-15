@@ -1,0 +1,167 @@
+{
+  "resources": {
+    "EventBus": {
+      "type": "rabbitmq.server.v0"
+    },
+    "postgres": {
+      "type": "postgres.server.v0"
+    },
+    "ApplyDB": {
+      "type": "postgres.database.v0",
+      "parent": "postgres"
+    },
+    "MembershipDB": {
+      "type": "postgres.database.v0",
+      "parent": "postgres"
+    },
+    "GatheringDB": {
+      "type": "postgres.database.v0",
+      "parent": "postgres"
+    },
+    "IdentityDB": {
+      "type": "postgres.database.v0",
+      "parent": "postgres"
+    },
+    "identity-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Identity.Api/ONPA.Identity.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "ConnectionStrings__IdentityDB": "{IdentityDB.connectionString}",
+        "ApplyApiClient": "{apply-api.bindings.https.url}",
+        "WebAppClient": "{webapp.bindings.https.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "apply-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Apply.Api/ONPA.Apply.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "ConnectionStrings__ApplyDB": "{ApplyDB.connectionString}",
+        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "IdentityUrl": "{identity-api.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "membership-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Membership.Api/ONPA.Membership.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "ConnectionStrings__MembershipDB": "{MembershipDB.connectionString}",
+        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "IdentityUrl": "{identity-api.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "gathering-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Gatherings.Api/ONPA.Gatherings.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "ConnectionStrings__GatheringDB": "{GatheringDB.connectionString}",
+        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "IdentityUrl": "{identity-api.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "communication-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Communication.Api/ONPA.Communication.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "IdentityUrl": "{identity-api.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "webapp": {
+      "type": "project.v0",
+      "path": "../ONPA.WebApp/ONPA.WebApp.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "IdentityUrl": "{identity-api.bindings.http.url}",
+        "CallBackUrl": "{webapp.bindings.https.url}",
+        "services__apply-api__0": "{apply-api.bindings.http.url}",
+        "services__apply-api__1": "{apply-api.bindings.https.url}",
+        "services__membership-api__0": "{membership-api.bindings.http.url}",
+        "services__membership-api__1": "{membership-api.bindings.https.url}",
+        "services__gathering-api__0": "{gathering-api.bindings.http.url}",
+        "services__gathering-api__1": "{gathering-api.bindings.https.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    }
+  }
+}

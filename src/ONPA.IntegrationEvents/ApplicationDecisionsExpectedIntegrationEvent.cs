@@ -8,7 +8,7 @@ public record ApplicationDecisionsExpectedIntegrationEvent : IntegrationEvent
     public string Email { get; init; }
     public DateTime ExpectedDecisionDate { get; init; }
 
-    public ApplicationDecisionsExpectedIntegrationEvent(string firstName, string email, DateTime expectedDecisionDate)
+    public ApplicationDecisionsExpectedIntegrationEvent(Guid tenantId,string firstName, string email, DateTime expectedDecisionDate): base(tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;

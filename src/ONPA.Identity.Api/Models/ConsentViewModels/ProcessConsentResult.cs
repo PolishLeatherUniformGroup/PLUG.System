@@ -1,6 +1,4 @@
-﻿using Duende.IdentityServer.Models;
-
-namespace ONPA.Identity.Api.Models.ConsentViewModels
+﻿namespace ONPA.Identity.Api.Models.ConsentViewModels
 {
     public class ProcessConsentResult
     {
