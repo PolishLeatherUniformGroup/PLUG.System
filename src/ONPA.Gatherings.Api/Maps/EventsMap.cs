@@ -2,6 +2,7 @@
 using ONPA.Gatherings.Api.Application.Commands;
 using ONPA.Gatherings.Api.Application.Queries;
 using ONPA.Gatherings.Contract.Requests;
+using ONPA.Gatherings.Contract.Requests.Dtos;
 using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.Api.Maps;

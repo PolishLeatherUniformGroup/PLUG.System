@@ -163,7 +163,7 @@ public class MembersController : ControllerBase
     private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(MultiTenantRequest request) where TCommand:ApplicationCommandBase
     {
         var decoratedRequest = this.DecorateRequest(request);
-        TCommand command = this._mapper.Map<TCommand>(request);
+        TCommand command = this._mapper.Map<TCommand>(decoratedRequest);
         var result = await this._mediator.Send(command);
         if (result.IsSuccess)
         {

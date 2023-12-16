@@ -3,9 +3,11 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Common.Application;
+using ONPA.Common.Infrastructure;
 using ONPA.Common.Queries;
 using ONPA.Gatherings.Api.Application.Commands;
 using ONPA.Gatherings.Api.Application.Queries;
+using ONPA.Gatherings.Api.Services;
 using ONPA.Gatherings.Contract;
 using ONPA.Gatherings.Contract.Requests;
 using ONPA.Gatherings.Contract.Responses;
@@ -23,11 +25,13 @@ public class EventsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IIdentityService _identityService;
 
-    public EventsController(IMediator mediator, IMapper mapper)
+    public EventsController(IMediator mediator, IMapper mapper, IIdentityService identityService)
     {
         this._mediator = mediator;
         this._mapper = mapper;
+        this._identityService = identityService;
     }
 
     [HttpPost]
@@ -141,7 +145,8 @@ public class EventsController : ControllerBase
 
     private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand : ApplicationCommandBase
     {
-        var command = this._mapper.Map<TCommand>(request);
+        var decoratedRequest = this.DecorateRequest(request);
+        TCommand command = this._mapper.Map<TCommand>(decoratedRequest);
         var result = await this._mediator.Send(command);
         if (result.IsSuccess)
         {
@@ -154,5 +159,10 @@ public class EventsController : ControllerBase
         }
 
         return this.UnprocessableEntity(result.Errors);
+    }
+    
+    private dynamic DecorateRequest(MultiTenantRequest request)
+    {
+        return request.WithTenant(this._identityService.GetUserOrganization());
     }
 }
