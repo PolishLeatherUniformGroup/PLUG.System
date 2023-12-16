@@ -193,6 +193,65 @@ public class MemberCommandHandlersTests
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
     }
+    
+    [Fact]
+    public async Task AppealMemberSuspensionCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<AppealMemberSuspensionCommand>();
+        var sut = new AppealMemberSuspensionCommandHandler(this._organizationRepository);
+        this.aggregate.SuspendMember(this._fixture.Create<string>(),DateTime.UtcNow, this._fixture.Create<DateTime>(), 14);
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task AcceptAppealMemberSuspensionCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<AcceptSuspensionAppealCommand>();
+        var sut = new AcceptSuspensionAppealCommandHandler(this._organizationRepository);
+        this.aggregate.SuspendMember(this._fixture.Create<string>(),DateTime.UtcNow, this._fixture.Create<DateTime>(), 14);
+        this.aggregate.AppealSuspension(this._fixture.Create<string>(), DateTime.UtcNow.AddDays(1));
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task DismissAppealMemberSuspensionCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<DismissSuspensionAppealCommand>();
+        var sut = new DismissSuspensionAppealCommandHandler(this._organizationRepository);
+        this.aggregate.SuspendMember(this._fixture.Create<string>(),DateTime.UtcNow, this._fixture.Create<DateTime>(), 14);
+        this.aggregate.AppealSuspension(this._fixture.Create<string>(), DateTime.UtcNow.AddDays(1));
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
 
     [Fact]
     public async Task ExpelMemberCommandShouldBeHandled()
@@ -212,7 +271,67 @@ public class MemberCommandHandlersTests
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
     }
+    
+    [Fact]
+    public async Task AppealMemberExpelCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<AppealMemberExpelCommand>();
+        var sut = new AppealMemberExpelCommandHandler(this._organizationRepository);
+        this.aggregate.ExpelMember(this._fixture.Create<string>(),DateTime.UtcNow,  14);
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
 
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task AcceptAppealMemberExpelCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<AcceptExpelAppealCommand>();
+        var sut = new AcceptExpelAppealCommandHandler(this._organizationRepository);
+        this.aggregate.ExpelMember(this._fixture.Create<string>(),DateTime.UtcNow,  14);
+        this.aggregate.AppealExpel(this._fixture.Create<string>(), DateTime.UtcNow.AddDays(1));
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task DismissAppealMemberExpelCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<DismissExpelAppealCommand>();
+        var sut = new DismissExpelAppealCommandHandler(this._organizationRepository);
+        this.aggregate.ExpelMember(this._fixture.Create<string>(),DateTime.UtcNow,  14);
+        this.aggregate.AppealExpel(this._fixture.Create<string>(), DateTime.UtcNow.AddDays(1));
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeTrue();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+
+    
     [Fact]
     public async Task ExpireMemberCommandShouldBeHandled()
     {
@@ -250,4 +369,23 @@ public class MemberCommandHandlersTests
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
     }
+    
+    [Fact]
+    public async Task MemberLeavingCommandShouldBeHandled()
+    {
+        // Arrange
+        var command = this._fixture.Create<MemberLeavingCommand>();
+        var sut = new MemberLeavingCommandHandler(this._organizationRepository);
+        // Act
+        var result = await sut.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().BeEmpty();
+        result.AggregateId.Should().Be(this.aggregate.AggregateId);
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+    
 }

@@ -25,7 +25,7 @@ public sealed class DismissExpelAppealCommandHandler : ApplicationCommandHandler
                 throw new AggregateNotFoundException();
             }
             aggregate.DismissAppealExpel(request.DecisionDate,request.Justification);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

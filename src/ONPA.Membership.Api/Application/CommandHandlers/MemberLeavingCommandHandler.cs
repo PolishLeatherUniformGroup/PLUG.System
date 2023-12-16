@@ -26,7 +26,7 @@ public sealed class MemberLeavingCommandHandler : ApplicationCommandHandlerBase<
             }
 
             aggregate.LeaveOrganization(request.LeaveDate);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)
