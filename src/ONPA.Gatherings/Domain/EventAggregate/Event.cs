@@ -225,7 +225,8 @@ namespace ONPA.Gatherings.Domain
                 this.PricePerPerson, companions);
             this._registrations.Add(enrollment);
 
-            var change = new EnrollmentAddedToEvent(enrollment);
+            var change = new EnrollmentAddedToEvent(enrollment.Id, registrationDate, bookedPlaces, firstName, lastName,
+                email, companions, enrollment.RequiredPayment);
             
             this.RaiseChangeEvent(change);
 

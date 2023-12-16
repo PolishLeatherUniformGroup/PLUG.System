@@ -27,8 +27,23 @@ public class EventEnrollment : Entity
     private List<Participant> _participants = new();
     public IEnumerable<Participant> Participants => this._participants;
 
+    internal EventEnrollment(Guid id, DateTime registrationDate, int placesBooked, string firstName, string lastName,
+        string email, IEnumerable<Participant> participants, Money requiredPayment):base(id)
+    {
+        this.RegistrationDate = registrationDate;
+        this.PlacesBooked = placesBooked;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.RequiredPayment = requiredPayment;
+        this._participants.Add(new Participant(firstName, lastName, email));
+        if (placesBooked > 1)
+        {
+            this._participants.AddRange(participants);
+        }
+    }
     internal EventEnrollment(DateTime registrationDate, int placesBooked, string firstName, string lastName,
-        string email, Money price, IEnumerable<Participant> participants)
+        string email, Money price, IEnumerable<Participant> participants):base(Guid.NewGuid())
     {
         this.RegistrationDate = registrationDate;
         this.PlacesBooked = placesBooked;

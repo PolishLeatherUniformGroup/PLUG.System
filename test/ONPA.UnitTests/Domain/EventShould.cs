@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using ONPA.Common.Domain;
 using ONPA.Common.Exceptions;
 using ONPA.Gatherings.Domain;
 using ONPA.Gatherings.DomainEvents;
@@ -120,10 +121,10 @@ public class EventShould
         var newName = this._fixture.Create<string>();
         var newDescription = this._fixture.Create<string>();
         var newRegulations = this._fixture.Create<string>();
-        
+
         //Act
         aggregate.ModifyDescriptions(newName, newDescription, newRegulations);
-        
+
         // Assert
         aggregate.Should().NotBeNull();
         aggregate.AggregateId.Should().NotBeEmpty();
@@ -138,7 +139,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().HaveCount(2);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EventDescriptionChangedDomainEvent>();
     }
-    
+
     [Fact]
     public void Throw_onChangeDescriptions_whenArchived()
     {
@@ -652,7 +653,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
     }
-    
+
     [Fact]
     public void EnrollToNotLimitedEvent()
     {
@@ -749,7 +750,7 @@ public class EventShould
         // Assert
         action.Should().Throw<AggregateInvalidStateException>();
     }
-    
+
     [Fact]
     public void Throw_onEnroll_whenNotAvailable_dueToOverDeadline()
     {
@@ -782,7 +783,7 @@ public class EventShould
         // Assert
         action.Should().Throw<AggregateInvalidStateException>();
     }
-    
+
     [Fact]
     public void Throw_onEnroll_whenNotAvailable_dueToCapacity()
     {
@@ -887,8 +888,8 @@ public class EventShould
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegisteredDomainEvent>();
     }
-    
-     [Fact]
+
+    [Fact]
     public void NotRegisterPaymentForEnrollment_whenEnrollmentIsCostFree()
     {
         // Arrange
@@ -954,7 +955,6 @@ public class EventShould
 
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
-     
     }
 
     [Fact]
@@ -989,12 +989,12 @@ public class EventShould
         var paidAmount = pricePerPerson;
 
         // Act
-        var action = ()=>aggregate.RegisterEnrollmentPayment(Guid.NewGuid(), paidDate, paidAmount);
+        var action = () => aggregate.RegisterEnrollmentPayment(Guid.NewGuid(), paidDate, paidAmount);
 
         // Assert
         action.Should().Throw<EntityNotFoundException>();
     }
-    
+
     [Fact]
     public void Throw_onRegisterPaymentForEnrollment_whenEventCancelled()
     {
@@ -1027,12 +1027,12 @@ public class EventShould
         var paidAmount = pricePerPerson;
         aggregate.Cancel(this._fixture.Create<DateTime>(), this._fixture.Create<string>());
         // Act
-        var action = ()=>aggregate.RegisterEnrollmentPayment(enrollment.Id, paidDate, paidAmount);
+        var action = () => aggregate.RegisterEnrollmentPayment(enrollment.Id, paidDate, paidAmount);
 
         // Assert
         action.Should().Throw<AggregateInvalidStateException>();
     }
-    
+
     [Fact]
     public void Throw_onRegisterPaymentForEnrollment_whenEnrollmentCancelled()
     {
@@ -1063,15 +1063,15 @@ public class EventShould
         var enrollment = aggregate.Registrations.First();
         var paidDate = this._fixture.Create<DateTime>();
         var paidAmount = pricePerPerson;
-        aggregate.CancelEnrollment(enrollment.Id,this._fixture.Create<DateTime>(), pricePerPerson);
+        aggregate.CancelEnrollment(enrollment.Id, this._fixture.Create<DateTime>(), pricePerPerson);
         // Act
-        var action = ()=>aggregate.RegisterEnrollmentPayment(enrollment.Id, paidDate, paidAmount);
+        var action = () => aggregate.RegisterEnrollmentPayment(enrollment.Id, paidDate, paidAmount);
 
         // Assert
         action.Should().Throw<InvalidDomainOperationException>();
     }
-    
-    
+
+
     [Fact]
     public void CancelEnrollment()
     {
@@ -1147,7 +1147,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentPaymentRegisteredDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
     }
-    
+
     [Fact]
     public void Throw_onCancelEnrollment_whenEnrollmentDoesNotExists()
     {
@@ -1184,7 +1184,7 @@ public class EventShould
         var refundableAmount = pricePerPerson;
 
         // Act
-        var action = ()=>aggregate.CancelEnrollment(Guid.NewGuid(), cancellationDate, refundableAmount);
+        var action = () => aggregate.CancelEnrollment(Guid.NewGuid(), cancellationDate, refundableAmount);
 
         // Assert
         action.Should().Throw<EntityNotFoundException>();
@@ -1266,7 +1266,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentRefundedDomainEvent>();
     }
-    
+
     [Fact]
     public void NotRefundCanceledEnrollment_whenEnrollmentIsCostFree()
     {
@@ -1338,10 +1338,9 @@ public class EventShould
         aggregate.GetDomainEvents().Should().HaveCount(2);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
-      
     }
 
-    
+
     [Fact]
     public void Thrown_onRefundCanceledEnrollment_whenEnrollmentNotExists()
     {
@@ -1382,12 +1381,12 @@ public class EventShould
         var refundAmount = pricePerPerson;
 
         // Act
-        var action =()=>aggregate.RefundEnrollment(Guid.NewGuid(), refundDate, refundAmount);
+        var action = () => aggregate.RefundEnrollment(Guid.NewGuid(), refundDate, refundAmount);
 
         // Assert
         action.Should().Throw<EntityNotFoundException>();
     }
-    
+
     [Fact]
     public void Thrown_onRefundCanceledEnrollment_whenEnrollmentRefunded()
     {
@@ -1428,11 +1427,12 @@ public class EventShould
         var refundAmount = pricePerPerson;
         aggregate.RefundEnrollment(enrollment.Id, refundDate, refundAmount);
         // Act
-        var action =()=>aggregate.RefundEnrollment(enrollment.Id, refundDate, refundAmount);
+        var action = () => aggregate.RefundEnrollment(enrollment.Id, refundDate, refundAmount);
 
         // Assert
         action.Should().Throw<InvalidDomainOperationException>();
     }
+
     [Fact]
     public void Cancel()
     {
@@ -1452,7 +1452,7 @@ public class EventShould
         var cancellationDate = this._fixture.Create<DateTime>();
         var cancellationReason = this._fixture.Create<string>();
         // Act
-        aggregate.Cancel(cancellationDate,cancellationReason);
+        aggregate.Cancel(cancellationDate, cancellationReason);
 
         // Assert
         aggregate.Should().NotBeNull();
@@ -1466,7 +1466,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().HaveCount(1);
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EventCancelledDomainEvent>();
     }
-    
+
     [Fact]
     public void Cancel_andNotifyEnrolled()
     {
@@ -1485,7 +1485,7 @@ public class EventShould
         aggregate.Publish();
         var cancellationDate = this._fixture.Create<DateTime>();
         var cancellationReason = this._fixture.Create<string>();
-        
+
         var firstName = this._fixture.Create<string>();
         var lastName = this._fixture.Create<string>();
         var email = this._fixture.Create<string>();
@@ -1496,9 +1496,9 @@ public class EventShould
         var registrationDate = this._fixture.Create<DateTime>();
         var bookedPlaces = 1;
         aggregate.Enroll(registrationDate, bookedPlaces, firstName, lastName, email, participants);
-        
+
         // Act
-        aggregate.Cancel(cancellationDate,cancellationReason);
+        aggregate.Cancel(cancellationDate, cancellationReason);
 
         // Assert
         aggregate.Should().NotBeNull();
@@ -1516,7 +1516,7 @@ public class EventShould
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentAddedToEventDomainEvent>();
         aggregate.GetDomainEvents().Should().ContainItemsAssignableTo<EnrollmentCancelledDomainEvent>();
     }
-    
+
     [Fact]
     public void Thrown_onCancel_whenNotPublished()
     {
@@ -1532,13 +1532,72 @@ public class EventShould
         var aggregate = new Event(this._tenantId, name, description, regulations, scheduledStart, plannedCapacity,
             pricePerPerson, publishDate, enrollmentDeadline);
         aggregate.Accept();
-        
+
         var cancellationDate = this._fixture.Create<DateTime>();
         var cancellationReason = this._fixture.Create<string>();
         // Act
-        var action = ()=>aggregate.Cancel(cancellationDate,cancellationReason);
+        var action = () => aggregate.Cancel(cancellationDate, cancellationReason);
 
         // Assert
         action.Should().Throw<AggregateInvalidStateException>();
+    }
+
+    [Fact]
+    public void Restore()
+    {
+        // Arrange
+        var name = this._fixture.Create<string>();
+        var description = this._fixture.Create<string>();
+        var regulations = this._fixture.Create<string>();
+        var scheduledStart = DateTime.Now.AddDays(1);
+        var plannedCapacity = this._fixture.Create<int>();
+        var pricePerPerson = new Money(this._fixture.Create<decimal>());
+        var publishDate = DateTime.Now;
+        var enrollmentDeadline = DateTime.Now.AddDays(7);
+        var aggregate = new Event(this._tenantId, name, description, regulations, scheduledStart, plannedCapacity,
+            pricePerPerson, publishDate, enrollmentDeadline);
+        aggregate.Accept();
+        var newName = this._fixture.Create<string>();
+        var newDescription = this._fixture.Create<string>();
+        var newRegulations = this._fixture.Create<string>();
+        aggregate.ModifyDescriptions(newName, newDescription, newRegulations);
+        aggregate.ModifyCapacity(null);
+        aggregate.ModifyPrice(pricePerPerson + new Money(10));
+        aggregate.ModifySchedule(scheduledStart.AddDays(1), publishDate.AddDays(1), enrollmentDeadline.AddDays(1));
+        aggregate.Publish();
+        var cancellationDate = this._fixture.Create<DateTime>();
+        var cancellationReason = this._fixture.Create<string>();
+
+        var firstName = this._fixture.Create<string>();
+        var lastName = this._fixture.Create<string>();
+        var email = this._fixture.Create<string>();
+        var participants = new List<Participant>
+        {
+            new(firstName, lastName, email)
+        };
+        var registrationDate = this._fixture.Create<DateTime>();
+        var bookedPlaces = 1;
+        aggregate.Enroll(registrationDate, bookedPlaces, firstName, lastName, email, participants);
+        
+        var enrollment = aggregate.Registrations.First();
+        var paidDate = this._fixture.Create<DateTime>();
+        var paidAmount = enrollment.RequiredPayment;
+        
+        aggregate.RegisterEnrollmentPayment(enrollment.Id, paidDate, paidAmount);
+        aggregate.Cancel(cancellationDate, cancellationReason);
+        aggregate.RefundEnrollment(enrollment.Id,this._fixture.Create<DateTime>(), paidAmount);
+        aggregate.Archive();
+
+        var events = new List<IStateEvent>();
+
+        events.AddRange(aggregate.GetStateEvents());
+        aggregate.ClearChanges();
+        aggregate.ClearDomainEvents();
+
+        //Act
+        var newAggregate = new Event(aggregate.AggregateId, this._tenantId, events);
+
+        // Assert
+        newAggregate.Should().BeEquivalentTo(aggregate);
     }
 }

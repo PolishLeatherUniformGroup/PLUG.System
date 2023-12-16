@@ -18,6 +18,11 @@ public sealed partial class Event
         this.EnrollmentDeadline = change.EnrollmentDeadline;
     }
     
+    public void ApplyChange(EventStatusChanged change)
+    {
+        this.Status = change.Status;
+    }
+    
     public void ApplyChange(EventCapacityChanged change)
     {
         this.PlannedCapacity = change.Capacity;
@@ -44,7 +49,15 @@ public sealed partial class Event
     
     public void ApplyChange(EnrollmentAddedToEvent change)
     {
-        this._registrations.Add(change.Enrollment);
+        var enrollment = new EventEnrollment(change.EnrollmentId,
+            change.RegistrationDate,
+            change.BookedPlaces,
+            change.FirstName,
+            change.LastName,
+            change.Email,
+            change.Companions,
+            change.RequiredPayment);
+        this._registrations.Add(enrollment);
     }
     
     public void ApplyChange(EnrollmentPaymentRegistered change)
