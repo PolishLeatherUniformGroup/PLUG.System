@@ -381,7 +381,7 @@ public class MemberCommandHandlersTests
 
         // Assert
         result.Should().NotBeNull();
-        result.IsValid.Should().BeFalse();
+        result.IsValid.Should().BeTrue();
         result.Errors.Should().BeEmpty();
         result.AggregateId.Should().Be(this.aggregate.AggregateId);
         result.IsSuccess.Should().BeTrue();
