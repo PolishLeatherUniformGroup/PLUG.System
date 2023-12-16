@@ -20,7 +20,8 @@ public sealed class GetOrganizationsQueryHandler : CollectionQueryHandlerBase<Ge
     public override async Task<CollectionResult<OrganizationResponse>> Handle(GetOrganizationsQuery request, CancellationToken cancellationToken)
     {
         var organizations = await this._repository.ReadMany(request.Page, request.Limit, cancellationToken);
-        var result = this._mapper.Map<CollectionResult<OrganizationResponse>>(organizations);
+        var result = CollectionResult<OrganizationResponse>.FromValue(
+            organizations.Select(this._mapper.Map<OrganizationResponse>), organizations.Count());
         return result;
     }
 }

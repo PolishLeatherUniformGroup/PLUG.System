@@ -111,5 +111,9 @@ public class OrganizationsMaps : Profile
             .ForCtorParam(nameof(GetOrganizationFeeForYearQuery.Year), opt => opt.MapFrom(src => src.Year))
             .ForAllMembers(options => options.Ignore());
             
+        this.CreateMap<OrganizationFee, OrganizationFeeResponse>()
+            .ForCtorParam(nameof(OrganizationFeeResponse.Amount), opt => opt.MapFrom(src => src.Amount))
+            .ForCtorParam(nameof(OrganizationFeeResponse.Currency), opt => opt.MapFrom(src => src.Currency))
+            .ForAllMembers(options => options.Ignore());
     }
 }

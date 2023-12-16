@@ -255,7 +255,7 @@ public class ApplicationFormCommandHandlersTests
         this._aggregate.EndorseRecommendation(this._aggregate.Recommendations.First().Id,recommendingMemberId);
         var aggregateRequiredFee = this._aggregate.RequiredFee;
         this._aggregate.RegisterFeePayment(aggregateRequiredFee!, this._fixture.Create<DateTime>());
-        this._aggregate.RejectApplication(this._fixture.Create<DateTime>(), this._fixture.Create<string>(),14);
+        this._aggregate.RejectApplication(DateTime.UtcNow, this._fixture.Create<string>(),14);
         this._aggregate.AppealRejection(DateTime.UtcNow.AddDays(1), this._fixture.Create<string>());
         
         var command = this._fixture.Create<ApproveApplicationRejectionAppealCommand>();
@@ -284,7 +284,7 @@ public class ApplicationFormCommandHandlersTests
         this._aggregate.EndorseRecommendation(this._aggregate.Recommendations.First().Id,recommendingMemberId);
         var aggregateRequiredFee = this._aggregate.RequiredFee;
         this._aggregate.RegisterFeePayment(aggregateRequiredFee!, this._fixture.Create<DateTime>());
-        this._aggregate.RejectApplication(this._fixture.Create<DateTime>(), this._fixture.Create<string>(),14);
+        this._aggregate.RejectApplication(DateTime.UtcNow, this._fixture.Create<string>(),14);
         this._aggregate.AppealRejection(DateTime.UtcNow.AddDays(1), this._fixture.Create<string>());
         
         var command = this._fixture.Create<DismissApplicationRejectionAppealCommand>();
