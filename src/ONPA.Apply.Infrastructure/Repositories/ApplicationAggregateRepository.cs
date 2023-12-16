@@ -77,7 +77,6 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
             aggregate.AppealApproveDate,
             aggregate.AppealRejectDate,
             aggregate.RejectDate,
-            aggregate.DecisionExpectDate,
             aggregate.FeePaidDate,
         };
         return (DateTime)dates.MaxBy(x => x.GetValueOrDefault())!;

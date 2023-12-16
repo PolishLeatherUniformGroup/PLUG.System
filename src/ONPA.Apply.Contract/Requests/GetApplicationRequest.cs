@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using ONPA.Common.Infrastructure;
 
 namespace ONPA.Apply.Contract.Requests;
 
-public record GetApplicationRequest([FromRoute] Guid ApplicationId)
+public record GetApplicationRequest([FromRoute] Guid ApplicationId):MultiTenantRequest
 {
     public string ToQueryString()
     {

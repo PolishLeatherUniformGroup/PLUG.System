@@ -22,7 +22,6 @@ public sealed partial class ApplicationForm : AggregateRoot
     public DateTime? AppealApproveDate { get; private set; }
     public DateTime? AppealRejectDate { get; private set; }
     public DateTime? FeePaidDate { get; private set; }
-    public DateTime? DecisionExpectDate { get; private set; }
 
     public ApplicationStatus Status { get; private set; }
     public bool? IsValid { get; private set; }
@@ -187,7 +186,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.RaiseDomainEvent(domainEvent);
     }
 
-    public void RegisterFeePayment(Money paidFee, DateTime paidDate, int daysToDecision)
+    public void RegisterFeePayment(Money paidFee, DateTime paidDate)
     {
         if (this.Status != ApplicationStatus.AwaitDecision && this.Status != ApplicationStatus.Validated)
         {
@@ -202,12 +201,9 @@ public sealed partial class ApplicationForm : AggregateRoot
         this.PaidFee ??= new Money(0, this.RequiredFee.Currency);
         this.PaidFee += paidFee;
         this.FeePaidDate = paidDate;
-        if (this.PaidFee >= this.RequiredFee)
-        {
-            this.DecisionExpectDate = paidDate.AddDays(daysToDecision).Date;
-        }
+       
 
-        var change = new ApplicationFeePaymentRegistered(paidFee,paidDate,this.DecisionExpectDate);
+        var change = new ApplicationFeePaymentRegistered(paidFee,paidDate);
         this.RaiseChangeEvent(change);
 
         if (this.PaidFee < this.RequiredFee)
@@ -219,7 +215,7 @@ public sealed partial class ApplicationForm : AggregateRoot
         else
         {
            
-            var domainEvent = new ApplicationFeeBalancedDomainEvent(this.FirstName, this.Email, this.DecisionExpectDate.Value);
+            var domainEvent = new ApplicationFeeBalancedDomainEvent(this.FirstName, this.Email);
             this.RaiseDomainEvent(domainEvent);
         }
     }

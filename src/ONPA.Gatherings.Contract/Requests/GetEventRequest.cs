@@ -1,3 +1,5 @@
-﻿namespace ONPA.Gatherings.Contract.Requests;
+﻿using ONPA.Common.Infrastructure;
 
-public record GetEventRequest(Guid TenantId, Guid EventId);
+namespace ONPA.Gatherings.Contract.Requests;
+
+public record GetEventRequest(Guid TenantId, Guid EventId): MultiTenantRequest;

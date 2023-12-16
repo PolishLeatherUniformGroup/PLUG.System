@@ -91,6 +91,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Organizations.Contract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.Gatherings.Contract", "src\ONPA.Gatherings.Contract\ONPA.Gatherings.Contract.csproj", "{1F939380-592D-444E-BD30-1604E288EB2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.SharedHelpers", "ONPA.SharedHelpers\ONPA.SharedHelpers.csproj", "{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +227,10 @@ Global
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +274,7 @@ Global
 		{DBEADC00-DF3E-49E7-95FC-0203871CF6C7} = {B3672403-5B7D-47B5-A856-D6EEB446BA04}
 		{44DCBE6C-8E11-4722-BDF2-3DF7BEF2D2DB} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
 		{1F939380-592D-444E-BD30-1604E288EB2F} = {65819D03-3E74-4C0D-9C27-FB524B1D7732}
+		{5A0016FE-1B5B-4941-AD10-FEC9FFCCD0B1} = {C0356534-71BB-46B3-8A9C-77E7833CAC96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8128E482-1029-4806-9243-216248ABEA19}

@@ -6,6 +6,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.Common.Queries;
 using ONPA.Membership.Contract;
 using ONPA.Membership.Contract.Requests;
+using ONPA.Membership.Contract.Requests.Dtos;
 using ONPA.Membership.Contract.Responses;
 using ONPA.WebApp.Data;
 

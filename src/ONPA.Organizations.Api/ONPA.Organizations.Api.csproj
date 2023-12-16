@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\ONPA.SharedHelpers\ONPA.SharedHelpers.csproj" />
       <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
       <ProjectReference Include="..\ONPA.EventBus\ONPA.EventBus.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />

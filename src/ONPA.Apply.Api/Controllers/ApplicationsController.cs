@@ -4,10 +4,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Apply.Api.Application.Commands;
 using ONPA.Apply.Api.Application.Queries;
+using ONPA.Apply.Api.Services;
 using ONPA.Apply.Contract;
 using ONPA.Apply.Contract.Requests;
 using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
+using ONPA.Common.Infrastructure;
 using ONPA.Common.Queries;
 
 namespace ONPA.Apply.Api.Controllers
@@ -24,11 +26,13 @@ namespace ONPA.Apply.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IIdentityService _identityService;
 
-        public ApplicationsController(IMediator mediator, IMapper mapper)
+        public ApplicationsController(IMediator mediator, IMapper mapper, IIdentityService identityService)
         {
             this._mediator = mediator;
             this._mapper = mapper;
+            this._identityService = identityService;
         }
         
         [HttpPost("")]
@@ -43,7 +47,7 @@ namespace ONPA.Apply.Api.Controllers
             return await this.SendCommandRequest<EndorseApplicationRecommendationCommand>(request);
         }
         [HttpDelete("{applicationId}/recommendations/{recommendationId}")]
-        public async Task<ActionResult<Guid>> RefuseRecommendation(EndorseRecommendationRequest request)
+        public async Task<ActionResult<Guid>> RefuseRecommendation(RefuseRecommendationRequest request)
         {
             return await this.SendCommandRequest<RefuseApplicationRecommendationCommand>(request);
         }
@@ -101,7 +105,8 @@ namespace ONPA.Apply.Api.Controllers
         
         private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
         {
-            var command = this._mapper.Map<TCommand>(request);
+            var decoratedRequest = this.DecorateRequest(request);
+            TCommand command = this._mapper.Map<TCommand>(decoratedRequest);
             var result = await this._mediator.Send(command);
             if (result.IsSuccess)
             {
@@ -114,6 +119,11 @@ namespace ONPA.Apply.Api.Controllers
             }
 
             return this.UnprocessableEntity(result.Errors);
+        }
+        
+        private dynamic DecorateRequest(MultiTenantRequest request)
+        {
+            return request.WithTenant(this._identityService.GetUserOrganization());
         }
     }
 }

@@ -6,24 +6,22 @@ public sealed class ApplicationFeeBalancedDomainEvent : DomainEventBase
 {
     public string FirstName { get; private set; }
     public string Email { get; private set; }
-
-    public DateTime ExpectedDecisionDate { get; private set; }
-    public ApplicationFeeBalancedDomainEvent(string firstName, string email, DateTime expectedDecisionDate)
+    public ApplicationFeeBalancedDomainEvent(string firstName, string email)
     {
         this.FirstName = firstName;
         this.Email = email;
-        this.ExpectedDecisionDate = expectedDecisionDate;
+       
     }
 
-    private ApplicationFeeBalancedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email, DateTime expectedDecisionDate) : base(aggregateId,tenantId)
+    private ApplicationFeeBalancedDomainEvent(Guid aggregateId,Guid tenantId, string firstName, string email) : base(aggregateId,tenantId)
     {
         this.FirstName = firstName;
         this.Email = email;
-        this.ExpectedDecisionDate = expectedDecisionDate;
+        
     }
 
     public override IDomainEvent WithAggregate(Guid aggregateId,Guid tenantId)
     {
-        return new ApplicationFeeBalancedDomainEvent(aggregateId,tenantId,this.FirstName,this.Email,this.ExpectedDecisionDate);
+        return new ApplicationFeeBalancedDomainEvent(aggregateId,tenantId,this.FirstName,this.Email);
     }
 }

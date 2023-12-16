@@ -7,4 +7,9 @@ public class IdentityService(IHttpContextAccessor context) : IIdentityService
 
     public string GetUserName()
         => context.HttpContext?.User.Identity?.Name;
+
+    public Guid GetUserOrganization()
+    {
+        throw new NotImplementedException();
+    }
 }

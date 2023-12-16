@@ -1,3 +1,6 @@
-﻿namespace ONPA.Membership.Contract.Requests;
+﻿using ONPA.Common.Infrastructure;
+using ONPA.Membership.Contract.Requests.Dtos;
 
-public record UpdateMemberDataRequest(Guid MemberId, MemberContactData ContactData);
+namespace ONPA.Membership.Contract.Requests;
+
+public record UpdateMemberDataRequest(Guid MemberId, MemberContactData ContactData) :MultiTenantRequest;

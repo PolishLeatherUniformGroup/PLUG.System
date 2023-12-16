@@ -61,7 +61,6 @@ public partial class ApplicationForm
         this.PaidFee ??= new Money(0, this.RequiredFee!.Currency);
         this.PaidFee += change.PaidFee;
         this.FeePaidDate = change.PaidDate;
-        this.DecisionExpectDate = change.ExpectedDecisionDate;
     }
     
     public void ApplyChange(ApplicationApproved change)

@@ -1,6 +1,8 @@
-﻿namespace ONPA.Gatherings.Contract.Requests;
+﻿using ONPA.Common.Infrastructure;
 
-public record GetEventParticipantsRequest(Guid EventId, int Page, int Limit)
+namespace ONPA.Gatherings.Contract.Requests;
+
+public record GetEventParticipantsRequest(Guid EventId, int Page, int Limit): MultiTenantRequest
 {
     public string ToQueryString()
     {

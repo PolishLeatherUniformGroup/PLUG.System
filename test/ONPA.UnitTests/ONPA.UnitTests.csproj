@@ -28,8 +28,11 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\ONPA.Apply.Api\ONPA.Apply.Api.csproj" />
       <ProjectReference Include="..\..\src\ONPA.Apply\ONPA.Apply.csproj" />
+      <ProjectReference Include="..\..\src\ONPA.Gatherings.Api\ONPA.Gatherings.Api.csproj" />
       <ProjectReference Include="..\..\src\ONPA.Gatherings\ONPA.Gatherings.csproj" />
+      <ProjectReference Include="..\..\src\ONPA.Membership.Api\ONPA.Membership.Api.csproj" />
       <ProjectReference Include="..\..\src\ONPA.Membership\ONPA.Membership.csproj" />
+      <ProjectReference Include="..\..\src\ONPA.Organizations.Api\ONPA.Organizations.Api.csproj" />
     </ItemGroup>
 
 </Project>

@@ -491,7 +491,7 @@ public class ApplicationFormShould
 
         //Act
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         // Assert
         aggregate.AggregateId.Should().NotBeEmpty();
@@ -506,10 +506,6 @@ public class ApplicationFormShould
         aggregate.Recommendations.Should().HaveCount(1);
         aggregate.PaidFee?.Amount.Should().Be(requiredFeeAmount);
         aggregate.IsPaid.Should().BeTrue();
-        aggregate
-            .DecisionExpectDate.Should().HaveValue()
-            .And
-            .BeBefore(DateTime.UtcNow.AddDays(15).Date);
     }
 
     [Fact]
@@ -530,7 +526,7 @@ public class ApplicationFormShould
 
         //Act
         //Assert
-        Assert.Throws<AggregateInvalidStateException>(() => aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14));
+        Assert.Throws<AggregateInvalidStateException>(() => aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow));
     }
 
 
@@ -552,7 +548,7 @@ public class ApplicationFormShould
         aggregate.AcceptApplicationForm(requiredFee);
 
         //Act
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         //Assert
         aggregate.RequiredFee.Should().NotBeNull();
@@ -586,7 +582,7 @@ public class ApplicationFormShould
 
         //Act
 
-        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow);
 
         // Assert
         aggregate.AggregateId.Should().NotBeEmpty();
@@ -601,9 +597,7 @@ public class ApplicationFormShould
         aggregate.Recommendations.Should().HaveCount(1);
         aggregate.PaidFee?.Amount.Should().Be(requiredFeeAmount / 2);
         aggregate.IsPaid.Should().BeFalse();
-        aggregate
-            .DecisionExpectDate.Should().NotHaveValue();
-    }
+      }
 
     [Fact]
     public void ThrowOnAccept_WhenNotPaid()
@@ -629,7 +623,7 @@ public class ApplicationFormShould
 
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
-        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow);
 
         //Act
         // Assert
@@ -658,7 +652,7 @@ public class ApplicationFormShould
         var memberNumber = this._fixture.Create<string>();
         aggregate.RequestRecommendation(memberId, memberNumber);
 
-        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee / 2, DateTime.UtcNow);
 
         //Act
         // Assert
@@ -690,7 +684,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
         //Act
 
         aggregate.ApproveApplication();
@@ -733,7 +727,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var rejectionDate = DateTime.UtcNow;
         var decision = this._fixture.Create<string>();
@@ -782,7 +776,7 @@ public class ApplicationFormShould
         var memberNumber = this._fixture.Create<string>();
         aggregate.RequestRecommendation(memberId, memberNumber);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
 
@@ -816,7 +810,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow, decision, 14);
@@ -870,7 +864,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         var rejectionDate = DateTime.UtcNow.AddDays(-16);
@@ -925,7 +919,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var justification = this._fixture.Create<string>();
 
@@ -959,7 +953,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1018,7 +1012,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1053,7 +1047,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1114,7 +1108,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1150,7 +1144,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1200,7 +1194,7 @@ public class ApplicationFormShould
             var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
             aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-            aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+            aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
             aggregate.ApproveApplication();
             var events = new List<IStateEvent>();
             events.AddRange(aggregate.GetStateEvents());
@@ -1307,7 +1301,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);
@@ -1358,7 +1352,7 @@ public class ApplicationFormShould
         var recommendation = aggregate.Recommendations.First(x => x.MemberId == memberId);
         aggregate.EndorseRecommendation(recommendation.Id, memberId);
 
-        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow, 14);
+        aggregate.RegisterFeePayment(requiredFee, DateTime.UtcNow);
 
         var decision = this._fixture.Create<string>();
         aggregate.RejectApplication(DateTime.UtcNow,decision, 14);

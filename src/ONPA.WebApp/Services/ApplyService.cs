@@ -5,6 +5,7 @@ using Flurl;
 using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.Apply.Contract;
 using ONPA.Apply.Contract.Requests;
+using ONPA.Apply.Contract.Requests.Dtos;
 using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Queries;
 using ONPA.WebApp.Data;
@@ -104,7 +105,7 @@ public class ApplyService
     
     public async Task<bool> RegisterApplicationFeePayment(Guid applicationId, decimal paidAmmount, string currency)
     {
-        var request = new RegisterApplicationPaymentRequest(applicationId, new Payment(paidAmmount, currency));
+        var request = new RegisterApplicationPaymentRequest(applicationId, new Payment(paidAmmount, currency, DateTime.UtcNow));
         try
         {
             
