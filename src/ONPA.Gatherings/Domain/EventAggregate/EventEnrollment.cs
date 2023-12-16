@@ -21,7 +21,8 @@ public class EventEnrollment : Entity
     public Money? RefundedAmount { get; private set; }
     public DateTime? RefundDate { get; private set; }
 
-    public bool IsRefunded => this.RefundedAmount == this.RefundableAmount && this.RefundDate.HasValue;
+    public bool IsRefunded => (this.RefundedAmount == this.RefundableAmount && this.RefundDate.HasValue);
+    public bool IsCancelled => this.CancellationDate.HasValue;
 
     private List<Participant> _participants = new();
     public IEnumerable<Participant> Participants => this._participants;

@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace ONPA.Gatherings.Infrastructure.ReadModel;
+﻿namespace ONPA.Gatherings.Infrastructure.ReadModel;
 
 public class EventEnrollment
 {

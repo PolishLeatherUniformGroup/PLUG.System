@@ -2,7 +2,6 @@
 using ONPA.Common.Domain;
 using ONPA.Gatherings.Domain;
 using ONPA.Gatherings.Infrastructure.Database;
-using ReadModel = ONPA.Gatherings.Infrastructure.ReadModel;
 
 namespace ONPA.Gatherings.Infrastructure.Repositories;
 

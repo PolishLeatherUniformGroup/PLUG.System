@@ -14,7 +14,7 @@ public sealed record GetEventsByStatusQuery : ApplicationCollectionQueryBase<Eve
         int page,
         int limit) : base(tenantId, page, limit)
     {
-        Status = status;
+        this.Status = status;
     }
 
     public Expression<Func<Event, bool>> AsFilter()

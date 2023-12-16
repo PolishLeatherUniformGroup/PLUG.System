@@ -14,6 +14,6 @@ public sealed record GetOrganizationFeeForYearQuery(Guid OrganizationId, int Yea
     
     public string ToQueryString()
     {
-        return $"{OrganizationId}/fees/{Year}";
+        return $"{this.OrganizationId}/fees/{this.Year}";
     }
 }

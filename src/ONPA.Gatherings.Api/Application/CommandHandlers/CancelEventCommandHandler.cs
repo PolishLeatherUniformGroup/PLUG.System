@@ -24,7 +24,7 @@ public sealed class CancelEventCommandHandler : ApplicationCommandHandlerBase<Ca
             {
                 throw new AggregateNotFoundException();
             }
-            aggregate.Cancel(request.CancellationDate);
+            aggregate.Cancel(request.CancellationDate, request.CancellationReason);
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }

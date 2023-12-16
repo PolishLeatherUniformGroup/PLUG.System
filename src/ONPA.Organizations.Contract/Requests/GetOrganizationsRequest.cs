@@ -15,6 +15,6 @@ public record GetOrganizationRequest(Guid OrganizationId)
 {
     public string ToQueryString()
     {
-        return $"{OrganizationId}";
+        return $"{this.OrganizationId}";
     }
 }

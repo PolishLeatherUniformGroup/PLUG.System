@@ -7,6 +7,6 @@ public sealed record GetOrganizationFeesQuery(Guid TenantId,Guid OrganizationId,
 {
     public string ToQueryString()
     {
-        return $"{OrganizationId}/fees?page={this.Page}&limit={this.Limit}";
+        return $"{this.OrganizationId}/fees?page={this.Page}&limit={this.Limit}";
     }
 }
