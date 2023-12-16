@@ -26,7 +26,7 @@ public sealed class RegisterApplicationFeePaymentCommandHandler
                 throw new AggregateNotFoundException();
             }
 
-            aggregate.RegisterFeePayment(request.Paid,request.PaidDate,request.DaysToDecision);
+            aggregate.RegisterFeePayment(request.Paid,request.PaidDate);
             await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
