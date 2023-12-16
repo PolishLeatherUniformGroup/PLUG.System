@@ -129,10 +129,10 @@ public class EventsController : ControllerBase
     [HttpPut(Routes.SingleEventEnrollmentPayments)]
     public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] RegisterEnrollmentPaymentRequest request)
     {
-        return await this.SendCommandRequest<EnrollToEventCommand>(request);
+        return await this.SendCommandRequest<RegisterEnrollmentPaymentCommand>(request);
     }
     [HttpPut(Routes.SingleEventEnrollmentPaymentRefund)]
-    public async Task<ActionResult<Guid>> EnrollToEvent([FromBody] RefundEnrollmentPaymentRequest request)
+    public async Task<ActionResult<Guid>> RefundEnrollment([FromBody] RefundEnrollmentPaymentRequest request)
     {
         return await this.SendCommandRequest<RefundCancelledEnrollmentCommand>(request);
     }

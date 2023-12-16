@@ -190,4 +190,72 @@ public class EventsControllerShould
         result.Result.Should().BeOfType<OkObjectResult>();
     }
     
+    [Fact]
+    public async Task ReturnOkWhenEnrolledToEvent()
+    {
+        // Arrange
+        var request = this._fixture.Create<CreateEventEnrollmentRequest>();
+        var response = this._fixture.Create<Guid>();
+        this._mediator.Send(Arg.Any<EnrollToEventCommand>(), Arg.Any<CancellationToken>())
+            .Returns(response);
+        
+        // Act
+        var result = await this._sut.EnrollToEvent(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<Guid>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEnrollmentPaid()
+    {
+        // Arrange
+        var request = this._fixture.Create<RegisterEnrollmentPaymentRequest>();
+        var response = this._fixture.Create<Guid>();
+        this._mediator.Send(Arg.Any<RegisterEnrollmentPaymentCommand>(), Arg.Any<CancellationToken>())
+            .Returns(response);
+        
+        // Act
+        var result = await this._sut.EnrollToEvent(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<Guid>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEnrollmentIsCancelled()
+    {
+        // Arrange
+        var request = this._fixture.Create<CancelEnrollmentRequest>();
+        var response = this._fixture.Create<Guid>();
+        this._mediator.Send(Arg.Any<CancelEnrollmentCommand>(), Arg.Any<CancellationToken>())
+            .Returns(response);
+        
+        // Act
+        var result = await this._sut.CancelEnrollment(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<Guid>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEnrollmentIsRefunded()
+    {
+        // Arrange
+        var request = this._fixture.Create<RefundEnrollmentPaymentRequest>();
+        var response = this._fixture.Create<Guid>();
+        this._mediator.Send(Arg.Any<RefundCancelledEnrollmentCommand>(), Arg.Any<CancellationToken>())
+            .Returns(response);
+        
+        // Act
+        var result = await this._sut.RefundEnrollment(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<Guid>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
 }
