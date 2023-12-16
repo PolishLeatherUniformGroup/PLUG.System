@@ -30,6 +30,7 @@
       <ProjectReference Include="..\..\src\ONPA.Apply\ONPA.Apply.csproj" />
       <ProjectReference Include="..\..\src\ONPA.Gatherings\ONPA.Gatherings.csproj" />
       <ProjectReference Include="..\..\src\ONPA.Membership\ONPA.Membership.csproj" />
+      <ProjectReference Include="..\..\src\ONPA.Organizations.Api\ONPA.Organizations.Api.csproj" />
     </ItemGroup>
 
 </Project>
