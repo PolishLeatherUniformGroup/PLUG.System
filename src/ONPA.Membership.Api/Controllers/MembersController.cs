@@ -158,7 +158,7 @@ public class MembersController : ControllerBase
     
     private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
     {
-        var command = this._mapper.Map<TCommand>(request);
+        TCommand command = this._mapper.Map<TCommand>(request);
         var result = await this._mediator.Send(command);
         if (result.IsSuccess)
         {
