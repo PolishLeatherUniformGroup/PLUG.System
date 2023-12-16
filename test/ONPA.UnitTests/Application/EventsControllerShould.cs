@@ -4,11 +4,15 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using ONPA.Common.Application;
+using ONPA.Common.Queries;
 using ONPA.Gatherings.Api.Application.Commands;
+using ONPA.Gatherings.Api.Application.Queries;
 using ONPA.Gatherings.Api.Controllers;
 using ONPA.Gatherings.Api.Maps;
 using ONPA.Gatherings.Api.Services;
 using ONPA.Gatherings.Contract.Requests;
+using ONPA.Gatherings.Contract.Responses;
 using ONPA.Gatherings.StateEvents;
 
 namespace PLUG.System.Apply.UnitTests.Application;
@@ -255,6 +259,75 @@ public class EventsControllerShould
         
         // Assert
         result.Should().BeOfType<ActionResult<Guid>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    
+    [Fact]
+    public async Task ReturnOkWhenEventEnrollmentsAreRetrieved()
+    {
+        // Arrange
+        var request = this._fixture.Create<GetEventEnrollmentsRequest>();
+        var response = this._fixture.CreateMany<EnrollmentResponse>(5);
+        this._mediator.Send(Arg.Any<GetEventEnrollmentsQuery>(), Arg.Any<CancellationToken>())
+            .Returns(CollectionResult<EnrollmentResponse>.FromValue(response,5));
+        
+        // Act
+        var result = await this._sut.GetEventEnrollments(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<PageableResult<EnrollmentResponse>>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEventParticipantsAreRetrieved()
+    {
+        // Arrange
+        var request = this._fixture.Create<GetEventParticipantsRequest>();
+        var response = this._fixture.CreateMany<ParticipantResponse>(5);
+        this._mediator.Send(Arg.Any<GetEventParticipantsQuery>(), Arg.Any<CancellationToken>())
+            .Returns(CollectionResult<ParticipantResponse>.FromValue(response,5));
+        
+        // Act
+        var result = await this._sut.GetEventParticipants(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<PageableResult<ParticipantResponse>>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEventsAreRetrieved()
+    {
+        // Arrange
+        var request = this._fixture.Create<GetEventsByStatusRequest>();
+        var response = this._fixture.CreateMany<EventResponse>(5);
+        this._mediator.Send(Arg.Any<GetEventsByStatusQuery>(), Arg.Any<CancellationToken>())
+            .Returns(CollectionResult<EventResponse>.FromValue(response,5));
+        
+        // Act
+        var result = await this._sut.GetEvents(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<PageableResult<EventResponse>>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+    }
+    
+    [Fact]
+    public async Task ReturnOkWhenEventIsRetrieved()
+    {
+        // Arrange
+        var request = this._fixture.Create<GetEventRequest>();
+        var response = this._fixture.Create<EventResponse>();
+        this._mediator.Send(Arg.Any<GetEventQuery>(), Arg.Any<CancellationToken>())
+            .Returns(response);
+        
+        // Act
+        var result = await this._sut.GetEvent(request);
+        
+        // Assert
+        result.Should().BeOfType<ActionResult<EventResponse?>>();
         result.Result.Should().BeOfType<OkObjectResult>();
     }
     
