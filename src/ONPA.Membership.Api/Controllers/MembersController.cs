@@ -3,9 +3,11 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ONPA.Common.Application;
+using ONPA.Common.Infrastructure;
 using ONPA.Common.Queries;
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
+using ONPA.Membership.Api.Services;
 using ONPA.Membership.Contract;
 using ONPA.Membership.Contract.Requests;
 using ONPA.Membership.Contract.Responses;
@@ -23,11 +25,13 @@ public class MembersController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IIdentityService _identityService;
     
-    public MembersController(IMediator mediator, IMapper mapper)
+    public MembersController(IMediator mediator, IMapper mapper, IIdentityService identityService)
     {
         this._mediator = mediator;
         this._mapper = mapper;
+        this._identityService = identityService;
     }
     
     [HttpPost]
@@ -93,7 +97,7 @@ public class MembersController : ControllerBase
     }
     
     [HttpGet(Routes.SingleMemberSuspensions)]
-    public async Task<ActionResult<Guid>> SuspensionHistory([FromBody] GetMemberSuspensionsRequest request)
+    public async Task<ActionResult<PageableResult<MemberSuspensionResult>>> SuspensionHistory([FromBody] GetMemberSuspensionsRequest request)
     {
         var query = this._mapper.Map<GetMemberSuspensionsQuery>(request);
         var result = await this._mediator.Send(query);
@@ -125,9 +129,9 @@ public class MembersController : ControllerBase
     }
     
     [HttpGet(Routes.SingleMemberExpels)]
-    public async Task<ActionResult<Guid>> ExpelHistory([FromBody] GetMemberExpelsRequest request)
+    public async Task<ActionResult<PageableResult<MemberExpelResult>>> ExpelHistory([FromBody] GetMemberExpelsRequest request)
     {
-        var query = this._mapper.Map<GetMemberSuspensionsQuery>(request);
+        var query = this._mapper.Map<GetMemberExpelsQuery>(request);
         var result = await this._mediator.Send(query);
         return this.Ok(result.FromQueryResult(query));
     }
@@ -153,11 +157,12 @@ public class MembersController : ControllerBase
     [HttpPatch(Routes.SingleMemberExpelsAppeal)]
     public async Task<ActionResult<Guid>> DismissAppealExpel([FromBody] RejectMemberExpelAppealRequest request)
     {
-        return await this.SendCommandRequest<DismissSuspensionAppealCommand>(request);
+        return await this.SendCommandRequest<DismissExpelAppealCommand>(request);
     }
     
-    private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
+    private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(MultiTenantRequest request) where TCommand:ApplicationCommandBase
     {
+        var decoratedRequest = this.DecorateRequest(request);
         TCommand command = this._mapper.Map<TCommand>(request);
         var result = await this._mediator.Send(command);
         if (result.IsSuccess)
@@ -171,5 +176,10 @@ public class MembersController : ControllerBase
         }
 
         return this.UnprocessableEntity(result.Errors);
+    }
+    
+    private dynamic DecorateRequest(MultiTenantRequest request)
+    {
+        return request.WithTenant(this._identityService.GetUserOrganization());
     }
 }

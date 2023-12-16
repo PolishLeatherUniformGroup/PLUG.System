@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ONPA.Common.Infrastructure;
 
 namespace ONPA.Membership.Contract.Requests;
 
-public record GetMembersRequest([FromQuery] int Status, [FromQuery] int Page = 0, [FromQuery] int Limit = 10)
+public record GetMembersRequest([FromQuery] int Status, [FromQuery] int Page = 0, [FromQuery] int Limit = 10):MultiTenantRequest
 {
     public string ToQueryString()
     {

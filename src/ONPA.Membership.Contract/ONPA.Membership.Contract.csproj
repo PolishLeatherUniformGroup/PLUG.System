@@ -10,4 +10,8 @@
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ONPA.Common.Infrastructure\ONPA.Common.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
