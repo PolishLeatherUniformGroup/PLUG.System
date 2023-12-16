@@ -25,7 +25,7 @@ public sealed class AddMemberToGroupCommandHandler : ApplicationCommandHandlerBa
                 throw new AggregateNotFoundException();
             }
             aggregate.JoinGroup(request.MemberNumber, request.MemberId,request.FirstName,request.LastName,request.JoinDate);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return CommandResult.Success(aggregate.AggregateId);
         }
         catch (DomainException exception)

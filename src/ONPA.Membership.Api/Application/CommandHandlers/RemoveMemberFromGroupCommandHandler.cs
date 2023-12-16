@@ -25,7 +25,7 @@ public sealed class RemoveMemberFromGroupCommandHandler : ApplicationCommandHand
                 throw new AggregateNotFoundException();
             }
             aggregate.RemoveFromGroup(request.MemberNumber,request.RemoveDate);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return CommandResult.Success(aggregate.AggregateId);
         }
         catch (DomainException exception)
