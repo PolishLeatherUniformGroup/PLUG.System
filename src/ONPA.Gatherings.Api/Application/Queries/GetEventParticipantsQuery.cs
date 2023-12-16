@@ -9,7 +9,7 @@ public record GetEventParticipantsQuery(Guid TenantId, Guid EventId, int Page, i
 {
     public  string ToQueryString()
     {
-        return $"{EventId}/participants?page={this.Page}&limit={this.Limit}";
+        return $"{this.EventId}/participants?page={this.Page}&limit={this.Limit}";
     }
     
     public Expression<Func<EventEnrollment,bool>> AsFilter()

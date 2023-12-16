@@ -35,7 +35,8 @@ public class EventsMap : Profile
 
         this.CreateMap<CancelEventRequest, CancelEventCommand>()
             .ForCtorParam(nameof(CancelEventCommand.EventId), opt => opt.MapFrom(src => src.EventId))
-            .ForCtorParam(nameof(CancelEventCommand.CancellationDate), opt => opt.MapFrom(src => src.Cancellation.CancellationDate));
+            .ForCtorParam(nameof(CancelEventCommand.CancellationDate), opt => opt.MapFrom(src => src.Cancellation.CancellationDate))
+            .ForCtorParam(nameof(CancelEventCommand.CancellationReason), opt => opt.MapFrom(src => src.Cancellation.CancellationReason));
         
         this.CreateMap<UpdateEventDescriptionRequest, ModifyEventDescriptionCommand>()
             .ForCtorParam(nameof(ModifyEventDescriptionCommand.EventId), opt => opt.MapFrom(src => src.EventId))

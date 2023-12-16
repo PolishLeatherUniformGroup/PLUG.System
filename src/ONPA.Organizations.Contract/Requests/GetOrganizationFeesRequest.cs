@@ -6,7 +6,7 @@ public record GetOrganizationFeesRequest([FromRoute]Guid OrganizationId,[FromQue
 {
     public string ToQueryString()
     {
-        var queryString = $"{OrganizationId}/fees?Page={this.Page}&Limit={this.Limit}";
+        var queryString = $"{this.OrganizationId}/fees?Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }
@@ -15,7 +15,7 @@ public record GetOrganizationFeeForYearRequest([FromRoute] Guid OrganizationId, 
 {
     public string ToQueryString()
     {
-        var queryString = $"{OrganizationId}/fees/{Year}";
+        var queryString = $"{this.OrganizationId}/fees/{this.Year}";
         return queryString;
     }
 

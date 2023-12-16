@@ -8,6 +8,6 @@ public abstract record ApplicationQueryBase<TResult> : IRequest<TResult>
     
     protected ApplicationQueryBase(Guid tenantId)
     {
-        TenantId = tenantId;
+        this.TenantId = tenantId;
     }
 }

@@ -6,7 +6,7 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.Domain
 {
-    public class Event : AggregateRoot
+    public sealed partial class Event : AggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -14,7 +14,13 @@ namespace ONPA.Gatherings.Domain
         public DateTime ScheduledStart { get; private set; }
 
         public int? PlannedCapacity { get; private set; }
-        public int? AvailablePlaces { get; private set; }
+        public int? AvailablePlaces =>
+            this.PlannedCapacity.HasValue
+                ? this.PlannedCapacity.Value -
+                  this._registrations.Where(r => !r.CancellationDate.HasValue)
+                      .Sum(x => x.PlacesBooked)
+                : null;
+        
 
         public Money PricePerPerson { get; private set; }
 
@@ -25,21 +31,26 @@ namespace ONPA.Gatherings.Domain
 
         public bool IsCostFree => this.PricePerPerson.IsZero();
 
-        public bool IsAvailable => this.Status == EventStatus.Published && (!this.PlannedCapacity.HasValue ||
-            this.PlannedCapacity.Value > this.AvailablePlaces.GetValueOrDefault(0) ||
-            DateTime.UtcNow > this.EnrollmentDeadline);
+        public bool IsAvailable =>
+            this.Status == EventStatus.Published &&
+            DateTime.UtcNow < this.EnrollmentDeadline &&
+            ((this.PlannedCapacity.HasValue && this.AvailablePlaces.GetValueOrDefault(0) > 0) ||
+             !this.PlannedCapacity.HasValue);
+                                                          
 
         private readonly ICollection<EventEnrollment>
             _registrations = new LinkedList<EventEnrollment>();
 
         public IEnumerable<EventEnrollment> Registrations => this._registrations;
 
-        public Event(Guid aggregateId,Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId,tenantId, changes)
+        public Event(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId, tenantId,
+            changes)
         {
         }
 
         public Event(Guid tenantId, string name, string description, string regulations, DateTime scheduledStart,
-            int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline):base(tenantId)
+            int? plannedCapacity, Money pricePerPerson, DateTime publishDate,
+            DateTime enrollmentDeadline) : base(tenantId)
         {
             this.Name = name;
             this.Description = description;
@@ -50,7 +61,7 @@ namespace ONPA.Gatherings.Domain
             this.PublishDate = publishDate;
             this.EnrollmentDeadline = enrollmentDeadline;
             this.Status = EventStatus.Draft;
-
+            
             // var stateEvents
             var change = new EventCreated(name, description, regulations, scheduledStart, plannedCapacity,
                 pricePerPerson, publishDate, enrollmentDeadline);
@@ -70,14 +81,12 @@ namespace ONPA.Gatherings.Domain
             var change = new EventDescriptionModified(name, description, regulations);
             this.RaiseChangeEvent(change);
 
-            if (this.Status == EventStatus.Published)
-            {
-                var domainEvent = new EventDescriptionChangedDomainEvent(name, description, regulations,
-                    this._registrations
-                        .SelectMany(r => r.Participants
-                            .Select(p => p.Email)).ToList());
-                this.RaiseDomainEvent(domainEvent);
-            }
+
+            var domainEvent = new EventDescriptionChangedDomainEvent(name, description, regulations,
+                this._registrations
+                    .SelectMany(r => r.Participants
+                        .Select(p => p.Email)).ToList());
+            this.RaiseDomainEvent(domainEvent);
         }
 
         public void ModifySchedule(DateTime scheduledDate, DateTime publishDate, DateTime enrollmentDate)
@@ -117,11 +126,13 @@ namespace ONPA.Gatherings.Domain
 
             if (this.Status == EventStatus.Published)
             {
-                if (this.PlannedCapacity.HasValue && (!newCapacity.HasValue || this.PlannedCapacity > newCapacity))
+                if (newCapacity.HasValue && this.PlannedCapacity > newCapacity)
                 {
                     throw new InvalidDomainOperationException();
                 }
-                //domainEvent
+
+                var domainEvent = new EventCapacityIncreasedDomainEvent(newCapacity);
+                this.RaiseDomainEvent(domainEvent);
             }
 
             this.PlannedCapacity = newCapacity;
@@ -170,7 +181,7 @@ namespace ONPA.Gatherings.Domain
             this.RaiseChangeEvent(change);
         }
 
-        public void Cancel(DateTime cancellationDate)
+        public void Cancel(DateTime cancellationDate, string cancellationReason)
         {
             if (this.Status != EventStatus.Published)
             {
@@ -182,13 +193,19 @@ namespace ONPA.Gatherings.Domain
             this.RaiseChangeEvent(change);
 
             var domainEvent = new EventCancelledDomainEvent(this.Name,
-                this.Registrations.SelectMany(x => x.Participants).ToList());
+                this.Registrations.SelectMany(x => x.Participants).ToList(),
+                cancellationReason);
             this.RaiseDomainEvent(domainEvent);
             foreach (var enrollment in this._registrations)
             {
                 enrollment.Cancel(cancellationDate, enrollment.RequiredPayment);
-                var change2 = new EnrollmentCancelled(enrollment.Id, cancellationDate, enrollment.RequiredPayment);
-                this.RaiseChangeEvent(change2);
+                var enrollmentCancelled = new EnrollmentCancelled(enrollment.Id, cancellationDate, enrollment.RequiredPayment);
+                this.RaiseChangeEvent(enrollmentCancelled);
+                
+                var enrollmentCancelledDomainEvent = new EnrollmentCancelledDomainEvent(cancellationDate,
+                    enrollment.RequiredPayment, enrollment.FirstName, enrollment.Email,
+                    enrollment.Participants.Where(x => x.Email != enrollment.Email).ToList());
+                this.RaiseDomainEvent(enrollmentCancelledDomainEvent);
             }
         }
 
@@ -199,12 +216,18 @@ namespace ONPA.Gatherings.Domain
             {
                 throw new AggregateInvalidStateException();
             }
+            if(this.PlannedCapacity.HasValue && this.AvailablePlaces < bookedPlaces)
+            {
+                throw new InvalidDomainOperationException();
+            }
 
             var enrollment = new EventEnrollment(registrationDate, bookedPlaces, firstName, lastName, email,
                 this.PricePerPerson, companions);
             this._registrations.Add(enrollment);
 
-            var change = new EnrollmentAddedToEvent(enrollment);
+            var change = new EnrollmentAddedToEvent(enrollment.Id, registrationDate, bookedPlaces, firstName, lastName,
+                email, companions, enrollment.RequiredPayment);
+            
             this.RaiseChangeEvent(change);
 
             var domainEvent = new EnrollmentAddedToEventDomainEvent(enrollment.RequiredPayment,
@@ -215,6 +238,11 @@ namespace ONPA.Gatherings.Domain
 
         public void RegisterEnrollmentPayment(Guid enrollmentId, DateTime paidDate, Money paidAmount)
         {
+            if(this.Status != EventStatus.Published)
+            {
+                throw new AggregateInvalidStateException();
+            }
+            
             if (this.IsCostFree)
             {
                 return;
@@ -224,6 +252,11 @@ namespace ONPA.Gatherings.Domain
             if (enrollment == null)
             {
                 throw new EntityNotFoundException();
+            }
+            
+            if(enrollment.IsCancelled)
+            {
+                throw new InvalidDomainOperationException();
             }
 
             enrollment.RegisterPayment(paidDate, paidAmount);
@@ -267,6 +300,11 @@ namespace ONPA.Gatherings.Domain
             if (enrollment == null)
             {
                 throw new EntityNotFoundException();
+            }
+
+            if (enrollment.IsRefunded)
+            {
+                throw new InvalidDomainOperationException();
             }
 
             enrollment.Refund(refundDate, refundAmount);

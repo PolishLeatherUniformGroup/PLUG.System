@@ -13,6 +13,6 @@ public sealed record GetEventEnrollmentsQuery(
 {
     public Expression<Func<EventEnrollment,bool>> AsFilter()
     {
-        return e => e.EventId == EventId;
+        return e => e.EventId == this.EventId;
     }
 }

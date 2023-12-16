@@ -27,7 +27,7 @@ public class MembersGroupShould
         var groupType = Enumeration.FromValue<MembersGroupType>(type);
         
         // act
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
         
         // assert
         aggregate.Should().NotBeNull();
@@ -47,7 +47,7 @@ public class MembersGroupShould
         // arrange
         var groupName = this._fixture.Create<string>();
         var groupType = MembersGroupType.CustomGroup;
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
 
         var memberNumber = new CardNumber(this._fixture.Create<int>());
         var memberId = this._fixture.Create<Guid>();
@@ -83,7 +83,7 @@ public class MembersGroupShould
         // arrange
         var groupName = this._fixture.Create<string>();
         var groupType = MembersGroupType.CustomGroup;
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
 
         var memberNumber = new CardNumber(this._fixture.Create<int>());
         var memberId = this._fixture.Create<Guid>();
@@ -106,7 +106,7 @@ public class MembersGroupShould
         // arrange
         var groupName = this._fixture.Create<string>();
         var groupType = MembersGroupType.CustomGroup;
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
 
         var memberNumber = new CardNumber(this._fixture.Create<int>());
         var memberId = this._fixture.Create<Guid>();
@@ -143,7 +143,7 @@ public class MembersGroupShould
         // arrange
         var groupName = this._fixture.Create<string>();
         var groupType = MembersGroupType.CustomGroup;
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
 
         var memberNumber = new CardNumber(this._fixture.Create<int>());
         var memberId = this._fixture.Create<Guid>();
@@ -167,7 +167,7 @@ public class MembersGroupShould
         // arrange
         var groupName = this._fixture.Create<string>();
         var groupType = MembersGroupType.CustomGroup;
-        var aggregate = new MembersGroup(tenantId,groupName, groupType);
+        var aggregate = new MembersGroup(this.tenantId,groupName, groupType);
 
         var memberNumber = new CardNumber(this._fixture.Create<int>());
         var memberId = this._fixture.Create<Guid>();
