@@ -2,6 +2,8 @@
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
 using ONPA.Membership.Contract.Requests;
+using ONPA.Membership.Contract.Responses;
+using ONPA.Membership.Infrastructure.ReadModel;
 using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.Api.Maps;
@@ -195,5 +197,31 @@ public class MembershipMaps : Profile
                 o.MapFrom(s => s.Expiration.ExpirationDate))
             .ForCtorParam(nameof(ExpireMembershipCommand.Reason), o =>
                 o.MapFrom(s => s.Expiration.Reason));
+        
+        this.CreateMap<GetMemberFeesRequest, GetMemberFeesQuery>()
+            .ForCtorParam(nameof(GetMemberFeesQuery.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(GetMemberFeesQuery.Limit), o =>
+                o.MapFrom(s => s.Limit))
+            .ForCtorParam(nameof(GetMemberFeesQuery.Page), o =>
+                o.MapFrom(s => s.Page));
+        
+        this.CreateMap<Member, MemberResult>()
+            .ForCtorParam(nameof(MemberResult.MemberId), o =>
+                o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(MemberResult.CardNumber), o =>
+                o.MapFrom(s => s.MemberNumber))
+            .ForCtorParam(nameof(MemberResult.FirstName), o =>
+                o.MapFrom(s => s.FirstName))
+            .ForCtorParam(nameof(MemberResult.LastName), o =>
+                o.MapFrom(s => s.LastName))
+            .ForCtorParam(nameof(MemberResult.Email), o =>
+                o.MapFrom(s => s.Email))
+            .ForCtorParam(nameof(MemberResult.Status), o =>
+                o.MapFrom(s => (int)s.Status))
+            .ForCtorParam(nameof(MemberResult.JoinDate), o =>
+                o.MapFrom(s => s.JoinDate));
+        
+            
     }
 }
