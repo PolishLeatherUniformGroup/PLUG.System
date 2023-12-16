@@ -25,7 +25,7 @@ public sealed class RequestMemberFeePaymentCommandHandler : ApplicationCommandHa
                 throw new AggregateNotFoundException();
             }
             aggregate.RequestFeePayment(request.FeeAmount,request.DueDate,request.EndOfPeriod);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

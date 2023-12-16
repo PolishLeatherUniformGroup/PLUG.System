@@ -25,7 +25,7 @@ public sealed class SuspendMemberCommandHandler : ApplicationCommandHandlerBase<
                 throw new AggregateNotFoundException();
             }
             aggregate.SuspendMember(request.Justification,request.SuspendDate,request.SuspendUntil,request.DaysToAppeal);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

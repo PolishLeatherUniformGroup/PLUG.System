@@ -2,7 +2,7 @@ namespace ONPA.Common.Application;
 
 public class CommandResult
 {
-    public Guid AggreagteId { get; private set; }
+    public Guid AggregateId { get; private set; }
     public bool IsFailure { get; }
     public bool IsSuccess => !this.IsFailure;
     private readonly List<string> _errors = new();
@@ -23,14 +23,14 @@ public class CommandResult
 
     protected CommandResult(string[] errors)
     {
-        this.AggreagteId = Guid.Empty;
+        this.AggregateId = Guid.Empty;
         this._errors.AddRange(errors);
         this.IsFailure = true;
     }
 
     private CommandResult(Guid id)
     {
-        this.AggreagteId = id;
+        this.AggregateId = id;
         this.IsFailure = false;
         this._isValid = true;
     }

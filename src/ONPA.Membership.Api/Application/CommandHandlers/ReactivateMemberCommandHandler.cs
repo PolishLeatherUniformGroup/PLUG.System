@@ -25,7 +25,7 @@ public sealed class ReactivateMemberCommandHandler : ApplicationCommandHandlerBa
                 throw new AggregateNotFoundException();
             }
             aggregate.Reactivate();
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

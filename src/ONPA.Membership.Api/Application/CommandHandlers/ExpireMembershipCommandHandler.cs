@@ -25,7 +25,7 @@ public sealed class ExpireMembershipCommandHandler : ApplicationCommandHandlerBa
                 throw new AggregateNotFoundException();
             }
             aggregate.MembershipExpired(request.ExpirationDate,request.Reason);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

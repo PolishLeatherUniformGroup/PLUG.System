@@ -23,7 +23,7 @@ public class CreateMemberCommandHandler : ApplicationCommandHandlerBase<CreateMe
             var aggregate = new Member(request.TenantId,
                 cardNumber, request.FirstName, request.LastName, request.Email, request.Phone,
                 request.Address, request.JoinDate, request.PaidFee);
-            aggregate= await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.CreateAsync(aggregate, cancellationToken);
             return CommandResult.Success(aggregate.AggregateId);
         }
         catch (DomainException exception)
