@@ -15,7 +15,7 @@ using ONPA.Membership.Contract.Requests;
 using ONPA.Membership.Contract.Requests.Dtos;
 using ONPA.Membership.Contract.Responses;
 
-namespace PLUG.System.Apply.UnitTests.Application;
+namespace ONPA.UnitTests.Application.Controllers;
 
 public class MembersControllerShould
 {

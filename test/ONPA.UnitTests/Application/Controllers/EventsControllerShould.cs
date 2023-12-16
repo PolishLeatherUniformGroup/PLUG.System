@@ -13,9 +13,8 @@ using ONPA.Gatherings.Api.Maps;
 using ONPA.Gatherings.Api.Services;
 using ONPA.Gatherings.Contract.Requests;
 using ONPA.Gatherings.Contract.Responses;
-using ONPA.Gatherings.StateEvents;
 
-namespace PLUG.System.Apply.UnitTests.Application;
+namespace ONPA.UnitTests.Application.Controllers;
 
 public class EventsControllerShould
 {

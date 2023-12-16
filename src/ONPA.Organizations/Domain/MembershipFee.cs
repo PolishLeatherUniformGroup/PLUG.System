@@ -13,4 +13,10 @@ public sealed class MembershipFee :Entity
         this.Year = year;
         this.YearlyAmount = yearlyAmount;
     }
+    
+    internal MembershipFee(Guid id, int year, Money yearlyAmount) : base(id)
+    {
+        this.Year = year;
+        this.YearlyAmount = yearlyAmount;
+    }
 }

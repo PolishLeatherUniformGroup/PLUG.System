@@ -12,9 +12,8 @@ using ONPA.Organizations.Api.Controllers;
 using ONPA.Organizations.Api.Maps;
 using ONPA.Organizations.Contract.Requests;
 using ONPA.Organizations.Contract.Responses;
-using ONPA.Organizations.Infrastructure.ReadModel;
 
-namespace PLUG.System.Apply.UnitTests.Application;
+namespace ONPA.UnitTests.Application.Controllers;
 
 public class OrganizationControllerShould
 {
