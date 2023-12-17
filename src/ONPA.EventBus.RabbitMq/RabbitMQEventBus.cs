@@ -19,6 +19,7 @@ using RabbitMQ.Client.Exceptions;
 
 namespace ONPA.EventBus.RabbitMq;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public class RabbitMQEventBus(
     ILogger<RabbitMQEventBus> logger,
     IServiceProvider serviceProvider,

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using ONPA.Membership.Infrastructure.ReadModel;
 
 namespace ONPA.Membership.Infrastructure.Database;
 
+[ExcludeFromCodeCoverage(Justification = "Tested through integration tests")]
 public class MembershipContext : StreamContext
 {
     public MembershipContext(DbContextOptions<MembershipContext> options, IMediator mediator) : base(options, mediator)

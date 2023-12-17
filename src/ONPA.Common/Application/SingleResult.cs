@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ONPA.Common.Application;
 
+[ExcludeFromCodeCoverage(Justification = "Not Used yet")]
 public class SingleResult<T> where T : class
 {
     private T? _value;

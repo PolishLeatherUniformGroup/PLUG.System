@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Hosting;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public static class MigrateDbContextExtensions
 {
     private static readonly string ActivitySourceName = "DbMigrations";

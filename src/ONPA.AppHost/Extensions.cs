@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
+[ExcludeFromCodeCoverage(Justification = "Configuration")]
 internal static class Extensions
 {
     public static IResourceBuilder<TDestination> WithEnvironmentForServiceBinding<TDestination, TSource>(

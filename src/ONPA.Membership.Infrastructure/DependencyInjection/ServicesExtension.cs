@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ONPA.Common.Application;
 using ONPA.Common.Domain;
@@ -11,6 +12,7 @@ using ReadModel = ONPA.Membership.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Infrastructure.DependencyInjection;
 
+[ExcludeFromCodeCoverage(Justification = "Tested through integration tests")]
 public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

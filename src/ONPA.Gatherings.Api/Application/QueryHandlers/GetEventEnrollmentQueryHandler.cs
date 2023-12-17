@@ -1,3 +1,4 @@
+using AutoMapper;
 using ONPA.Common.Application;
 using ONPA.Gatherings.Api.Application.Queries;
 using ONPA.Gatherings.Contract.Responses;
@@ -8,23 +9,16 @@ namespace ONPA.Gatherings.Api.Application.QueryHandlers;
 public sealed class GetEventEnrollmentQueryHandler : ApplicationQueryHandlerBase<GetEventEnrollmentQuery, EnrollmentResponse>
 {
     private readonly IReadOnlyRepository<EventEnrollment> _eventEnrollmentRepository;
+    private readonly IMapper _mapper;
+    
+    public GetEventEnrollmentQueryHandler(IReadOnlyRepository<EventEnrollment> eventEnrollmentRepository, IMapper mapper)
+    {
+        this._eventEnrollmentRepository = eventEnrollmentRepository;
+        _mapper = mapper;
+    }
     public override async Task<EnrollmentResponse> Handle(GetEventEnrollmentQuery request, CancellationToken cancellationToken)
     {
         var enrollment = await this._eventEnrollmentRepository.ReadSingleById(request.EnrollmentId, cancellationToken);
-        return new EnrollmentResponse(enrollment.Id,
-            enrollment.EventId,
-            enrollment.RegistrationDate,
-            enrollment.PlacesBooked,
-            enrollment.FirstName,
-            enrollment.LastName,
-            enrollment.Email,
-            enrollment.Currency,
-            enrollment.RequiredPaymentAmount,
-            enrollment.PaidAmount,
-            enrollment.PaidDate,
-            enrollment.CancellationDate,
-            enrollment.RefundableAmount,
-            enrollment.RefundedAmount,
-            enrollment.RefundDate);
+        return this._mapper.Map<EnrollmentResponse>(enrollment);
     }
 }

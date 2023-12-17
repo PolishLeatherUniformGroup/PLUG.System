@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using ONPA.EventBus.Events;
 
 namespace ONPA.IntegrationEventsLog;
 
+[ExcludeFromCodeCoverage(Justification = "Trivial")]
 public class IntegrationEventLogEntry
 {
     private static readonly JsonSerializerOptions s_indentedOptions = new() { WriteIndented = true };

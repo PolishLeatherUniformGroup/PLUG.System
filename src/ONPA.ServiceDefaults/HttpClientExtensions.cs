@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ONPA.ServiceDefaults;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public static class HttpClientExtensions
 {
     public static IHttpClientBuilder AddAuthToken(this IHttpClientBuilder builder)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ONPA.Common.Application;
 using ONPA.Common.Domain;
@@ -9,6 +10,7 @@ using ONPA.Organizations.Infrastructure.Repositories;
 
 namespace ONPA.Organizations.Infrastructure.DependencyInjection;
 
+[ExcludeFromCodeCoverage(Justification = "Tested in integration tests")]
 public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

@@ -6,6 +6,7 @@ using ONPA.EventBus.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
+[ExcludeFromCodeCoverage(Justification = "Startup code")]
 public static class EventBusBuilderExtensions
 {
    public static IEventBusBuilder ConfigureJsonOptions(this IEventBusBuilder eventBusBuilder, Action<JsonSerializerOptions> configure)

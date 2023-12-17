@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
 namespace ONPA.EventBus.Abstraction;
 
+[ExcludeFromCodeCoverage(Justification = "Trivial")]
 public class EventBusSubscriptionInfo
 {
     public Dictionary<string, Type> EventTypes { get; } = [];

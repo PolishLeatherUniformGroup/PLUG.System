@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -5,6 +6,7 @@ using ONPA.Common.Application;
 
 namespace ONPA.Common.Behaviors;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public class CommandLoggingBehavior<TCommand,TResult> : IPipelineBehavior<TCommand,TResult>
     where TCommand : ApplicationCommandBase
     where TResult :CommandResult
