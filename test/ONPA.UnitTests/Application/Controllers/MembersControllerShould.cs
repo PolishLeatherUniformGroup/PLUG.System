@@ -170,15 +170,15 @@ public class MembersControllerShould
     {
         // Arrange
         var request = this._fixture.Create<GetMemberFeesRequest>();
-        var memberFeeResults = this._fixture.CreateMany<MemberFee>();
-        var response = CollectionResult<MemberFee>.FromValue(memberFeeResults,memberFeeResults.Count());
+        var memberFeeResults = this._fixture.CreateMany<MemberFeeResult>();
+        var response = CollectionResult<MemberFeeResult>.FromValue(memberFeeResults,memberFeeResults.Count());
         
         this._mediator.Send(Arg.Any<GetMemberFeesQuery>()).Returns(response);
         // Act
         var result = await this._sut.GetMemberFees(request);
         
         // Assert
-        result.Should().BeOfType<ActionResult<PageableResult<MemberFee>>>();
+        result.Should().BeOfType<ActionResult<PageableResult<MemberFeeResult>>>();
         result.Result.Should().BeOfType<OkObjectResult>();
     }
     

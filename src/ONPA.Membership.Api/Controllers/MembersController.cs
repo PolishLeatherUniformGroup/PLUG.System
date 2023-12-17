@@ -77,7 +77,7 @@ public class MembersController : ControllerBase
 
     
     [HttpGet(Routes.SingleMemberFees)]
-    public async Task<ActionResult<PageableResult<MemberFee>>> GetMemberFees([FromRoute]GetMemberFeesRequest request)
+    public async Task<ActionResult<PageableResult<MemberFeeResult>>> GetMemberFees([FromRoute]GetMemberFeesRequest request)
     {
         var query = this._mapper.Map<GetMemberFeesQuery>(request);
         var result = await this._mediator.Send(query);

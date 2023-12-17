@@ -15,6 +15,8 @@ public class MembershipContext : StreamContext
     
     public DbSet<Member> Members { get; set; } 
     public DbSet<MemberFee> MemberFees { get; set; }
+    public DbSet<MemberSuspension> MemberSuspensions { get; set; }
+    public DbSet<MemberExpel> MemberExpels { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

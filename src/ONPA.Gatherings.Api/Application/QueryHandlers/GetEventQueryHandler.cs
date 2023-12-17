@@ -22,27 +22,3 @@ public sealed class GetEventQueryHandler : ApplicationQueryHandlerBase<GetEventQ
 
     }
 }
-
-public sealed class GetEventEnrollmentQueryHandler : ApplicationQueryHandlerBase<GetEventEnrollmentQuery, EnrollmentResponse>
-{
-    private readonly IReadOnlyRepository<EventEnrollment> _eventEnrollmentRepository;
-    public override async Task<EnrollmentResponse> Handle(GetEventEnrollmentQuery request, CancellationToken cancellationToken)
-    {
-        var enrollment = await this._eventEnrollmentRepository.ReadSingleById(request.EnrollmentId, cancellationToken);
-        return new EnrollmentResponse(enrollment.Id,
-            enrollment.EventId,
-            enrollment.RegistrationDate,
-            enrollment.PlacesBooked,
-            enrollment.FirstName,
-            enrollment.LastName,
-            enrollment.Email,
-            enrollment.Currency,
-            enrollment.RequiredPaymentAmount,
-            enrollment.PaidAmount,
-            enrollment.PaidDate,
-            enrollment.CancellationDate,
-            enrollment.RefundableAmount,
-            enrollment.RefundedAmount,
-            enrollment.RefundDate);
-    }
-}

@@ -221,7 +221,51 @@ public class MembershipMaps : Profile
                 o.MapFrom(s => (int)s.Status))
             .ForCtorParam(nameof(MemberResult.JoinDate), o =>
                 o.MapFrom(s => s.JoinDate));
+
+        this.CreateMap<MemberFee, MemberFeeResult>()
+            .ForCtorParam(nameof(MemberFeeResult.MemberFeeId), o =>
+                o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(MemberFeeResult.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(MemberFeeResult.FeeDue), o =>
+                o.MapFrom(s => s.DueAmount))
+            .ForCtorParam(nameof(MemberFeeResult.Currency), o =>
+                o.MapFrom(s => s.Currency))
+            .ForCtorParam(nameof(MemberFeeResult.DueDate), o =>
+                o.MapFrom(s => s.DueDate))
+            .ForCtorParam(nameof(MemberFeeResult.PaidDate), o =>
+                o.MapFrom(s => s.PaidDate))
+            .ForCtorParam(nameof(MemberFeeResult.AmountPaid), o =>
+                o.MapFrom(s => s.PaidAmount))
+            .ForCtorParam(nameof(MemberFeeResult.ValidToDate), o =>
+                o.MapFrom(s => s.FeeEndDate));
+
+        this.CreateMap<MemberExpel, MemberExpelResult>()
+            .ForCtorParam(nameof(MemberExpelResult.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(MemberExpelResult.ExpelDate), o =>
+                o.MapFrom(s => s.ExpelDate))
+            .ForCtorParam(nameof(MemberExpelResult.Justification), o =>
+                o.MapFrom(s => s.Justification))
+            .ForCtorParam(nameof(MemberExpelResult.AppealDate), o =>
+                o.MapFrom(s => s.AppealDate))
+            .ForCtorParam(nameof(MemberExpelResult.AppealJustification), o =>
+                o.MapFrom(s => s.AppealJustification))
+            .ForCtorParam(nameof(MemberExpelResult.AppealDecisionDate), o =>
+                o.MapFrom(s => s.AppealDecisionDate));
         
-            
+        this.CreateMap<MemberSuspension, MemberSuspensionResult>()
+            .ForCtorParam(nameof(MemberSuspensionResult.MemberId), o =>
+                o.MapFrom(s => s.MemberId))
+            .ForCtorParam(nameof(MemberSuspensionResult.SuspensionDate), o =>
+                o.MapFrom(s => s.SuspensionDate))
+            .ForCtorParam(nameof(MemberSuspensionResult.Justification), o =>
+                o.MapFrom(s => s.Justification))
+            .ForCtorParam(nameof(MemberSuspensionResult.AppealDate), o =>
+                o.MapFrom(s => s.AppealDate))
+            .ForCtorParam(nameof(MemberSuspensionResult.AppealJustification), o =>
+                o.MapFrom(s => s.AppealJustification))
+            .ForCtorParam(nameof(MemberSuspensionResult.AppealDecisionDate), o =>
+                o.MapFrom(s => s.AppealDecisionDate));
     }
 }
