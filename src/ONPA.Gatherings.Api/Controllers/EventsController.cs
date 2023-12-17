@@ -150,7 +150,7 @@ public class EventsController : ControllerBase
         var result = await this._mediator.Send(command);
         if (result.IsSuccess)
         {
-            return this.Ok(result.AggreagteId);
+            return this.Ok(result.AggregateId);
         }
 
         if (!result.IsValid)

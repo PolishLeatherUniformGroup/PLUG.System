@@ -10,11 +10,3 @@ public record GetOrganizationsRequest([FromQuery] int Page = 0, [FromQuery] int 
         return queryString;
     }
 }
-
-public record GetOrganizationRequest(Guid OrganizationId)
-{
-    public string ToQueryString()
-    {
-        return $"{this.OrganizationId}";
-    }
-}

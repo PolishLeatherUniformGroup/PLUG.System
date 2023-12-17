@@ -25,7 +25,7 @@ public sealed class AcceptSuspensionAppealCommandHandler : ApplicationCommandHan
                 throw new AggregateNotFoundException();
             }
             aggregate.AcceptAppealSuspension(request.DecisionDate,request.Justification);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

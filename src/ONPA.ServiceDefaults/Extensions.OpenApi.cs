@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Microsoft.Extensions.Hosting;
 
+[ExcludeFromCodeCoverage(Justification = "Startup code")]
 public static partial class Extensions
 {
     public static IApplicationBuilder UseDefaultOpenApi(this WebApplication app)

@@ -1,7 +1,9 @@
+ using System.Diagnostics.CodeAnalysis;
  using Microsoft.EntityFrameworkCore;
 
  namespace ONPA.IntegrationEventsLog;
 
+ [ExcludeFromCodeCoverage(Justification="Trivial")]
 public static class IntegrationLogExtensions
 {
     public static void UseIntegrationEventLogs(this ModelBuilder builder, string schema)

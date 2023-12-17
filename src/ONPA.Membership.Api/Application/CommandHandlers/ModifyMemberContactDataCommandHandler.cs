@@ -25,7 +25,7 @@ public sealed class ModifyMemberContactDataCommandHandler : ApplicationCommandHa
                 throw new AggregateNotFoundException();
             }
             aggregate.ModifyContactData(request.Email,request.Phone,request.Address);
-            aggregate = await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
+            await this._aggregateRepository.UpdateAsync(aggregate, cancellationToken);
             return aggregate.AggregateId;
         }
         catch (DomainException exception)

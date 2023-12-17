@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ONPA.Apply.Infrastructure.Database;
@@ -10,6 +11,7 @@ using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
 
 namespace ONPA.Apply.Infrastructure.DependencyInjection;
 
+[ExcludeFromCodeCoverage(Justification = "Tested through integration tests")]
 public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

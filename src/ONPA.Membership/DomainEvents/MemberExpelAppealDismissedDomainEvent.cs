@@ -12,6 +12,7 @@ public sealed class MemberExpelAppealDismissedDomainEvent : DomainEventBase
     public string DecisionDetails { get; set; }
     public List<Guid> GroupMemberships { get; private set; }
 
+    
     public MemberExpelAppealDismissedDomainEvent(CardNumber memberNumber,
         string firstName,
         string email,
@@ -19,10 +20,12 @@ public sealed class MemberExpelAppealDismissedDomainEvent : DomainEventBase
         string decisionDetails,
         List<Guid> groupMemberships)
     {
+        MemberNumber = memberNumber;
         this.FirstName = firstName;
         this.Email = email;
         this.RejectDate = rejectDate;
         this.DecisionDetails = decisionDetails;
+        GroupMemberships = groupMemberships;
     }
 
     private MemberExpelAppealDismissedDomainEvent(Guid aggregateId,Guid tenantId,

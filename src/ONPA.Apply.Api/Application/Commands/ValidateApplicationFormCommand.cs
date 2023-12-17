@@ -3,13 +3,13 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Application.Commands;
 
-public record ValidateApplicationCommand : ApplicationCommandBase
+public record ValidateApplicationFormCommand : ApplicationCommandBase
 {
     public Guid ApplicationId { get; init; }
     public IEnumerable<(string MemberNumber, Guid? MemberId)> Recommenders { get; init; }
     public Money YearlyFee { get; init; }
 
-    public ValidateApplicationCommand(Guid tenantId, Guid applicationId, IEnumerable<(string MemberNumber, Guid? MemberId)> recommenders, Money yearlyFee):base(tenantId)
+    public ValidateApplicationFormCommand(Guid tenantId, Guid applicationId, IEnumerable<(string MemberNumber, Guid? MemberId)> recommenders, Money yearlyFee):base(tenantId)
     {
         this.ApplicationId = applicationId;
         this.Recommenders = recommenders;

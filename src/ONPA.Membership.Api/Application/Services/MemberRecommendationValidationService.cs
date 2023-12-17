@@ -21,11 +21,11 @@ public class MemberRecommendationValidationService : IMemberRecommendationValida
             validatedMembers = new();
         foreach (var memberNumber in memberNumbers)
         {
-            var query = new ValidateMemberNumbersQuery(tenantId, memberNumber);
+            var query = new ValidateMemberNumberQuery(tenantId, memberNumber);
             var result = await this._mediator.Send(query);
-            if (result.Value is not null)
+            if (result is not null)
             {
-                validatedMembers.Add((result.Value.MemberNumber, result.Value.MemberId));
+                validatedMembers.Add((result.MemberNumber, result.MemberId));
             }
             else
             {

@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using MediatR;
 using ONPA.Common.Application;
 
 namespace ONPA.Common.Behaviors;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public class CommandValidationBehavior<TCommand,TResult> : IPipelineBehavior<TCommand, TResult>
     where TCommand : ApplicationCommandBase
     where TResult : CommandResult

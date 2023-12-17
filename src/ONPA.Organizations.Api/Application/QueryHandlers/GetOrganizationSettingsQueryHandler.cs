@@ -8,10 +8,10 @@ namespace ONPA.Organizations.Api.Application.QueryHandlers;
 
 public sealed class GetOrganizationSettingsQueryHandler : ApplicationQueryHandlerBase<GetOrganizationSettingsQuery, OrganizationSettingsResponse?>
 {
-    private readonly IReadOnlyRepository<OrganizationFee> _repository;
+    private readonly IReadOnlyRepository<OrganizationSettings> _repository;
     private readonly IMapper _mapper;
 
-    public GetOrganizationSettingsQueryHandler(IReadOnlyRepository<OrganizationFee> repository, IMapper mapper)
+    public GetOrganizationSettingsQueryHandler(IReadOnlyRepository<OrganizationSettings> repository, IMapper mapper)
     {
         this._repository = repository;
         this._mapper = mapper;

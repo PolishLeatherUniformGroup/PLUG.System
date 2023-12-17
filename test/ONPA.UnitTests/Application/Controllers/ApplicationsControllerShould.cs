@@ -14,7 +14,7 @@ using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Application;
 using ONPA.Common.Queries;
 
-namespace PLUG.System.Apply.UnitTests.Application;
+namespace ONPA.UnitTests.Application.Controllers;
 
 public class ApplicationsControllerShould
 {

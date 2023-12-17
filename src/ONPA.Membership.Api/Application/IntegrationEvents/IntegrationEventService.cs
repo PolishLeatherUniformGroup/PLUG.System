@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ONPA.EventBus.Abstraction;
 using ONPA.EventBus.Events;
 using ONPA.IntegrationEventsLog.Services;
@@ -5,6 +6,7 @@ using ONPA.Membership.Infrastructure.Database;
 
 namespace ONPA.Membership.Api.Application.IntegrationEvents;
 
+[ExcludeFromCodeCoverage(Justification = "Infrastructure Code")]
 public class IntegrationEventService : IIntegrationEventService
 {
     private readonly IEventBus _eventBus;

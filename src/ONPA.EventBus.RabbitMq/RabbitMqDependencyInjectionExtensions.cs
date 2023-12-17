@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using ONPA.EventBus.Abstraction;
 using ONPA.EventBus.RabbitMq;
@@ -5,6 +6,7 @@ using RabbitMQ.Client;
 
 namespace Microsoft.Extensions.Hosting;
 
+[ExcludeFromCodeCoverage(Justification = "Startup code")]
 public static class RabbitMqDependencyInjectionExtensions
 {
     // {

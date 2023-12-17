@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Microsoft.Extensions.Configuration;
 
+[ExcludeFromCodeCoverage(Justification = "Trivial")]
 public static class ConfigurationExtensions
 {
     public static string GetRequiredValue(this IConfiguration configuration, string name) =>

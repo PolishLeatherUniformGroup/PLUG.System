@@ -6,7 +6,7 @@ using PLUG.System.SharedDomain.Helpers;
 
 namespace ONPA.Organizations.Domain;
 
-public sealed class Organization : AggregateRoot
+public sealed partial class Organization : AggregateRoot
 {
     public string Name { get; private set; }
     public string CardPrefix { get; private set; }
@@ -37,8 +37,9 @@ public sealed class Organization : AggregateRoot
         this.Address = address;
         this.ContactEmail = contactEmail;
         this.Regon = regon;
-
-        var change = new OrganizationCreated(name, cardPrefix, taxId, accountNumber, address, contactEmail, regon);
+        this.Settings = OrganizationSettings.Default;
+        var change = new OrganizationCreated(name, cardPrefix, taxId, accountNumber, address, contactEmail,
+            this.Settings, regon);
         this.RaiseChangeEvent(change);
     }
 
@@ -57,6 +58,7 @@ public sealed class Organization : AggregateRoot
         this.TaxId = taxId;
         this.AccountNumber = accountNumber;
         this.Address = address;
+        this.ContactEmail = contactEmail;
 
         this.Regon = regon;
 
@@ -69,7 +71,7 @@ public sealed class Organization : AggregateRoot
         var fee = new MembershipFee(year, amount);
         this._membershipFees.Add(fee);
 
-        var change = new MembershipFeeRequested(fee);
+        var change = new MembershipFeeRequested(fee.Id,amount, year);
         this.RaiseChangeEvent(change);
 
         var buildFeePaymentDeadline = DateTime.Now.MonthEnd(this.Settings.FeePaymentMonth, year);

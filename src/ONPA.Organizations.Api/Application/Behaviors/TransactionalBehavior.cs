@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Diagnostics.CodeAnalysis;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ONPA.Common.Application;
 using ONPA.Organizations.Api.Application.IntegrationEvents;
@@ -6,6 +7,7 @@ using ONPA.Organizations.Infrastructure.Database;
 
 namespace ONPA.Organizations.Api.Application.Behaviors;
 
+[ExcludeFromCodeCoverage(Justification = "Tested in integration tests")]
 public class TransactionalBehavior<TCommand, TResult> : IPipelineBehavior<TCommand, TResult>
     where TCommand : ApplicationCommandBase
     where TResult : CommandResult

@@ -1,5 +1,8 @@
-﻿namespace ONPA.EventBus.RabbitMq;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace ONPA.EventBus.RabbitMq;
+
+[ExcludeFromCodeCoverage(Justification = "Trivial")]
 public class EventBusOptions
 {
     public string SubscriptionClientName { get; set; }

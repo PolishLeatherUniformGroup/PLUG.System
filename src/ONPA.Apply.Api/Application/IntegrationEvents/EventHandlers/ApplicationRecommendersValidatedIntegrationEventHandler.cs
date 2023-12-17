@@ -34,7 +34,7 @@ public class ApplicationRecommendersValidatedIntegrationEventHandler : IIntegrat
             yearlyFee = new Money(0);
         }
 
-        var command = new ValidateApplicationCommand(@event.TenantId,@event.ApplicationId, @event.Recommenders,yearlyFee);
+        var command = new ValidateApplicationFormCommand(@event.TenantId,@event.ApplicationId, @event.Recommenders,yearlyFee);
         _ = await this._mediator.Send(command);
     }
 }

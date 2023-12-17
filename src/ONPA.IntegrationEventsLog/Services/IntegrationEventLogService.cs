@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -5,6 +6,7 @@ using ONPA.EventBus.Events;
 
 namespace ONPA.IntegrationEventsLog.Services;
 
+[ExcludeFromCodeCoverage(Justification = "Tested in integration tests")]
 public class IntegrationEventLogService<TContext> : IIntegrationEventLogService, IDisposable
     where TContext : DbContext
 {

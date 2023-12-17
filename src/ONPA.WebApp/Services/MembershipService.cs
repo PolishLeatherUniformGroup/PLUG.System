@@ -31,7 +31,7 @@ public class MembershipService
             var result = await httpResponse.Content.ReadFromJsonAsync<PageableResult<MemberResult>>();
             var applicationItems = result.Result.Select(x => new MemberItem()
             {
-                Id = x.ApplicationId,
+                Id = x.MemberId,
                 CardNumber = x.CardNumber,
                 FirstName = x.FirstName,
                 LastName = x.LastName,

@@ -4,7 +4,6 @@ using ONPA.Organizations.Api.Application.Queries;
 using ONPA.Organizations.Contract.Requests;
 using ONPA.Organizations.Contract.Responses;
 using ONPA.Organizations.Infrastructure.ReadModel;
-using ONPA.SharedHelpers;
 using PLUG.System.SharedDomain;
 using OrganizationSettings = ONPA.Organizations.Infrastructure.ReadModel.OrganizationSettings;
 
@@ -111,5 +110,9 @@ public class OrganizationsMaps : Profile
             .ForCtorParam(nameof(GetOrganizationFeeForYearQuery.Year), opt => opt.MapFrom(src => src.Year))
             .ForAllMembers(options => options.Ignore());
             
+        this.CreateMap<OrganizationFee, OrganizationFeeResponse>()
+            .ForCtorParam(nameof(OrganizationFeeResponse.Amount), opt => opt.MapFrom(src => src.Amount))
+            .ForCtorParam(nameof(OrganizationFeeResponse.Currency), opt => opt.MapFrom(src => src.Currency))
+            .ForAllMembers(options => options.Ignore());
     }
 }

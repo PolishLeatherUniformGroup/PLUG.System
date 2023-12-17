@@ -7,16 +7,16 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Application.CommandHandlers;
 
-public class ValidateApplicationCommandHandler : ApplicationCommandHandlerBase<ValidateApplicationCommand>
+public class ValidateApplicationFormCommandHandler : ApplicationCommandHandlerBase<ValidateApplicationFormCommand>
 {
     private readonly IAggregateRepository<ApplicationForm> _aggregateRepository;
 
-    public ValidateApplicationCommandHandler(IAggregateRepository<ApplicationForm> aggregateRepository)
+    public ValidateApplicationFormCommandHandler(IAggregateRepository<ApplicationForm> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
 
-    public override async Task<CommandResult> Handle(ValidateApplicationCommand request, CancellationToken cancellationToken)
+    public override async Task<CommandResult> Handle(ValidateApplicationFormCommand request, CancellationToken cancellationToken)
     {
         try
         {

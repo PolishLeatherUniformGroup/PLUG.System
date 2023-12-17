@@ -6,12 +6,12 @@ using ONPA.Organizations.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Api.Application.QueryHandlers;
 
-public sealed class GetOranizationQueryHandler : ApplicationQueryHandlerBase<GetOrganizationQuery, OrganizationResponse?>
+public sealed class GetOrganizationQueryHandler : ApplicationQueryHandlerBase<GetOrganizationQuery, OrganizationResponse?>
 {
     private readonly IReadOnlyRepository<Organization> _repository;
     private readonly IMapper _mapper;
 
-    public GetOranizationQueryHandler(IReadOnlyRepository<Organization> repository, IMapper mapper)
+    public GetOrganizationQueryHandler(IReadOnlyRepository<Organization> repository, IMapper mapper)
     {
         this._repository = repository;
         this._mapper = mapper;

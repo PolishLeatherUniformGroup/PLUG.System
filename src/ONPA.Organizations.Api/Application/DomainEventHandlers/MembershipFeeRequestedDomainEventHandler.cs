@@ -9,7 +9,12 @@ namespace ONPA.Organizations.Api.Application.DomainEventHandlers;
 public sealed class MembershipFeeRequestedDomainEventHandler : DomainEventHandlerBase<MembershipFeeRequestedDomainEvent>
 {
     private readonly IIntegrationEventService _integrationEventService;
-    
+
+    public MembershipFeeRequestedDomainEventHandler(IIntegrationEventService integrationEventService)
+    {
+        _integrationEventService = integrationEventService;
+    }
+
     public override async Task Handle(MembershipFeeRequestedDomainEvent notification, CancellationToken cancellationToken)
     {
         var integrationEvent = new AllMembershipFeeRequestedIntegrationEvent(notification.TenantId, notification.Fee.YearlyAmount.Amount,

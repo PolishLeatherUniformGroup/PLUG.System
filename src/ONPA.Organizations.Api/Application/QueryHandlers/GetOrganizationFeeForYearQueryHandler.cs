@@ -6,12 +6,12 @@ using ONPA.Organizations.Infrastructure.ReadModel;
 
 namespace ONPA.Organizations.Api.Application.QueryHandlers;
 
-public sealed class GetOrganizationMembershipFeeQueryHandler : ApplicationQueryHandlerBase<GetOrganizationFeeForYearQuery, OrganizationFeeResponse?>
+public sealed class GetOrganizationFeeForYearQueryHandler : ApplicationQueryHandlerBase<GetOrganizationFeeForYearQuery, OrganizationFeeResponse?>
 {
     private readonly IReadOnlyRepository<OrganizationFee> _repository;
     private readonly IMapper _mapper;
 
-    public GetOrganizationMembershipFeeQueryHandler(IReadOnlyRepository<OrganizationFee> repository, IMapper mapper)
+    public GetOrganizationFeeForYearQueryHandler(IReadOnlyRepository<OrganizationFee> repository, IMapper mapper)
     {
         this._repository = repository;
         this._mapper = mapper;

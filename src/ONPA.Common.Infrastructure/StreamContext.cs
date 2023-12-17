@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -5,6 +6,7 @@ using ONPA.Common.Domain;
 
 namespace ONPA.Common.Infrastructure;
 
+[ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public class StreamContext : DbContext, IUnitOfWork
 {
     public DbSet<StateEventLogEntry> EventsStream { get; set; }

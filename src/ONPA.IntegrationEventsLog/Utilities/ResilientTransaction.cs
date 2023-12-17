@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace ONPA.IntegrationEventsLog.Utilities;
 
+[ExcludeFromCodeCoverage(Justification = "Tested in integration tests")]
 public class ResilientTransaction
 {
     private readonly DbContext _context;

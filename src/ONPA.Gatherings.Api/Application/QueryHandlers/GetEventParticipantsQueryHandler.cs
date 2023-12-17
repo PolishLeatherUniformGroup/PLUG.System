@@ -9,6 +9,7 @@ public sealed class GetEventParticipantsQueryHandler : CollectionQueryHandlerBas
 {
     private readonly IReadOnlyRepository<EventEnrollment> _repository;
 
+
     public GetEventParticipantsQueryHandler(IReadOnlyRepository<EventEnrollment> repository)
     {
         this._repository = repository;
