@@ -1,8 +1,10 @@
 using MediatR;
+using ONPA.Common.Application;
 using ONPA.EventBus.Abstraction;
 using ONPA.IntegrationEvents;
 using ONPA.Membership.Api.Application.Commands;
 using ONPA.Membership.Api.Application.Queries;
+using ONPA.Membership.Contract.Responses;
 using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.Api.Application.IntegrationEvents.EventHandlers;
@@ -25,7 +27,7 @@ public class AllMembershipFeeRequestedIntegrationEventHandler : IIntegrationEven
         do
         {
             var query = new GetAllActiveRegularMembersQuery(@event.TenantId,page, pageSize);
-            var result = await this._mediator.Send(query);
+            var result = (CollectionResult<MemberIdResult>) await this._mediator.Send(query);
             foreach (var memberIdResult in result.Value)
             {
                 var command = new RequestMemberFeePaymentCommand(@event.TenantId, memberIdResult.Id,
@@ -34,6 +36,6 @@ public class AllMembershipFeeRequestedIntegrationEventHandler : IIntegrationEven
             }
             hasMore = result.Total > page * pageSize;
             page++;
-        } while (hasMore);
+        } while (!hasMore);
     }
 }

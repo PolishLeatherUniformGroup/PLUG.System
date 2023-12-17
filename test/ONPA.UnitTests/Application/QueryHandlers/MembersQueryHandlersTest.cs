@@ -137,4 +137,37 @@ public class MembersQueryHandlersTest
         result.Should().NotBeNull();
         result.Should().BeOfType<CollectionResult<MemberExpelResult>>();
     }
+    
+    [Fact]
+    public async Task ValidateMemberNumberQueryHandler_ReturnsMemberNumber()
+    {
+        // Arrange
+        var member = _fixture.CreateMany<Member>(1);
+        var query = this._fixture.Create<ValidateMemberNumberQuery>();
+        _memberRepository.ManyByFilter(Arg.Any<Expression<Func<Member, bool>>>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>()).Returns(member);
+        var handler = new ValidateMemberNumberQueryHandler(_memberRepository);
+        
+        // Act
+        var result = await handler.Handle(query, CancellationToken.None);
+        
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<MemberValidationResult>();
+    }
+    
+    [Fact]
+    public async Task ValidateMemberNumberQueryHandler_ReturnsNull()
+    {
+        // Arrange
+        var member = _fixture.CreateMany<Member>(0);
+        var query = this._fixture.Create<ValidateMemberNumberQuery>();
+        _memberRepository.ManyByFilter(Arg.Any<Expression<Func<Member, bool>>>(), Arg.Any<int>(), Arg.Any<int>(), Arg.Any<CancellationToken>()).Returns(member);
+        var handler = new ValidateMemberNumberQueryHandler(_memberRepository);
+        
+        // Act
+        var result = await handler.Handle(query, CancellationToken.None);
+        
+        // Assert
+        result.Should().BeNull();
+    }
 }
