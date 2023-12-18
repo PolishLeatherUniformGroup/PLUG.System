@@ -7,7 +7,7 @@ public record GetApplicationsRequest([FromQuery] int Status, [FromQuery] int Pag
 {
     public string ToQueryString()
     {
-        var queryString = $"?Status={this.Status}&Page={this.Page}&Limit={this.Limit}";
+        var queryString = $"{Routes.Base}?Status={this.Status}&Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

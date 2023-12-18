@@ -1,5 +1,11 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.WebApp.Components;
+using ONPA.WebApp.Services;
+using ONPA.WebApp.Services.Abstractions;
+using System.Net.Http.Headers;
+using System.Net.Mime;
+using ONPA.ServiceDefaults;
 
 
 
@@ -14,6 +20,18 @@ builder.Services.AddFluentUIComponents();
 builder.Services.AddLocalization(Options =>
     Options.ResourcesPath = "Resources");
 builder.Services.AddControllers();
+var configuration = builder.Configuration;
+
+builder.Services.AddTransientWithHttpClient<IApplyService, ApplyService>(configuration, client =>
+{
+    client.BaseAddress = new Uri(configuration["Services:ApplyService:Uri"]);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+});
+builder.Services.AddTransientWithHttpClient<IMembershipService, MembershipService>(configuration, client =>
+{
+    client.BaseAddress = new Uri(configuration["Services:MembershipService:Uri"]);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+});
 
 var app = builder.Build();
 

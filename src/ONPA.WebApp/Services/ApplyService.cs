@@ -9,10 +9,11 @@ using ONPA.Apply.Contract.Requests.Dtos;
 using ONPA.Apply.Contract.Responses;
 using ONPA.Common.Queries;
 using ONPA.WebApp.Data;
+using ONPA.WebApp.Services.Abstractions;
 
 namespace ONPA.WebApp.Services;
 
-public class ApplyService
+public class ApplyService : IApplyService
 {
     private readonly HttpClient httpClient;
 
@@ -21,7 +22,7 @@ public class ApplyService
         this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
 
-    public async Task<GridItemsProviderResult<ApplicationItem>> GetApplications(int status, int page = 0, int limit =10)
+    public async Task<GridItemsProviderResult<ApplicationItem>> GetApplications(int status, int page = 0, int limit = 10)
     {
         var request = new GetApplicationsRequest(status, page, limit);
         try
@@ -43,11 +44,11 @@ public class ApplyService
         }
         catch (Exception)
         {
-            
+
             throw;
         }
     }
-    
+
     public async Task<ApplicationDetails> GetApplication(Guid applicationId)
     {
         var request = new GetApplicationRequest(applicationId);
@@ -61,118 +62,124 @@ public class ApplyService
         }
         catch (Exception)
         {
-            
+
             throw;
         }
     }
-    
+
 
     public async Task<bool> ApproveApplication(Guid applicationId)
     {
         var request = new ApproveApplicationRequest(applicationId, new ApplicationApproval(DateTime.UtcNow));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplication)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplication)
+                .Replace("{applicationId}", applicationId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Decision), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PutAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
-    public async Task<bool> RejectApplication(Guid applicationId, string decision, int days=14)
+
+    public async Task<bool> RejectApplication(Guid applicationId, string decision, int days = 14)
     {
         var request = new RejectApplicationRequest(applicationId, new ApplicationRejection(DateTime.UtcNow, decision, days));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplication)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplication)
+                .Replace("{applicationId}", applicationId.ToString()));
             var payload = new StringContent(JsonSerializer.Serialize(request.Decision), Encoding.UTF8, MediaTypeNames.Application.Json);
             var httpResponse = await this.httpClient.PatchAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
+
     public async Task<bool> RegisterApplicationFeePayment(Guid applicationId, decimal paidAmmount, string currency)
     {
         var request = new RegisterApplicationPaymentRequest(applicationId, new Payment(paidAmmount, currency, DateTime.UtcNow));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationPayments)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplicationPayments)
+                .Replace("{applicationId}", applicationId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
+
     public async Task<bool> RegisterApplicationRejectionAppeal(Guid applicationId, DateTime appealDate, string justification)
     {
-        var request = new AppealApplicationRejectionRequest(applicationId, new (appealDate, justification));
+        var request = new AppealApplicationRejectionRequest(applicationId, new(appealDate, justification));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplicationAppeals)
+                .Replace("{applicationId}", applicationId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Appeal), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
+
     public async Task<bool> AcceptApplicationRejectionAppeal(Guid applicationId, DateTime acceptDate, string justification)
     {
-        var request = new ApproveAppealApplicationRejectionRequest(applicationId, new (acceptDate, justification));
+        var request = new ApproveAppealApplicationRejectionRequest(applicationId, new(acceptDate, justification));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplicationAppeals)
+                .Replace("{applicationId}", applicationId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Approval), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
+
     public async Task<bool> DismissApplicationRejectionAppeal(Guid applicationId, DateTime rejectionDate, string justification)
     {
-        var request = new RejectAppealApplicationRejectionRequest(applicationId, new (rejectionDate, justification));
+        var request = new RejectAppealApplicationRejectionRequest(applicationId, new(rejectionDate, justification));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleApplicationAppeals)
-                .Replace("{applicationId}",applicationId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleApplicationAppeals)
+                .Replace("{applicationId}", applicationId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Rejection), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }
     }
-    
+
 }

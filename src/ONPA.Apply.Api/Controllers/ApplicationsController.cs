@@ -15,7 +15,7 @@ using ONPA.Common.Queries;
 namespace ONPA.Apply.Api.Controllers
 {
     
-    [Route("api/applications")]
+    [Route(Routes.Base)]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]

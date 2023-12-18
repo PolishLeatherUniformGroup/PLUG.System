@@ -9,10 +9,11 @@ using ONPA.Membership.Contract.Requests;
 using ONPA.Membership.Contract.Requests.Dtos;
 using ONPA.Membership.Contract.Responses;
 using ONPA.WebApp.Data;
+using ONPA.WebApp.Services.Abstractions;
 
 namespace ONPA.WebApp.Services;
 
-public class MembershipService
+public class MembershipService : IMembershipService
 {
     private readonly HttpClient httpClient;
 
@@ -20,7 +21,7 @@ public class MembershipService
     {
         this.httpClient = httpClient;
     }
-    public async Task<GridItemsProviderResult<MemberItem>> GetMembers(int status, int page = 0, int limit =10)
+    public async Task<GridItemsProviderResult<MemberItem>> GetMembers(int status, int page = 0, int limit = 10)
     {
         var request = new GetMembersRequest(status, page, limit);
         try
@@ -43,24 +44,25 @@ public class MembershipService
         }
         catch (Exception)
         {
-            
+
             throw;
         }
     }
-    
+
     public async Task<bool> RegisterFeePayment(Guid memberId, Guid feeId, decimal paidAmount, string currency, DateTime period)
     {
-        var request = new RegisterMembershipFeePaymentRequest(memberId,  feeId, new Payment(paidAmount, currency, period));
+        var request = new RegisterMembershipFeePaymentRequest(memberId, feeId, new Payment(paidAmount, currency, period));
         try
         {
-            
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString,Routes.SingleMemberFees)
-                .Replace("{applicationId}",memberId.ToString()));
+
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, Routes.SingleMemberFees)
+                .Replace("{applicationId}", memberId.ToString()));
             using var payload = new StringContent(JsonSerializer.Serialize(request.Payment), Encoding.UTF8, MediaTypeNames.Application.Json);
             using var httpResponse = await this.httpClient.PostAsync(apiUri, payload);
             httpResponse.EnsureSuccessStatusCode();
             return true;
-        }catch(Exception)
+        }
+        catch (Exception)
         {
             return false;
         }

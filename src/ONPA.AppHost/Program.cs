@@ -41,12 +41,15 @@ var communictationApi = builder.AddProject<Projects.ONPA_Communication_Api>("com
 
 var webapp = builder.AddProject<Projects.ONPA_WebApp>("webapp")
     .WithReference(applyApi)
+    .WithHttpClient("ApplyService", applyApi)
     .WithReference(membershipApi)
     .WithReference(gatheringsApi)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");
 
-webapp.WithEnvironmentForServiceBinding("CallBackUrl", webapp, bindingName: "https");
+webapp.WithEnvironmentForServiceBinding("CallBackUrl", webapp, bindingName: "https")
+    .WithEnvironmentForServiceBinding("Services__ApplyService__Uri", applyApi, "https")
+    .WithEnvironmentForServiceBinding("Services__MembershipService__Uri", membershipApi, "https");
 
 identityApi
     .WithEnvironmentForServiceBinding("ApplyApiClient", applyApi, bindingName:"https")

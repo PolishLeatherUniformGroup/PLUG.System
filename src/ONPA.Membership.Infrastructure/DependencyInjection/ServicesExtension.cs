@@ -19,8 +19,10 @@ public static class ServicesExtension
     {
         services.AddTransient<IAggregateRepository<Member>, MemberAggregateRepository>();
         services.AddTransient<IAggregateRepository<MembersGroup>, MemberGroupAggregateRepository>();
-        services.AddTransient<IReadOnlyRepository<Membership.Infrastructure.ReadModel.Member>, MemberReadOnlyRepository>();
+        services.AddTransient<IReadOnlyRepository<ReadModel.Member>, MemberReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.MemberFee>, MemberFeeReadOnlyRepository>();
+        services.AddTransient<IReadOnlyRepository<ReadModel.MemberExpel>, MemberExpelReadOnlyRepository>();
+        services.AddTransient<IReadOnlyRepository<ReadModel.MemberSuspension>, MemberSuspensionReadOnlyRepository>();
         services.AddDbContext<MembershipContext>();
         services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<MembershipContext>>();
         return services;

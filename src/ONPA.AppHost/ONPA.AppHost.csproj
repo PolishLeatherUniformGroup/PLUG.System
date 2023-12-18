@@ -9,9 +9,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="8.0.0-preview.3.23617.1" />
-        <PackageReference Include="Aspire.Dashboard" Version="8.0.0-preview.3.23617.1" />
-        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.3.23617.1" />
+        <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="8.0.0-preview.3.23618.1" />
+        <PackageReference Include="Aspire.Dashboard" Version="8.0.0-preview.3.23618.1" />
+        <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.3.23618.1" />
     </ItemGroup>
 
     <ItemGroup>
