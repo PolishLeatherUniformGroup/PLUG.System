@@ -27,8 +27,7 @@ public class OrganizationsContext : StreamContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.HasPostgresExtension("vector");
+       
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrganizationsContext).Assembly);
         modelBuilder.UseIntegrationEventLogs("org");
         modelBuilder.UseStreamModels("org");
@@ -36,23 +35,6 @@ public class OrganizationsContext : StreamContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-#if DEBUG
-        if (!optionsBuilder.IsConfigured)
-        {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
-            var connectionString = config.GetConnectionString("ApplyDB");
-            var builder = new NpgsqlConnectionStringBuilder(connectionString)
-            {
-                Password = config["ApplyDBPassword"]
-            };
-            optionsBuilder.UseNpgsql(builder.ToString());
-        }
 
-#endif
     }
 }

@@ -29,7 +29,7 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
-builder.AddNpgsqlDbContext<ApplyContext>("ApplyDB");
+builder.AddNpgsqlDbContext<ApplyContext>("onpa_db");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

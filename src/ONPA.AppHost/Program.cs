@@ -9,37 +9,33 @@ var postgres = builder.AddPostgresContainer("postgres")
     {
         Image = "ankane/pgvector",
         Tag = "latest"
-    });
-var applyDb = postgres.AddDatabase("ApplyDB");
-var membershipDb = postgres.AddDatabase("MembershipDB");
-var gatheringDb = postgres.AddDatabase("GatheringDB");
-var identityDb = postgres.AddDatabase("IdentityDB");
-var organizationDb = postgres.AddDatabase("OrganizationDB");
-
+    }).WithEnvironment("POSTGRES_DB", "onpa_db");
+var database = postgres.AddDatabase("onpa_db");
 
 var identityApi = builder.AddProject<Projects.ONPA_Identity_Api>("identity-api")
-    .WithReference(identityDb)
+    .WithReference(database)
     .WithLaunchProfile("https");
 
 var applyApi = builder.AddProject<Projects.ONPA_Apply_Api>("apply-api")
-    .WithReference(applyDb)
+    .WithReference(database)
     .WithReference(rabbitMq)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");
 
 var membershipApi = builder.AddProject<Projects.ONPA_Membership_Api>("membership-api")
-    .WithReference(membershipDb)
+    .WithReference(database)
     .WithReference(rabbitMq)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");
 
 var gatheringsApi = builder.AddProject<Projects.ONPA_Gatherings_Api>("gathering-api")
-    .WithReference(gatheringDb)
+    .WithReference(database)
     .WithReference(rabbitMq)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");
+
 var organizationApi = builder.AddProject<Projects.ONPA_Organizations_Api>("organization-api")
-    .WithReference(organizationDb)
+    .WithReference(database)
     .WithReference(rabbitMq)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");

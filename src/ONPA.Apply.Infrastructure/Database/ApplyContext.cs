@@ -28,7 +28,7 @@ public class ApplyContext :StreamContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-       modelBuilder.HasPostgresExtension("vector");
+       //modelBuilder.HasPostgresExtension("vector");
        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplyContext).Assembly);
        modelBuilder.UseIntegrationEventLogs("apply");
        modelBuilder.UseStreamModels("apply");

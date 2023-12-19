@@ -11,7 +11,7 @@ namespace ONPA.Organizations.Infrastructure.DataSeed;
 public partial class OrganizationSeed(ILogger<OrganizationSeed> logger) : IDbSeeder<OrganizationsContext>
 {
     public async Task SeedAsync(OrganizationsContext context)
-    {
+    { 
         context.Database.OpenConnection();
         ((NpgsqlConnection)context.Database.GetDbConnection()).ReloadTypes();
         
@@ -20,9 +20,24 @@ public partial class OrganizationSeed(ILogger<OrganizationSeed> logger) : IDbSee
             var organizationAggregate = new Organization(Guid.NewGuid(),
                 "Organizacja Demonstracyjna", "demo", "PL1112233444", "PL00111122223333444455556666",
                 "Adres","adres@email.com");
+            organizationAggregate.ClearDomainEvents();
             await context.StoreAggregate(organizationAggregate, new CancellationToken());
+
+            var demoOrg = new ReadModel.Organization()
+            {
+                Name = organizationAggregate.Name,
+                AccountNumber = organizationAggregate.AccountNumber,
+                Id = organizationAggregate.AggregateId,
+                CardPrefix = organizationAggregate.CardPrefix,
+                TaxId = organizationAggregate.TaxId,
+                Regon = organizationAggregate.Regon,
+                ContactEmail = organizationAggregate.ContactEmail,
+                Address = organizationAggregate.Address,
+            };
+            context.Organizations.Add(demoOrg);
             
             await context.SaveChangesAsync();
         }
+
     }
 }

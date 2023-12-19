@@ -26,17 +26,9 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
-#if DEBUG
-builder.AddNpgsqlDbContext<OrganizationsContext>("ApplyDB", configureDbContextOptions: dbContextOptionsBuilder =>
-{
-    dbContextOptionsBuilder.UseNpgsql(builder =>
-    {
-        builder.UseVector();
-    });
-});
-#else
-builder.AddNpgsqlDbContext<OrganizationsContext>("OrganizationDB");
-#endif
+
+builder.AddNpgsqlDbContext<OrganizationsContext>("onpa_db");
+
 builder.Services.AddMigration<OrganizationsContext, OrganizationSeed>();
 
 var app = builder.Build();

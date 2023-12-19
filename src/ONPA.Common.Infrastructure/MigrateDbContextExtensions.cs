@@ -69,8 +69,7 @@ public static class MigrateDbContextExtensions
         using var activity = ActivitySource.StartActivity($"Migrating {typeof(TContext).Name}");
 
         try
-        {
-            await context.Database.EnsureCreatedAsync();    
+        { 
             await context.Database.MigrateAsync();
             await seeder(context, services);
         }
