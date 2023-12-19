@@ -12,13 +12,13 @@ public sealed class OrganizationSettingsUpdated : StateEventBase
         this.Settings = settings;
     }
     
-    private OrganizationSettingsUpdated(Guid aggregateId, long aggregateVersion, OrganizationSettings settings) : base(aggregateId,aggregateVersion)
+    private OrganizationSettingsUpdated(Guid tenantId, Guid aggregateId, long aggregateVersion, OrganizationSettings settings) : base(tenantId, aggregateId,aggregateVersion)
     {
         this.Settings = settings;
     }
     
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new OrganizationSettingsUpdated(aggregateId, aggregateVersion, this.Settings);
+        return new OrganizationSettingsUpdated(tenantId, aggregateId, aggregateVersion, this.Settings);
     }
 }

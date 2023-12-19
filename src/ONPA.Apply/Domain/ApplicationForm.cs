@@ -55,7 +55,7 @@ public sealed partial class ApplicationForm : MultiTenantAggregateRoot
         this.ApplicationDate = DateTime.UtcNow;
 
         var change =
-            new ApplicationFormCreated(tenantId,firstName, lastName, email, phone,recommendations, address, this.ApplicationDate);
+            new ApplicationFormCreated(firstName, lastName, email, phone,recommendations, address, this.ApplicationDate);
         this.Status = ApplicationStatus.Received;
         this.RaiseChangeEvent(change);
 

@@ -13,14 +13,14 @@ public sealed class MembershipExpired : StateEventBase
         this.TerminationReason = terminationReason;
     }
 
-    private MembershipExpired(Guid aggregateId, long aggregateVersion, DateTime terminationDate, string terminationReason) : base(aggregateId, aggregateVersion)
+    private MembershipExpired(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime terminationDate, string terminationReason) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.TerminationDate = terminationDate;
         this.TerminationReason = terminationReason;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MembershipExpired(aggregateId, aggregateVersion, this.TerminationDate,this.TerminationReason);
+        return new MembershipExpired(tenantId,aggregateId, aggregateVersion, this.TerminationDate,this.TerminationReason);
     }
 }

@@ -14,14 +14,14 @@ public sealed class ApplicationFeePaymentRegistered : StateEventBase
         this.PaidDate = paidDate;
     }
 
-    private ApplicationFeePaymentRegistered(Guid aggregateId, long aggregateVersion, Money paidFee, DateTime paidDate) : base(aggregateId, aggregateVersion)
+    private ApplicationFeePaymentRegistered(Guid tenantId, Guid aggregateId, long aggregateVersion, Money paidFee, DateTime paidDate) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.PaidFee = paidFee;
         this.PaidDate = paidDate;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationFeePaymentRegistered(aggregateId, aggregateVersion, this.PaidFee,this.PaidDate);
+        return new ApplicationFeePaymentRegistered(tenantId, aggregateId, aggregateVersion, this.PaidFee,this.PaidDate);
     }
 }

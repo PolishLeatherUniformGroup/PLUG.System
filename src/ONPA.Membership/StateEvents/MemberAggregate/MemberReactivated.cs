@@ -8,12 +8,12 @@ public sealed class MemberReactivated : StateEventBase
     {
     }
 
-    private MemberReactivated(Guid aggregateId, long aggregateVersion) : base(aggregateId, aggregateVersion)
+    private MemberReactivated(Guid tenantId, Guid aggregateId, long aggregateVersion) : base(tenantId, aggregateId, aggregateVersion)
     {
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberReactivated(aggregateId,aggregateVersion);
+        return new MemberReactivated(tenantId, aggregateId,aggregateVersion);
     }
 }

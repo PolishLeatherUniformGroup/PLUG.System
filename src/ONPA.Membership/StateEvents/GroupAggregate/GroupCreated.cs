@@ -14,15 +14,15 @@ public class GroupCreated : StateEventBase
         this.GroupType = groupType;
     }
 
-    private GroupCreated(Guid aggregateId, long aggregateVersion, string groupName,
-        MembersGroupType groupType) : base(aggregateId, aggregateVersion)
+    private GroupCreated(Guid tenantId, Guid aggregateId, long aggregateVersion, string groupName,
+        MembersGroupType groupType) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.GroupName = groupName;
         this.GroupType = groupType;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new GroupCreated(aggregateId, aggregateVersion, this.GroupName, this.GroupType);
+        return new GroupCreated(tenantId,aggregateId, aggregateVersion, this.GroupName, this.GroupType);
     }
 }

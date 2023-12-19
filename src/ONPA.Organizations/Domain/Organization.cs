@@ -28,7 +28,7 @@ public sealed partial class Organization : AggregateRoot
     }
 
     public Organization(string name, string cardPrefix, string taxId, string accountNumber,
-        string address, string contactEmail, string? regon = null) 
+        string address, string contactEmail, string? regon = null) :base()
     {
         this.Name = name;
         this.CardPrefix = cardPrefix;

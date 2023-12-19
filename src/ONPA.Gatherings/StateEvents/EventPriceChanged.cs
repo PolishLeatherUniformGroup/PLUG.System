@@ -12,14 +12,14 @@ public sealed class EventPriceChanged :StateEventBase
         this.Price = price;
     }
 
-    private EventPriceChanged(Guid aggregateId, long aggregateVersion, Money price) : base(aggregateId, aggregateVersion)
+    private EventPriceChanged(Guid tenantId, Guid aggregateId, long aggregateVersion, Money price) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Price = price;
     }
 
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventPriceChanged(aggregateId, aggregateVersion, this.Price);
+        return new EventPriceChanged(tenantId, aggregateId, aggregateVersion, this.Price);
     }
 }

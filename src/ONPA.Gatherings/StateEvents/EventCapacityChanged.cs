@@ -11,14 +11,14 @@ public sealed class EventCapacityChanged :StateEventBase
         this.Capacity = capacity;
     }
 
-    private EventCapacityChanged(Guid aggregateId, long aggregateVersion, int? capacity) : base(aggregateId, aggregateVersion)
+    private EventCapacityChanged(Guid tenantId, Guid aggregateId, long aggregateVersion, int? capacity) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Capacity = capacity;
     }
 
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventCapacityChanged(aggregateId, aggregateVersion, this.Capacity);
+        return new EventCapacityChanged(tenantId,aggregateId, aggregateVersion, this.Capacity);
     }
 }

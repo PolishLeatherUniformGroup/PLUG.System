@@ -15,17 +15,17 @@ public sealed class EventScheduleChanged :StateEventBase
         this.EnrollmentDeadline = enrollmentDeadline;
     }
 
-    private EventScheduleChanged(Guid aggregateId, long aggregateVersion, DateTime scheduledStart,
+    private EventScheduleChanged(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime scheduledStart,
         DateTime publishDate,
-        DateTime enrollmentDeadline) : base(aggregateId, aggregateVersion)
+        DateTime enrollmentDeadline) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.ScheduledStart = scheduledStart;
         this.PublishDate = publishDate;
         this.EnrollmentDeadline = enrollmentDeadline;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventScheduleChanged(aggregateId, aggregateVersion, this.ScheduledStart, this.PublishDate, this.EnrollmentDeadline);
+        return new EventScheduleChanged(tenantId, aggregateId, aggregateVersion, this.ScheduledStart, this.PublishDate, this.EnrollmentDeadline);
     }
 }

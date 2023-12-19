@@ -3,7 +3,7 @@
 namespace ONPA.Common.Infrastructure.Repositories
 {
 
-    public class MultiTenantAggregateRootRepository<TContext, TAggregate> : IMultiTenantAggregateRepository<TAggregate> where TAggregate : MultiTenantAggregateRoot
+    public abstract class MultiTenantAggregateRootRepository<TContext, TAggregate> : IMultiTenantAggregateRepository<TAggregate> where TAggregate : MultiTenantAggregateRoot
         where TContext: StreamContext
     {
         protected readonly TContext _context;

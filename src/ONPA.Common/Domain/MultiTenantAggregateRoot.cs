@@ -2,12 +2,6 @@ using ONPA.Common.Exceptions;
 
 namespace ONPA.Common.Domain;
 
-public abstract class AggregateRoot : MultiTenantAggregateRoot
-{
-    protected AggregateRoot() :base(Guid.Empty) { }
-    protected AggregateRoot(Guid id, IEnumerable<IStateEvent> changes) : base(id, Guid.Empty, changes) { }
-}
-
 public abstract class MultiTenantAggregateRoot : IAggregateRoot
 {
     public const long NewAggregateVersion = 0;
@@ -81,13 +75,13 @@ public abstract class MultiTenantAggregateRoot : IAggregateRoot
     }
     protected void RaiseChangeEvent<TChange>(TChange change) where TChange : IStateEvent
     {
-        var changeWithAggregate = change.WithAggregate(this.AggregateId, this.Version);
+        var changeWithAggregate = change.WithAggregate(this.TenantId, this.AggregateId, this.Version);
         this.version++;
         this.stateEvents.Add(changeWithAggregate);
     }
     protected void RaiseDomainEvent<TEvent>(TEvent @event) where TEvent : DomainEventBase
     {
-        var eventWithAggregate = @event.WithAggregate(this.AggregateId,this.TenantId);
+        var eventWithAggregate = @event.WithAggregate(this.AggregateId, this.TenantId);
         this.domainEvents.Add(eventWithAggregate);
     }
     

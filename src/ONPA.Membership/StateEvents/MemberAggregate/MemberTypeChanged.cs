@@ -12,13 +12,13 @@ public sealed class MemberTypeChanged : StateEventBase
         this.MembershipType = membershipType;
     }
 
-    private MemberTypeChanged(Guid aggregateId, long aggregateVersion, MembershipType membershipType) : base(aggregateId, aggregateVersion)
+    private MemberTypeChanged(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipType membershipType) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.MembershipType = membershipType;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberTypeChanged(aggregateId, aggregateVersion, this.MembershipType);
+        return new MemberTypeChanged(tenantId, aggregateId, aggregateVersion, this.MembershipType);
     }
 }

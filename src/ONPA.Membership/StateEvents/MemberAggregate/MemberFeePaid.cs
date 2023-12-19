@@ -16,15 +16,15 @@ public sealed class MemberFeePaid : StateEventBase
         this.PaidDate = paidDate;
     }
 
-    private MemberFeePaid(Guid aggregateId, long aggregateVersion, Guid feeId, Money paidAmount, DateTime paidDate) : base(aggregateId, aggregateVersion)
+    private MemberFeePaid(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid feeId, Money paidAmount, DateTime paidDate) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.FeeId = feeId;
         this.PaidAmount = paidAmount;
         this.PaidDate = paidDate;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberFeePaid(aggregateId, aggregateVersion, this.FeeId, this.PaidAmount, this.PaidDate);
+        return new MemberFeePaid(tenantId,aggregateId, aggregateVersion, this.FeeId, this.PaidAmount, this.PaidDate);
     }
 }

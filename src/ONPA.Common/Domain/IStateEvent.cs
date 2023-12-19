@@ -7,5 +7,5 @@ public interface IStateEvent
     Guid TenantId { get; }
     long AggregateVersion { get; }
     DateTime Timestamp { get; }
-    IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion);
+    IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion);
 }

@@ -26,7 +26,7 @@ public sealed class EventCreated : StateEventBase
         this.EnrollmentDeadline = enrollmentDeadline;
     }
 
-    private EventCreated(Guid aggregateId, long aggregateVersion, string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline) : base(aggregateId, aggregateVersion)
+    private EventCreated(Guid tenantId, Guid aggregateId, long aggregateVersion, string name, string description, string regulations, DateTime scheduledStart, int? plannedCapacity, Money pricePerPerson, DateTime publishDate, DateTime enrollmentDeadline) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Name = name;
         this.Description = description;
@@ -38,9 +38,11 @@ public sealed class EventCreated : StateEventBase
         this.EnrollmentDeadline = enrollmentDeadline;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventCreated(aggregateId,
+        return new EventCreated(
+            tenantId,
+            aggregateId,
             aggregateVersion,
             this.Name,
             this.Description,

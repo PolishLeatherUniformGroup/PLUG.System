@@ -12,13 +12,13 @@ public sealed class MemberSuspensionAppealReceived : StateEventBase
         this.Suspension = suspension;
     }
 
-    public MemberSuspensionAppealReceived(Guid aggregateId, long aggregateVersion, MembershipSuspension suspension) : base(aggregateId, aggregateVersion)
+    public MemberSuspensionAppealReceived(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipSuspension suspension) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Suspension = suspension;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberSuspensionAppealReceived(aggregateId, aggregateVersion, this.Suspension);
+        return new MemberSuspensionAppealReceived(tenantId, aggregateId, aggregateVersion, this.Suspension);
     }
 }

@@ -28,7 +28,7 @@ public sealed class OrganizationCreated : StateEventBase
         this.Regon = regon;
     }
     
-    private OrganizationCreated(Guid aggregateId, long aggregateVersion, string name, string cardPrefix, string taxId, string accountNumber, string address, string contactEmail, OrganizationSettings settings, string? regon = null) : base(aggregateId,aggregateVersion)
+    private OrganizationCreated(Guid tenantId, Guid aggregateId, long aggregateVersion, string name, string cardPrefix, string taxId, string accountNumber, string address, string contactEmail, OrganizationSettings settings, string? regon = null) : base(tenantId, aggregateId,aggregateVersion)
     {
         this.Name = name;
         this.CardPrefix = cardPrefix;
@@ -39,8 +39,8 @@ public sealed class OrganizationCreated : StateEventBase
         this.Regon = regon;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new OrganizationCreated(aggregateId, aggregateVersion, this.Name, this.CardPrefix, this.TaxId, this.AccountNumber, this.Address, this.ContactEmail,this.Settings,this.Regon);
+        return new OrganizationCreated(tenantId, aggregateId, aggregateVersion, this.Name, this.CardPrefix, this.TaxId, this.AccountNumber, this.Address, this.ContactEmail,this.Settings,this.Regon);
     }
 }

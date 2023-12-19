@@ -15,15 +15,15 @@ public sealed class ApplicationRejected : StateEventBase
         this.AppealDeadline = appealDeadline;
     }
 
-    public ApplicationRejected(Guid aggregateId, long aggregateVersion, DateTime rejectDate, string decisionDetails, DateTime appealDeadline) : base(aggregateId, aggregateVersion)
+    public ApplicationRejected(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime rejectDate, string decisionDetails, DateTime appealDeadline) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.RejectDate = rejectDate;
         this.DecisionDetails = decisionDetails;
         this.AppealDeadline = appealDeadline;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationRejected(aggregateId, aggregateVersion, this.RejectDate,this.DecisionDetails,this.AppealDeadline);
+        return new ApplicationRejected(tenantId, aggregateId, aggregateVersion, this.RejectDate,this.DecisionDetails,this.AppealDeadline);
     }
 }

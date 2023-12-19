@@ -16,7 +16,7 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IAggregateRepository<ApplicationForm>, ApplicationAggregateRepository>();
+        services.AddTransient<IMultiTenantAggregateRepository<ApplicationForm>, ApplicationAggregateRepository>();
         services.AddTransient<IReadOnlyRepository<Recommendation>, RecommendationReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.ApplicationForm>, ApplicationFormReadOnlyRepository>();
         services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<ApplyContext>>();

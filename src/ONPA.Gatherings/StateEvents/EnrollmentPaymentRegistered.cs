@@ -16,16 +16,16 @@ public sealed class EnrollmentPaymentRegistered : StateEventBase
         this.PaidAmount = paidAmount;
     }
         
-    private EnrollmentPaymentRegistered(Guid aggregateId, long aggregateVersion, Guid enrollmentId, DateTime paidDate, Money paidAmount) : base(aggregateId, aggregateVersion)
+    private EnrollmentPaymentRegistered(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid enrollmentId, DateTime paidDate, Money paidAmount) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.EnrollmentId = enrollmentId;
         this.PaidDate = paidDate;
         this.PaidAmount = paidAmount;
     }
     
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EnrollmentPaymentRegistered(aggregateId, aggregateVersion, this.EnrollmentId, this.PaidDate, this.PaidAmount);
+        return new EnrollmentPaymentRegistered(tenantId, aggregateId, aggregateVersion, this.EnrollmentId, this.PaidDate, this.PaidAmount);
     }
         
 }

@@ -12,13 +12,13 @@ public partial class MemberJoinedGroup : StateEventBase
         this.Member = member;
     }
 
-    private MemberJoinedGroup(Guid aggregateId, long aggregateVersion, GroupMember member) : base(aggregateId, aggregateVersion)
+    private MemberJoinedGroup(Guid tenantId, Guid aggregateId, long aggregateVersion, GroupMember member) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Member = member;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberJoinedGroup(aggregateId, aggregateVersion, this.Member);
+        return new MemberJoinedGroup(tenantId, aggregateId, aggregateVersion, this.Member);
     }
 }

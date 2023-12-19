@@ -15,17 +15,17 @@ public sealed class EventDescriptionModified : StateEventBase
         this.Regulations = regulations;
     }
 
-    private EventDescriptionModified(Guid aggregateId, long aggregateVersion, string name,
+    private EventDescriptionModified(Guid tenantId, Guid aggregateId, long aggregateVersion, string name,
         string description,
-        string regulations) : base(aggregateId, aggregateVersion)
+        string regulations) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Name = name;
         this.Description = description;
         this.Regulations = regulations;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventDescriptionModified(aggregateId, aggregateVersion, this.Name, this.Description, this.Regulations);
+        return new EventDescriptionModified(tenantId, aggregateId, aggregateVersion, this.Name, this.Description, this.Regulations);
     }
 }

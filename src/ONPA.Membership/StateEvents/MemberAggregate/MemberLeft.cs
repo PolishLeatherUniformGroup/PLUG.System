@@ -13,14 +13,14 @@ public sealed class MemberLeft : StateEventBase
         this.TerminationReason = terminationReason;
     }
 
-    private MemberLeft(Guid aggregateId, long aggregateVersion, DateTime terminationDate, string terminationReason) : base(aggregateId, aggregateVersion)
+    private MemberLeft(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime terminationDate, string terminationReason) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.TerminationDate = terminationDate;
         this.TerminationReason = terminationReason;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberLeft(aggregateId, aggregateVersion, this.TerminationDate,this.TerminationReason);
+        return new MemberLeft(tenantId,aggregateId, aggregateVersion, this.TerminationDate,this.TerminationReason);
     }
 }

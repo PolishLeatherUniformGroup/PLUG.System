@@ -12,13 +12,13 @@ public sealed class ExpelAppealApproved : StateEventBase
         this.Expel = expel;
     }
 
-    private ExpelAppealApproved(Guid aggregateId, long aggregateVersion, MembershipExpel expel) : base(aggregateId, aggregateVersion)
+    private ExpelAppealApproved(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipExpel expel) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Expel = expel;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ExpelAppealApproved(aggregateId, aggregateVersion, this.Expel);
+        return new ExpelAppealApproved(tenantId, aggregateId, aggregateVersion, this.Expel);
     }
 }

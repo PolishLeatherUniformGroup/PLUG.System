@@ -16,15 +16,15 @@ public sealed class EnrollmentCancelled : StateEventBase
         this.RefundableAmount = refundableAmount;
     }
         
-    private EnrollmentCancelled(Guid aggregateId, long aggregateVersion, Guid enrollmentId, DateTime cancellationDate, Money refundableAmount) : base(aggregateId, aggregateVersion)
+    private EnrollmentCancelled(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid enrollmentId, DateTime cancellationDate, Money refundableAmount) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.EnrollmentId = enrollmentId;
         this.CancellationDate = cancellationDate;
         this.RefundableAmount = refundableAmount;
     }
         
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EnrollmentCancelled(aggregateId, aggregateVersion, this.EnrollmentId, this.CancellationDate, this.RefundableAmount);
+        return new EnrollmentCancelled(tenantId, aggregateId, aggregateVersion, this.EnrollmentId, this.CancellationDate, this.RefundableAmount);
     }
 }

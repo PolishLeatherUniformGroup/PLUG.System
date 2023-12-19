@@ -13,15 +13,15 @@ public sealed class ApplicationRejectionAppealReceived : StateEventBase
         this.Justification = justification;
     }
 
-    private ApplicationRejectionAppealReceived(Guid aggregateId, long aggregateVersion, DateTime appealDate,
-        string justification) : base(aggregateId, aggregateVersion)
+    private ApplicationRejectionAppealReceived(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime appealDate,
+        string justification) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.AppealDate = appealDate;
         this.Justification = justification;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationRejectionAppealReceived(aggregateId, aggregateVersion, this.AppealDate, this.Justification);
+        return new ApplicationRejectionAppealReceived(tenantId, aggregateId, aggregateVersion, this.AppealDate, this.Justification);
     }
 }

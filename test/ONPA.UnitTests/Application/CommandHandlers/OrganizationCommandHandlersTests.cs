@@ -27,7 +27,7 @@ public class OrganizationCommandHandlersTests
         var regon = this._fixture.Create<string>();
         var accountNumber = this._fixture.Create<string>();
         
-        this.aggregate = new Organization(Guid.Empty,
+        this.aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,

@@ -26,7 +26,7 @@ public class MemberCreated : StateEventBase
         this.PaidFee = paidFee;
     }
 
-    private MemberCreated(Guid aggregateId, long aggregateVersion, CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address, DateTime joinDate, MembershipFee paidFee) : base(aggregateId, aggregateVersion)
+    private MemberCreated(Guid tenantId, Guid aggregateId, long aggregateVersion, CardNumber cardNumber, string firstName, string lastName, string email, string phone, string address, DateTime joinDate, MembershipFee paidFee) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.CardNumber = cardNumber;
         this.FirstName = firstName;
@@ -38,9 +38,9 @@ public class MemberCreated : StateEventBase
         this.PaidFee = paidFee;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberCreated(aggregateId, aggregateVersion, this.CardNumber, this.FirstName, this.LastName,
+        return new MemberCreated(tenantId, aggregateId, aggregateVersion, this.CardNumber, this.FirstName, this.LastName,
             this.Email, this.Phone, this.Address, this.JoinDate, this.PaidFee);
     }
 }

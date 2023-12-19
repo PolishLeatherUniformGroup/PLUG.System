@@ -12,13 +12,13 @@ public sealed class MemberSuspended : StateEventBase
         this.Suspension = suspension;
     }
 
-    private MemberSuspended(Guid aggregateId, long aggregateVersion, MembershipSuspension suspension) : base(aggregateId, aggregateVersion)
+    private MemberSuspended(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipSuspension suspension) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Suspension = suspension;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberSuspended(aggregateId, aggregateVersion, this.Suspension);
+        return new MemberSuspended(tenantId, aggregateId, aggregateVersion, this.Suspension);
     }
 }

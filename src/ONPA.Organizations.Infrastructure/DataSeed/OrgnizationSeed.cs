@@ -17,7 +17,7 @@ public partial class OrganizationSeed(ILogger<OrganizationSeed> logger) : IDbSee
         
         if (!await context.Organizations.AnyAsync())
         {
-            var organizationAggregate = new Organization(Guid.NewGuid(),
+            var organizationAggregate = new Organization(
                 "Organizacja Demonstracyjna", "demo", "PL1112233444", "PL00111122223333444455556666",
                 "Adres","adres@email.com");
             organizationAggregate.ClearDomainEvents();

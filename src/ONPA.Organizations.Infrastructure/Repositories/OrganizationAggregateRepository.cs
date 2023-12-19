@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ONPA.Common.Domain;
 using ONPA.Common.Infrastructure.Repositories;
 using ONPA.Organizations.Domain;
 using ONPA.Organizations.Infrastructure.Database;
-using System.Threading;
 
 namespace ONPA.Organizations.Infrastructure.Repositories;
 
@@ -77,7 +75,7 @@ public sealed class OrganizationAggregateRepository : AggregateRootRepository<Or
 
     private async Task UpdateOrganizationModel(Organization aggregate)
     {
-        var organization = await this._context.Organizations.FindAsync(new object?[] { aggregate.AggregateId }, cancellationToken: cancellationToken);
+        var organization = await this._context.Organizations.FindAsync( aggregate.AggregateId );
         if (organization is not null)
         {
             organization.Name = aggregate.Name;
@@ -89,7 +87,7 @@ public sealed class OrganizationAggregateRepository : AggregateRootRepository<Or
             organization.Regon = aggregate.Regon;
             this._context.Entry(organization).State = EntityState.Modified;
         }
-        var organizationSettings = await this._context.OrganizationSettings.FindAsync(new object?[] { aggregate.AggregateId }, cancellationToken: cancellationToken);
+        var organizationSettings = await this._context.OrganizationSettings.FindAsync(aggregate.AggregateId);
         if (organizationSettings is not null)
         {
             organizationSettings.DaysForAppeal = aggregate.Settings.DaysForAppeal;

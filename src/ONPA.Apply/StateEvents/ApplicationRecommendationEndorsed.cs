@@ -11,13 +11,13 @@ public sealed class ApplicationRecommendationEndorsed :StateEventBase
         this.RecommendationId = recommendationId;
     }
 
-    private ApplicationRecommendationEndorsed(Guid aggregateId, long aggregateVersion, Guid recommendationId) : base(aggregateId, aggregateVersion)
+    private ApplicationRecommendationEndorsed(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid recommendationId) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.RecommendationId = recommendationId;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationRecommendationEndorsed(aggregateId, aggregateVersion, this.RecommendationId);
+        return new ApplicationRecommendationEndorsed(tenantId, aggregateId, aggregateVersion, this.RecommendationId);
     }
 }

@@ -37,7 +37,7 @@ internal static class Extensions
 
         builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 
-        builder.Services.AddTransient<IAggregateRepository<ApplicationForm>, ApplicationAggregateRepository>();
+        builder.Services.AddTransient<IMultiTenantAggregateRepository<ApplicationForm>, ApplicationAggregateRepository>();
         builder.Services.AddTransient<IReadOnlyRepository<RecommendationRead>, RecommendationReadOnlyRepository>();
         builder.Services.AddTransient<IReadOnlyRepository<ApplicationFormRead>, ApplicationFormReadOnlyRepository>();
 

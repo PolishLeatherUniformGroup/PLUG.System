@@ -17,8 +17,8 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IAggregateRepository<Member>, MemberAggregateRepository>();
-        services.AddTransient<IAggregateRepository<MembersGroup>, MemberGroupAggregateRepository>();
+        services.AddTransient<IMultiTenantAggregateRepository<Member>, MemberAggregateRepository>();
+        services.AddTransient<IMultiTenantAggregateRepository<MembersGroup>, MemberGroupAggregateRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.Member>, MemberReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.MemberFee>, MemberFeeReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.MemberExpel>, MemberExpelReadOnlyRepository>();

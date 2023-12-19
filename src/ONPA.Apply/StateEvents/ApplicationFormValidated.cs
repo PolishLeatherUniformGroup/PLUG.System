@@ -11,13 +11,13 @@ public class ApplicationFormValidated: StateEventBase
         this.RequiredFee = requiredFee;
     }
 
-    private ApplicationFormValidated(Guid aggregateId, long aggregateVersion, Money requiredFee) : base(aggregateId, aggregateVersion)
+    private ApplicationFormValidated(Guid tenantId, Guid aggregateId, long aggregateVersion, Money requiredFee) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.RequiredFee = requiredFee;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationFormValidated(aggregateId, aggregateVersion,this.RequiredFee);
+        return new ApplicationFormValidated(tenantId, aggregateId, aggregateVersion,this.RequiredFee);
     }
 }

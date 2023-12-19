@@ -31,7 +31,7 @@ public sealed class EnrollmentAddedToEvent : StateEventBase
     }
 
 
-    private EnrollmentAddedToEvent(Guid aggregateId, long aggregateVersion, Guid id, DateTime registrationDate, int bookedPlaces, string firstName, string lastName, string email, IEnumerable<Participant> companions, Money requiredPayment) : base(aggregateId, aggregateVersion)
+    private EnrollmentAddedToEvent(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid id, DateTime registrationDate, int bookedPlaces, string firstName, string lastName, string email, IEnumerable<Participant> companions, Money requiredPayment) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.EnrollmentId = id;
         this.RegistrationDate = registrationDate;
@@ -43,8 +43,8 @@ public sealed class EnrollmentAddedToEvent : StateEventBase
         this.RequiredPayment = requiredPayment;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EnrollmentAddedToEvent(aggregateId, aggregateVersion, this.EnrollmentId, this.RegistrationDate, this.BookedPlaces, this.FirstName, this.LastName, this.Email, this.Companions,this.RequiredPayment);
+        return new EnrollmentAddedToEvent(tenantId, aggregateId, aggregateVersion, this.EnrollmentId, this.RegistrationDate, this.BookedPlaces, this.FirstName, this.LastName, this.Email, this.Companions,this.RequiredPayment);
     }
 }

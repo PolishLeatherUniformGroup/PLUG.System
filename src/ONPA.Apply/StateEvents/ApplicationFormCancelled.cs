@@ -11,14 +11,14 @@ public class ApplicationFormCancelled : StateEventBase
         this.Reason = reason?? throw new ArgumentNullException(nameof(reason));
     }
 
-    private ApplicationFormCancelled(Guid aggregateId, long aggregateVersion, string reason) : base(aggregateId,
+    private ApplicationFormCancelled(Guid tenantId, Guid aggregateId, long aggregateVersion, string reason) : base(tenantId, aggregateId,
         aggregateVersion)
     {
         this.Reason = reason ?? throw new ArgumentNullException(nameof(reason));
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationFormCancelled(aggregateId, aggregateVersion, this.Reason);
+        return new ApplicationFormCancelled(tenantId, aggregateId, aggregateVersion, this.Reason);
     }
 }

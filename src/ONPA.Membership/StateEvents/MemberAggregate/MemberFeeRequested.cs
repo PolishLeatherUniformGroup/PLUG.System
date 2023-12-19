@@ -12,13 +12,13 @@ public sealed class MemberFeeRequested : StateEventBase
         this.RequestedFee = requestedFee;
     }
 
-    private MemberFeeRequested(Guid aggregateId, long aggregateVersion, MembershipFee requestedFee) : base(aggregateId, aggregateVersion)
+    private MemberFeeRequested(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipFee requestedFee) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.RequestedFee = requestedFee;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberFeeRequested(aggregateId, aggregateVersion, this.RequestedFee);
+        return new MemberFeeRequested(tenantId, aggregateId, aggregateVersion, this.RequestedFee);
     }
 }

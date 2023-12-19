@@ -29,7 +29,7 @@ public class OrganizationShould
         var accountNumber = this._fixture.Create<string>();
         
         // Act
-        var aggregate = new Organization(Guid.Empty,
+        var aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,
@@ -65,7 +65,7 @@ public class OrganizationShould
         var regon = this._fixture.Create<string>();
         var accountNumber = this._fixture.Create<string>();
         
-        var aggregate = new Organization(Guid.Empty,
+        var aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,
@@ -118,7 +118,7 @@ public class OrganizationShould
         var regon = this._fixture.Create<string>();
         var accountNumber = this._fixture.Create<string>();
         
-        var aggregate = new Organization(Guid.Empty,
+        var aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,
@@ -153,7 +153,7 @@ public class OrganizationShould
         var regon = this._fixture.Create<string>();
         var accountNumber = this._fixture.Create<string>();
         
-        var aggregate = new Organization(Guid.Empty,
+        var aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,
@@ -194,7 +194,7 @@ public class OrganizationShould
         var regon = this._fixture.Create<string>();
         var accountNumber = this._fixture.Create<string>();
         
-        var aggregate = new Organization(Guid.Empty,
+        var aggregate = new Organization(
             organizationName,
             cardPrefix,
             taxId,
@@ -232,7 +232,7 @@ public class OrganizationShould
         aggregate.ClearDomainEvents();
         
         // Act
-        var newAggregate = new Organization(aggregate.AggregateId,aggregate.AggregateId,events);
+        var newAggregate = new Organization(aggregate.AggregateId,events);
         
         // Assert
         newAggregate.Should().NotBeNull();

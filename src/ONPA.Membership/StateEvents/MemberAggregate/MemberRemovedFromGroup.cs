@@ -11,13 +11,13 @@ public  sealed class MemberRemovedFromGroup : StateEventBase
         this.GroupId = groupId;
     }
 
-    private MemberRemovedFromGroup(Guid aggregateId, long aggregateVersion, Guid groupId) : base(aggregateId, aggregateVersion)
+    private MemberRemovedFromGroup(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid groupId) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.GroupId = groupId;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberRemovedFromGroup(aggregateId, aggregateVersion, this.GroupId);
+        return new MemberRemovedFromGroup(tenantId, aggregateId, aggregateVersion, this.GroupId);
     }
 }

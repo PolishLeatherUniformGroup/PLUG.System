@@ -11,13 +11,13 @@ public sealed class ApplicationApproved : StateEventBase
         this.ApproveDate = approveDate;
     }
 
-    private ApplicationApproved(Guid aggregateId, long aggregateVersion, DateTime approveDate) : base(aggregateId, aggregateVersion)
+    private ApplicationApproved(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime approveDate) : base(tenantId,aggregateId, aggregateVersion)
     {
         this.ApproveDate = approveDate;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationApproved(aggregateId, aggregateVersion, this.ApproveDate);
+        return new ApplicationApproved(tenantId,aggregateId, aggregateVersion, this.ApproveDate);
     }
 }

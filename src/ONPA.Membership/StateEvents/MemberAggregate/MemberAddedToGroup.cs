@@ -11,13 +11,13 @@ public  sealed class MemberAddedToGroup : StateEventBase
         this.GroupId = groupId;
     }
 
-    private MemberAddedToGroup(Guid aggregateId, long aggregateVersion, Guid groupId) : base(aggregateId, aggregateVersion)
+    private MemberAddedToGroup(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid groupId) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.GroupId = groupId;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberAddedToGroup(aggregateId, aggregateVersion, this.GroupId);
+        return new MemberAddedToGroup(tenantId, aggregateId, aggregateVersion, this.GroupId);
     }
 }

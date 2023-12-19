@@ -13,14 +13,14 @@ public sealed class ApplicationRejectionAppealDismissed : StateEventBase
         this.DecisionDetails = decisionDetails;
     }
 
-    private ApplicationRejectionAppealDismissed(Guid aggregateId, long aggregateVersion, DateTime rejectDate, string decisionDetails) : base(aggregateId, aggregateVersion)
+    private ApplicationRejectionAppealDismissed(Guid tenantId, Guid aggregateId, long aggregateVersion, DateTime rejectDate, string decisionDetails) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.RejectDate = rejectDate;
         this.DecisionDetails = decisionDetails;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ApplicationRejectionAppealDismissed(aggregateId, aggregateVersion, this.RejectDate,this.DecisionDetails);
+        return new ApplicationRejectionAppealDismissed(tenantId, aggregateId, aggregateVersion, this.RejectDate,this.DecisionDetails);
     }
 }

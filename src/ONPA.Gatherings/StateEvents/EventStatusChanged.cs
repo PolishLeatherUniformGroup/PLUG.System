@@ -12,14 +12,14 @@ public sealed class EventStatusChanged :StateEventBase
         this.Status = status;
     }
 
-    private EventStatusChanged(Guid aggregateId, long aggregateVersion, EventStatus status) : base(aggregateId, aggregateVersion)
+    private EventStatusChanged(Guid tenantId, Guid aggregateId, long aggregateVersion, EventStatus status) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Status = status;
     }
 
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new EventStatusChanged(aggregateId, aggregateVersion, this.Status);
+        return new EventStatusChanged(tenantId, aggregateId, aggregateVersion, this.Status);
     }
 }

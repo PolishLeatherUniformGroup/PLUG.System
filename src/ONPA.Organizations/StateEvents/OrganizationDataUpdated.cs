@@ -23,7 +23,7 @@ public sealed class OrganizationDataUpdated : StateEventBase
         this.Regon = regon;
     }
 
-    private OrganizationDataUpdated(Guid aggregateId, long aggregateVersion, string name, string cardPrefix, string taxId, string accountNumber, string address, string contactEmail, string? regon) : base(aggregateId, aggregateVersion)
+    private OrganizationDataUpdated(Guid tenantId, Guid aggregateId, long aggregateVersion, string name, string cardPrefix, string taxId, string accountNumber, string address, string contactEmail, string? regon) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Name = name;
         this.CardPrefix = cardPrefix;
@@ -34,8 +34,8 @@ public sealed class OrganizationDataUpdated : StateEventBase
         this.Regon = regon;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new OrganizationDataUpdated(aggregateId, aggregateVersion, this.Name, this.CardPrefix, this.TaxId, this.AccountNumber, this.Address, this.ContactEmail, this.Regon);
+        return new OrganizationDataUpdated(tenantId, aggregateId, aggregateVersion, this.Name, this.CardPrefix, this.TaxId, this.AccountNumber, this.Address, this.ContactEmail, this.Regon);
     }
 }

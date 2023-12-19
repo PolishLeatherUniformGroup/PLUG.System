@@ -13,15 +13,15 @@ public class MemberLeftGroup : StateEventBase
         this.LeaveDate = leaveDate;
     }
 
-    private MemberLeftGroup(Guid aggregateId, long aggregateVersion, Guid groupMemberId,
-        DateTime leaveDate) : base(aggregateId, aggregateVersion)
+    private MemberLeftGroup(Guid tenantId, Guid aggregateId, long aggregateVersion, Guid groupMemberId,
+        DateTime leaveDate) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.GroupMemberId = groupMemberId;
         this.LeaveDate = leaveDate;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberLeftGroup(aggregateId, aggregateVersion, this.GroupMemberId, this.LeaveDate);
+        return new MemberLeftGroup(tenantId, aggregateId, aggregateVersion, this.GroupMemberId, this.LeaveDate);
     }
 }

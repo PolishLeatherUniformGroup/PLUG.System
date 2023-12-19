@@ -15,15 +15,15 @@ public sealed class MemberContactDataModified : StateEventBase
         this.Address = address;
     }
 
-    private MemberContactDataModified(Guid aggregateId, long aggregateVersion, string email, string phone, string address) : base(aggregateId, aggregateVersion)
+    private MemberContactDataModified(Guid tenantId, Guid aggregateId, long aggregateVersion, string email, string phone, string address) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Email = email;
         this.Phone = phone;
         this.Address = address;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new MemberContactDataModified(aggregateId, aggregateVersion, this.Email, this.Phone, this.Address);
+        return new MemberContactDataModified(tenantId,aggregateId, aggregateVersion, this.Email, this.Phone, this.Address);
     }
 }

@@ -14,14 +14,14 @@ public sealed class ExpelAppealDismissed : StateEventBase
         this.EffectiveDate = effectiveDate;
     }
 
-    private ExpelAppealDismissed(Guid aggregateId, long aggregateVersion, MembershipExpel expel, DateTime effectiveDate) : base(aggregateId, aggregateVersion)
+    private ExpelAppealDismissed(Guid tenantId, Guid aggregateId, long aggregateVersion, MembershipExpel expel, DateTime effectiveDate) : base(tenantId, aggregateId, aggregateVersion)
     {
         this.Expel = expel;
         this.EffectiveDate = effectiveDate;
     }
 
-    public override IStateEvent WithAggregate(Guid aggregateId, long aggregateVersion)
+    public override IStateEvent WithAggregate(Guid tenantId, Guid aggregateId, long aggregateVersion)
     {
-        return new ExpelAppealDismissed(aggregateId, aggregateVersion, this.Expel,this.EffectiveDate);
+        return new ExpelAppealDismissed(tenantId, aggregateId, aggregateVersion, this.Expel,this.EffectiveDate);
     }
 }

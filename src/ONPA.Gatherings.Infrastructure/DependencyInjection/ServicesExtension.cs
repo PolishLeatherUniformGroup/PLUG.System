@@ -15,7 +15,7 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<IAggregateRepository<Event>, EventAggregateRepository>();
+        services.AddTransient<IMultiTenantAggregateRepository<Event>, EventAggregateRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.Event>, EventReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.EventEnrollment>, EventEnrollmentReadOnlyRepository>();
         services.AddDbContext<GatheringsContext>();
