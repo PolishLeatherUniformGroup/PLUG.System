@@ -19,7 +19,6 @@ public static class ServicesExtension
         services.AddTransient<IReadOnlyRepository<ReadModel.Organization>, OrganizationReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.OrganizationFee>, OrganizationFeeReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.OrganizationSettings>, OrganizationSettingsReadOnlyRepository>();
-        services.AddDbContext<OrganizationsContext>();
         services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<OrganizationsContext>>();
         return services;
     }

@@ -1,7 +1,11 @@
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using ONPA.Common.Behaviors;
+using ONPA.Common.Infrastructure;
 using ONPA.Organizations.Api.Application.Behaviors;
 using ONPA.Organizations.Api.Application.IntegrationEvents;
+using ONPA.Organizations.Infrastructure.Database;
+using ONPA.Organizations.Infrastructure.DataSeed;
 using ONPA.Organizations.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +26,18 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
+#if DEBUG
+builder.AddNpgsqlDbContext<OrganizationsContext>("ApplyDB", configureDbContextOptions: dbContextOptionsBuilder =>
+{
+    dbContextOptionsBuilder.UseNpgsql(builder =>
+    {
+        builder.UseVector();
+    });
+});
+#else
+builder.AddNpgsqlDbContext<OrganizationsContext>("OrganizationDB");
+#endif
+builder.Services.AddMigration<OrganizationsContext, OrganizationSeed>();
 
 var app = builder.Build();
 

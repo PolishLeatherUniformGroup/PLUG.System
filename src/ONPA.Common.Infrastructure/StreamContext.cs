@@ -22,6 +22,9 @@ public class StreamContext : DbContext, IUnitOfWork
     {
         this._mediator = mediator;
     }
+    
+    public StreamContext(DbContextOptions options) : this(options,null){}
+
 
     public async Task<bool> SaveAsync(CancellationToken cancellationToken = default)
     {

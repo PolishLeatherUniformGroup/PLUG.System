@@ -82,5 +82,5 @@ app.MapRazorComponents<App>()
 .AddInteractiveServerRenderMode();
 
 app.MapControllers();
-app.UseMultiTenant();
+ app.UseMultiTenant();
 app.Run();

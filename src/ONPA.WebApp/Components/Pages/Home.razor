@@ -1,11 +1,12 @@
-﻿@page "/{Tenant?}"
+﻿@page "/"
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new Fluent Blazor app.
 @code{
-[Parameter] public string? Tenant { get; set; }
+    [Parameter]
+    public string? Tenant { get; set; }
 
 
 }

@@ -1,10 +1,13 @@
 
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Api.Application.Behavior;
 using ONPA.Apply.Api.Application.IntegrationEvents;
 using ONPA.Apply.Api.Extensions;
+using ONPA.Apply.Infrastructure.Database;
 using ONPA.Apply.Infrastructure.DependencyInjection;
 using ONPA.Common.Behaviors;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +29,13 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
-
+builder.AddNpgsqlDbContext<ApplyContext>("ApplyDB", configureDbContextOptions: dbContextOptionsBuilder =>
+{
+    dbContextOptionsBuilder.UseNpgsql(builder =>
+    {
+        builder.UseVector();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

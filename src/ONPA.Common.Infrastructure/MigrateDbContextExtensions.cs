@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.AspNetCore.Hosting;
+namespace ONPA.Common.Infrastructure;
 
 [ExcludeFromCodeCoverage(Justification = "Tested via integration tests")]
 public static class MigrateDbContextExtensions
@@ -13,6 +14,7 @@ public static class MigrateDbContextExtensions
     private static readonly string ActivitySourceName = "DbMigrations";
     private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
+ 
     public static IServiceCollection AddMigration<TContext>(this IServiceCollection services)
         where TContext : DbContext
         => services.AddMigration<TContext>((_, _) => Task.CompletedTask);
@@ -68,6 +70,7 @@ public static class MigrateDbContextExtensions
 
         try
         {
+            await context.Database.EnsureCreatedAsync();    
             await context.Database.MigrateAsync();
             await seeder(context, services);
         }

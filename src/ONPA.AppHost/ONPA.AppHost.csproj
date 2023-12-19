@@ -12,6 +12,11 @@
         <PackageReference Include="Aspire.Azure.Messaging.ServiceBus" Version="8.0.0-preview.3.23618.1" />
         <PackageReference Include="Aspire.Dashboard" Version="8.0.0-preview.3.23618.1" />
         <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.3.23618.1" />
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3.23618.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
