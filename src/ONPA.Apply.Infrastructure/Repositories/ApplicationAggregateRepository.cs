@@ -1,35 +1,34 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ONPA.Apply.Infrastructure.Database;
 using PLUG.System.Apply.Domain;
-using ONPA.Common.Domain;
 using Recommendation = ONPA.Apply.Infrastructure.ReadModel.Recommendation;
+using ONPA.Common.Infrastructure.Repositories;
 
 namespace ONPA.Apply.Infrastructure.Repositories;
 
-public sealed class ApplicationAggregateRepository : IAggregateRepository<ApplicationForm>
+public sealed class ApplicationAggregateRepository : MultiTenantAggregateRootRepository<ApplyContext,ApplicationForm>
 {
     private readonly ApplyContext _context;
 
-
-    public ApplicationAggregateRepository(ApplyContext context, IMediator mediator)
+    public ApplicationAggregateRepository(ApplyContext context) : base(context)
     {
-        this._context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public IUnitOfWork UnitOfWork => this._context;
-
-    public async Task<ApplicationForm?> GetByIdAsync(Guid id,
-        CancellationToken cancellationToken = new())
+    protected override async Task OnAggregateCreate(ApplicationForm aggregate)
     {
-        return await this._context.ReadAggregate<ApplicationForm>(id, cancellationToken);
+        var model=CreateApplicationForm(aggregate);
+        await _context.ApplicationForms.AddAsync(model); 
     }
 
-    public async Task<ApplicationForm> CreateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new())
+    protected override async Task OnAggregateUpdate(ApplicationForm aggregate)
     {
-        await this._context.StoreAggregate(aggregate, cancellationToken);
-        var applicationForm = new ReadModel.ApplicationForm()
+        UpdateRecommendations(aggregate);
+        await UpdateApplicationForm(aggregate);
+    }
+
+    private ReadModel.ApplicationForm CreateApplicationForm(ApplicationForm aggregate)
+    {
+        return new ReadModel.ApplicationForm()
         {
             Id = aggregate.AggregateId,
             FirstName = aggregate.FirstName,
@@ -43,17 +42,11 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
             RequiredFeeAmount = aggregate.RequiredFee?.Amount,
             FeeCurrency = aggregate.RequiredFee?.Currency
         };
-        this._context.ApplicationForms.Add(applicationForm);
-        this.UpdateRecommendations(aggregate);
-
-        return aggregate;
     }
 
-    public async Task<ApplicationForm> UpdateAsync(ApplicationForm aggregate,
-        CancellationToken cancellationToken = new())
+
+    private async Task UpdateApplicationForm(ApplicationForm aggregate)
     {
-        await this._context.StoreAggregate(aggregate, cancellationToken);
-        this.UpdateRecommendations(aggregate);
         var applicationForm = await this._context.ApplicationForms.FindAsync(aggregate.AggregateId);
         if (applicationForm is not null)
         {
@@ -64,9 +57,7 @@ public sealed class ApplicationAggregateRepository : IAggregateRepository<Applic
             applicationForm.PaidFeeAmount = aggregate.PaidFee?.Amount;
             this._context.Entry(applicationForm).State = EntityState.Modified;
         }
-        return aggregate;
     }
-
     private DateTime CalculateLastUpdate(ApplicationForm aggregate)
     {
         var dates = new List<DateTime?>(8)

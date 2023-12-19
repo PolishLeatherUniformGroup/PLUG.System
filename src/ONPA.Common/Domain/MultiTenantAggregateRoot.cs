@@ -2,7 +2,13 @@ using ONPA.Common.Exceptions;
 
 namespace ONPA.Common.Domain;
 
-public abstract class AggregateRoot : IAggregateRoot
+public abstract class AggregateRoot : MultiTenantAggregateRoot
+{
+    protected AggregateRoot() :base(Guid.Empty) { }
+    protected AggregateRoot(Guid id, IEnumerable<IStateEvent> changes) : base(id, Guid.Empty, changes) { }
+}
+
+public abstract class MultiTenantAggregateRoot : IAggregateRoot
 {
     public const long NewAggregateVersion = 0;
     
@@ -10,13 +16,13 @@ public abstract class AggregateRoot : IAggregateRoot
     protected readonly ICollection<IStateEvent> stateEvents = new LinkedList<IStateEvent>();
     protected long version = NewAggregateVersion;
 
-    protected AggregateRoot(Guid tenantId)
+    protected MultiTenantAggregateRoot(Guid tenantId)
     {
         this.AggregateId = Guid.NewGuid();
-        this.TenantId = tenantId == Guid.Empty ? this.AggregateId : tenantId;
+        this.TenantId = tenantId;
     }
     
-    protected AggregateRoot(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes)
+    protected MultiTenantAggregateRoot(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes)
     {
         this.AggregateId = aggregateId;
         this.TenantId = tenantId;

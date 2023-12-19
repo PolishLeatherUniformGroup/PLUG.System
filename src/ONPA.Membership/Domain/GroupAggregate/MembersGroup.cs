@@ -5,7 +5,7 @@ using ONPA.Common.Exceptions;
 
 namespace ONPA.Membership.Domain;
 
-public sealed partial class MembersGroup : AggregateRoot
+public sealed partial class MembersGroup : MultiTenantAggregateRoot
 {
     public string GroupName { get; private set; }
     public MembersGroupType GroupType { get; private set; }

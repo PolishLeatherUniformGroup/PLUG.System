@@ -89,13 +89,14 @@ public class StreamContext : DbContext, IUnitOfWork
         }
     }
 
-    protected async Task AppendStream<TAggregate>(IEnumerable<IStateEvent> events, CancellationToken cancellationToken)
+    protected async Task AppendStream<TAggregate>(IEnumerable<IStateEvent> events, CancellationToken cancellationToken) 
+        where TAggregate : MultiTenantAggregateRoot
     {
         var stream = events.Select(e => new StateEventLogEntry(e).WithAggregate<TAggregate>());
         await this.EventsStream.AddRangeAsync(stream, cancellationToken);
     }
 
-    protected async Task PublishDomainEvents(AggregateRoot aggregateRoot, CancellationToken cancellationToken)
+    protected async Task PublishDomainEvents(MultiTenantAggregateRoot aggregateRoot, CancellationToken cancellationToken)
     {
         foreach (var domainEvent in aggregateRoot.GetDomainEvents())
         {
@@ -105,9 +106,10 @@ public class StreamContext : DbContext, IUnitOfWork
         aggregateRoot.ClearDomainEvents();
     }
 
-    public async Task<TAggregate?> ReadAggregate<TAggregate>(Guid aggregateId, CancellationToken cancellationToken)
+    public async Task<TAggregate?> ReadAggregate<TAggregate>(Guid tenantId, Guid aggregateId, CancellationToken cancellationToken) 
+        where TAggregate : MultiTenantAggregateRoot
     {
-        var stream = await this.EventsStream.Where(e => e.AggregateId == aggregateId)
+        var stream = await this.EventsStream.Where(e => e.AggregateId == aggregateId && e.TenantId == tenantId)
             .OrderBy(e => e.CreationTime)
             .ToListAsync(cancellationToken);
         if (!stream.Any())
@@ -121,12 +123,12 @@ public class StreamContext : DbContext, IUnitOfWork
             .ToArray();
         var events = stream.OrderBy(x => x.CreationTime).Select(
             x => x.DeserializeJsonContent(stateEvents.FirstOrDefault(t => t.Name == x.EventTypeShortName)).StateEvent);
-        var aggregate = (TAggregate)Activator.CreateInstance(typeof(TAggregate), new object[] { aggregateId, events });
+        var aggregate = (TAggregate)Activator.CreateInstance(typeof(TAggregate), new object[] { tenantId, aggregateId, events });
         return aggregate;
     }
 
     public async Task<TAggregate> StoreAggregate<TAggregate>(TAggregate aggregate, CancellationToken cancellationToken)
-        where TAggregate : AggregateRoot
+        where TAggregate : MultiTenantAggregateRoot
     {
         await this.AppendStream<TAggregate>(aggregate.GetStateEvents(), cancellationToken);
         await this.PublishDomainEvents(aggregate, cancellationToken);

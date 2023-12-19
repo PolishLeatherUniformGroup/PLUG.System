@@ -6,7 +6,7 @@ using PLUG.System.SharedDomain;
 
 namespace PLUG.System.Apply.Domain;
 
-public sealed partial class ApplicationForm : AggregateRoot
+public sealed partial class ApplicationForm : MultiTenantAggregateRoot
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }

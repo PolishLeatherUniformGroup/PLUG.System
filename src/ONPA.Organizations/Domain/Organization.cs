@@ -22,13 +22,13 @@ public sealed partial class Organization : AggregateRoot
     private readonly List<MembershipFee> _membershipFees = new();
     public IEnumerable<MembershipFee> MembershipFees => this._membershipFees.AsReadOnly();
 
-    public Organization(Guid aggregateId, Guid tenantId, IEnumerable<IStateEvent> changes) : base(aggregateId, tenantId,
+    public Organization(Guid aggregateId,  IEnumerable<IStateEvent> changes) : base(aggregateId,
         changes)
     {
     }
 
-    public Organization(Guid tenantId, string name, string cardPrefix, string taxId, string accountNumber,
-        string address, string contactEmail, string? regon = null) : base(tenantId)
+    public Organization(string name, string cardPrefix, string taxId, string accountNumber,
+        string address, string contactEmail, string? regon = null) 
     {
         this.Name = name;
         this.CardPrefix = cardPrefix;

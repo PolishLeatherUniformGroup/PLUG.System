@@ -7,7 +7,7 @@ using PLUG.System.SharedDomain.Helpers;
 
 namespace ONPA.Membership.Domain;
 
-public sealed partial class Member : AggregateRoot
+public sealed partial class Member : MultiTenantAggregateRoot
 {
     public CardNumber MemberNumber { get; private set; }
     public string FirstName { get; private set; }

@@ -21,11 +21,14 @@ public sealed class StateEventLogEntry
         this.EventTypeName = @event.GetType().FullName!;
         this.Content = JsonSerializer.Serialize(@event, @event.GetType(), s_indentedOptions);
         this.StateEvent = @event;
+        this.TenantId = @event.TenantId;
     }
     [Required]
     public Guid EventId { get; private set; }
     [Required]
     public Guid AggregateId { get; private set; }
+    [Required]
+    public Guid TenantId { get; private set; }
     
     [Required]
     public string AggregateTypeName { get; private set; }

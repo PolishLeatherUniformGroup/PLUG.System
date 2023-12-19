@@ -6,7 +6,7 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Gatherings.Domain
 {
-    public sealed partial class Event : AggregateRoot
+    public sealed partial class Event : MultiTenantAggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }

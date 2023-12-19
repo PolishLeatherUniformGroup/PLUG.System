@@ -1,27 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ONPA.Common.Domain;
+using ONPA.Common.Infrastructure.Repositories;
 using ONPA.Gatherings.Domain;
 using ONPA.Gatherings.Infrastructure.Database;
 
 namespace ONPA.Gatherings.Infrastructure.Repositories;
 
-public class EventAggregateRepository:IAggregateRepository<Event>
+public class EventAggregateRepository: MultiTenantAggregateRootRepository<GatheringsContext,Event>
 {
-    private readonly GatheringsContext _context;
 
-    public EventAggregateRepository(GatheringsContext context)
+    public EventAggregateRepository(GatheringsContext context):base(context)
     {
-        this._context = context;
+ 
     }
 
-    public async Task<Event?> GetByIdAsync(Guid id, CancellationToken cancellationToken = new ())
+    protected override async Task OnAggregateCreate(Event aggregate)
     {
-        return await this._context.ReadAggregate<Event>(id, cancellationToken);
+        await CreateModel(aggregate);
     }
 
-    public async Task<Event> CreateAsync(Event aggregate, CancellationToken cancellationToken = new())
+    protected override async Task OnAggregateUpdate(Event aggregate)
     {
-        await this._context.StoreAggregate(aggregate, cancellationToken);
+        await UpdateModel(aggregate);
+    }
+
+    private async Task CreateModel(Event aggregate)
+    {
         var eventReadModel = new ReadModel.Event
         {
             Id = aggregate.AggregateId,
@@ -38,15 +41,13 @@ public class EventAggregateRepository:IAggregateRepository<Event>
             AvailablePlaces = aggregate.AvailablePlaces,
             Status = (ReadModel.EventStatus)aggregate.Status.Value
         };
-        await this._context.Events.AddAsync(eventReadModel, cancellationToken);
-        return aggregate;
+        await this._context.Events.AddAsync(eventReadModel);
     }
 
-    public async Task<Event> UpdateAsync(Event aggregate, CancellationToken cancellationToken = new())
+    private async Task UpdateModel(Event aggregate, CancellationToken cancellationToken = new())
     {
-        await this._context.StoreAggregate(aggregate, cancellationToken);
         var eventReadModel = await this._context.Events.FindAsync(new object[] { aggregate.AggregateId }, cancellationToken);
-        if(eventReadModel is null)
+        if (eventReadModel is null)
         {
             throw new InvalidOperationException($"Event with id {aggregate.AggregateId} not found");
         }
@@ -66,7 +67,7 @@ public class EventAggregateRepository:IAggregateRepository<Event>
         foreach (var enrollment in aggregate.Registrations)
         {
             var enrollmentReadModel = await this._context.EventEnrollments.FindAsync(new object[] { enrollment.Id }, cancellationToken);
-            if(enrollmentReadModel is null)
+            if (enrollmentReadModel is null)
             {
                 enrollmentReadModel = new ReadModel.EventEnrollment
                 {
@@ -118,6 +119,5 @@ public class EventAggregateRepository:IAggregateRepository<Event>
                 this._context.Entry(enrollmentReadModel).State = EntityState.Modified;
             }
         }
-        return aggregate;
     }
 }
