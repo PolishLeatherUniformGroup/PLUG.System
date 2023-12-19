@@ -2,27 +2,13 @@ using ONPA.Common.Application;
 
 namespace ONPA.Apply.Api.Application.Commands;
 
-public sealed record CreateApplicationFormCommand
-    : ApplicationCommandBase
-{
-    
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public string Email { get; init; }
-    public string Phone { get; init; }
-    public List<string> Recommendations { get; init; } 
-    public string Address { get; init; }
-
-    public CreateApplicationFormCommand(Guid tenantId,string firstName, string lastName, string email,
-        string phone,
-        List<string> recommendations,
-        string address):base(tenantId)
-    {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
-        this.Phone = phone;
-        this.Recommendations = recommendations;
-        this.Address = address;
-    }
-}
+public sealed record CreateApplicationFormCommand(
+    Guid TenantId,
+    string FirstName,
+    string LastName,
+    string Email,
+    string Phone,
+    List<string> Recommendations,
+    string Address,
+    string? Operator = null)
+    : MultiTenantApplicationCommandBase(TenantId,Operator);

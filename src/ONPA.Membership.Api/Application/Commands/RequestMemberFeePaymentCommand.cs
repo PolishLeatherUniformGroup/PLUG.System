@@ -3,4 +3,10 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Membership.Api.Application.Commands;
 
-public sealed record RequestMemberFeePaymentCommand(Guid TenantId, Guid MemberId, Money FeeAmount, DateTime DueDate, DateTime EndOfPeriod) : ApplicationCommandBase(TenantId);
+public sealed record RequestMemberFeePaymentCommand(
+    Guid TenantId,
+    Guid MemberId,
+    Money FeeAmount,
+    DateTime DueDate,
+    DateTime EndOfPeriod,
+    string? Operator = null) : MultiTenantApplicationCommandBase(TenantId,Operator);

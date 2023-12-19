@@ -2,11 +2,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using ONPA.Common.Infrastructure;
 using ONPA.IntegrationEventsLog;
 using ONPA.Organizations.Infrastructure.ReadModel;
+using static System.TimeSpan;
 
 namespace ONPA.Organizations.Infrastructure.Database;
 
@@ -17,17 +20,20 @@ public class OrganizationsContext : StreamContext
     {
     }
 
+#if !LOCAL
+    
+
     public OrganizationsContext(DbContextOptions<OrganizationsContext> options, IMediator mediator) : base(options, mediator)
     {
     }
-
+#endif
     public DbSet<Organization> Organizations { get; set; }
     public DbSet<OrganizationFee> OrganizationFees { get; set; }
     public DbSet<OrganizationSettings> OrganizationSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-       
+        modelBuilder.HasPostgresExtension("vector");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrganizationsContext).Assembly);
         modelBuilder.UseIntegrationEventLogs("org");
         modelBuilder.UseStreamModels("org");
@@ -35,6 +41,32 @@ public class OrganizationsContext : StreamContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        
+        optionsBuilder.UseNpgsql( x =>
+        {
+            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "org");
+        });
+#if LOCAL
+        if (!optionsBuilder.IsConfigured)
+        {
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+            var connectionString = config.GetConnectionString("ApplyDB");
+            var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            {
+                Password = config["ApplyDBPassword"],
+            };
+            optionsBuilder.UseNpgsql(builder.ToString(), x =>
+            {
+                x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "org");
+            });
+            
+        }
 
+#endif
     }
 }

@@ -6,11 +6,11 @@ using ONPA.Membership.Domain;
 
 namespace ONPA.Membership.Api.Application.CommandHandlers;
 
-public sealed class CreateMembersGroupCommandHandler: ApplicationCommandHandlerBase<CreateMembersGroupCommand>
+public sealed class CreateMembersGroupCommandHandler: MultiTenantApplicationCommandHandlerBase<CreateMembersGroupCommand>
 {
-    private readonly IAggregateRepository<MembersGroup> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<MembersGroup> _aggregateRepository;
 
-    public CreateMembersGroupCommandHandler(IAggregateRepository<MembersGroup> aggregateRepository)
+    public CreateMembersGroupCommandHandler(IMultiTenantAggregateRepository<MembersGroup> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }

@@ -3,16 +3,9 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Application.Commands;
 
-public record ValidateApplicationFormCommand : ApplicationCommandBase
-{
-    public Guid ApplicationId { get; init; }
-    public IEnumerable<(string MemberNumber, Guid? MemberId)> Recommenders { get; init; }
-    public Money YearlyFee { get; init; }
-
-    public ValidateApplicationFormCommand(Guid tenantId, Guid applicationId, IEnumerable<(string MemberNumber, Guid? MemberId)> recommenders, Money yearlyFee):base(tenantId)
-    {
-        this.ApplicationId = applicationId;
-        this.Recommenders = recommenders;
-        this.YearlyFee = yearlyFee;
-    }
-}
+public record ValidateApplicationFormCommand(
+    Guid TenantId,
+    Guid ApplicationId,
+    IEnumerable<(string MemberNumber, Guid? MemberId)> Recommenders,
+    Money YearlyFee,
+    string? Operator = null) : MultiTenantApplicationCommandBase(TenantId, Operator);

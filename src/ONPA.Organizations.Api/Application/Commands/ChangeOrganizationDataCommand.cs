@@ -10,4 +10,5 @@ public sealed record ChangeOrganizationDataCommand(
     string AccountNumber,
     string Address,
     string ContactEmail,
-    string? Regon) : ApplicationCommandBase(OrganizationId);
+    string? Regon,
+    string? Operator=null) : ApplicationCommandBase(Operator);

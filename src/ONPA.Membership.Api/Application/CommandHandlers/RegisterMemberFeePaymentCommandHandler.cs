@@ -6,11 +6,11 @@ using ONPA.Membership.Domain;
 
 namespace ONPA.Membership.Api.Application.CommandHandlers;
 
-public sealed class RegisterMemberFeePaymentCommandHandler : ApplicationCommandHandlerBase<RegisterMemberFeePaymentCommand>
+public sealed class RegisterMemberFeePaymentCommandHandler : MultiTenantApplicationCommandHandlerBase<RegisterMemberFeePaymentCommand>
 {
-    private readonly IAggregateRepository<Member> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Member> _aggregateRepository;
 
-    public RegisterMemberFeePaymentCommandHandler(IAggregateRepository<Member> aggregateRepository)
+    public RegisterMemberFeePaymentCommandHandler(IMultiTenantAggregateRepository<Member> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class RegisterMemberFeePaymentCommandHandler : ApplicationCommandH
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.MemberId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.MemberId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();

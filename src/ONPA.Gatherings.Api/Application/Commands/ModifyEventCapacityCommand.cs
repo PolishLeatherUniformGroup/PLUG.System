@@ -2,4 +2,9 @@
 
 namespace ONPA.Gatherings.Api.Application.Commands;
 
-public sealed record ModifyEventCapacityCommand(Guid TenantId, Guid EventId, int? PlannedCapacity) : ApplicationCommandBase(TenantId);
+public sealed record ModifyEventCapacityCommand(
+    Guid TenantId,
+    Guid EventId,
+    int? PlannedCapacity,
+    string? Operator = null) : MultiTenantApplicationCommandBase(TenantId,
+    Operator);

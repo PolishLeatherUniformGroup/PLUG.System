@@ -7,6 +7,8 @@
         <LangVersion>default</LangVersion>
         <AssemblyName>ONPA.Apply</AssemblyName>
         <RootNamespace>ONPA.Apply</RootNamespace>
+        <Configurations>Debug;Release;Local</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
 

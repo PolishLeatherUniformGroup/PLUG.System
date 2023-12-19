@@ -2,5 +2,13 @@
 
 namespace ONPA.Membership.Api.Application.Commands;
 
-public sealed record SuspendMemberCommand(Guid TenantId, Guid MemberId, string Justification, DateTime SuspendDate, DateTime SuspendUntil, int DaysToAppeal) : ApplicationCommandBase(TenantId);
+public sealed record SuspendMemberCommand(
+    Guid TenantId,
+    Guid MemberId,
+    string Justification,
+    DateTime SuspendDate,
+    DateTime SuspendUntil,
+    int DaysToAppeal,
+    string? Operator = null) : MultiTenantApplicationCommandBase(TenantId,
+    Operator);
 

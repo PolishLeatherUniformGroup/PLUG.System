@@ -103,7 +103,7 @@ namespace ONPA.Apply.Api.Controllers
             return this.Ok(result);
         } 
         
-        private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:ApplicationCommandBase
+        private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand:MultiTenantApplicationCommandBase
         {
             var decoratedRequest = this.DecorateRequest(request);
             TCommand command = this._mapper.Map<TCommand>(decoratedRequest);

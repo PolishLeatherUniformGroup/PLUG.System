@@ -24,6 +24,7 @@ namespace ONPA.Organizations.Infrastructure.Migrations
                 {
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     AggregateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     AggregateTypeName = table.Column<string>(type: "text", nullable: false),
                     EventTypeName = table.Column<string>(type: "text", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -100,6 +101,12 @@ namespace ONPA.Organizations.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Organizations", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AggregateStream_TenantId_AggregateId",
+                schema: "org",
+                table: "AggregateStream",
+                columns: new[] { "TenantId", "AggregateId" });
         }
 
         /// <inheritdoc />

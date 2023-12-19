@@ -36,6 +36,7 @@ public class ApplyContext :StreamContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        #if LOCAL
         if (!optionsBuilder.IsConfigured)
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -51,6 +52,7 @@ public class ApplyContext :StreamContext
             };
             optionsBuilder.UseNpgsql(builder.ToString());
         }
+        #endif
     }
 }
 

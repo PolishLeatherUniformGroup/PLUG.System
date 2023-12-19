@@ -8,11 +8,11 @@ namespace ONPA.Membership.Api.Application.DomainEventHandlers;
 
 public sealed class MemberExpelAppealDismissedDomainEventHandler : DomainEventHandlerBase<MemberExpelAppealDismissedDomainEvent>
 {
-    private readonly IAggregateRepository<MembersGroup> _groupAggregateRepository;
+    private readonly IMultiTenantAggregateRepository<MembersGroup> _groupAggregateRepository;
     private readonly IIntegrationEventService _integrationEventService;
 
     public MemberExpelAppealDismissedDomainEventHandler(
-        IAggregateRepository<MembersGroup> groupAggregateRepository, 
+        IMultiTenantAggregateRepository<MembersGroup> groupAggregateRepository, 
         IIntegrationEventService integrationEventService)
     {
         this._groupAggregateRepository = groupAggregateRepository;
@@ -23,7 +23,7 @@ public sealed class MemberExpelAppealDismissedDomainEventHandler : DomainEventHa
     {
         foreach (var group in notification.GroupMemberships)
         {
-            var groupAggregate = await this._groupAggregateRepository.GetByIdAsync(group, cancellationToken);
+            var groupAggregate = await this._groupAggregateRepository.GetByIdAsync(notification.TenantId,group, cancellationToken);
             if (groupAggregate is null)
             {
                 continue;

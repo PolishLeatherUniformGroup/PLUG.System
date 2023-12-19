@@ -47,7 +47,12 @@ namespace ONPA.Organizations.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("EventId");
+
+                    b.HasIndex("TenantId", "AggregateId");
 
                     b.ToTable("AggregateStream", "org");
                 });

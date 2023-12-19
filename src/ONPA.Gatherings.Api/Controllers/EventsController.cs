@@ -143,7 +143,7 @@ public class EventsController : ControllerBase
         return await this.SendCommandRequest<CancelEnrollmentCommand>(request);
     }
 
-    private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand : ApplicationCommandBase
+    private async Task<ActionResult<Guid>> SendCommandRequest<TCommand>(dynamic request) where TCommand : MultiTenantApplicationCommandBase
     {
         var decoratedRequest = this.DecorateRequest(request);
         TCommand command = this._mapper.Map<TCommand>(decoratedRequest);

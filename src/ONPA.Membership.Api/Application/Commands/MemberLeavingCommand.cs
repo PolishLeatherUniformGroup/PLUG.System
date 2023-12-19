@@ -2,4 +2,9 @@
 
 namespace ONPA.Membership.Api.Application.Commands;
 
-public sealed record MemberLeavingCommand(Guid TenantId, Guid MemberId, DateTime LeaveDate) :ApplicationCommandBase(TenantId);
+public sealed record MemberLeavingCommand(
+    Guid TenantId,
+    Guid MemberId,
+    DateTime LeaveDate,
+    string? Operator=null) : MultiTenantApplicationCommandBase(TenantId,
+    Operator);

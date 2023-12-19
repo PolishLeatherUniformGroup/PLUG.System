@@ -6,11 +6,11 @@ using ONPA.Common.Exceptions;
 
 namespace ONPA.Apply.Api.Application.CommandHandlers;
 
-public sealed class CreateApplicationFormCommandHandler : ApplicationCommandHandlerBase<CreateApplicationFormCommand>
+public sealed class CreateApplicationFormCommandHandler : MultiTenantApplicationCommandHandlerBase<CreateApplicationFormCommand>
 {
-    private readonly IAggregateRepository<ApplicationForm> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<ApplicationForm> _aggregateRepository;
 
-    public CreateApplicationFormCommandHandler(IAggregateRepository<ApplicationForm> aggregateRepository)
+    public CreateApplicationFormCommandHandler(IMultiTenantAggregateRepository<ApplicationForm> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }

@@ -6,11 +6,11 @@ using ONPA.Membership.Domain;
 
 namespace ONPA.Membership.Api.Application.CommandHandlers;
 
-public sealed class ModifyMemberContactDataCommandHandler : ApplicationCommandHandlerBase<ModifyMemberContactDataCommand>
+public sealed class ModifyMemberContactDataCommandHandler : MultiTenantApplicationCommandHandlerBase<ModifyMemberContactDataCommand>
 {
-    private readonly IAggregateRepository<Member> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Member> _aggregateRepository;
 
-    public ModifyMemberContactDataCommandHandler(IAggregateRepository<Member> aggregateRepository)
+    public ModifyMemberContactDataCommandHandler(IMultiTenantAggregateRepository<Member> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class ModifyMemberContactDataCommandHandler : ApplicationCommandHa
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.MemberId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.MemberId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();

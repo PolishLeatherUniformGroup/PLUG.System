@@ -6,11 +6,11 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class CreateEventCommandHandler : ApplicationCommandHandlerBase<CreateEventCommand>
+public sealed class CreateEventCommandHandler : MultiTenantApplicationCommandHandlerBase<CreateEventCommand>
 {
-    private readonly IAggregateRepository<Event> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Event> _aggregateRepository;
 
-    public CreateEventCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public CreateEventCommandHandler(IMultiTenantAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }

@@ -7,11 +7,11 @@ using PLUG.System.SharedDomain;
 
 namespace ONPA.Apply.Api.Application.CommandHandlers;
 
-public class ValidateApplicationFormCommandHandler : ApplicationCommandHandlerBase<ValidateApplicationFormCommand>
+public class ValidateApplicationFormCommandHandler : MultiTenantApplicationCommandHandlerBase<ValidateApplicationFormCommand>
 {
-    private readonly IAggregateRepository<ApplicationForm> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<ApplicationForm> _aggregateRepository;
 
-    public ValidateApplicationFormCommandHandler(IAggregateRepository<ApplicationForm> aggregateRepository)
+    public ValidateApplicationFormCommandHandler(IMultiTenantAggregateRepository<ApplicationForm> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -20,7 +20,7 @@ public class ValidateApplicationFormCommandHandler : ApplicationCommandHandlerBa
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.ApplicationId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.ApplicationId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();

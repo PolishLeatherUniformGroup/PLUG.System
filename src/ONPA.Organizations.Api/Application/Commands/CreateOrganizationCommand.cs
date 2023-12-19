@@ -9,5 +9,6 @@ public sealed record CreateOrganizationCommand(
     string AccountNumber,
     string Address,
     string ContactEmail,
-    string? Regon
-) : ApplicationCommandBase(Guid.Empty);
+    string? Regon,
+    string? Operator=null
+) : ApplicationCommandBase(Operator);

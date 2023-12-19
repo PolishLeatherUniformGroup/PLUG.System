@@ -6,11 +6,11 @@ using ONPA.Membership.Domain;
 
 namespace ONPA.Membership.Api.Application.CommandHandlers;
 
-public sealed class DismissExpelAppealCommandHandler : ApplicationCommandHandlerBase<DismissExpelAppealCommand>
+public sealed class DismissExpelAppealCommandHandler : MultiTenantApplicationCommandHandlerBase<DismissExpelAppealCommand>
 {
-    private readonly IAggregateRepository<Member> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Member> _aggregateRepository;
 
-    public DismissExpelAppealCommandHandler(IAggregateRepository<Member> aggregateRepository)
+    public DismissExpelAppealCommandHandler(IMultiTenantAggregateRepository<Member> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class DismissExpelAppealCommandHandler : ApplicationCommandHandler
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.MemberId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.MemberId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();

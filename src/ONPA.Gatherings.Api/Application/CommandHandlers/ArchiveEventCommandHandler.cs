@@ -6,11 +6,11 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class ArchiveEventCommandHandler : ApplicationCommandHandlerBase<ArchiveEventCommand>
+public sealed class ArchiveEventCommandHandler : MultiTenantApplicationCommandHandlerBase<ArchiveEventCommand>
 {
-    private readonly IAggregateRepository<Event> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Event> _aggregateRepository;
 
-    public ArchiveEventCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public ArchiveEventCommandHandler(IMultiTenantAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class ArchiveEventCommandHandler : ApplicationCommandHandlerBase<A
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 throw new AggregateNotFoundException();

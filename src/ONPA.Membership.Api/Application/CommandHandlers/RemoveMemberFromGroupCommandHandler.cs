@@ -6,11 +6,11 @@ using ONPA.Membership.Domain;
 
 namespace ONPA.Membership.Api.Application.CommandHandlers;
 
-public sealed class RemoveMemberFromGroupCommandHandler : ApplicationCommandHandlerBase<RemoveMemberFromGroupCommand>
+public sealed class RemoveMemberFromGroupCommandHandler : MultiTenantApplicationCommandHandlerBase<RemoveMemberFromGroupCommand>
 {
-    private readonly IAggregateRepository<MembersGroup> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<MembersGroup> _aggregateRepository;
 
-    public RemoveMemberFromGroupCommandHandler(IAggregateRepository<MembersGroup> aggregateRepository)
+    public RemoveMemberFromGroupCommandHandler(IMultiTenantAggregateRepository<MembersGroup> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class RemoveMemberFromGroupCommandHandler : ApplicationCommandHand
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.GroupId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId,request.GroupId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();

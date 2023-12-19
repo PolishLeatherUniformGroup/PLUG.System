@@ -8,16 +8,16 @@ namespace ONPA.Membership.Api.Application.DomainEventHandlers;
 
 public sealed class MemberLeftGroupDomainEventHandler : DomainEventHandlerBase<MemberLeftGroupDomainEvent>
 {
-    private readonly IAggregateRepository<Member> _memberAggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Member> _memberAggregateRepository;
 
-    public MemberLeftGroupDomainEventHandler(IAggregateRepository<Member> memberAggregateRepository)
+    public MemberLeftGroupDomainEventHandler(IMultiTenantAggregateRepository<Member> memberAggregateRepository)
     {
         this._memberAggregateRepository = memberAggregateRepository;
     }
 
     public override async Task Handle(MemberLeftGroupDomainEvent notification, CancellationToken cancellationToken)
     {
-        var memberAggregate = await this._memberAggregateRepository.GetByIdAsync(notification.MemberId, cancellationToken);
+        var memberAggregate = await this._memberAggregateRepository.GetByIdAsync(notification.TenantId, notification.MemberId, cancellationToken);
         if (memberAggregate is null)
         {
             throw new AggregateNotFoundException();

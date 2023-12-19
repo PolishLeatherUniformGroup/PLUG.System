@@ -6,11 +6,11 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class RefundCancelledEnrollmentCommandHandler : ApplicationCommandHandlerBase<RefundCancelledEnrollmentCommand>
+public sealed class RefundCancelledEnrollmentCommandHandler : MultiTenantApplicationCommandHandlerBase<RefundCancelledEnrollmentCommand>
 {
-    private readonly IAggregateRepository<Event> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Event> _aggregateRepository;
 
-    public RefundCancelledEnrollmentCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public RefundCancelledEnrollmentCommandHandler(IMultiTenantAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class RefundCancelledEnrollmentCommandHandler : ApplicationCommand
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 return new AggregateNotFoundException();

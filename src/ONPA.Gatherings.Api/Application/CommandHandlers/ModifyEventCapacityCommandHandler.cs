@@ -6,11 +6,11 @@ using ONPA.Gatherings.Domain;
 
 namespace ONPA.Gatherings.Api.Application.CommandHandlers;
 
-public sealed class ModifyEventCapacityCommandHandler : ApplicationCommandHandlerBase<ModifyEventCapacityCommand>
+public sealed class ModifyEventCapacityCommandHandler : MultiTenantApplicationCommandHandlerBase<ModifyEventCapacityCommand>
 {
-    private readonly IAggregateRepository<Event> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<Event> _aggregateRepository;
 
-    public ModifyEventCapacityCommandHandler(IAggregateRepository<Event> aggregateRepository)
+    public ModifyEventCapacityCommandHandler(IMultiTenantAggregateRepository<Event> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -19,7 +19,7 @@ public sealed class ModifyEventCapacityCommandHandler : ApplicationCommandHandle
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.EventId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId, request.EventId, cancellationToken);
             if (aggregate == null)
             {
                 throw new AggregateNotFoundException();

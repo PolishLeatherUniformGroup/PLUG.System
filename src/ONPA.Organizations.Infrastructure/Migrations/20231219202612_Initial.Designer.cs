@@ -12,7 +12,7 @@ using ONPA.Organizations.Infrastructure.Database;
 namespace ONPA.Organizations.Infrastructure.Migrations
 {
     [DbContext(typeof(OrganizationsContext))]
-    [Migration("20231219035530_Initial")]
+    [Migration("20231219202612_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -50,7 +50,12 @@ namespace ONPA.Organizations.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("EventId");
+
+                    b.HasIndex("TenantId", "AggregateId");
 
                     b.ToTable("AggregateStream", "org");
                 });

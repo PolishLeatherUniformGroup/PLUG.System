@@ -6,11 +6,11 @@ using ONPA.Common.Exceptions;
 
 namespace ONPA.Apply.Api.Application.CommandHandlers;
 
-public sealed class RefuseApplicationRecommendationCommandHandler : ApplicationCommandHandlerBase<RefuseApplicationRecommendationCommand>
+public sealed class RefuseApplicationRecommendationCommandHandler : MultiTenantApplicationCommandHandlerBase<RefuseApplicationRecommendationCommand>
 {
-    private readonly IAggregateRepository<ApplicationForm> _aggregateRepository;
+    private readonly IMultiTenantAggregateRepository<ApplicationForm> _aggregateRepository;
 
-    public RefuseApplicationRecommendationCommandHandler(IAggregateRepository<ApplicationForm> aggregateRepository)
+    public RefuseApplicationRecommendationCommandHandler(IMultiTenantAggregateRepository<ApplicationForm> aggregateRepository)
     {
         this._aggregateRepository = aggregateRepository;
     }
@@ -20,7 +20,7 @@ public sealed class RefuseApplicationRecommendationCommandHandler : ApplicationC
     {
         try
         {
-            var aggregate = await this._aggregateRepository.GetByIdAsync(request.ApplicationFormId, cancellationToken);
+            var aggregate = await this._aggregateRepository.GetByIdAsync(request.TenantId,request.ApplicationFormId, cancellationToken);
             if (aggregate is null)
             {
                 throw new AggregateNotFoundException();
