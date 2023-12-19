@@ -19,7 +19,6 @@ public static class ServicesExtension
         services.AddTransient<IAggregateRepository<ApplicationForm>, ApplicationAggregateRepository>();
         services.AddTransient<IReadOnlyRepository<Recommendation>, RecommendationReadOnlyRepository>();
         services.AddTransient<IReadOnlyRepository<ReadModel.ApplicationForm>, ApplicationFormReadOnlyRepository>();
-        services.AddDbContext<ApplyContext>();
         services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<ApplyContext>>();
        
         return services;

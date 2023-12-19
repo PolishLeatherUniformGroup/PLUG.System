@@ -29,13 +29,7 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
-builder.AddNpgsqlDbContext<ApplyContext>("ApplyDB", configureDbContextOptions: dbContextOptionsBuilder =>
-{
-    dbContextOptionsBuilder.UseNpgsql(builder =>
-    {
-        builder.UseVector();
-    });
-});
+builder.AddNpgsqlDbContext<ApplyContext>("ApplyDB");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

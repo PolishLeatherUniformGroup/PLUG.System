@@ -13,15 +13,15 @@ namespace ONPA.Apply.Infrastructure.Database;
 [ExcludeFromCodeCoverage(Justification = "Tested through integration tests")]
 public class ApplyContext :StreamContext
 {
-    #if DEBUG
+  
     public ApplyContext() : base(mediator:null)
     {
     }
-    #else
+
     public ApplyContext(DbContextOptions<ApplyContext> options, IMediator mediator) : base(options,mediator)
     {
     }
-    #endif
+
     
     public DbSet<Recommendation> Recommendations { get; set; }
     public DbSet<ApplicationForm> ApplicationForms { get; set; }
