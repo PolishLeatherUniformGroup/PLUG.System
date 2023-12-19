@@ -14,6 +14,7 @@ public static class ContextModelsExtensions
             builder.ToTable("AggregateStream", schema: schema);
 
             builder.HasKey(e => e.EventId);
+            builder.HasIndex(e => new{ e.TenantId, e.AggregateId});
         });
     }
 }
