@@ -19,17 +19,18 @@ public class MembershipService : IMembershipService
 
     public MembershipService(HttpClient httpClient)
     {
-        this.httpClient = httpClient;
+        this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     }
     public async Task<GridItemsProviderResult<MemberItem>> GetMembers(int status, int page = 0, int limit = 10)
     {
         var request = new GetMembersRequest(status, page, limit);
         try
         {
-            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, request.ToQueryString()));
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress?.OriginalString, request.ToQueryString()));
             using var httpResponse = await this.httpClient.GetAsync(apiUri);
             httpResponse.EnsureSuccessStatusCode();
             var result = await httpResponse.Content.ReadFromJsonAsync<PageableResult<MemberResult>>();
+            
             var applicationItems = result.Result.Select(x => new MemberItem()
             {
                 Id = x.MemberId,

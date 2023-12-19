@@ -6,7 +6,7 @@ public record GetOrganizationsRequest([FromQuery] int Page = 0, [FromQuery] int 
 {
     public string ToQueryString()
     {
-        var queryString = $"?Page={this.Page}&Limit={this.Limit}";
+        var queryString = $"{Routes.Base}?Page={this.Page}&Limit={this.Limit}";
         return queryString;
     }
 }

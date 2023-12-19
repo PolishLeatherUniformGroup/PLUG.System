@@ -114,5 +114,10 @@ public class OrganizationsMaps : Profile
             .ForCtorParam(nameof(OrganizationFeeResponse.Amount), opt => opt.MapFrom(src => src.Amount))
             .ForCtorParam(nameof(OrganizationFeeResponse.Currency), opt => opt.MapFrom(src => src.Currency))
             .ForAllMembers(options => options.Ignore());
+
+        this.CreateMap<Organization, TenantInfo>()
+            .ForCtorParam(nameof(TenantInfo.Id), opt => opt.MapFrom(src => src.Id.ToString("N")))
+            .ForCtorParam(nameof(TenantInfo.Identifier), opt => opt.MapFrom(src => src.CardPrefix))
+            .ForCtorParam(nameof(TenantInfo.Name), opt => opt.MapFrom(src => src.Name));
     }
 }

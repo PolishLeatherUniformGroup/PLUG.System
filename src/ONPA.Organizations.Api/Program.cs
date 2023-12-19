@@ -21,6 +21,7 @@ builder.Services.AddMediatR(configuration=>
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
+builder.AddRabbitMqEventBus("EventBus");
 
 var app = builder.Build();
 

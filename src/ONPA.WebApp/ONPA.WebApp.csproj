@@ -17,6 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Finbuckle.MultiTenant" Version="6.12.0" />
+		<PackageReference Include="Finbuckle.MultiTenant.AspNetCore" Version="6.12.0" />
+		<PackageReference Include="Finbuckle.MultiTenant.EntityFrameworkCore" Version="6.12.0" />
 		<PackageReference Include="Flurl" Version="3.0.7" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
 		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.1.1 " />
@@ -30,6 +33,7 @@
 	  <ProjectReference Include="..\ONPA.Apply.Contract\ONPA.Apply.Contract.csproj" />
 	  <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
 	  <ProjectReference Include="..\ONPA.Membership.Contract\ONPA.Membership.Contract.csproj" />
+	  <ProjectReference Include="..\ONPA.Organizations.Contract\ONPA.Organizations.Contract.csproj" />
 	  <ProjectReference Include="..\ONPA.ServiceDefaults\ONPA.ServiceDefaults.csproj" />
 	</ItemGroup>
 </Project>

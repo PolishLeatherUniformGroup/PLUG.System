@@ -1,17 +1,33 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.WebApp.Components;
 using ONPA.WebApp.Services;
 using ONPA.WebApp.Services.Abstractions;
 using System.Net.Http.Headers;
 using System.Net.Mime;
+using Finbuckle.MultiTenant;
 using ONPA.ServiceDefaults;
-
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+var configuration = builder.Configuration;
+builder.Services.AddMultiTenant<TenantInfo>(x =>
+    {
+        x.IgnoredIdentifiers.Add("wwwroot");
+        x.IgnoredIdentifiers.Add("css");
+        x.IgnoredIdentifiers.Add("js");
+        x.IgnoredIdentifiers.Add("lib");
+        x.IgnoredIdentifiers.Add("images");
+        x.IgnoredIdentifiers.Add("fonts");
+        x.IgnoredIdentifiers.Add("_framework");
+        x.IgnoredIdentifiers.Add("_blazor");
+    })
+    .WithHttpRemoteStore($"{configuration["Services:OrganizationService:Uri"]}/api/tenants")
+    .WithBasePathStrategy(options =>
+    {
+        options.RebaseAspNetCorePathBase = true;
+    });
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -20,7 +36,7 @@ builder.Services.AddFluentUIComponents();
 builder.Services.AddLocalization(Options =>
     Options.ResourcesPath = "Resources");
 builder.Services.AddControllers();
-var configuration = builder.Configuration;
+
 
 builder.Services.AddTransientWithHttpClient<IApplyService, ApplyService>(configuration, client =>
 {
@@ -33,7 +49,9 @@ builder.Services.AddTransientWithHttpClient<IMembershipService, MembershipServic
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });
 
+
 var app = builder.Build();
+
 
 app.MapDefaultEndpoints();
 
@@ -47,7 +65,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
 app.UseStaticFiles();
+
 app.UseAntiforgery();
 
 var supportedCultures = new[] { "pl-PL", "en-US" };
@@ -62,5 +82,5 @@ app.MapRazorComponents<App>()
 .AddInteractiveServerRenderMode();
 
 app.MapControllers();
-
+app.UseMultiTenant();
 app.Run();

@@ -12,6 +12,7 @@ var applyDb = postgres.AddDatabase("ApplyDB");
 var membershipDb = postgres.AddDatabase("MembershipDB");
 var gatheringDb = postgres.AddDatabase("GatheringDB");
 var identityDb = postgres.AddDatabase("IdentityDB");
+var organizationDb = postgres.AddDatabase("OrganizationDB");
 
  var identityApi = builder.AddProject<Projects.ONPA_Identity_Api>("identity-api")
      .WithReference(identityDb)
@@ -34,6 +35,11 @@ var gatheringsApi = builder.AddProject<Projects.ONPA_Gatherings_Api>("gathering-
     .WithReference(rabbitMq)
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
     .WithLaunchProfile("https");
+var organizationApi = builder.AddProject<Projects.ONPA_Organizations_Api>("organization-api")
+    .WithReference(organizationDb)
+    .WithReference(rabbitMq)
+    .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
+    .WithLaunchProfile("https");
 
 var communictationApi = builder.AddProject<Projects.ONPA_Communication_Api>("communication-api")
     .WithEnvironmentForServiceBinding("IdentityUrl", identityApi)
@@ -49,7 +55,9 @@ var webapp = builder.AddProject<Projects.ONPA_WebApp>("webapp")
 
 webapp.WithEnvironmentForServiceBinding("CallBackUrl", webapp, bindingName: "https")
     .WithEnvironmentForServiceBinding("Services__ApplyService__Uri", applyApi, "https")
-    .WithEnvironmentForServiceBinding("Services__MembershipService__Uri", membershipApi, "https");
+    .WithEnvironmentForServiceBinding("Services__MembershipService__Uri", membershipApi, "https")
+    .WithEnvironmentForServiceBinding(name: "Services__OrganizationService__Uri", organizationApi,
+        bindingName: "https");
 
 identityApi
     .WithEnvironmentForServiceBinding("ApplyApiClient", applyApi, bindingName:"https")
