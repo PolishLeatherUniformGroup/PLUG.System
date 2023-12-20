@@ -12,8 +12,9 @@ namespace ONPA.Membership.Infrastructure.Database.Configurations
             builder.HasKey(x => x.MemberId);
             builder.HasKey(x => x.SuspensionDate);
             builder.Property(x => x.Justification).IsRequired();
-            builder.Property(x => x.MemberId).IsRequired(true);
-            builder.Property(x => x.SuspensionDate).IsRequired(true);
+            builder.Property(x => x.MemberId).IsRequired();
+            builder.Property(x => x.TenantId).IsRequired();
+            builder.Property(x => x.SuspensionDate).IsRequired();
             builder.Property(x => x.SuspendedUntil).IsRequired();
             builder.Property(x => x.AppealDate);
             builder.Property(x => x.AppealJustification);

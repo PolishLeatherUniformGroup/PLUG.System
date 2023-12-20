@@ -2,6 +2,7 @@
 
 public class EventEnrollment
 {
+    public Guid TenantId { get; set; }
     public Guid Id { get; set; }
     public Guid EventId { get; set; }
     public DateTime RegistrationDate { get; set; }

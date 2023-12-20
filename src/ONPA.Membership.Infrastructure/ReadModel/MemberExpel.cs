@@ -2,6 +2,7 @@ namespace ONPA.Membership.Infrastructure.ReadModel;
 
 public class MemberExpel
 {
+    public Guid TenantId { get; set; }
     public Guid MemberId { get; set; }
     public DateTime ExpelDate { get; set; }
     public string Justification { get; set; }

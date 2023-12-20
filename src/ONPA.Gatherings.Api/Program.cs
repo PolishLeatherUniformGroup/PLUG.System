@@ -1,7 +1,11 @@
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using ONPA.Common.Behaviors;
+using ONPA.Common.Infrastructure;
 using ONPA.Gatherings.Api.Application.Behaviors;
 using ONPA.Gatherings.Api.Application.IntegrationEvents;
+using ONPA.Gatherings.Infrastructure.Database;
+using ONPA.Gatherings.Infrastructure.DataSeed;
 using ONPA.Gatherings.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +26,18 @@ builder.Services.AddMediatR(configuration=>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddTransient<IIntegrationEventService, IntegrationEventService>();
 builder.AddRabbitMqEventBus("EventBus");
+#if LOCAL
+builder.AddNpgsqlDbContext<GatheringsContext>("onpa_db", configureDbContextOptions: dbContextOptionsBuilder =>
+{
+    dbContextOptionsBuilder.UseNpgsql(builder =>
+    {
+        builder.UseVector();
+    });
+});
+#else
+builder.AddNpgsqlDbContext<GatheringsContext>("onpa_db");
+#endif
+builder.Services.AddMigration<GatheringsContext, GatheringsSeed>();
 
 var app = builder.Build();
 

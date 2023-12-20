@@ -12,8 +12,9 @@ namespace ONPA.Membership.Infrastructure.Database.Configurations
             builder.HasKey(x => x.MemberId);
             builder.HasKey(x => x.ExpelDate);
             builder.Property(x=>x.Justification).IsRequired();
-            builder.Property(x => x.MemberId).IsRequired(true);
-            builder.Property(x=>x.ExpelDate).IsRequired(true);
+            builder.Property(x => x.MemberId).IsRequired();
+            builder.Property(x => x.TenantId).IsRequired();
+            builder.Property(x=>x.ExpelDate).IsRequired();
             builder.Property(x => x.AppealDate);
             builder.Property(x => x.AppealJustification);
             builder.Property(x => x.AppealDecisionDate);

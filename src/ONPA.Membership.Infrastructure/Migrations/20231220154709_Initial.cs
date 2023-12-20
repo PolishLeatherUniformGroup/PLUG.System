@@ -14,9 +14,6 @@ namespace ONPA.Membership.Infrastructure.Migrations
             migrationBuilder.EnsureSchema(
                 name: "membership");
 
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:vector", ",,");
-
             migrationBuilder.CreateTable(
                 name: "AggregateStream",
                 schema: "membership",
@@ -84,6 +81,7 @@ namespace ONPA.Membership.Infrastructure.Migrations
                 columns: table => new
                 {
                     ExpelDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     MemberId = table.Column<Guid>(type: "uuid", nullable: false),
                     Justification = table.Column<string>(type: "text", nullable: false),
                     AppealDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -122,6 +120,7 @@ namespace ONPA.Membership.Infrastructure.Migrations
                 {
                     SuspensionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     MemberId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     SuspendedUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Justification = table.Column<string>(type: "text", nullable: false),
                     AppealDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),

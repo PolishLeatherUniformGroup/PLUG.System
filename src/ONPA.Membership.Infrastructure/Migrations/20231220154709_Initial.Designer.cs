@@ -12,7 +12,7 @@ using ONPA.Membership.Infrastructure.Database;
 namespace ONPA.Membership.Infrastructure.Migrations
 {
     [DbContext(typeof(MembershipContext))]
-    [Migration("20231220151113_Initial")]
+    [Migration("20231220154709_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -23,7 +23,6 @@ namespace ONPA.Membership.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "vector");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ONPA.Common.Infrastructure.StateEventLogEntry", b =>
@@ -168,6 +167,9 @@ namespace ONPA.Membership.Infrastructure.Migrations
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("ExpelDate");
 
                     b.ToTable("MemberExpel", "membership");
@@ -232,6 +234,9 @@ namespace ONPA.Membership.Infrastructure.Migrations
 
                     b.Property<DateTime>("SuspendedUntil")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("SuspensionDate");
 

@@ -3,6 +3,7 @@ namespace ONPA.Membership.Infrastructure.ReadModel;
 public class MemberSuspension
 {
     public Guid MemberId { get; set; }
+    public Guid TenantId { get; set; }
     public DateTime SuspensionDate { get; set; }
     public DateTime SuspendedUntil { get; set; }
     public string Justification { get; set; }
