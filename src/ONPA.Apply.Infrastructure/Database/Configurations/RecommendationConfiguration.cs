@@ -10,12 +10,12 @@ public class RecommendationConfiguration : IEntityTypeConfiguration<Recommendati
     {
         builder.ToTable("recommendations", "apply");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasColumnName("id");
-        builder.Property(x => x.ApplicationId).HasColumnName("application_id");
-        builder.Property(x=>x.RecommendingMemberId).HasColumnName("recommending_member_id");
-        builder.Property(x=>x.RecommendingMemberNumber).HasColumnName("recommending_member_number");
-        builder.Property(x=>x.RequestDate).HasColumnName("request_date");
-        builder.Property(x=>x.Status).HasColumnName("status");
-        
+        builder.Property(x => x.Id).IsRequired();
+        builder.Property(x => x.TenantId).IsRequired();
+        builder.Property(x => x.ApplicationId).IsRequired();
+        builder.Property(x => x.RecommendingMemberId).IsRequired();
+        builder.Property(x => x.RecommendingMemberNumber).IsRequired();
+        builder.Property(x => x.RequestDate).IsRequired();
+        builder.Property(x => x.Status).IsRequired();
     }
 }

@@ -24,6 +24,7 @@ namespace ONPA.Apply.Infrastructure.Migrations
                 {
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     AggregateId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
                     AggregateTypeName = table.Column<string>(type: "text", nullable: false),
                     EventTypeName = table.Column<string>(type: "text", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -53,26 +54,43 @@ namespace ONPA.Apply.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "application_actions",
+                schema: "apply",
+                columns: table => new
+                {
+                    ActionId = table.Column<int>(type: "integer", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ApplicationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DecisionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DecisionJustification = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_application_actions", x => x.ActionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "application_forms",
                 schema: "apply",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    first_name = table.Column<string>(type: "text", nullable: false),
-                    last_name = table.Column<string>(type: "text", nullable: false),
-                    email = table.Column<string>(type: "text", nullable: false),
-                    phone = table.Column<string>(type: "text", nullable: false),
-                    address = table.Column<string>(type: "text", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    application_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    last_update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    required_fee_amount = table.Column<decimal>(type: "numeric", nullable: true),
-                    paid_fee_amount = table.Column<decimal>(type: "numeric", nullable: true),
-                    fee_currency = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: false),
+                    LastName = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    ApplicationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RequiredFeeAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    PaidFeeAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    FeeCurrency = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_application_forms", x => x.id);
+                    table.PrimaryKey("PK_application_forms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,17 +98,24 @@ namespace ONPA.Apply.Infrastructure.Migrations
                 schema: "apply",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    application_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    recommending_member_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    recommending_member_number = table.Column<string>(type: "text", nullable: false),
-                    request_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ApplicationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RecommendingMemberId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RecommendingMemberNumber = table.Column<string>(type: "text", nullable: false),
+                    RequestDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_recommendations", x => x.id);
+                    table.PrimaryKey("PK_recommendations", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AggregateStream_TenantId_AggregateId",
+                schema: "apply",
+                table: "AggregateStream",
+                columns: new[] { "TenantId", "AggregateId" });
         }
 
         /// <inheritdoc />
@@ -102,6 +127,10 @@ namespace ONPA.Apply.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "IntegrationEventLog",
+                schema: "apply");
+
+            migrationBuilder.DropTable(
+                name: "application_actions",
                 schema: "apply");
 
             migrationBuilder.DropTable(

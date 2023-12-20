@@ -23,61 +23,75 @@ namespace ONPA.Apply.Infrastructure.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "vector");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ONPA.Apply.Infrastructure.ReadModel.ApplicationAction", b =>
+                {
+                    b.Property<int>("ActionId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ApplicationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DecisionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DecisionJustification")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ActionId");
+
+                    b.ToTable("application_actions", "apply");
+                });
+
             modelBuilder.Entity("ONPA.Apply.Infrastructure.ReadModel.ApplicationForm", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("address");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ApplicationDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("application_date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnType("text");
 
                     b.Property<string>("FeeCurrency")
-                        .HasColumnType("text")
-                        .HasColumnName("fee_currency");
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("first_name");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("last_name");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_update_date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal?>("PaidFeeAmount")
-                        .HasColumnType("numeric")
-                        .HasColumnName("paid_fee_amount");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("phone");
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("RequiredFeeAmount")
-                        .HasColumnType("numeric")
-                        .HasColumnName("required_fee_amount");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -88,29 +102,26 @@ namespace ONPA.Apply.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ApplicationId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("application_id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("RecommendingMemberId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("recommending_member_id");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("RecommendingMemberNumber")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("recommending_member_number");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("RequestDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("request_date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -141,7 +152,12 @@ namespace ONPA.Apply.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("EventId");
+
+                    b.HasIndex("TenantId", "AggregateId");
 
                     b.ToTable("AggregateStream", "apply");
                 });
