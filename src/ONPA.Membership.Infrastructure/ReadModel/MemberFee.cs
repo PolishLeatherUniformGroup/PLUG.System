@@ -2,6 +2,7 @@
 
 public class MemberFee
 {
+    public Guid TenantId { get; set; }
     public Guid Id { get; set; }
     public Guid MemberId { get; set; }
     public decimal DueAmount { get;  set; }

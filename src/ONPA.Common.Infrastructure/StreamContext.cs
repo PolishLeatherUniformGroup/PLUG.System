@@ -13,7 +13,7 @@ public class StreamContext : DbContext, IUnitOfWork
     private IDbContextTransaction _currentTransaction;
     private readonly IMediator _mediator;
 
-    protected StreamContext(IMediator mediator)
+    protected StreamContext(IMediator? mediator)
     {
         this._mediator = mediator;
     }

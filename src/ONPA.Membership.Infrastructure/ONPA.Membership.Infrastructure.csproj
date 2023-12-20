@@ -17,6 +17,9 @@
       <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />
       <ProjectReference Include="..\ONPA.Membership\ONPA.Membership.csproj" />
+
+		<PackageReference Include="Pgvector" Version="0.2.0" />
+		<PackageReference Include="Pgvector.EntityFrameworkCore" Version="0.2.0" />
     </ItemGroup>
 
 </Project>
