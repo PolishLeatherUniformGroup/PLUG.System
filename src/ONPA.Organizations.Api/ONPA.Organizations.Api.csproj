@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ONPA.Common\ONPA.Common.csproj" />
+      <ProjectReference Include="..\ONPA.Communication.Infrastructure\ONPA.Communication.Infrastructure.csproj" />
       <ProjectReference Include="..\ONPA.EventBus.RabbitMq\ONPA.EventBus.RabbitMq.csproj" />
       <ProjectReference Include="..\ONPA.EventBus\ONPA.EventBus.csproj" />
       <ProjectReference Include="..\ONPA.IntegrationEventsLog\ONPA.IntegrationEventsLog.csproj" />

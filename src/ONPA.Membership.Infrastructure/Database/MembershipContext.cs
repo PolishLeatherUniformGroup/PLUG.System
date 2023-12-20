@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using ONPA.Common.Infrastructure;
 using ONPA.IntegrationEventsLog;
 using ONPA.Membership.Infrastructure.ReadModel;
@@ -29,7 +31,6 @@ public class MembershipContext : StreamContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasPostgresExtension("vector");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MembershipContext).Assembly);
         modelBuilder.UseStreamModels("membership");
         modelBuilder.UseIntegrationEventLogs("membership");
@@ -37,11 +38,6 @@ public class MembershipContext : StreamContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
-        optionsBuilder.UseNpgsql(x =>
-        {
-            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "membership");
-        });
 #if LOCAL
         if (!optionsBuilder.IsConfigured)
         {
@@ -52,14 +48,23 @@ public class MembershipContext : StreamContext
                 .AddEnvironmentVariables()
                 .Build();
             var connectionString = config.GetConnectionString("onpa_db");
-           
+            var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            {
+                Password = config["ApplyDBPassword"],
+            };
             optionsBuilder.UseNpgsql(builder.ToString(), x =>
             {
                 x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "membership");
             });
             
         }
+#else
 
+        optionsBuilder.UseNpgsql(x =>
+        {
+            x.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "membership");
+        });
 #endif
+        
     }
 }

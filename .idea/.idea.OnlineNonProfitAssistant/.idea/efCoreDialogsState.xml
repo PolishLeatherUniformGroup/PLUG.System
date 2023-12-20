@@ -4,6 +4,7 @@
     <option name="keyValueStorage">
       <map>
         <entry key="Common:6ff3dae0-817b-4a96-a6f2-967e8349003f:dbContext" value="ONPA.Organizations.Infrastructure.Database.OrganizationsContext" />
+        <entry key="Common:806784a7-fc20-44af-ae8f-4a409f82a38a:dbContext" value="ONPA.Membership.Infrastructure.Database.MembershipContext" />
         <entry key="Common:8ca9f493-c896-42db-a776-9696e3c3f8b7:dbContext" value="ONPA.Apply.Infrastructure.Database.ApplyContext" />
         <entry key="Common:8e77fe22-cb9f-48da-9893-2fa06f927ce1:dbContext" value="ONPA.Apply.Infrastructure.Database.ApplyContext" />
         <entry key="Common:buildConfiguration" value="Local" />
