@@ -32,4 +32,21 @@ public class OrganizationService : IOrganizationService
             return Enumerable.Empty<OrganizationResponse>();
         }
     }
+
+    public async Task<OrganizationSettingsResponse?> GetOrganizationSettings(Guid organizationId)
+    {
+        var request = new GetOrganizationSettingsRequest(organizationId);
+        try
+        {
+            var apiUri = new Uri(Url.Combine(_httpClient.BaseAddress.OriginalString, request.ToQueryString()));
+            using var httpResponse = await _httpClient.GetAsync(apiUri);
+            httpResponse.EnsureSuccessStatusCode();
+            var result =await httpResponse.Content.ReadFromJsonAsync<OrganizationSettingsResponse>();
+            return result ?? default;
+        }
+        catch (Exception)
+        {
+            return default;
+        }
+    }
 }

@@ -6,7 +6,7 @@ public record GetOrganizationSettingsRequest([FromRoute]Guid OrganizationId)
 {
     public string ToQueryString()
     {
-        var queryString = $"{this.OrganizationId}/settings";
+        var queryString = $"{Routes.Base}/{this.OrganizationId}/settings";
         return queryString;
     }
 }

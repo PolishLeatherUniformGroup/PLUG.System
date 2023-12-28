@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 var configuration = builder.Configuration;
-builder.Services.AddMultiTenant<TenantInfo>(x =>
+/*builder.Services.AddMultiTenant<TenantInfo>(x =>
     {
         x.IgnoredIdentifiers.Add("wwwroot");
         x.IgnoredIdentifiers.Add("css");
@@ -27,7 +27,7 @@ builder.Services.AddMultiTenant<TenantInfo>(x =>
     .WithBasePathStrategy(options =>
     {
         options.RebaseAspNetCorePathBase = true;
-    });
+    });*/
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -46,6 +46,11 @@ builder.Services.AddTransientWithHttpClient<IApplyService, ApplyService>(configu
 builder.Services.AddTransientWithHttpClient<IMembershipService, MembershipService>(configuration, client =>
 {
     client.BaseAddress = new Uri(configuration["Services:MembershipService:Uri"]);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+});
+builder.Services.AddTransientWithHttpClient<IOrganizationService, OrganizationService>(configuration, client =>
+{
+    client.BaseAddress = new Uri(configuration["Services:OrganizationService:Uri"]);
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 });
 
@@ -82,5 +87,5 @@ app.MapRazorComponents<App>()
 .AddInteractiveServerRenderMode();
 
 app.MapControllers();
- app.UseMultiTenant();
+ //app.UseMultiTenant();
 app.Run();

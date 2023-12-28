@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ONPA.Common.Infrastructure.Repositories;
 using ONPA.Organizations.Domain;
 using ONPA.Organizations.Infrastructure.Database;
@@ -7,9 +8,11 @@ namespace ONPA.Organizations.Infrastructure.Repositories;
 
 public sealed class OrganizationAggregateRepository : AggregateRootRepository<OrganizationsContext, Organization>
 {
-  
-
-    public OrganizationAggregateRepository(OrganizationsContext context) : base(context) { }
+    private readonly ILogger<OrganizationAggregateRepository> _logger;
+    public OrganizationAggregateRepository(OrganizationsContext context, ILogger<OrganizationAggregateRepository> logger) : base(context)
+    {
+        _logger = logger;
+    }
 
     protected override async Task OnAggregateCreate(Organization aggregate)
     {
@@ -62,6 +65,7 @@ public sealed class OrganizationAggregateRepository : AggregateRootRepository<Or
             ContactEmail = aggregate.ContactEmail,
             Regon = aggregate.Regon,
         };
+        _logger.LogInformation("Creating organization {@organization}", organization);
         var organizationSettings = new ReadModel.OrganizationSettings()
         {
             OrganizationId = aggregate.AggregateId,
@@ -69,6 +73,7 @@ public sealed class OrganizationAggregateRepository : AggregateRootRepository<Or
             FeePaymentMonth = aggregate.Settings.FeePaymentMonth,
             RequiredRecommendations = aggregate.Settings.RequiredRecommendations,
         };
+        _logger.LogInformation("Creating organization settings {@organizationSettings}", organizationSettings);
        await this._context.Organizations.AddAsync(organization);
         await this._context.OrganizationSettings.AddAsync(organizationSettings);
     }

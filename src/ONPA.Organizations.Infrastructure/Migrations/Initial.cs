@@ -13,10 +13,12 @@ namespace ONPA.Organizations.Infrastructure.Migrations
         {
             migrationBuilder.EnsureSchema(
                 name: "org");
+#if LOCAL
+            
 
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:PostgresExtension:vector", ",,");
-
+#endif
             migrationBuilder.CreateTable(
                 name: "AggregateStream",
                 schema: "org",

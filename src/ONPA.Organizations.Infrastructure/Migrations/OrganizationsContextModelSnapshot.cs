@@ -19,8 +19,9 @@ namespace ONPA.Organizations.Infrastructure.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
+#if LOCAL
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "vector");
+#endif
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("ONPA.Common.Infrastructure.StateEventLogEntry", b =>

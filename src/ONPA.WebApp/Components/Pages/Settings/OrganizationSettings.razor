@@ -1,0 +1,20 @@
+@page "/settings/organization"
+@using ONPA.WebApp.Services.Abstractions
+@using ONPA.Organizations.Contract.Responses
+@inject IOrganizationService OrganizationService
+<h3>OrganizationSettings</h3>
+
+<dl>
+    <dt>Rekomendacje</dt>
+    <dd>@Settings?.RequiredRecommendations</dd>
+</dl>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var orgs = await OrganizationService.GetOrganizations();
+        Settings = await OrganizationService.GetOrganizationSettings(orgs.FirstOrDefault()?.Id ?? Guid.Empty);
+    }
+
+    OrganizationSettingsResponse? Settings { get; set; }
+}

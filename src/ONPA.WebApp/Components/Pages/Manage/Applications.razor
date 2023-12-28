@@ -61,51 +61,28 @@
         { new Option<string> { Value = "9", Text = "Odrzucony po odwołaniu" } },
     };
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         applicationsProvider = async req =>
         {
-            var response = await ApplyService.GetApplications(-1);
-            var r = new Random();
-            var testData = new List<ApplicationItem>
-            {
-                new()
-                {
-                    FirstName = "Jan",
-                    LastName = "Kowalski",
-                    Email = "jan.kowalski@email.com",
-                    ApplicationDate = DateTime.Now.Date,
-                    Status = ApplicationStatus.AwaitDecision
-                },
-                new()
-                {
-                    FirstName = "Marian",
-                    LastName = "Nowak",
-                    Email = "marian.nowak@email.com",
-                    ApplicationDate = DateTime.Now.Date,
-                    Status = ApplicationStatus.Received
-                },
-                new()
-                {
-                    FirstName = "Bogumił",
-                    LastName = "Nowacki",
-                    Email = "bogumil.nowacki@email.com",
-                    ApplicationDate = DateTime.Now.Date,
-                    Status = ApplicationStatus.RejectionAppealed
-                }
-            };
-            return GridItemsProviderResult.From<ApplicationItem>(items: testData, totalItemCount: 1);
-        };
+            var response = await ReadApplications();
+            return response;};
+        return Task.CompletedTask;
     }
 
-    public void FilterByStatus(int status, int page, int limit)
+    public Task FilterByStatus(int status, int page, int limit)
     {
-        applicationsProvider = async async=>
+        applicationsProvider = async req =>
         {
-            var response = await  ApplyService.GetApplications(status, page, limit);
-            return response;
+            var result = await ReadApplications(status, page, limit);
+            return result;
         };
+        return Task.CompletedTask;
     }
 
+    private async Task<GridItemsProviderResult<ApplicationItem>> ReadApplications(int status=-1, int page=0, int limit=10)
+    {
+        return await ApplyService.GetApplications(status, page, limit);
+    }
 
 }

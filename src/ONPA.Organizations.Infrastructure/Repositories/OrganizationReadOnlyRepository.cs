@@ -22,7 +22,9 @@ public sealed class OrganizationReadOnlyRepository : IReadOnlyRepository<Organiz
 
     public async Task<IEnumerable<Organization>> ReadMany(int page = 0, int pageSize = 20, CancellationToken cancellationToken = new())
     {
-        return await this._context.Organizations.Skip(page * pageSize).Take(pageSize).OrderBy(x=>x.Id).ToListAsync(cancellationToken);
+        return await this._context.Organizations
+            .OrderBy(x => x.Id)
+            .Skip(page * pageSize).Take(pageSize).ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Organization>> ManyByFilter(Expression<Func<Organization, bool>> filter,
@@ -32,7 +34,8 @@ public sealed class OrganizationReadOnlyRepository : IReadOnlyRepository<Organiz
     {
         return await this._context.Organizations
             .Where(filter)
+            .OrderBy(x => x.Id)
             .Skip(page * pageSize).Take(pageSize)
-            .OrderBy(x => x.Id).ToListAsync(cancellationToken);
+            .ToListAsync(cancellationToken);
     }
 }
