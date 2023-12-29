@@ -11,7 +11,6 @@ namespace ONPA.WebApp.Services;
 public class OrganizationService : IOrganizationService
 {
     private readonly HttpClient _httpClient;
-    private readonly IToastService _toastService;
     
     public OrganizationService(HttpClient httpClient)
     {
@@ -62,15 +61,9 @@ public class OrganizationService : IOrganizationService
     {
         var request = new UpdateOrganizationSettingsRequest(organizationId, 
             new OrganizationSettings(settings.RequiredRecomendation,settings.DaysToAppeal,settings.FeePaymentMonth));
-        try
-        {
+      
             var apiUri = new Uri(Url.Combine(_httpClient.BaseAddress.OriginalString, request.ToQueryString()));
             var response = await _httpClient.PutAsJsonAsync(apiUri, request);
             response.EnsureSuccessStatusCode();
-            this._toastService.ShowSuccess("Ustawienia zostały zapisane");
-        }catch (Exception)
-        {
-            this._toastService.ShowError("Wystąpił błąd podczas zapisu ustawień");
-        }
     }
 }

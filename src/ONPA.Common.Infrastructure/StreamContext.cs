@@ -58,7 +58,7 @@ public class StreamContext : DbContext, IUnitOfWork
             await this.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch
+        catch(Exception e)
         {
             this.RollbackTransaction();
             throw;
@@ -117,14 +117,25 @@ public class StreamContext : DbContext, IUnitOfWork
             return default;
         }
 
-        var stateEvents = typeof(TAggregate).Assembly
-            .GetTypes()
-            .Where(t => t.IsSubclassOf(typeof(IStateEvent)))
+        var allTypes = typeof(TAggregate).Assembly
+            .GetTypes();
+
+            var stateEvents = allTypes.Where(t => t.IsSubclassOf(typeof(StateEventBase)))
             .ToArray();
         var events = stream.OrderBy(x => x.CreationTime).Select(
-            x => x.DeserializeJsonContent(stateEvents.FirstOrDefault(t => t.Name == x.EventTypeShortName)).StateEvent);
-        var aggregate = (TAggregate)Activator.CreateInstance(typeof(TAggregate), new object[] { tenantId, aggregateId, events });
-        return aggregate;
+            x => x.DeserializeJsonContent(stateEvents.FirstOrDefault(t => t.Name == x.EventTypeShortName)).StateEvent).ToList();
+        if (typeof(TAggregate).IsSubclassOf(typeof(AggregateRoot)))
+        {
+            var aggregateRoot = (TAggregate)Activator.CreateInstance(typeof(TAggregate), new object[] { aggregateId, events });
+            aggregateRoot.ClearChanges();
+            return aggregateRoot;
+        }
+        else
+        {
+            var aggregate = (TAggregate)Activator.CreateInstance(typeof(TAggregate), new object[] { tenantId, aggregateId, events });
+            aggregate.ClearChanges();
+            return aggregate;
+        }
     }
 
     public async Task<TAggregate> StoreAggregate<TAggregate>(TAggregate aggregate, CancellationToken cancellationToken)

@@ -57,6 +57,7 @@ public abstract class MultiTenantAggregateRoot : IAggregateRoot
         {
             this.ApplyStateChange(change);
         }
+        
     }
 
     public void ClearChanges()
@@ -75,8 +76,9 @@ public abstract class MultiTenantAggregateRoot : IAggregateRoot
     }
     protected void RaiseChangeEvent<TChange>(TChange change) where TChange : IStateEvent
     {
-        var changeWithAggregate = change.WithAggregate(this.TenantId, this.AggregateId, this.Version);
         this.version++;
+        var changeWithAggregate = change.WithAggregate(this.TenantId, this.AggregateId, this.Version);
+       
         this.stateEvents.Add(changeWithAggregate);
     }
     protected void RaiseDomainEvent<TEvent>(TEvent @event) where TEvent : DomainEventBase
@@ -89,7 +91,7 @@ public abstract class MultiTenantAggregateRoot : IAggregateRoot
     {
         if (this.stateEvents.Any(c => Equals(c.EventId, @change.EventId)))
         {
-            if (this.version != change.AggregateVersion)
+            if (this.version > change.AggregateVersion)
             {
                 throw new AggregateVersionMismatchException();
             }

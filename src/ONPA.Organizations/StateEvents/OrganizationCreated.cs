@@ -1,5 +1,6 @@
 ﻿using ONPA.Common.Domain;
 using ONPA.Organizations.Domain;
+using System.Text.Json.Serialization;
 
 namespace ONPA.Organizations.StateEvents;
 
@@ -27,7 +28,8 @@ public sealed class OrganizationCreated : StateEventBase
 
         this.Regon = regon;
     }
-    
+
+    [JsonConstructor]
     private OrganizationCreated(Guid tenantId, Guid aggregateId, long aggregateVersion, string name, string cardPrefix, string taxId, string accountNumber, string address, string contactEmail, OrganizationSettings settings, string? regon = null) : base(tenantId, aggregateId,aggregateVersion)
     {
         this.Name = name;
@@ -36,6 +38,7 @@ public sealed class OrganizationCreated : StateEventBase
         this.AccountNumber = accountNumber;
         this.Address = address;
         this.Settings = settings;
+        this.ContactEmail = contactEmail;
         this.Regon = regon;
     }
 

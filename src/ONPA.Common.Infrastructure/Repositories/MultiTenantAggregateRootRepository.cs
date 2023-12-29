@@ -34,7 +34,7 @@ namespace ONPA.Common.Infrastructure.Repositories
         public async Task<TAggregate> UpdateAsync(TAggregate aggregate, CancellationToken cancellationToken = default)
         {
             await this._context.StoreAggregate(aggregate, cancellationToken);
-            await this.OnAggregateCreate(aggregate);
+            await this.OnAggregateUpdate(aggregate);
             return aggregate;
         }
 

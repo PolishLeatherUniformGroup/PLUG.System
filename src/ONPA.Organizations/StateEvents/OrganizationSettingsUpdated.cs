@@ -1,5 +1,6 @@
 ﻿using ONPA.Common.Domain;
 using ONPA.Organizations.Domain;
+using System.Text.Json.Serialization;
 
 namespace ONPA.Organizations.StateEvents;
 
@@ -11,7 +12,8 @@ public sealed class OrganizationSettingsUpdated : StateEventBase
     {
         this.Settings = settings;
     }
-    
+
+    [JsonConstructor]
     private OrganizationSettingsUpdated(Guid tenantId, Guid aggregateId, long aggregateVersion, OrganizationSettings settings) : base(tenantId, aggregateId,aggregateVersion)
     {
         this.Settings = settings;
