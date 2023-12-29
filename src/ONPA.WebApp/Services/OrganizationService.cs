@@ -1,7 +1,9 @@
 ﻿using Flurl;
+using Microsoft.FluentUI.AspNetCore.Components;
 using ONPA.Common.Queries;
 using ONPA.Organizations.Contract.Requests;
 using ONPA.Organizations.Contract.Responses;
+using ONPA.WebApp.Data;
 using ONPA.WebApp.Services.Abstractions;
 
 namespace ONPA.WebApp.Services;
@@ -9,6 +11,7 @@ namespace ONPA.WebApp.Services;
 public class OrganizationService : IOrganizationService
 {
     private readonly HttpClient _httpClient;
+    private readonly IToastService _toastService;
     
     public OrganizationService(HttpClient httpClient)
     {
@@ -33,7 +36,7 @@ public class OrganizationService : IOrganizationService
         }
     }
 
-    public async Task<OrganizationSettingsResponse?> GetOrganizationSettings(Guid organizationId)
+    public async Task<OrganizationSettingsData?> GetOrganizationSettings(Guid organizationId)
     {
         var request = new GetOrganizationSettingsRequest(organizationId);
         try
@@ -42,11 +45,32 @@ public class OrganizationService : IOrganizationService
             using var httpResponse = await _httpClient.GetAsync(apiUri);
             httpResponse.EnsureSuccessStatusCode();
             var result =await httpResponse.Content.ReadFromJsonAsync<OrganizationSettingsResponse>();
-            return result ?? default;
+            return new OrganizationSettingsData()
+            {
+                DaysToAppeal = result.DaysForAppeal,
+                FeePaymentMonth = result.FeePaymentMonth,
+                RequiredRecomendation = result.RequiredRecommendations,
+            };
         }
         catch (Exception)
         {
             return default;
+        }
+    }
+
+    public async Task UpdateOrganizationSettings(Guid organizationId, OrganizationSettingsData settings)
+    {
+        var request = new UpdateOrganizationSettingsRequest(organizationId, 
+            new OrganizationSettings(settings.RequiredRecomendation,settings.DaysToAppeal,settings.FeePaymentMonth));
+        try
+        {
+            var apiUri = new Uri(Url.Combine(_httpClient.BaseAddress.OriginalString, request.ToQueryString()));
+            var response = await _httpClient.PutAsJsonAsync(apiUri, request);
+            response.EnsureSuccessStatusCode();
+            this._toastService.ShowSuccess("Ustawienia zostały zapisane");
+        }catch (Exception)
+        {
+            this._toastService.ShowError("Wystąpił błąd podczas zapisu ustawień");
         }
     }
 }

@@ -4,17 +4,26 @@
 @inject IOrganizationService OrganizationService
 <h3>OrganizationSettings</h3>
 
-<dl>
-    <dt>Rekomendacje</dt>
-    <dd>@Settings?.RequiredRecommendations</dd>
-</dl>
+<form>
+    <FluentNumberField TValue="int" bind-Value="Settings.RequiredRecomendation" Label="Wymagane rekomedacje"></FluentNumberField>
+    <FluentNumberField TValue="int" bind-Value="Settings.DaysToAppeal" Label="Dni na odwołanie"></FluentNumberField>
+    <FluentNumberField TValue="int" bind-Value="Settings.FeePaymentMonth" Label="Miesiąc płatności składki"></FluentNumberField>
+    <FluentButton Appearance="Appearance.Accent" OnClick="@(async () => { await Save(); })">Zapisz</FluentButton>
+</form>
 
 @code {
+
     protected override async Task OnInitializedAsync()
     {
         var orgs = await OrganizationService.GetOrganizations();
+        OrganizationId = orgs.FirstOrDefault()?.Id ?? Guid.Empty;
         Settings = await OrganizationService.GetOrganizationSettings(orgs.FirstOrDefault()?.Id ?? Guid.Empty);
     }
-
-    OrganizationSettingsResponse? Settings { get; set; }
+    
+    private async Task Save()
+    {
+        await OrganizationService.UpdateOrganizationSettings(OrganizationId, Settings);
+    }
+    OrganizationSettingsData? Settings { get; set; }
+    Guid OrganizationId { get; set; }
 }

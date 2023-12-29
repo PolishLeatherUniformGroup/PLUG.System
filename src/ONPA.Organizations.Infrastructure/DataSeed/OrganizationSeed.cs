@@ -23,18 +23,26 @@ public partial class OrganizationSeed(ILogger<OrganizationSeed> logger) : IDbSee
             organizationAggregate.ClearDomainEvents();
             await context.StoreAggregate(organizationAggregate, new CancellationToken());
 
-            // var demoOrg = new ReadModel.Organization()
-            // {
-            //     Name = organizationAggregate.Name,
-            //     AccountNumber = organizationAggregate.AccountNumber,
-            //     Id = organizationAggregate.AggregateId,
-            //     CardPrefix = organizationAggregate.CardPrefix,
-            //     TaxId = organizationAggregate.TaxId,
-            //     Regon = organizationAggregate.Regon,
-            //     ContactEmail = organizationAggregate.ContactEmail,
-            //     Address = organizationAggregate.Address,
-            // };
-            // context.Organizations.Add(demoOrg);
+            var demoOrg = new ReadModel.Organization()
+            {
+                Name = organizationAggregate.Name,
+                AccountNumber = organizationAggregate.AccountNumber,
+                Id = organizationAggregate.AggregateId,
+                CardPrefix = organizationAggregate.CardPrefix,
+                TaxId = organizationAggregate.TaxId,
+                Regon = organizationAggregate.Regon,
+                ContactEmail = organizationAggregate.ContactEmail,
+                Address = organizationAggregate.Address,
+            };
+            context.Organizations.Add(demoOrg);
+            var settings = new ReadModel.OrganizationSettings
+            {
+                DaysForAppeal = 14,
+                OrganizationId = organizationAggregate.AggregateId,
+                FeePaymentMonth = 1,
+                RequiredRecommendations = 2,
+            };
+            context.OrganizationSettings.Add(settings);
             
             await context.SaveChangesAsync();
         }
