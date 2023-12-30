@@ -115,12 +115,14 @@ public class ApplyService : IApplyService
             applyForm.Phone,
             applyForm.Address,
             applyForm.Recommendations);
-        request = request.WithTenant(applyForm.OrganizationId);
+        request.TenantId = applyForm.OrganizationId;
 
         try
         {
             var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, request.ToQueryString()));
+            this.httpClient.DefaultRequestHeaders.Add("X-Tenant-Id", applyForm.OrganizationId.ToString());
             using var response = await this.httpClient.PostAsJsonAsync(apiUri, request);
+            var content = await response.Content.ReadAsStringAsync();
             response.EnsureSuccessStatusCode();
             return true;
         }catch(Exception)

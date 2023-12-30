@@ -7,7 +7,7 @@ namespace ONPA.Common.Infrastructure;
 public abstract record MultiTenantRequest
 {
     [FromHeader(Name = "X-Tenant-Id")]
-    public Guid TenantId { get; private set; }
+    public Guid TenantId { get;  set; }
 
     public dynamic WithTenant(Guid tenantId)
     {
