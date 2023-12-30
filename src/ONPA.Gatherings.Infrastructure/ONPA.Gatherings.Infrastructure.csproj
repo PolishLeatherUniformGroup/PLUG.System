@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <Configurations>Debug;Release;Local</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <NoWarn>NU1605</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,13 +1,5 @@
 {
   "resources": {
-    "onpa_db": {
-      "type": "postgres.server.v0",
-      "ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;"
-    },
-    "EventBus": {
-      "type": "rabbitmq.server.v0",
-      "ConnectionString": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr"
-    },
     "identity-api": {
       "type": "project.v0",
       "path": "../ONPA.Identity.Api/ONPA.Identity.Api.csproj",

@@ -14,5 +14,7 @@ namespace ONPA.WebApp.Services.Abstractions
         Task<bool> RegisterApplicationFeePayment(Guid applicationId, decimal paidAmmount, string currency);
         Task<bool> RegisterApplicationRejectionAppeal(Guid applicationId, DateTime appealDate, string justification);
         Task<bool> RejectApplication(Guid applicationId, string decision, int days = 14);
+        
+        Task<bool> SaveApplication(ApplyForm applyForm);
     }
 }

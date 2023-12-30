@@ -3,13 +3,55 @@
 @using ONPA.Organizations.Contract.Responses
 @inject IOrganizationService OrganizationService
 <h3>OrganizationSettings</h3>
+@if (OrganizationId.HasValue && Settings != null)
+{
+    if (saving)
+    {
+        <FluentProgress IsIndeterminate="true" Stroke="ProgressStroke.Large"/>
+    }
+    <FluentGrid Spacing="3" Justify="JustifyContent.FlexStart" Style="background-color: var(--neutral-layer-3);">
+        <FluentGridItem xs="3">
+            <div class="card">
+                Wymagane rekomendacje
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="9">
+            <div class="card">
+                <FluentNumberField @bind-Value=Settings.RequiredRecomendation AriaLabel="No label"></FluentNumberField>
 
-<form>
-    <FluentNumberField TValue="int" bind-Value="Settings.RequiredRecomendation" Label="Wymagane rekomedacje"></FluentNumberField>
-    <FluentNumberField TValue="int" bind-Value="Settings.DaysToAppeal" Label="Dni na odwołanie"></FluentNumberField>
-    <FluentNumberField TValue="int" bind-Value="Settings.FeePaymentMonth" Label="Miesiąc płatności składki"></FluentNumberField>
-    <FluentButton Appearance="Appearance.Accent" OnClick="@(async () => { await Save(); })">Zapisz</FluentButton>
-</form>
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="3">
+            <div class="card">
+                Dni na odwołanie
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="9">
+            <div class="card">
+                <FluentNumberField @bind-Value=Settings.DaysToAppeal AriaLabel="No label"></FluentNumberField>
+
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="3">
+            <div class="card">
+                Miesiąc płatności składki
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="9">
+            <div class="card">
+                <FluentNumberField @bind-Value=Settings.FeePaymentMonth AriaLabel="No label"></FluentNumberField>
+
+            </div>
+        </FluentGridItem>
+        <FluentGridItem xs="12">
+            <FluentButton OnClick="Save" Appearance="Appearance.Accent">Zapisz</FluentButton>
+        </FluentGridItem>
+    </FluentGrid>
+}
+else
+{
+    <FluentProgress IsIndeterminate="true" Stroke="ProgressStroke.Large"/>
+}
 
 @code {
 
@@ -19,11 +61,15 @@
         OrganizationId = orgs.FirstOrDefault()?.Id ?? Guid.Empty;
         Settings = await OrganizationService.GetOrganizationSettings(orgs.FirstOrDefault()?.Id ?? Guid.Empty);
     }
-    
+
     private async Task Save()
     {
-        await OrganizationService.UpdateOrganizationSettings(OrganizationId, Settings);
+        saving = true;
+        await OrganizationService.UpdateOrganizationSettings(OrganizationId.Value, Settings);
+        saving = false;
     }
+
     OrganizationSettingsData? Settings { get; set; }
-    Guid OrganizationId { get; set; }
+    Guid? OrganizationId { get; set; }
+    bool saving = false;
 }

@@ -106,6 +106,29 @@ public class ApplyService : IApplyService
         }
     }
 
+    public async Task<bool> SaveApplication(ApplyForm applyForm)
+    {
+        var request = new CreateApplicationRequest(
+            applyForm.FirstName,
+            applyForm.LastName,
+            applyForm.Email,
+            applyForm.Phone,
+            applyForm.Address,
+            applyForm.Recommendations);
+        request = request.WithTenant(applyForm.OrganizationId);
+
+        try
+        {
+            var apiUri = new Uri(Url.Combine(this.httpClient.BaseAddress.OriginalString, request.ToQueryString()));
+            using var response = await this.httpClient.PostAsJsonAsync(apiUri, request);
+            response.EnsureSuccessStatusCode();
+            return true;
+        }catch(Exception)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> RegisterApplicationFeePayment(Guid applicationId, decimal paidAmmount, string currency)
     {
         var request = new RegisterApplicationPaymentRequest(applicationId, new Payment(paidAmmount, currency, DateTime.UtcNow));

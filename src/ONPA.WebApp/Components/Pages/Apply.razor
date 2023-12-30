@@ -1,0 +1,66 @@
+@page "/Apply"
+@layout SlimLayout
+@using ONPA.WebApp.Services
+@using ONPA.WebApp.Services.Abstractions
+@using ONPA.WebApp.Components.Layout
+@inject IOrganizationService OrganizationService
+@inject IApplyService ApplyService
+<h3>Wniosek Członkowski</h3>
+@if (Form is null)
+{
+    <FluentProgress IsIndeterminate="true" Stroke="ProgressStroke.Large"/>
+}
+else
+{
+    if (!saved)
+    {
+        if (saving)
+        {
+            <FluentProgress IsIndeterminate="true" Stroke="ProgressStroke.Large"/>
+        }
+        else
+        {
+            <FluentTextField bind-Value=@Form.FirstName Label="Imię"></FluentTextField>
+            <FluentTextField bind-Value=@Form.LastName Label="Nazwisko"></FluentTextField>
+            <FluentTextField bind-Value=@Form.Email Label="Email"></FluentTextField>
+            <FluentTextField bind-Value=@Form.Phone Label="Telefon"></FluentTextField>
+            <FluentTextArea bind-Value="@Form.Address" Label="Adres" Cols="100"></FluentTextArea>
+            @for (var i = 0; i < Form.Recommendations.Length; i++)
+            {
+                var label = $"Rekomendacja {i + 1}";
+                <FluentTextField bind-Value="@Form.Recommendations[i]" Label=@label></FluentTextField>
+            }
+
+            <FluentButton OnClick="Save" Appearance="Appearance.Accent">Zapisz</FluentButton>
+        }
+    }
+    else
+    {
+        <p>Twój wniosek członkowski został przesłany!</p>
+    }
+}
+
+@code {
+    public ApplyForm? Form { get; set; } = default!;
+    public Guid? OrganizationId { get; set; }
+    bool saved =false;
+    bool saving = false;
+    protected override async Task OnInitializedAsync()
+    {
+        var orgs = await OrganizationService.GetOrganizations();
+        var OrganizationId = orgs.FirstOrDefault()?.Id ?? Guid.Empty;
+        var settings = await OrganizationService.GetOrganizationSettings(OrganizationId);
+        Form = new ApplyForm(settings.RequiredRecomendation, OrganizationId);
+    }
+
+    private async Task Save()
+    {
+        saving = true;
+        if (Form is null)
+        {
+            return;
+        }
+
+        saved = await ApplyService.SaveApplication(Form);
+    }
+}

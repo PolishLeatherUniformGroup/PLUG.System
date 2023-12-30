@@ -9,7 +9,9 @@
         <Configurations>Debug;Release;Local</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
-
+    <PropertyGroup>
+        <NoWarn>NU1605</NoWarn>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
         <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.2.23619.3" />

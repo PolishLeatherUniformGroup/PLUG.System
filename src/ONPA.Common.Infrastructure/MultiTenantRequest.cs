@@ -9,7 +9,7 @@ public abstract record MultiTenantRequest
     [FromHeader(Name = "X-Tenant-Id")]
     public Guid TenantId { get; private set; }
 
-    public MultiTenantRequest WithTenant(Guid tenantId)
+    public dynamic WithTenant(Guid tenantId)
     {
         this.TenantId = tenantId;
         return this;

@@ -7,6 +7,7 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <Configurations>Debug;Release;Local</Configurations>
         <Platforms>AnyCPU</Platforms>
+        <NoWarn>NU1605</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
