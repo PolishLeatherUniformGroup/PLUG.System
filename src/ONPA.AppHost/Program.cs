@@ -14,6 +14,8 @@ var database = postgres.AddDatabase("onpa_db");
 #else
 var dbConnectionString =
     "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;";
+var database = builder.AddPostgres("onpa_db");
+var rabbitMq = builder.AddRabbitMQ("EventBus");
 var eventBusConnectionString = "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr";
 #endif
 
