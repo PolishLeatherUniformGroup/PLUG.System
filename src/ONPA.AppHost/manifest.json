@@ -1,34 +1,13 @@
 {
   "resources": {
-    "EventBus": {
-      "type": "rabbitmq.server.v0"
-    },
-    "postgres": {
-      "type": "postgres.server.v0"
-    },
-    "ApplyDB": {
-      "type": "postgres.database.v0",
-      "parent": "postgres"
-    },
-    "MembershipDB": {
-      "type": "postgres.database.v0",
-      "parent": "postgres"
-    },
-    "GatheringDB": {
-      "type": "postgres.database.v0",
-      "parent": "postgres"
-    },
-    "IdentityDB": {
-      "type": "postgres.database.v0",
-      "parent": "postgres"
-    },
     "identity-api": {
       "type": "project.v0",
       "path": "../ONPA.Identity.Api/ONPA.Identity.Api.csproj",
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
-        "ConnectionStrings__IdentityDB": "{IdentityDB.connectionString}",
+        "Aspire__Npgsql__EntityFrameworkCore__PostgreSQL__ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;",
+        "ConnectionStrings__EventBus": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr",
         "ApplyApiClient": "{apply-api.bindings.https.url}",
         "WebAppClient": "{webapp.bindings.https.url}"
       },
@@ -51,8 +30,8 @@
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
-        "ConnectionStrings__ApplyDB": "{ApplyDB.connectionString}",
-        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "Aspire__Npgsql__EntityFrameworkCore__PostgreSQL__ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;",
+        "ConnectionStrings__EventBus": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr",
         "IdentityUrl": "{identity-api.bindings.http.url}"
       },
       "bindings": {
@@ -74,8 +53,8 @@
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
-        "ConnectionStrings__MembershipDB": "{MembershipDB.connectionString}",
-        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "Aspire__Npgsql__EntityFrameworkCore__PostgreSQL__ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;",
+        "ConnectionStrings__EventBus": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr",
         "IdentityUrl": "{identity-api.bindings.http.url}"
       },
       "bindings": {
@@ -97,8 +76,31 @@
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
-        "ConnectionStrings__GatheringDB": "{GatheringDB.connectionString}",
-        "ConnectionStrings__EventBus": "{EventBus.connectionString}",
+        "Aspire__Npgsql__EntityFrameworkCore__PostgreSQL__ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;",
+        "ConnectionStrings__EventBus": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr",
+        "IdentityUrl": "{identity-api.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "organization-api": {
+      "type": "project.v0",
+      "path": "../ONPA.Organizations.Api/ONPA.Organizations.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "Aspire__Npgsql__EntityFrameworkCore__PostgreSQL__ConnectionString": "Server=onpa.postgres.database.azure.com;Database=onpa_db;Port=5432;User Id=onpa_admin;Password=d!Zujocaci2401;Ssl Mode=Require;",
+        "ConnectionStrings__EventBus": "amqps://bfrclisr:eG46ejMI_FlPG5CB3KXrx48wfpzBVowA@goose.rmq2.cloudamqp.com/bfrclisr",
         "IdentityUrl": "{identity-api.bindings.http.url}"
       },
       "bindings": {
@@ -143,6 +145,9 @@
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
         "IdentityUrl": "{identity-api.bindings.http.url}",
         "CallBackUrl": "{webapp.bindings.https.url}",
+        "Services__ApplyService__Uri": "{apply-api.bindings.https.url}",
+        "Services__MembershipService__Uri": "{membership-api.bindings.https.url}",
+        "Services__OrganizationService__Uri": "{organization-api.bindings.https.url}",
         "services__apply-api__0": "{apply-api.bindings.http.url}",
         "services__apply-api__1": "{apply-api.bindings.https.url}",
         "services__membership-api__0": "{membership-api.bindings.http.url}",
