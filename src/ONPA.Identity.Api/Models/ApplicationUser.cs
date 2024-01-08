@@ -11,4 +11,9 @@
         [Required]
         public string LastName { get; set; }
     }
+    
+    public class ApplicationRole: IdentityRole
+    {
+        public string DisplayName { get; set; }
+    }
 }

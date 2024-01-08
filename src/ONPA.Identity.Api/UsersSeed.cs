@@ -4,24 +4,23 @@ public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> u
 {
     public async Task SeedAsync(ApplicationDbContext context)
     {
-        var alice = await userManager.FindByNameAsync("alice");
+        var root = await userManager.FindByNameAsync("root");
 
-        if (alice == null)
+        if (root == null)
         {
-            alice = new ApplicationUser
+            root = new ApplicationUser
             {
-                UserName = "alice",
+                UserName = "root" ,
                 Email = "AliceSmith@email.com",
                 EmailConfirmed = true,
                 CardNumber = "4012888888881881",
            
                 Id = Guid.NewGuid().ToString(),
-                LastName = "Smith",
-                Name = "Alice",
-                PhoneNumber = "1234567890",
+                LastName = "Systemowy",
+                Name = "Administrator"
             };
 
-            var result = userManager.CreateAsync(alice, "Pass123$").Result;
+            var result = userManager.CreateAsync(root, "d!Zujocaci1").Result;
 
             if (!result.Succeeded)
             {
@@ -38,42 +37,6 @@ public class UsersSeed(ILogger<UsersSeed> logger, UserManager<ApplicationUser> u
             if (logger.IsEnabled(LogLevel.Debug))
             {
                 logger.LogDebug("alice already exists");
-            }
-        }
-
-        var bob = await userManager.FindByNameAsync("bob");
-
-        if (bob == null)
-        {
-            bob = new ApplicationUser
-            {
-                UserName = "bob",
-                Email = "BobSmith@email.com",
-                EmailConfirmed = true,
-                CardNumber = "4012888888881881",
-                Id = Guid.NewGuid().ToString(),
-                LastName = "Smith",
-                Name = "Bob",
-                PhoneNumber = "1234567890",
-            };
-
-            var result = await userManager.CreateAsync(bob, "Pass123$");
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-
-            if (logger.IsEnabled(LogLevel.Debug))
-            {
-                logger.LogDebug("bob created");
-            }
-        }
-        else
-        {
-            if (logger.IsEnabled(LogLevel.Debug))
-            {
-                logger.LogDebug("bob already exists");
             }
         }
     }

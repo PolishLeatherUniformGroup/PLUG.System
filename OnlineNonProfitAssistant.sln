@@ -91,6 +91,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.Organizations.Contract
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ONPA.Gatherings.Contract", "src\ONPA.Gatherings.Contract\ONPA.Gatherings.Contract.csproj", "{1F939380-592D-444E-BD30-1604E288EB2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ONPA.IdentityServer", "src\ONPA.IdentityServer\ONPA.IdentityServer.csproj", "{5C51A535-0E49-45BD-A0EB-571CBA006AB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -290,6 +292,12 @@ Global
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Local|Any CPU.ActiveCfg = Local|Any CPU
 		{1F939380-592D-444E-BD30-1604E288EB2F}.Local|Any CPU.Build.0 = Local|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Local|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4}.Local|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -333,6 +341,7 @@ Global
 		{6FF3DAE0-817B-4A96-A6F2-967E8349003F} = {B3672403-5B7D-47B5-A856-D6EEB446BA04}
 		{DBEADC00-DF3E-49E7-95FC-0203871CF6C7} = {B3672403-5B7D-47B5-A856-D6EEB446BA04}
 		{1F939380-592D-444E-BD30-1604E288EB2F} = {65819D03-3E74-4C0D-9C27-FB524B1D7732}
+		{5C51A535-0E49-45BD-A0EB-571CBA006AB4} = {B69DB3D9-CBDF-40E6-A488-EF92DB8D7AE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8128E482-1029-4806-9243-216248ABEA19}
