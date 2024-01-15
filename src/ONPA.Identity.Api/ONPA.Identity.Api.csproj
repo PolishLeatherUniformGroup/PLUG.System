@@ -8,8 +8,8 @@
 
     <ItemGroup>
       <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-preview.3.23617.1" />
-      <PackageReference Include="Duende.IdentityServer" Version="6.3.6" />
-      <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.6" />
+      <PackageReference Include="Duende.IdentityServer" Version="6.3.8" />
+      <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.8" />
       <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.6" />
       <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="6.3.6" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
