@@ -1,34 +1,38 @@
 ﻿@using Finbuckle.MultiTenant
 @inject IStringLocalizer<MainMenu> Localizer
 @*inject IMultiTenantContextAccessor TenantAccessor*@
- @{
-                var homeLink = $"{tenant}"; 
-                var detailsLink = $"{tenant}/membership/details";
-                var feesLink = $"{tenant}/membership/fees";
-                var recommendationsLink = $"{tenant}/membership/recommendations";
-                var cardLink = $"{tenant}/membership/card";
-                var votingLink = $"{tenant}/voting";
-                var eventsListLink = $"{tenant}/events/list";
-                var eventsAddLink = $"{tenant}/events/add";
-                var eventsMineLink = $"{tenant}/events/mine";
-                var membersLink = $"{tenant}/members";
-                var applicationsLink = $"{tenant}/applications";
-                var groupsLink = $"{tenant}/groups";
-                var organizationSettingsLink = $"{tenant}/settings/organization";
-            }
+@{
+    var homeLink = $"{tenant}";
+    var detailsLink = $"{tenant}/membership/details";
+    var feesLink = $"{tenant}/membership/fees";
+    var recommendationsLink = $"{tenant}/membership/recommendations";
+    var cardLink = $"{tenant}/membership/card";
+    var votingLink = $"{tenant}/voting";
+    var eventsListLink = $"{tenant}/events/list";
+    var eventsAddLink = $"{tenant}/events/add";
+    var eventsMineLink = $"{tenant}/events/mine";
+    var membersLink = $"{tenant}/members";
+    var applicationsLink = $"{tenant}/applications";
+    var groupsLink = $"{tenant}/groups";
+    var organizationSettingsLink = $"{tenant}/settings/organization";
+}
 <FluentNavMenu Width="300" Collapsible="true" @bind-Expanded="@Expanded">
     <FluentNavGroup Icon="@(new Icons.Regular.Size20.Home())" Expanded="@UserExpanded" ExpandedChanged="() => UserExpanded = true" HideExpander="true">
         <TitleTemplate>@Localizer["section_membership"]</TitleTemplate>
         <ChildContent>
             <div style="padding: 0.25em;">
-                <FluentPersona Name="Application User"
-                               ImageSize="30px"
-                               Status="PresenceStatus.Available"
-                               StatusSize="PresenceBadgeSize.ExtraSmall">
-                    <span>Application User</span>
-                </FluentPersona>
+                <AuthorizeView>
+                    <Authorized>
+                        <FluentPersona Name="Application User"
+                                       ImageSize="30px"
+                                       Status="PresenceStatus.Available"
+                                       StatusSize="PresenceBadgeSize.ExtraSmall">
+                            <span>Application User</span>
+                        </FluentPersona>
+                    </Authorized>
+                </AuthorizeView>
             </div>
-           
+
             <FluentNavLink Href="@homeLink" Match="NavLinkMatch.All">Start</FluentNavLink>
             <FluentNavLink Icon="@(new Icons.Regular.Size20.PersonClock())" Href="@detailsLink" Tooltip="@Localizer["membership_details"]">
                 @Localizer["membership_details"]

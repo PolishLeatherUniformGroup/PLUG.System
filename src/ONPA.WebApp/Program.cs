@@ -5,6 +5,7 @@ using ONPA.WebApp.Services.Abstractions;
 using System.Net.Http.Headers;
 using System.Net.Mime;
 using Finbuckle.MultiTenant;
+using Microsoft.AspNetCore.Authentication;
 using ONPA.ServiceDefaults;
 
 
@@ -12,22 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 var configuration = builder.Configuration;
-/*builder.Services.AddMultiTenant<TenantInfo>(x =>
-    {
-        x.IgnoredIdentifiers.Add("wwwroot");
-        x.IgnoredIdentifiers.Add("css");
-        x.IgnoredIdentifiers.Add("js");
-        x.IgnoredIdentifiers.Add("lib");
-        x.IgnoredIdentifiers.Add("images");
-        x.IgnoredIdentifiers.Add("fonts");
-        x.IgnoredIdentifiers.Add("_framework");
-        x.IgnoredIdentifiers.Add("_blazor");
-    })
-    .WithHttpRemoteStore($"{configuration["Services:OrganizationService:Uri"]}/api/tenants")
-    .WithBasePathStrategy(options =>
-    {
-        options.RebaseAspNetCorePathBase = true;
-    });*/
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -36,7 +22,39 @@ builder.Services.AddFluentUIComponents();
 builder.Services.AddLocalization(Options =>
     Options.ResourcesPath = "Resources");
 builder.Services.AddControllers();
+builder.Services.AddBff();
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = "cookie";
+        options.DefaultChallengeScheme = "oidc";
+        options.DefaultSignOutScheme = "oidc";
+    })
+    .AddCookie("cookie", options =>
+    {
+        options.Cookie.Name = "onpa";
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    })
+    .AddOpenIdConnect("oidc", options =>
+    {
+        options.Authority = configuration["IdentityServer:Authority"];
+        options.ClientId = configuration["IdentityServer:ClientId"];
+        options.ClientSecret = configuration["IdentityServer:ClientSecret"];
+        options.ResponseType = "code";
+        options.ResponseMode = "query";
+        options.MapInboundClaims = false;
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.SaveTokens = true;
+        options.Scope.Clear();
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add("apply-api");
+        options.Scope.Add("gatherings-api");
+        options.Scope.Add("membership-api");
+        options.Scope.Add("organizations-api");
+        options.Scope.Add("offline_access");
+    });
 
 builder.Services.AddTransientWithHttpClient<IApplyService, ApplyService>(configuration, client =>
 {
@@ -81,11 +99,19 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
 
+app.UseAuthentication();
+app.UseBff();
+app.UseAuthorization();
+
 app.UseRequestLocalization(localizationOptions);
+
+app.MapBffManagementEndpoints();
 
 app.MapRazorComponents<App>()
 .AddInteractiveServerRenderMode();
 
-app.MapControllers();
+app.MapControllers()
+    .RequireAuthorization()
+    .AsBffApiEndpoint();
  //app.UseMultiTenant();
 app.Run();
